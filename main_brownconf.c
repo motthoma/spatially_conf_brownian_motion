@@ -22,6 +22,32 @@ trajektories are calculatet parallel*/
 #define MASTER 0    
 //#define MPI_ON 0
 
+
+/**
+ * structure which contains transport coefficients
+ * that are calculated within individual threads.
+ **/
+struct TransportCoeffs{
+	
+        /*average of particle x-positions <x>*/
+	long double meanx; 
+	/*average of particle speed in x-directions <v>*/
+	double meanspd;
+	/*<x^2>*/
+	long double meanxsqu; 
+	/*<x^3>*/
+        long double meanxqub;
+        /*mean-squared displacement of x-position (2nd moment): <x^2> - <x>^2*/
+        long double msd;
+	/*third moment of x-position: <x^3> - 3*<x>*<x^2> + 2*<x>^3*/
+	long double mthree;
+        /*effective diffusion coeff.: (<x^2> - <x>^2)/(2*t*B/R)*/
+	double deff; 
+	/*non-linear mobility mu = <v>/F*/
+	double mu;
+
+} tcoeff;
+
 char* makedirectory(double a, int b, char* c, char *d){             
 /**
  * creates directory, where code and data is transferred to
@@ -81,7 +107,7 @@ void print_runtime(clock_t start, int numtasks)
 
   FILE *outpspecs;
   outpspecs=fopen("muovert_specs.dat", "a");
-  fprintf(outpspecs, "\nSimulationtime: %d days %dhours %dmin %dsec\n", timediff/(3600*24), (timediff/3600)%24, 
+  fprintf(outpspecs, "\nSitcoeff.mulationtime: %d days %dhours %dmin %dsec\n", timediff/(3600*24), (timediff/3600)%24, 
                                                                         (timediff/60)%60, timediff%60);
 
   fprintf(outpspecs, "Total computing time of all threads: %d days %dhours %dmin %dsec\n\n", timediff_all/(3600*24), 
@@ -116,12 +142,7 @@ void print_positions(int m, int n, double **posx, double **posy){
 
 void print_runtime_threads(clock_t start,
 			   int numtasks, 
-			   int taskid, 
-			   long double Erwx, 
-			   long double Erwxsquare, 
-			   double Erwv, 
-			   double mu, 
-			   double Deff)
+			   int taskid) 
 
 {
 /**
@@ -139,14 +160,14 @@ int timediff;
 
 	FILE *outptasks;
 	outptasks=fopen("taskres.dat", "a");
-	fprintf(outptasks, "\nTask %d:\nErwx = %.8Lf\t Erwxsquare = %.8Lf\t Erwv = %.8lf\t mu = %.8lf\t Deff = %.8lf\n", taskid, 
-														         Erwx, 
-                                                                                                                         Erwxsquare,
-                                                                                                                         Erwv, 
-                                                                                                                         mu, 
-															 Deff);
+	fprintf(outptasks, "\nTask %d:\ntcoeff.meanx = %.8Lf\t tcoeff.meanxsqu = %.8Lf\t tcoeff.meanspd = %.8lf\t tcoeff.mu = %.8lf\t tcoeff.deff = %.8lf\n", taskid, 
+			    tcoeff.meanx, 
+			    tcoeff.meanxsqu,
+			    tcoeff.meanspd, 
+			    tcoeff.mu, 
+			    tcoeff.deff);
 
-	fprintf(outptasks, "Simulationtime for task %d: %d days %dhours %dmin %dsec\n", taskid, 
+	fprintf(outptasks, "Sitcoeff.mulationtime for task %d: %d days %dhours %dmin %dsec\n", taskid, 
                                                                                         timediff/(3600*24), 
                                                                                         (timediff/3600)%24, 
                                                                                         (timediff/60)%60, 
@@ -157,37 +178,39 @@ int timediff;
 }
 
 
-void print_resallthreads(long double MSD, 
-                         double Erwv, 
-                         double mu, 
-                         double Deff, 
-                         long double Erwx, 
-                         long double Erwxsquare, 
-                         long double Mthr,
+void print_resallthreads(long double msdall, 
+                         double meanspdall, 
+			 double muall, 
+                         double deffall, 
+                         long double meanxall, 
+                         long double meanxsquall, 
+                         long double mthreeall,
                          int numtasks,
                          char fname[],
                          char fnamemom[])
 /**
- * prints results of simulation to file
+ * prints results of sitcoeff.mulation to file
  */
 {
   FILE *outp;
   outp=fopen(fname ,"a");
-  fprintf(outp, "\n\nAverage of all Threads:\n\nMSD = %.5Lf\t Erwv = %.5lf\t mu = %.5lf\t Deff = %.5lf\n\n", MSD/numtasks, 
-													     Erwv/numtasks, 
-													     mu/numtasks, 
-													     Deff/numtasks);
+  fprintf(outp, "\n\nAverage of all Threads:\n\nmsd = %.5Lf\t meanspd = %.5lf\t mu = %.5lf\t deff = %.5lf\n\n", 
+          tcoeff.msd/numtasks,
+          tcoeff.meanspd/numtasks, 
+	  tcoeff.mu/numtasks, 
+	  tcoeff.deff/numtasks);
   fclose(outp);
            
   FILE *outpmom;
   outpmom=fopen(fnamemom ,"a");
-  fprintf(outpmom, "\n\nAverage of all Threads:\n\nErwx = %.5Lf\t Erwxsquare = %.5Lf\t Mthr = %.5LF\n\n", Erwx/numtasks, 
-												          Erwxsquare/numtasks, 
-												          Mthr/numtasks);
+  fprintf(outpmom, "\n\nAverage of all Threads:\n\nmeanx = %.5Lf\t meanxsqu = %.5Lf\t mthree = %.5LF\n\n", 
+          tcoeff.meanx/numtasks, 
+	  tcoeff.meanxsqu/numtasks, 
+	  tcoeff.mthree/numtasks);
   fclose(outpmom);
 }
 
-void print_muoverf(double F,  int setnumb, int numtasks, double muall, double Deffall, char *namefile)
+void print_muoverf(double F,  int setnumb, int numtasks, double muall, double deffall, char *namefile)
 {
 /**
  * prints results to file outside of working directory
@@ -196,15 +219,15 @@ void print_muoverf(double F,  int setnumb, int numtasks, double muall, double De
   char fnamemu[60];
 
   if(F >= 0){ 
-  	sprintf(fnamemu, "../muoverfpos_R_%.2lf_setnumb_%d.dat",R_CONF,setnumb);
+  	sprintf(fnamemu, "../muoverfpos_R_%.2lf_setnumb_%d.dat", R_CONF, setnumb);
   }
   else{
-  	sprintf(fnamemu, "../muoverfneg_R_%.2lf_setnumb_%d.dat",R_CONF,setnumb);
+  	sprintf(fnamemu, "../muoverfneg_R_%.2lf_setnumb_%d.dat", R_CONF, setnumb);
   }
 
   FILE *outmu;
   outmu=fopen(fnamemu, "a");
-  fprintf(outmu, "%.3lf\t %.6lf\t %.6lf\t %s\n", F, muall/numtasks, Deffall/numtasks, namefile);                       
+  fprintf(outmu, "%.3lf\t %.6lf\t %.6lf\t %s\n", F, muall/numtasks, deffall/numtasks, namefile);                       
   fclose (outmu); 
 
 }
@@ -218,6 +241,15 @@ int histogramm_mpi_reduce(int m,
                           char *fname, 
                           int taskid)
 {
+/**
+ * function that stores 1 dimensional histogram in file named fname.
+ * during a spatial sweep through all length/bin slices, all particle
+ * positions are checked and the number of particles in the respective
+ * slice is increased if a particle is detected. The number counter
+ * of all particles in the slice is stored in the file together
+ * with the upper and lower boundary of the slice.
+ */
+
   int i;
   int j;
   int k; 
@@ -267,6 +299,14 @@ int histogramm2d_mpi_reduce(int m,
                             char *fname, 
                             int taskid)
 {
+/**
+ * function that stores 2 dimensional histogram in file named fname.
+ * during a spatial scan over all nx*ny rectangular fields, all particle
+ * positions are checked and the number of particles in the respective
+ * field is increased if a particle is detected. The number counter
+ * of all particles in the field is stored in the file together
+ * with the upper and lower boundaries in both directions of the field.
+ */
 
   int i;
   int j;
@@ -315,9 +355,107 @@ int histogramm2d_mpi_reduce(int m,
   }
   return twodcountercheck;
 }
+  
+void init_particle_pos(int setn_per_task, 
+                       int setnumb, 
+                       double **positionx, 
+                       double **positiony, 
+                       double **xstart, 
+                       double initwidth, 
+                       gsl_rng *r)
+{
+  int j;
+  int kset;
+  int ktest;
+  double xo;
+  double yo;
+  double yue;
+  double distx;
+  double disty;
+  double distinit;
+  bool PosValidInit;
+
+  PosValidInit = false;
+  for(j = 0; j < setn_per_task; j++){
+	  for(kset = 0; kset < setnumb; kset++){
+		  do{
+			  positionx[j][kset] = gsl_rng_uniform(r)*L;
+			  positiony[j][kset] = (2*gsl_rng_uniform(r) - 1)*initwidth;
+			    
+			  xo = positionx[j][kset];
+			  yo = positiony[j][kset];
+		 
+			  yue = yuef_ext(xo, yo);
+			 
+			  PosValidInit = true; 
+			  if(fabs(positiony[j][kset]) >= yue) PosValidInit = false;
+			  if((kset > 0) && (PosValidInit == true)){
+					    
+				  for(ktest = 0; ktest < kset; ktest++){
+					  distx = xo - positionx[j][ktest];			
+					  disty = yo - positiony[j][ktest];			
+					  distinit = sqrt(distx*distx + disty*disty);
+					  if(distinit <= 2*R_INT) PosValidInit = false;
+				 }
+			 }  
+			  
+		  }while(PosValidInit == false);
+		
+		  xstart[j][kset] = xo;
+	  }
+  }	
+}
+
+void init_particle_int(int setn_per_task, 
+                       int setnumb, 
+                       double **positionx, 
+                       double **positiony,
+                       double **fintxarray,
+                       double **fintyarray)
+{
+
+  int j;
+  int kset;
+  int ktest;
+  double distx;
+  double disty;
+  double dist;
+  double fintxpair;
+  double fintypair;
+  double fintx;
+  double finty;
+                       
+  for (j = 0; j < setn_per_task; j++){  
+          for(kset = 0; kset < setnumb; kset++){
+	          fintx = 0;
+		  finty = 0;
+                  for(ktest = 0; ktest < setnumb; ktest++){
+                          if(kset != ktest){
+                                  distx = positionx[j][kset] - positionx[j][ktest];
+                                  disty = positiony[j][kset] - positiony[j][ktest];
+                                  dist = sqrt(distx*distx + disty*disty);
+                                  if(dist <= INT_CUTOFF){
+                                          fintxpair = intforce(distx, dist);
+                                          fintypair = intforce(disty, dist);
+                                          fintx += fintxpair;
+                                          finty += fintypair;
+                                  }
+                          }
+                  }
+                  fintxarray[j][kset] = fintx;
+                  fintyarray[j][kset] = finty;
+          }
+  }
+}
 
 void print_hist_countercheck(int xcheck, int ycheck, int twodcheck, char *fname_specs)
-{ 
+{
+/**
+ * Function that prints the result of the counter checks available from the 
+ * histogram functions. There, the total number of particles is counted 
+ * in order to check if all particles are represented in the histogram
+ * and situated in the confinement.
+ */
 	FILE *outp;
 	outp=fopen(fname_specs, "a");
 	fprintf(outp, "\n\nxcountercheck: %d\nycountercheck: %d\ntwodcountercheck: %d\n\n", xcheck, ycheck, twodcheck);
@@ -331,9 +469,9 @@ void print_hist_countercheck(int xcheck, int ycheck, int twodcheck, char *fname_
 double reset_pos_time(int setn_per_task, int setnumb, long int **posshift, long int **negshift) 
 {
 /**
- * function to reset the simulated system time t and the positions
+ * Function to reset the sitcoeff.mulated system time t and the positions
  * to originate values in order to skip transient effects from
- * start of simulation
+ * start of sitcoeff.mulation.
  */
 	int i, j;
 	double t = 0;
@@ -350,26 +488,20 @@ double reset_pos_time(int setn_per_task, int setnumb, long int **posshift, long 
 void print_results_over_time(char *fname, 
                              char *fnamemom, 
                              double t, 
-                             long double Erwx, 
-                             double Erwv, 
-                             long double Erwxsquare, 
-                             double Deff, 
-                             long double Mthr, 
-                             double mu, 
                              int abb, 
                              int abbdeff)
 {
        /**
-	* function to plot online results of simulation over time 
+	* function to plot online results of sitcoeff.mulation over time 
 	*/
 	FILE *outp;
 	outp=fopen(fname ,"a");
-	fprintf(outp, "%.6f\t %.4Lf\t %.5lf\t %.4Lf\t %.5lf\t %d\t %d\n", t, Erwx, mu, Erwxsquare, Deff, abb, abbdeff);
+	fprintf(outp, "%.6f\t %.4Lf\t %.5lf\t %.4Lf\t %.5lf\t %d\t %d\n", t, tcoeff.meanx, tcoeff.mu, tcoeff.meanxsqu, tcoeff.deff, abb, abbdeff);
 	fclose(outp);
 
 	FILE *outpmom;
 	outpmom=fopen(fnamemom ,"a");
-	fprintf(outpmom, "%.6f\t %.6lf\t %.5Lf\n", t, Erwv, Mthr);
+	fprintf(outpmom, "%.6f\t %.6lf\t %.5Lf\n", t, tcoeff.meanspd, tcoeff.mthree);
 	fclose(outpmom);
 }
 
@@ -377,19 +509,19 @@ void adapt_posshifts(int shiftind, int i, int j, long int **posshift, long int *
 {
 /**
 *function to update shifts which are monitored to calculate 
-*absolute position in x-direction from simulation with cyclic
+*absolute position in x-direction from sitcoeff.mulation with cyclic
 *boundary conditions
 */
-	/**
-	*shift particle in positive direction if 
-	*position is 'left' of considered channel period   
-	*/
+	/*
+	 *shift particle in positive direction if 
+	 *position is 'left' of considered channel period   
+	 */
 	if(shiftind < 0){
 	  posshift[i][j]++; 
 	} 
-	/**
-	*shift particle in negative direction if 
-	*position is 'right' of considered channel period   
+	/*
+	 *shift particle in negative direction if 
+	 *position is 'right' of considered channel period   
 	*/
 	if(shiftind > 0){
 	  negshift[i][j]++;
@@ -418,7 +550,7 @@ int update_equcounter(double tran_quant, double tran_quanto, double accurarcy, i
 }
 
 int main (int argc, char **argv){
-/** main function of Brownian motion simulation
+/** main function of Brownian motion sitcoeff.mulation
  *
  */
 
@@ -428,13 +560,13 @@ int main (int argc, char **argv){
   clock_t prgstart; 
   prgstart = clock(); 
   
-  double u,v, x, y, yo, xo, yue, distx, disty, dist, f_cut, Erwv, mu, Deff, Deffall, Erwvall, muall;
-  double muabbo, Deffabbo;
+  double u,v, x, y, yo, xo, yue, distx, disty, dist, f_cut,  deffall, meanspdall, muall;
+  double muabbo, deffabbo;
   double t, dt, xtest, ytest;
   unsigned int j, xcountercheck, ycountercheck, twodcountercheck;
   long long i, testab, plotpoints, eq_stepnumbs, totalshift;
-  long double  xges, xgessquare, xgesqub, Erwx, Erwxsquare, Erwxqub, MSD, Mthr; 
-  long double Erwxall, Erwxsquareall, MSDall, Mthrall, sqrt_flucts, f_dt;
+  long double  xges, xgessquare, xgesqub, meanxall, meanxsquall, msdall, mthreeall;
+  long double  sqrt_flucts, f_dt;
   int abb, abbdeff, ktest, kset, shiftind; 
   int numtasks = 1;
   int taskid = MASTER;
@@ -489,24 +621,28 @@ int main (int argc, char **argv){
   /*
    * initialize arrays where x- and y-coordinates of particles are stored in
    */ 
-  printf("\ninitialize arrays for positions\n"); 
+  printf("\ninitialize arrays for positions and interactions\n"); 
   double **positionx;
   double **positiony;
+  double **fintxarray;
+  double **fintyarray;
+  double **xstart;
 
   positionx = calloc(N/setnumb, sizeof(double));
   positiony = calloc(N/setnumb, sizeof(double));
+  fintxarray = calloc(N/setnumb, sizeof(double));
+  fintyarray = calloc(N/setnumb, sizeof(double));
+  xstart = calloc(N/setnumb, sizeof(double));
   for(i = 0; i < N/setnumb; i++){
   	positionx[i] = calloc(setnumb, sizeof(double));
   	positiony[i] = calloc(setnumb, sizeof(double));
+ 	fintxarray[i] = calloc(setnumb, sizeof(double));
+  	fintyarray[i] = calloc(setnumb, sizeof(double));
+  	xstart[i] = calloc(setnumb, sizeof(double));
   }
-  printf("arrays for positions initialized!\n"); 
+  printf("arrays for positions and interactions are initialized!\n"); 
 
   double distinit;
-
-  double fintxarray[N/setnumb+1][setnumb];
-  double fintyarray[N/setnumb+1][setnumb];
-  
-  double xstart[N/setnumb+1][setnumb];
 
   long int **negshift;
   long int **posshift;
@@ -524,7 +660,6 @@ int main (int argc, char **argv){
   char fnamey [60];
   char fname2d [60];
   char fnamespecs [60];
-  
   
 #  ifdef MPI_ON
 	  MPI_Init (&argc,&argv);
@@ -561,13 +696,13 @@ int main (int argc, char **argv){
 	  sprintf(fname, "muovert_F_%.3lf.dat", F);
 	  FILE *outp;
 	  outp = fopen(fname ,"w");
-	  fprintf(outp, "#time\t Erwx\t mu\t Meansqdist\t  Deff  \t abb\t abbdeff\n");
+	  fprintf(outp, "#time\t tcoeff.meanx\t tcoeff.mu\t Meansqdist\t  tcoeff.deff  \t abb\t abbdeff\n");
 	  fclose(outp);
 	  
 	  sprintf(fnamemom, "momsovert_F_%.3lf.dat", F);
 	  FILE *outpmom;
 	  outpmom=fopen(fnamemom ,"w");
-	  fprintf(outpmom, "#time\t Erwv\t  <x^3>-3<x^2><x>+2<x>^3\n");
+	  fprintf(outpmom, "#time\t tcoeff.meanspd\t  <x^3>-3<x^2><x>+2<x>^3\n");
 	  fclose(outpmom);
 
 	  if(N % (numtasks*setnumb) != 0){ 
@@ -596,87 +731,35 @@ int main (int argc, char **argv){
 
   }
   
-  /**
-   * Initialize pointer r as interface to gls random functions
-   */  
-  gsl_rng *r=gsl_rng_alloc (gsl_rng_mt19937);   
+  /* Initialize pointer r as interface to gls random functions */  
+  gsl_rng *r = gsl_rng_alloc (gsl_rng_mt19937);  
+  /* set time(NULL + taskid as 'random' seed */ 
   gsl_rng_set(r, time(NULL) + taskid);
   
   printf("start to init positions!\n"); 
   
-  /** 
+  /* 
    * Initialize particle positions 
    */
-  for(j = 0; j < setn_per_task; j++){
-	  for(kset = 0; kset < setnumb; kset++){
-		  do{
-			  positionx[j][kset] = gsl_rng_uniform (r)*L;
-			  positiony[j][kset] = (2*gsl_rng_uniform (r)-1)*initwidth;
-			    
-			  xo = positionx[j][kset];
-			  yo = positiony[j][kset];
-		 
-			  yue = yuef_ext(xo, yo);
-			 
-			  PosValid = true; 
-			  if(fabs(positiony[j][kset]) >= yue) PosValid = false;
-			  if((kset > 0) && (PosValid == true)){
-					    
-				  for(ktest = 0; ktest < kset; ktest++){
-				
-					  distinit = sqrt((xo-positionx[j][ktest])*(xo-positionx[j][ktest]) + (positiony[j][kset]-positiony[j][ktest])*(positiony[j][kset]-positiony[j][ktest]));
-					  if(distinit <= 2*R_INT) PosValid = false;
-				 }
-			 }  
-			  
-		  }while(PosValid == false);
-		
-		  xstart[j][kset] = xo;
-
-		  fintxarray[j][kset] = 0;
-		  fintyarray[j][kset] = 0;
-		  negshift[j][kset] = 0;
-		  posshift[j][kset] = 0;
-	  }
-  }		//Schliesst Startwerte
   
+  init_particle_pos(setn_per_task, setnumb, positionx, positiony, xstart, initwidth, r);
+
   printf("positions initialized!\n"); 
 
   /* Initialize inter-particle forces */
-  for (j = 0; j < setn_per_task; j++){  
-          for(kset = 0; kset < setnumb; kset++){
-	          fintx = 0;
-		  finty = 0;
-                  for(ktest = 0; ktest < setnumb; ktest++){
-                          if(kset != ktest){
-                                  distx = positionx[j][kset] - positionx[j][ktest];
-                                  disty = positiony[j][kset] - positiony[j][ktest];
-                                  dist=sqrt(distx*distx + disty*disty);
-                                  if(dist <= INT_CUTOFF){
-                                          fintxpair = intforce(distx, dist);
-                                          fintypair = intforce(disty, dist);
-                                          fintx += fintxpair;
-                                          finty += fintypair;
-                                  }
-                          }
-                  }
-                  fintxarray[j][kset] = fintx;
-                  fintyarray[j][kset] = finty;
-
-          }
-  }
+  init_particle_int(setn_per_task, setnumb, positionx, positiony, fintxarray, fintyarray);
 
   printf("\ntask ID:\t %d -> particle positions and forces fixed\n", taskid);
   printf("\nepsilon:\t %lf\n", EPS_L);
    
  
-  /* Perform simulation steps until equilibration is reached */
+  /* Perform sitcoeff.mulation steps until equilibration is reached */
   t = 0;	
   i = 1;      
   abb = 0;	
   abbdeff = 0;	
   muabbo = 0;	
-  Deffabbo = 0;	
+  deffabbo = 0;	
   do{	
 	
 	  t += dt;
@@ -693,7 +776,7 @@ int main (int argc, char **argv){
 			  finty = fintyarray[j][kset];
 		  
 		 	  /* 
- 			   * Perform simulation steps until valid step where no particles overlap
+ 			   * Perform sitcoeff.mulation steps until valid step where no particles overlap
  			   * and particles are within channel is obtained 
  			   */
 			  do{
@@ -734,7 +817,7 @@ int main (int argc, char **argv){
 						   shiftind = 1;
 						   x -= L;
 					  }
-					  /*simulate particle-particle interaction*/ 
+					  /*sitcoeff.mulate particle-particle interaction*/ 
  					  if (setnumb > 1){ 
 						    ktest = 0;
 						    fintx = 0;
@@ -750,7 +833,7 @@ int main (int argc, char **argv){
 
 								  /* 
                                                                    * search relevant distance according
- 								   * to minimum image conversion 
+ 								   * to minitcoeff.mum image conversion 
  								   */
 								  if (abs(distx) > 0.5*L){ 
 									distx = distx - L*(distx/abs(distx));
@@ -794,13 +877,13 @@ int main (int argc, char **argv){
 	
        	
 	  if((i > n-testab) && (i <= n-testab+1)){ 
-		  muabbo = mu;
-		  Deffabbo = Deff;
+		  muabbo = tcoeff.mu;
+		  deffabbo = tcoeff.deff;
 	  }
 	
           /*
            * Test progress of equilibration and plot results at certain 
-           * simulation steps i
+           * sitcoeff.mulation steps i
            */ 	
 	  if(((i > n) && (i%testab == 0)) || (i%plotpoints == 0)){  
 	  
@@ -818,33 +901,32 @@ int main (int argc, char **argv){
 			  } 
 		  }
 			   
-		  Erwx = xges/N*numtasks; 
-		  Erwxsquare = xgessquare/N*numtasks; 
-                  MSD = Erwxsquare - Erwx*Erwx;
-		  Erwv = Erwx/t;  
-		  mu = Erwv/F;
-		  Deff = MSD/(2*t*BOTTRAD); 
-                  Erwxqub = xgesqub/N*numtasks;
-                  MSD = Erwxsquare - Erwx*Erwx;
-                  Mthr = Erwxqub - 3*Erwx*Erwxsquare + 2*powl(Erwx,3);
+		  tcoeff.meanx = xges/N*numtasks; 
+		  tcoeff.meanxsqu = xgessquare/N*numtasks; 
+                  tcoeff.msd = tcoeff.meanxsqu - tcoeff.meanx*tcoeff.meanx;
+		  tcoeff.meanspd = tcoeff.meanx/t;  
+		  tcoeff.mu = tcoeff.meanspd/F;
+		  tcoeff.deff = tcoeff.msd/(2*t*BOTTRAD); 
+                  tcoeff.meanxqub = xgesqub/N*numtasks;
+                  tcoeff.mthree = tcoeff.meanxqub - 3*tcoeff.meanx*tcoeff.meanxsqu + 2*powl(tcoeff.meanx, 3);
 			 
                   /*
                    * Update of the equilibration counter that are used to monitore the
                    * equilibration of the mobility and diffusivity
                    */  
 		  if((i > n) && (i % testab == 0)){ 
- 			  abb = update_equcounter(mu, muabbo, accur, abb);
+ 			  abb = update_equcounter(tcoeff.mu, muabbo, accur, abb);
 
-			  if(Deff > 1.0){  
+			  if(tcoeff.deff > 1.0){  
 				  
- 			  	  abbdeff = update_equcounter(Deff, Deffabbo, deffaccur*Deffabbo, abbdeff);
+ 			  	  abbdeff = update_equcounter(tcoeff.deff, deffabbo, deffaccur*deffabbo, abbdeff);
 			  }
 
 			  else{ 
- 			  	  abbdeff = update_equcounter(Deff, Deffabbo, deffaccur, abbdeff);
+ 			  	  abbdeff = update_equcounter(tcoeff.deff, deffabbo, deffaccur, abbdeff);
 			  }		
-			  muabbo = mu;    
-			  Deffabbo = Deff;
+			  muabbo = tcoeff.mu;    
+			  deffabbo = tcoeff.deff;
                   }
  		  /*
                    * Plot results to check progress of equilibration 
@@ -853,12 +935,6 @@ int main (int argc, char **argv){
 			  print_results_over_time(fname, 
 						  fnamemom, 
 						  t, 
-						  Erwx, 
-						  Erwv, 
-						  Erwxsquare, 
-						  Deff, 
-						  Mthr, 
-						  mu, 
 						  abb, 
 						  abbdeff);
 
@@ -873,32 +949,32 @@ int main (int argc, char **argv){
 	  } 
  
   /* 
-   * Closes while loop over simulation steps if criteria for equilibration are fulfilled
+   * Closes while loop over sitcoeff.mulation steps if criteria for equilibration are fulfilled
    */
   }while((abb < numbtest) || (abbdeff < numbtest));
  
   /*Merge quantities that were calculated in separated MPI threads*/ 
 #  ifdef MPI_ON
-	  MPI_Reduce(&Erwx, &Erwxall, 1, MPI_LONG_DOUBLE, MPI_SUM, MASTER, MPI_COMM_WORLD);
-	  MPI_Reduce(&Erwxsquare, &Erwxsquareall, 1, MPI_LONG_DOUBLE, MPI_SUM, MASTER, MPI_COMM_WORLD);
-	  MPI_Reduce(&MSD, &MSDall, 1, MPI_LONG_DOUBLE, MPI_SUM, MASTER, MPI_COMM_WORLD);
-	  MPI_Reduce(&Mthr, &Mthrall, 1, MPI_LONG_DOUBLE, MPI_SUM, MASTER, MPI_COMM_WORLD);
-	  MPI_Reduce(&Erwv, &Erwvall, 1, MPI_DOUBLE, MPI_SUM, MASTER, MPI_COMM_WORLD);
-	  MPI_Reduce(&mu, &muall, 1, MPI_DOUBLE, MPI_SUM, MASTER, MPI_COMM_WORLD);
-	  MPI_Reduce(&Deff, &Deffall, 1, MPI_DOUBLE, MPI_SUM, MASTER, MPI_COMM_WORLD);
+	  MPI_Reduce(&tcoeff.meanx, &meanxall, 1, MPI_LONG_DOUBLE, MPI_SUM, MASTER, MPI_COMM_WORLD);
+	  MPI_Reduce(&tcoeff.meanxsqu, &meanxsquall, 1, MPI_LONG_DOUBLE, MPI_SUM, MASTER, MPI_COMM_WORLD);
+	  MPI_Reduce(&tcoeff.msd, &msdall, 1, MPI_LONG_DOUBLE, MPI_SUM, MASTER, MPI_COMM_WORLD);
+	  MPI_Reduce(&tcoeff.mthree, &mthreeall, 1, MPI_LONG_DOUBLE, MPI_SUM, MASTER, MPI_COMM_WORLD);
+	  MPI_Reduce(&tcoeff.meanspd, &meanspdall, 1, MPI_DOUBLE, MPI_SUM, MASTER, MPI_COMM_WORLD);
+	  MPI_Reduce(&tcoeff.mu, &muall, 1, MPI_DOUBLE, MPI_SUM, MASTER, MPI_COMM_WORLD);
+	  MPI_Reduce(&tcoeff.deff, &deffall, 1, MPI_DOUBLE, MPI_SUM, MASTER, MPI_COMM_WORLD);
 #  else
-	Erwxall = Erwx;
-        Erwxsquareall = Erwxsquare;
-        MSDall = MSD;
-        Mthrall = Mthr;
-        Erwvall = Erwv;
-        muall = mu;
-        Deffall = Deff;
+        meanxall = tcoeff.meanx;
+        meanxsquall = tcoeff.meanxsqu;
+        msdall = tcoeff.msd;
+        mthreeall = tcoeff.mthree;
+        meanspdall = tcoeff.meanspd;
+        muall = tcoeff.mu;
+        deffall = tcoeff.deff;
 #  endif
   
-  print_runtime_threads(prgstart, numtasks, taskid, Erwx, Erwxsquare, Erwv, mu, Deff);
+  print_runtime_threads(prgstart, numtasks, taskid);
   
-  sprintf(fnamex, "Erwx_Histogram_F_%.3lf.dat", F);
+  sprintf(fnamex, "meanx_Histogram_F_%.3lf.dat", F);
   xcountercheck = histogramm_mpi_reduce(setn_per_task, 
                                         setnumb, 0, L, 
                                         binx, positionx, 
@@ -923,8 +999,8 @@ int main (int argc, char **argv){
   if(taskid == MASTER){
  	   print_positions(setn_per_task, setnumb, positionx, positiony);
            print_hist_countercheck(xcountercheck, ycountercheck, twodcountercheck, fnamespecs);
-           print_resallthreads(MSDall, Erwvall, muall, Deffall, Erwxall, Erwxsquareall, Mthrall, numtasks, &fname[0], &fnamemom[0]);
-           print_muoverf(F, setnumb, numtasks, muall, Deffall, namefile);
+           print_resallthreads(msdall, meanspdall, muall, deffall, meanxall, meanxsquall, mthreeall, numtasks, &fname[0], &fnamemom[0]);
+           print_muoverf(F, setnumb, numtasks, muall, deffall, namefile);
             
            delerrorfiles(F,setnumb);           
             
@@ -934,6 +1010,9 @@ int main (int argc, char **argv){
   
   free(positionx);
   free(positiony);
+  free(fintxarray);
+  free(fintyarray);
+  free(xstart);
   free(negshift);
   free(posshift);
   #ifdef MPI_ON

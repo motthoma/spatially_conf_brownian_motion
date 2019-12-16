@@ -50,7 +50,7 @@ struct par_specs{
 	double initwidth;
 };
 
-/**function that provides pointers to parameters used for simulation*/
+/**function that provides pointers to parameters of type struct par_specs used for simulation*/
 struct par_specs *par(double n, double dt, int numtasks, int testab, int plotpoints){
 	struct par_specs *t_pars;
         t_pars = malloc(sizeof(struct par_specs));
@@ -82,22 +82,22 @@ int a, b, e, h, l, o;
 double c, d, f, g, i, j, k, m, n, p, q;
 
 	a = t_pars->N;
-        b=t_pars->setn;
-        c=t_pars->accur;     
-        d=t_pars->deffaccur;
-        e=t_pars->numbtest;  
-        f=t_pars->n;  
-        g=t_pars->dt;  
-	h=t_pars->testab;
-	i=t_pars->min_n; 
-        j=t_pars->eq_time;    
-        k=t_pars->tot_time; 
- 	l=t_pars->readout_n; 
-	m=t_pars->check_time;
-	n=t_pars->readout_time;
-        o=t_pars->numtasks;
-        p=t_pars->f;
-        q=t_pars->initwidth;
+        b = t_pars->setn;
+        c = t_pars->accur;     
+        d = t_pars->deffaccur;
+        e = t_pars->numbtest;  
+        f = t_pars->n;  
+        g = t_pars->dt;  
+	h = t_pars->testab;
+	i = t_pars->min_n; 
+        j = t_pars->eq_time;    
+        k = t_pars->tot_time; 
+ 	l = t_pars->readout_n; 
+	m = t_pars->check_time;
+	n = t_pars->readout_time;
+        o = t_pars->numtasks;
+        p = t_pars->f;
+        q = t_pars->initwidth;
 
     FILE *outpspecs;
     outpspecs = fopen(fnamespec, "w");		

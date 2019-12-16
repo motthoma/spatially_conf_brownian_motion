@@ -1,0 +1,123 @@
+\hypertarget{par__sim_8c}{}\section{par\+\_\+sim.\+c File Reference}
+\label{par__sim_8c}\index{par\+\_\+sim.\+c@{par\+\_\+sim.\+c}}
+{\ttfamily \#include $<$stdio.\+h$>$}\\*
+{\ttfamily \#include $<$stdlib.\+h$>$}\\*
+{\ttfamily \#include $<$math.\+h$>$}\\*
+Include dependency graph for par\+\_\+sim.\+c\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=258pt]{par__sim_8c__incl}
+\end{center}
+\end{figure}
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structpar__specs}{par\+\_\+specs}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+double \hyperlink{par__sim_8c_a5bd5b054482e6361b1776a8835b3bbef}{time\+\_\+step} (int \hyperlink{par__sim_8h_a5c6c57ee5f6beac81b3f311e9f4f2d6c}{setnumb}, double min\+\_\+width, double r\+\_\+core, double force)
+\item 
+struct \hyperlink{structpar__specs}{par\+\_\+specs} $\ast$ \hyperlink{par__sim_8c_a33f6ab6db626aa93a81141b4cb8789f1}{par} (double \hyperlink{par__sim_8h_abe63e991a7bf5d666068b15c9064428d}{n}, double dt, int numtasks, int testab, int plotpoints)
+\item 
+void \hyperlink{par__sim_8c_a48d0d316ac9714c4f2bdedc08614c7b5}{specs\+\_\+basic} (struct \hyperlink{structpar__specs}{par\+\_\+specs} $\ast$t\+\_\+pars, char $\ast$fnamespec)
+\item 
+void \hyperlink{par__sim_8c_a7c72a55e9fca9ed03e32a0aa988c2042}{copycode\+\_\+par} ()
+\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+int \hyperlink{par__sim_8c_a7722c8ecbb62d99aee7ce68b1752f337}{N} = 200
+\item 
+unsigned int \hyperlink{par__sim_8c_a5c6c57ee5f6beac81b3f311e9f4f2d6c}{setnumb} = 1
+\item 
+int \hyperlink{par__sim_8c_a407e3722e47f1d9ee9db62b78947bc95}{numbtest} = 20
+\item 
+double \hyperlink{par__sim_8c_abe63e991a7bf5d666068b15c9064428d}{n} = 2$\ast$1e5
+\item 
+int \hyperlink{par__sim_8c_a28f356e3c2e0f78fff8984a794067e46}{simlong} = 20
+\item 
+double \hyperlink{par__sim_8c_ab3ad12b0b9335d1c9f4b35907b473fe7}{accur} = 1
+\item 
+double \hyperlink{par__sim_8c_a77f28b8c4dc157bce806afb4966f88a6}{deffaccur} = 1e7
+\item 
+double \hyperlink{par__sim_8c_aa23a01bbb0088c4d9f0b18563b69bbed}{Fswitch} = -\/3e4
+\item 
+double \hyperlink{par__sim_8c_a73a35a1bb4b28a38beb6c2eb25a3b880}{initwidth} = 1
+\item 
+double \hyperlink{par__sim_8c_ae3520ebb3ff8d6feab3e6afb47ed4040}{F} = 1
+\end{DoxyCompactItemize}
+
+
+\subsection{Function Documentation}
+\index{par\+\_\+sim.\+c@{par\+\_\+sim.\+c}!copycode\+\_\+par@{copycode\+\_\+par}}
+\index{copycode\+\_\+par@{copycode\+\_\+par}!par\+\_\+sim.\+c@{par\+\_\+sim.\+c}}
+\subsubsection[{\texorpdfstring{copycode\+\_\+par()}{copycode_par()}}]{\setlength{\rightskip}{0pt plus 5cm}void copycode\+\_\+par (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\hypertarget{par__sim_8c_a7c72a55e9fca9ed03e32a0aa988c2042}{}\label{par__sim_8c_a7c72a55e9fca9ed03e32a0aa988c2042}
+function that copies module in working directory \index{par\+\_\+sim.\+c@{par\+\_\+sim.\+c}!par@{par}}
+\index{par@{par}!par\+\_\+sim.\+c@{par\+\_\+sim.\+c}}
+\subsubsection[{\texorpdfstring{par(double n, double dt, int numtasks, int testab, int plotpoints)}{par(double n, double dt, int numtasks, int testab, int plotpoints)}}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf par\+\_\+specs}$\ast$ par (
+\begin{DoxyParamCaption}
+\item[{double}]{n, }
+\item[{double}]{dt, }
+\item[{int}]{numtasks, }
+\item[{int}]{testab, }
+\item[{int}]{plotpoints}
+\end{DoxyParamCaption}
+)}\hypertarget{par__sim_8c_a33f6ab6db626aa93a81141b4cb8789f1}{}\label{par__sim_8c_a33f6ab6db626aa93a81141b4cb8789f1}
+function that provides pointers to parameters of type struct \hyperlink{structpar__specs}{par\+\_\+specs} used for simulation \index{par\+\_\+sim.\+c@{par\+\_\+sim.\+c}!specs\+\_\+basic@{specs\+\_\+basic}}
+\index{specs\+\_\+basic@{specs\+\_\+basic}!par\+\_\+sim.\+c@{par\+\_\+sim.\+c}}
+\subsubsection[{\texorpdfstring{specs\+\_\+basic(struct par\+\_\+specs $\ast$t\+\_\+pars, char $\ast$fnamespec)}{specs_basic(struct par_specs *t_pars, char *fnamespec)}}]{\setlength{\rightskip}{0pt plus 5cm}void specs\+\_\+basic (
+\begin{DoxyParamCaption}
+\item[{struct {\bf par\+\_\+specs} $\ast$}]{t\+\_\+pars, }
+\item[{char $\ast$}]{fnamespec}
+\end{DoxyParamCaption}
+)}\hypertarget{par__sim_8c_a48d0d316ac9714c4f2bdedc08614c7b5}{}\label{par__sim_8c_a48d0d316ac9714c4f2bdedc08614c7b5}
+function used to read simulation parameters in specs file \index{par\+\_\+sim.\+c@{par\+\_\+sim.\+c}!time\+\_\+step@{time\+\_\+step}}
+\index{time\+\_\+step@{time\+\_\+step}!par\+\_\+sim.\+c@{par\+\_\+sim.\+c}}
+\subsubsection[{\texorpdfstring{time\+\_\+step(int setnumb, double min\+\_\+width, double r\+\_\+core, double force)}{time_step(int setnumb, double min_width, double r_core, double force)}}]{\setlength{\rightskip}{0pt plus 5cm}double time\+\_\+step (
+\begin{DoxyParamCaption}
+\item[{int}]{setnumb, }
+\item[{double}]{min\+\_\+width, }
+\item[{double}]{r\+\_\+core, }
+\item[{double}]{force}
+\end{DoxyParamCaption}
+)}\hypertarget{par__sim_8c_a5bd5b054482e6361b1776a8835b3bbef}{}\label{par__sim_8c_a5bd5b054482e6361b1776a8835b3bbef}
+
+
+\subsection{Variable Documentation}
+\index{par\+\_\+sim.\+c@{par\+\_\+sim.\+c}!accur@{accur}}
+\index{accur@{accur}!par\+\_\+sim.\+c@{par\+\_\+sim.\+c}}
+\subsubsection[{\texorpdfstring{accur}{accur}}]{\setlength{\rightskip}{0pt plus 5cm}double accur = 1}\hypertarget{par__sim_8c_ab3ad12b0b9335d1c9f4b35907b473fe7}{}\label{par__sim_8c_ab3ad12b0b9335d1c9f4b35907b473fe7}
+\index{par\+\_\+sim.\+c@{par\+\_\+sim.\+c}!deffaccur@{deffaccur}}
+\index{deffaccur@{deffaccur}!par\+\_\+sim.\+c@{par\+\_\+sim.\+c}}
+\subsubsection[{\texorpdfstring{deffaccur}{deffaccur}}]{\setlength{\rightskip}{0pt plus 5cm}double deffaccur = 1e7}\hypertarget{par__sim_8c_a77f28b8c4dc157bce806afb4966f88a6}{}\label{par__sim_8c_a77f28b8c4dc157bce806afb4966f88a6}
+\index{par\+\_\+sim.\+c@{par\+\_\+sim.\+c}!F@{F}}
+\index{F@{F}!par\+\_\+sim.\+c@{par\+\_\+sim.\+c}}
+\subsubsection[{\texorpdfstring{F}{F}}]{\setlength{\rightskip}{0pt plus 5cm}double F = 1}\hypertarget{par__sim_8c_ae3520ebb3ff8d6feab3e6afb47ed4040}{}\label{par__sim_8c_ae3520ebb3ff8d6feab3e6afb47ed4040}
+\index{par\+\_\+sim.\+c@{par\+\_\+sim.\+c}!Fswitch@{Fswitch}}
+\index{Fswitch@{Fswitch}!par\+\_\+sim.\+c@{par\+\_\+sim.\+c}}
+\subsubsection[{\texorpdfstring{Fswitch}{Fswitch}}]{\setlength{\rightskip}{0pt plus 5cm}double Fswitch = -\/3e4}\hypertarget{par__sim_8c_aa23a01bbb0088c4d9f0b18563b69bbed}{}\label{par__sim_8c_aa23a01bbb0088c4d9f0b18563b69bbed}
+\index{par\+\_\+sim.\+c@{par\+\_\+sim.\+c}!initwidth@{initwidth}}
+\index{initwidth@{initwidth}!par\+\_\+sim.\+c@{par\+\_\+sim.\+c}}
+\subsubsection[{\texorpdfstring{initwidth}{initwidth}}]{\setlength{\rightskip}{0pt plus 5cm}double initwidth = 1}\hypertarget{par__sim_8c_a73a35a1bb4b28a38beb6c2eb25a3b880}{}\label{par__sim_8c_a73a35a1bb4b28a38beb6c2eb25a3b880}
+\index{par\+\_\+sim.\+c@{par\+\_\+sim.\+c}!N@{N}}
+\index{N@{N}!par\+\_\+sim.\+c@{par\+\_\+sim.\+c}}
+\subsubsection[{\texorpdfstring{N}{N}}]{\setlength{\rightskip}{0pt plus 5cm}int N = 200}\hypertarget{par__sim_8c_a7722c8ecbb62d99aee7ce68b1752f337}{}\label{par__sim_8c_a7722c8ecbb62d99aee7ce68b1752f337}
+\index{par\+\_\+sim.\+c@{par\+\_\+sim.\+c}!n@{n}}
+\index{n@{n}!par\+\_\+sim.\+c@{par\+\_\+sim.\+c}}
+\subsubsection[{\texorpdfstring{n}{n}}]{\setlength{\rightskip}{0pt plus 5cm}double n = 2$\ast$1e5}\hypertarget{par__sim_8c_abe63e991a7bf5d666068b15c9064428d}{}\label{par__sim_8c_abe63e991a7bf5d666068b15c9064428d}
+\index{par\+\_\+sim.\+c@{par\+\_\+sim.\+c}!numbtest@{numbtest}}
+\index{numbtest@{numbtest}!par\+\_\+sim.\+c@{par\+\_\+sim.\+c}}
+\subsubsection[{\texorpdfstring{numbtest}{numbtest}}]{\setlength{\rightskip}{0pt plus 5cm}int numbtest = 20}\hypertarget{par__sim_8c_a407e3722e47f1d9ee9db62b78947bc95}{}\label{par__sim_8c_a407e3722e47f1d9ee9db62b78947bc95}
+\index{par\+\_\+sim.\+c@{par\+\_\+sim.\+c}!setnumb@{setnumb}}
+\index{setnumb@{setnumb}!par\+\_\+sim.\+c@{par\+\_\+sim.\+c}}
+\subsubsection[{\texorpdfstring{setnumb}{setnumb}}]{\setlength{\rightskip}{0pt plus 5cm}unsigned int setnumb = 1}\hypertarget{par__sim_8c_a5c6c57ee5f6beac81b3f311e9f4f2d6c}{}\label{par__sim_8c_a5c6c57ee5f6beac81b3f311e9f4f2d6c}
+\index{par\+\_\+sim.\+c@{par\+\_\+sim.\+c}!simlong@{simlong}}
+\index{simlong@{simlong}!par\+\_\+sim.\+c@{par\+\_\+sim.\+c}}
+\subsubsection[{\texorpdfstring{simlong}{simlong}}]{\setlength{\rightskip}{0pt plus 5cm}int simlong = 20}\hypertarget{par__sim_8c_a28f356e3c2e0f78fff8984a794067e46}{}\label{par__sim_8c_a28f356e3c2e0f78fff8984a794067e46}

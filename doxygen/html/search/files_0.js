@@ -1,5 +1,7 @@
 var searchData=
 [
+  ['comp_5fcode_5fgen_2epy',['comp_code_gen.py',['../comp__code__gen_8py.html',1,'']]],
+  ['comp_5fgen_5fheader_2eh',['comp_gen_header.h',['../comp__gen__header_8h.html',1,'']]],
   ['conf_5fcos_2ec',['conf_cos.c',['../conf__cos_8c.html',1,'']]],
   ['conf_5fcos_2eh',['conf_cos.h',['../conf__cos_8h.html',1,'']]],
   ['conf_5fsept_2ec',['conf_sept.c',['../conf__sept_8c.html',1,'']]],

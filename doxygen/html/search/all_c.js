@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['par',['par',['../par__sim_8c.html#a33f6ab6db626aa93a81141b4cb8789f1',1,'par(double n, double dt, int numtasks, int testab, int plotpoints):&#160;par_sim.c'],['../par__sim_8h.html#ad41e88e34f8ad337a8db01de8ddbb089',1,'par():&#160;par_sim.h']]],
+  ['par',['par',['../par__sim_8c.html#a33f6ab6db626aa93a81141b4cb8789f1',1,'par(double n, double dt, int numtasks, int testab, int plotpoints):&#160;par_sim.c'],['../par__sim_8h.html#a33f6ab6db626aa93a81141b4cb8789f1',1,'par(double n, double dt, int numtasks, int testab, int plotpoints):&#160;par_sim.c']]],
   ['par_5fsim_2ec',['par_sim.c',['../par__sim_8c.html',1,'']]],
   ['par_5fsim_2eh',['par_sim.h',['../par__sim_8h.html',1,'']]],
   ['par_5fspecs',['par_specs',['../structpar__specs.html',1,'']]],

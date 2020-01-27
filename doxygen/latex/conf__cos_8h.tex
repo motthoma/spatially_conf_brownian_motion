@@ -1,10 +1,22 @@
 \hypertarget{conf__cos_8h}{}\section{conf\+\_\+cos.\+h File Reference}
 \label{conf__cos_8h}\index{conf\+\_\+cos.\+h@{conf\+\_\+cos.\+h}}
-This graph shows which files directly or indirectly include this file\+:\nopagebreak
+{\ttfamily \#include $<$math.\+h$>$}\newline
+{\ttfamily \#include $<$stdbool.\+h$>$}\newline
+{\ttfamily \#include \char`\"{}par\+\_\+sim.\+h\char`\"{}}\newline
+Include dependency graph for conf\+\_\+cos.\+h\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
-\includegraphics[width=145pt]{conf__cos_8h__dep__incl}
+\includegraphics[width=279pt]{conf__cos_8h__incl}
+\end{center}
+\end{figure}
+This graph shows which files directly or indirectly include this file\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=268pt]{conf__cos_8h__dep__incl}
 \end{center}
 \end{figure}
 \subsection*{Macros}
@@ -16,18 +28,14 @@ This graph shows which files directly or indirectly include this file\+:\nopageb
 \item 
 \#define \hyperlink{conf__cos_8h_a0a791200fb5fbb1764f7ad3a58266b39}{C\+H\+E\+C\+KN}~5
 \item 
-\#define \hyperlink{conf__cos_8h_a984fae03b8ae2683fcad05f927c55947}{K\+\_\+\+C\+OS}~(2.\+0$\ast$M\+\_\+\+PI/\hyperlink{par__sim_8h_aa73214aa5f2f94f63d90bb4e3d99fe53}{L})
+\#define \hyperlink{conf__cos_8h_a984fae03b8ae2683fcad05f927c55947}{K\+\_\+\+C\+OS}~(2.\+0$\ast$M\+\_\+\+PI/L)
 \item 
-\#define \hyperlink{conf__cos_8h_a0312cb6d6cbc719075d4e5380c387ab3}{X\+M\+AX}~(\hyperlink{par__sim_8h_aa73214aa5f2f94f63d90bb4e3d99fe53}{L}/4.\+0-\/\hyperlink{par__sim_8h_af474bcea39541c1bc5d82287cc9a695c}{R\+\_\+\+C\+O\+NF})
+\#define \hyperlink{conf__cos_8h_a0312cb6d6cbc719075d4e5380c387ab3}{X\+M\+AX}~(L/4.\+0-\/\hyperlink{par__sim_8h_af474bcea39541c1bc5d82287cc9a695c}{R\+\_\+\+C\+O\+NF})
 \item 
 \#define \hyperlink{conf__cos_8h_a1f7bcc524423f337f53f93ad8433e6d9}{S\+Q\+R\+T\+\_\+\+S\+H\+I\+FT}~\hyperlink{par__sim_8h_af474bcea39541c1bc5d82287cc9a695c}{R\+\_\+\+C\+O\+NF}$\ast$sqrt(1+\hyperlink{conf__sept_8h_a3069ce145143ea1c7c3744b9ddda34bc}{A\+MP}$\ast$\hyperlink{conf__sept_8h_a3069ce145143ea1c7c3744b9ddda34bc}{A\+MP}$\ast$\hyperlink{conf__cos_8h_a984fae03b8ae2683fcad05f927c55947}{K\+\_\+\+C\+OS}$\ast$\hyperlink{conf__cos_8h_a984fae03b8ae2683fcad05f927c55947}{K\+\_\+\+C\+OS})
 \end{DoxyCompactItemize}
 \subsection*{Functions}
 \begin{DoxyCompactItemize}
-\item 
-double \hyperlink{conf__cos_8h_a2d7771a3950a4af32df29489338a109d}{yuef\+\_\+ext} (double x, double y)
-\item 
-double \hyperlink{conf__cos_8h_a54db83834173ae7620d46f436e50846c}{yuef\+\_\+cos} (double x, double y)
 \item 
 void \hyperlink{conf__cos_8h_ae2ef1efd942a3f255809d6b66f7071bd}{specs\+\_\+conf} (double binx, double biny, double bin2d)
 \item 
@@ -38,75 +46,63 @@ char $\ast$ \hyperlink{conf__cos_8h_abcc505d662dc5334001808cb8c43eade}{prfx\+\_\
 
 
 \subsection{Macro Definition Documentation}
+\mbox{\Hypertarget{conf__cos_8h_a3069ce145143ea1c7c3744b9ddda34bc}\label{conf__cos_8h_a3069ce145143ea1c7c3744b9ddda34bc}} 
 \index{conf\+\_\+cos.\+h@{conf\+\_\+cos.\+h}!A\+MP@{A\+MP}}
 \index{A\+MP@{A\+MP}!conf\+\_\+cos.\+h@{conf\+\_\+cos.\+h}}
-\subsubsection[{\texorpdfstring{A\+MP}{AMP}}]{\setlength{\rightskip}{0pt plus 5cm}\#define A\+MP~(1.\+0/(2.\+0$\ast$M\+\_\+\+PI))}\hypertarget{conf__cos_8h_a3069ce145143ea1c7c3744b9ddda34bc}{}\label{conf__cos_8h_a3069ce145143ea1c7c3744b9ddda34bc}
+\subsubsection{\texorpdfstring{A\+MP}{AMP}}
+{\footnotesize\ttfamily \#define A\+MP~(1.\+0/(2.\+0$\ast$M\+\_\+\+PI))}
+
+\mbox{\Hypertarget{conf__cos_8h_a0a791200fb5fbb1764f7ad3a58266b39}\label{conf__cos_8h_a0a791200fb5fbb1764f7ad3a58266b39}} 
 \index{conf\+\_\+cos.\+h@{conf\+\_\+cos.\+h}!C\+H\+E\+C\+KN@{C\+H\+E\+C\+KN}}
 \index{C\+H\+E\+C\+KN@{C\+H\+E\+C\+KN}!conf\+\_\+cos.\+h@{conf\+\_\+cos.\+h}}
-\subsubsection[{\texorpdfstring{C\+H\+E\+C\+KN}{CHECKN}}]{\setlength{\rightskip}{0pt plus 5cm}\#define C\+H\+E\+C\+KN~5}\hypertarget{conf__cos_8h_a0a791200fb5fbb1764f7ad3a58266b39}{}\label{conf__cos_8h_a0a791200fb5fbb1764f7ad3a58266b39}
+\subsubsection{\texorpdfstring{C\+H\+E\+C\+KN}{CHECKN}}
+{\footnotesize\ttfamily \#define C\+H\+E\+C\+KN~5}
+
+\mbox{\Hypertarget{conf__cos_8h_a984fae03b8ae2683fcad05f927c55947}\label{conf__cos_8h_a984fae03b8ae2683fcad05f927c55947}} 
 \index{conf\+\_\+cos.\+h@{conf\+\_\+cos.\+h}!K\+\_\+\+C\+OS@{K\+\_\+\+C\+OS}}
 \index{K\+\_\+\+C\+OS@{K\+\_\+\+C\+OS}!conf\+\_\+cos.\+h@{conf\+\_\+cos.\+h}}
-\subsubsection[{\texorpdfstring{K\+\_\+\+C\+OS}{K_COS}}]{\setlength{\rightskip}{0pt plus 5cm}\#define K\+\_\+\+C\+OS~(2.\+0$\ast$M\+\_\+\+PI/{\bf L})}\hypertarget{conf__cos_8h_a984fae03b8ae2683fcad05f927c55947}{}\label{conf__cos_8h_a984fae03b8ae2683fcad05f927c55947}
+\subsubsection{\texorpdfstring{K\+\_\+\+C\+OS}{K\_COS}}
+{\footnotesize\ttfamily \#define K\+\_\+\+C\+OS~(2.\+0$\ast$M\+\_\+\+PI/L)}
+
+\mbox{\Hypertarget{conf__cos_8h_a5352417d4199892cacd4c786fd7ee764}\label{conf__cos_8h_a5352417d4199892cacd4c786fd7ee764}} 
 \index{conf\+\_\+cos.\+h@{conf\+\_\+cos.\+h}!M\+A\+X\+\_\+\+H\+A\+L\+F\+\_\+\+W\+I\+D\+TH@{M\+A\+X\+\_\+\+H\+A\+L\+F\+\_\+\+W\+I\+D\+TH}}
 \index{M\+A\+X\+\_\+\+H\+A\+L\+F\+\_\+\+W\+I\+D\+TH@{M\+A\+X\+\_\+\+H\+A\+L\+F\+\_\+\+W\+I\+D\+TH}!conf\+\_\+cos.\+h@{conf\+\_\+cos.\+h}}
-\subsubsection[{\texorpdfstring{M\+A\+X\+\_\+\+H\+A\+L\+F\+\_\+\+W\+I\+D\+TH}{MAX_HALF_WIDTH}}]{\setlength{\rightskip}{0pt plus 5cm}\#define M\+A\+X\+\_\+\+H\+A\+L\+F\+\_\+\+W\+I\+D\+TH~(2$\ast${\bf A\+MP}+{\bf B})}\hypertarget{conf__cos_8h_a5352417d4199892cacd4c786fd7ee764}{}\label{conf__cos_8h_a5352417d4199892cacd4c786fd7ee764}
+\subsubsection{\texorpdfstring{M\+A\+X\+\_\+\+H\+A\+L\+F\+\_\+\+W\+I\+D\+TH}{MAX\_HALF\_WIDTH}}
+{\footnotesize\ttfamily \#define M\+A\+X\+\_\+\+H\+A\+L\+F\+\_\+\+W\+I\+D\+TH~(2$\ast$\hyperlink{conf__sept_8h_a3069ce145143ea1c7c3744b9ddda34bc}{A\+MP}+\hyperlink{par__sim_8h_a111da81ae5883147168bbb8366377b10}{B})}
+
+\mbox{\Hypertarget{conf__cos_8h_a1f7bcc524423f337f53f93ad8433e6d9}\label{conf__cos_8h_a1f7bcc524423f337f53f93ad8433e6d9}} 
 \index{conf\+\_\+cos.\+h@{conf\+\_\+cos.\+h}!S\+Q\+R\+T\+\_\+\+S\+H\+I\+FT@{S\+Q\+R\+T\+\_\+\+S\+H\+I\+FT}}
 \index{S\+Q\+R\+T\+\_\+\+S\+H\+I\+FT@{S\+Q\+R\+T\+\_\+\+S\+H\+I\+FT}!conf\+\_\+cos.\+h@{conf\+\_\+cos.\+h}}
-\subsubsection[{\texorpdfstring{S\+Q\+R\+T\+\_\+\+S\+H\+I\+FT}{SQRT_SHIFT}}]{\setlength{\rightskip}{0pt plus 5cm}\#define S\+Q\+R\+T\+\_\+\+S\+H\+I\+FT~{\bf R\+\_\+\+C\+O\+NF}$\ast$sqrt(1+{\bf A\+MP}$\ast${\bf A\+MP}$\ast${\bf K\+\_\+\+C\+OS}$\ast${\bf K\+\_\+\+C\+OS})}\hypertarget{conf__cos_8h_a1f7bcc524423f337f53f93ad8433e6d9}{}\label{conf__cos_8h_a1f7bcc524423f337f53f93ad8433e6d9}
+\subsubsection{\texorpdfstring{S\+Q\+R\+T\+\_\+\+S\+H\+I\+FT}{SQRT\_SHIFT}}
+{\footnotesize\ttfamily \#define S\+Q\+R\+T\+\_\+\+S\+H\+I\+FT~\hyperlink{par__sim_8h_af474bcea39541c1bc5d82287cc9a695c}{R\+\_\+\+C\+O\+NF}$\ast$sqrt(1+\hyperlink{conf__sept_8h_a3069ce145143ea1c7c3744b9ddda34bc}{A\+MP}$\ast$\hyperlink{conf__sept_8h_a3069ce145143ea1c7c3744b9ddda34bc}{A\+MP}$\ast$\hyperlink{conf__cos_8h_a984fae03b8ae2683fcad05f927c55947}{K\+\_\+\+C\+OS}$\ast$\hyperlink{conf__cos_8h_a984fae03b8ae2683fcad05f927c55947}{K\+\_\+\+C\+OS})}
+
+\mbox{\Hypertarget{conf__cos_8h_a0312cb6d6cbc719075d4e5380c387ab3}\label{conf__cos_8h_a0312cb6d6cbc719075d4e5380c387ab3}} 
 \index{conf\+\_\+cos.\+h@{conf\+\_\+cos.\+h}!X\+M\+AX@{X\+M\+AX}}
 \index{X\+M\+AX@{X\+M\+AX}!conf\+\_\+cos.\+h@{conf\+\_\+cos.\+h}}
-\subsubsection[{\texorpdfstring{X\+M\+AX}{XMAX}}]{\setlength{\rightskip}{0pt plus 5cm}\#define X\+M\+AX~({\bf L}/4.\+0-\/{\bf R\+\_\+\+C\+O\+NF})}\hypertarget{conf__cos_8h_a0312cb6d6cbc719075d4e5380c387ab3}{}\label{conf__cos_8h_a0312cb6d6cbc719075d4e5380c387ab3}
+\subsubsection{\texorpdfstring{X\+M\+AX}{XMAX}}
+{\footnotesize\ttfamily \#define X\+M\+AX~(L/4.\+0-\/\hyperlink{par__sim_8h_af474bcea39541c1bc5d82287cc9a695c}{R\+\_\+\+C\+O\+NF})}
+
 
 
 \subsection{Function Documentation}
+\mbox{\Hypertarget{conf__cos_8h_a11931c07a4cb0be830bd1cc99e3a9750}\label{conf__cos_8h_a11931c07a4cb0be830bd1cc99e3a9750}} 
 \index{conf\+\_\+cos.\+h@{conf\+\_\+cos.\+h}!copycode\+\_\+conf@{copycode\+\_\+conf}}
 \index{copycode\+\_\+conf@{copycode\+\_\+conf}!conf\+\_\+cos.\+h@{conf\+\_\+cos.\+h}}
-\subsubsection[{\texorpdfstring{copycode\+\_\+conf()}{copycode_conf()}}]{\setlength{\rightskip}{0pt plus 5cm}void copycode\+\_\+conf (
-\begin{DoxyParamCaption}
-{}
-\end{DoxyParamCaption}
-)}\hypertarget{conf__cos_8h_a11931c07a4cb0be830bd1cc99e3a9750}{}\label{conf__cos_8h_a11931c07a4cb0be830bd1cc99e3a9750}
+\subsubsection{\texorpdfstring{copycode\+\_\+conf()}{copycode\_conf()}}
+{\footnotesize\ttfamily void copycode\+\_\+conf (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{conf__cos_8h_abcc505d662dc5334001808cb8c43eade}\label{conf__cos_8h_abcc505d662dc5334001808cb8c43eade}} 
 \index{conf\+\_\+cos.\+h@{conf\+\_\+cos.\+h}!prfx\+\_\+conf@{prfx\+\_\+conf}}
 \index{prfx\+\_\+conf@{prfx\+\_\+conf}!conf\+\_\+cos.\+h@{conf\+\_\+cos.\+h}}
-\subsubsection[{\texorpdfstring{prfx\+\_\+conf()}{prfx_conf()}}]{\setlength{\rightskip}{0pt plus 5cm}char$\ast$ prfx\+\_\+conf (
-\begin{DoxyParamCaption}
-{}
-\end{DoxyParamCaption}
-)}\hypertarget{conf__cos_8h_abcc505d662dc5334001808cb8c43eade}{}\label{conf__cos_8h_abcc505d662dc5334001808cb8c43eade}
+\subsubsection{\texorpdfstring{prfx\+\_\+conf()}{prfx\_conf()}}
+{\footnotesize\ttfamily char$\ast$ prfx\+\_\+conf (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
 function to provide prefix in name of working directory
 
-function that provides name of confinement \index{conf\+\_\+cos.\+h@{conf\+\_\+cos.\+h}!specs\+\_\+conf@{specs\+\_\+conf}}
+function that provides name of confinement \mbox{\Hypertarget{conf__cos_8h_ae2ef1efd942a3f255809d6b66f7071bd}\label{conf__cos_8h_ae2ef1efd942a3f255809d6b66f7071bd}} 
+\index{conf\+\_\+cos.\+h@{conf\+\_\+cos.\+h}!specs\+\_\+conf@{specs\+\_\+conf}}
 \index{specs\+\_\+conf@{specs\+\_\+conf}!conf\+\_\+cos.\+h@{conf\+\_\+cos.\+h}}
-\subsubsection[{\texorpdfstring{specs\+\_\+conf(double binx, double biny, double bin2d)}{specs_conf(double binx, double biny, double bin2d)}}]{\setlength{\rightskip}{0pt plus 5cm}void specs\+\_\+conf (
-\begin{DoxyParamCaption}
-\item[{double}]{binx, }
-\item[{double}]{biny, }
-\item[{double}]{bin2d}
-\end{DoxyParamCaption}
-)}\hypertarget{conf__cos_8h_ae2ef1efd942a3f255809d6b66f7071bd}{}\label{conf__cos_8h_ae2ef1efd942a3f255809d6b66f7071bd}
-function to write confinement specific information in specs file \index{conf\+\_\+cos.\+h@{conf\+\_\+cos.\+h}!yuef\+\_\+cos@{yuef\+\_\+cos}}
-\index{yuef\+\_\+cos@{yuef\+\_\+cos}!conf\+\_\+cos.\+h@{conf\+\_\+cos.\+h}}
-\subsubsection[{\texorpdfstring{yuef\+\_\+cos(double x, double y)}{yuef_cos(double x, double y)}}]{\setlength{\rightskip}{0pt plus 5cm}double yuef\+\_\+cos (
-\begin{DoxyParamCaption}
-\item[{double}]{x, }
-\item[{double}]{y}
-\end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{conf__cos_8h_a54db83834173ae7620d46f436e50846c}{}\label{conf__cos_8h_a54db83834173ae7620d46f436e50846c}
-function to account for a confinement with cosine-\/shape. An analytical value of the effecitve confinement at the respective particle position is only available for small spherical particles whose boundary curvature is smaller than the curvature of the confinement (see e.\+g. Phd Thesis Steffen Martens 2013 page 90). Therefore, if the particle at position (x,y) is in the vicinity of the boundary, the positions of the particle\textquotesingle{}s surface are scanned and checked if they lie beyond the boundary. If particle is within confinement, a virtual value for the effective confinement yuef of yuef = 2$\ast$y is provided to ensure that yuef $>$ y. Otherwise, yuef = 0.\+5$\ast$y is provided to ensure that y $<$ yuef. relative position within the particle, where the y-\/value of the particle surface is checked if particle is within the confinement
+\subsubsection{\texorpdfstring{specs\+\_\+conf()}{specs\_conf()}}
+{\footnotesize\ttfamily void specs\+\_\+conf (\begin{DoxyParamCaption}\item[{double}]{binx,  }\item[{double}]{biny,  }\item[{double}]{bin2d }\end{DoxyParamCaption})}
 
-absolute position of scan
-
-value of confinement
-
-height of particle\textquotesingle{}s surface at scan position xt
-
-maximal value of confinement
-
-counter to break up routine if particle is outside of confinement \index{conf\+\_\+cos.\+h@{conf\+\_\+cos.\+h}!yuef\+\_\+ext@{yuef\+\_\+ext}}
-\index{yuef\+\_\+ext@{yuef\+\_\+ext}!conf\+\_\+cos.\+h@{conf\+\_\+cos.\+h}}
-\subsubsection[{\texorpdfstring{yuef\+\_\+ext(double x, double y)}{yuef_ext(double x, double y)}}]{\setlength{\rightskip}{0pt plus 5cm}double yuef\+\_\+ext (
-\begin{DoxyParamCaption}
-\item[{double}]{x, }
-\item[{double}]{y}
-\end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{conf__cos_8h_a2d7771a3950a4af32df29489338a109d}{}\label{conf__cos_8h_a2d7771a3950a4af32df29489338a109d}
+function to write confinement specific information in specs file 

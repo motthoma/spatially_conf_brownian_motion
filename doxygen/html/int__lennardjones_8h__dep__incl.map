@@ -1,4 +1,5 @@
 <map id="int_lennardjones.h" name="int_lennardjones.h">
-<area shape="rect" id="node2" href="$int__lennardjones_8c.html" title="int_lennardjones.c" alt="" coords="5,80,132,107"/>
-<area shape="rect" id="node3" href="$main__brownconf_8c.html" title="main_brownconf.c" alt="" coords="157,80,285,107"/>
+<area shape="rect" id="node2" href="$comp__gen__header_8h.html" title="comp_gen_header.h" alt="" coords="5,80,144,107"/>
+<area shape="rect" id="node4" href="$int__lennardjones_8c.html" title="int_lennardjones.c" alt="" coords="169,80,295,107"/>
+<area shape="rect" id="node3" href="$main__brownconf_8c.html" title="main_brownconf.c" alt="" coords="11,155,139,181"/>
 </map>

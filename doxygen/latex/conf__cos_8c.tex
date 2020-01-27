@@ -1,12 +1,13 @@
 \hypertarget{conf__cos_8c}{}\section{conf\+\_\+cos.\+c File Reference}
 \label{conf__cos_8c}\index{conf\+\_\+cos.\+c@{conf\+\_\+cos.\+c}}
-{\ttfamily \#include $<$stdio.\+h$>$}\\*
-{\ttfamily \#include $<$stdlib.\+h$>$}\\*
-{\ttfamily \#include $<$math.\+h$>$}\\*
-{\ttfamily \#include $<$stdbool.\+h$>$}\\*
-{\ttfamily \#include \char`\"{}par\+\_\+sim.\+h\char`\"{}}\\*
-{\ttfamily \#include \char`\"{}conf\+\_\+cos.\+h\char`\"{}}\\*
-Include dependency graph for conf\+\_\+cos.\+c\+:\nopagebreak
+{\ttfamily \#include $<$stdio.\+h$>$}\newline
+{\ttfamily \#include $<$stdlib.\+h$>$}\newline
+{\ttfamily \#include $<$math.\+h$>$}\newline
+{\ttfamily \#include $<$stdbool.\+h$>$}\newline
+{\ttfamily \#include \char`\"{}par\+\_\+sim.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}conf\+\_\+cos.\+h\char`\"{}}\newline
+Include dependency graph for conf\+\_\+cos.\+c\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -15,10 +16,6 @@ Include dependency graph for conf\+\_\+cos.\+c\+:\nopagebreak
 \end{figure}
 \subsection*{Functions}
 \begin{DoxyCompactItemize}
-\item 
-double \hyperlink{conf__cos_8c_a54db83834173ae7620d46f436e50846c}{yuef\+\_\+cos} (double x, double y)
-\item 
-double \hyperlink{conf__cos_8c_a2d7771a3950a4af32df29489338a109d}{yuef\+\_\+ext} (double x, double y)
 \item 
 void \hyperlink{conf__cos_8c_ae2ef1efd942a3f255809d6b66f7071bd}{specs\+\_\+conf} (double binx, double biny, double bin2d)
 \item 
@@ -29,52 +26,22 @@ char $\ast$ \hyperlink{conf__cos_8c_abcc505d662dc5334001808cb8c43eade}{prfx\+\_\
 
 
 \subsection{Function Documentation}
+\mbox{\Hypertarget{conf__cos_8c_a11931c07a4cb0be830bd1cc99e3a9750}\label{conf__cos_8c_a11931c07a4cb0be830bd1cc99e3a9750}} 
 \index{conf\+\_\+cos.\+c@{conf\+\_\+cos.\+c}!copycode\+\_\+conf@{copycode\+\_\+conf}}
 \index{copycode\+\_\+conf@{copycode\+\_\+conf}!conf\+\_\+cos.\+c@{conf\+\_\+cos.\+c}}
-\subsubsection[{\texorpdfstring{copycode\+\_\+conf()}{copycode_conf()}}]{\setlength{\rightskip}{0pt plus 5cm}void copycode\+\_\+conf (
-\begin{DoxyParamCaption}
-{}
-\end{DoxyParamCaption}
-)}\hypertarget{conf__cos_8c_a11931c07a4cb0be830bd1cc99e3a9750}{}\label{conf__cos_8c_a11931c07a4cb0be830bd1cc99e3a9750}
+\subsubsection{\texorpdfstring{copycode\+\_\+conf()}{copycode\_conf()}}
+{\footnotesize\ttfamily void copycode\+\_\+conf (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{conf__cos_8c_abcc505d662dc5334001808cb8c43eade}\label{conf__cos_8c_abcc505d662dc5334001808cb8c43eade}} 
 \index{conf\+\_\+cos.\+c@{conf\+\_\+cos.\+c}!prfx\+\_\+conf@{prfx\+\_\+conf}}
 \index{prfx\+\_\+conf@{prfx\+\_\+conf}!conf\+\_\+cos.\+c@{conf\+\_\+cos.\+c}}
-\subsubsection[{\texorpdfstring{prfx\+\_\+conf()}{prfx_conf()}}]{\setlength{\rightskip}{0pt plus 5cm}char$\ast$ prfx\+\_\+conf (
-\begin{DoxyParamCaption}
-{}
-\end{DoxyParamCaption}
-)}\hypertarget{conf__cos_8c_abcc505d662dc5334001808cb8c43eade}{}\label{conf__cos_8c_abcc505d662dc5334001808cb8c43eade}
-function to provide prefix in name of working directory \index{conf\+\_\+cos.\+c@{conf\+\_\+cos.\+c}!specs\+\_\+conf@{specs\+\_\+conf}}
+\subsubsection{\texorpdfstring{prfx\+\_\+conf()}{prfx\_conf()}}
+{\footnotesize\ttfamily char$\ast$ prfx\+\_\+conf (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+function to provide prefix in name of working directory \mbox{\Hypertarget{conf__cos_8c_ae2ef1efd942a3f255809d6b66f7071bd}\label{conf__cos_8c_ae2ef1efd942a3f255809d6b66f7071bd}} 
+\index{conf\+\_\+cos.\+c@{conf\+\_\+cos.\+c}!specs\+\_\+conf@{specs\+\_\+conf}}
 \index{specs\+\_\+conf@{specs\+\_\+conf}!conf\+\_\+cos.\+c@{conf\+\_\+cos.\+c}}
-\subsubsection[{\texorpdfstring{specs\+\_\+conf(double binx, double biny, double bin2d)}{specs_conf(double binx, double biny, double bin2d)}}]{\setlength{\rightskip}{0pt plus 5cm}void specs\+\_\+conf (
-\begin{DoxyParamCaption}
-\item[{double}]{binx, }
-\item[{double}]{biny, }
-\item[{double}]{bin2d}
-\end{DoxyParamCaption}
-)}\hypertarget{conf__cos_8c_ae2ef1efd942a3f255809d6b66f7071bd}{}\label{conf__cos_8c_ae2ef1efd942a3f255809d6b66f7071bd}
-function to write confinement specific information in specs file \index{conf\+\_\+cos.\+c@{conf\+\_\+cos.\+c}!yuef\+\_\+cos@{yuef\+\_\+cos}}
-\index{yuef\+\_\+cos@{yuef\+\_\+cos}!conf\+\_\+cos.\+c@{conf\+\_\+cos.\+c}}
-\subsubsection[{\texorpdfstring{yuef\+\_\+cos(double x, double y)}{yuef_cos(double x, double y)}}]{\setlength{\rightskip}{0pt plus 5cm}double yuef\+\_\+cos (
-\begin{DoxyParamCaption}
-\item[{double}]{x, }
-\item[{double}]{y}
-\end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{conf__cos_8c_a54db83834173ae7620d46f436e50846c}{}\label{conf__cos_8c_a54db83834173ae7620d46f436e50846c}
-function to account for a confinement with cosine-\/shape. An analytical value of the effecitve confinement at the respective particle position is only available for small spherical particles whose boundary curvature is smaller than the curvature of the confinement (see e.\+g. Phd Thesis Steffen Martens 2013 page 90). Therefore, if the particle at position (x,y) is in the vicinity of the boundary, the positions of the particle\textquotesingle{}s surface are scanned and checked if they lie beyond the boundary. If particle is within confinement, a virtual value for the effective confinement yuef of yuef = 2$\ast$y is provided to ensure that yuef $>$ y. Otherwise, yuef = 0.\+5$\ast$y is provided to ensure that y $<$ yuef. relative position within the particle, where the y-\/value of the particle surface is checked if particle is within the confinement
+\subsubsection{\texorpdfstring{specs\+\_\+conf()}{specs\_conf()}}
+{\footnotesize\ttfamily void specs\+\_\+conf (\begin{DoxyParamCaption}\item[{double}]{binx,  }\item[{double}]{biny,  }\item[{double}]{bin2d }\end{DoxyParamCaption})}
 
-absolute position of scan
-
-value of confinement
-
-height of particle\textquotesingle{}s surface at scan position xt
-
-maximal value of confinement
-
-counter to break up routine if particle is outside of confinement \index{conf\+\_\+cos.\+c@{conf\+\_\+cos.\+c}!yuef\+\_\+ext@{yuef\+\_\+ext}}
-\index{yuef\+\_\+ext@{yuef\+\_\+ext}!conf\+\_\+cos.\+c@{conf\+\_\+cos.\+c}}
-\subsubsection[{\texorpdfstring{yuef\+\_\+ext(double x, double y)}{yuef_ext(double x, double y)}}]{\setlength{\rightskip}{0pt plus 5cm}double yuef\+\_\+ext (
-\begin{DoxyParamCaption}
-\item[{double}]{x, }
-\item[{double}]{y}
-\end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{conf__cos_8c_a2d7771a3950a4af32df29489338a109d}{}\label{conf__cos_8c_a2d7771a3950a4af32df29489338a109d}
+function to write confinement specific information in specs file 

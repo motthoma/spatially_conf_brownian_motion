@@ -1,6 +1,17 @@
 \hypertarget{conf__splitter_8h}{}\section{conf\+\_\+splitter.\+h File Reference}
 \label{conf__splitter_8h}\index{conf\+\_\+splitter.\+h@{conf\+\_\+splitter.\+h}}
-This graph shows which files directly or indirectly include this file\+:\nopagebreak
+{\ttfamily \#include $<$math.\+h$>$}\newline
+{\ttfamily \#include \char`\"{}par\+\_\+sim.\+h\char`\"{}}\newline
+Include dependency graph for conf\+\_\+splitter.\+h\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=204pt]{conf__splitter_8h__incl}
+\end{center}
+\end{figure}
+This graph shows which files directly or indirectly include this file\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -12,20 +23,16 @@ This graph shows which files directly or indirectly include this file\+:\nopageb
 \item 
 \#define \hyperlink{conf__splitter_8h_a52037c938e3c1b126c6277da5ca689d0}{M}~0.\+9
 \item 
-\#define \hyperlink{conf__splitter_8h_a5352417d4199892cacd4c786fd7ee764}{M\+A\+X\+\_\+\+H\+A\+L\+F\+\_\+\+W\+I\+D\+TH}~(\hyperlink{conf__splitter_8h_a52037c938e3c1b126c6277da5ca689d0}{M}$\ast$\hyperlink{par__sim_8h_aa73214aa5f2f94f63d90bb4e3d99fe53}{L}+\hyperlink{par__sim_8h_a111da81ae5883147168bbb8366377b10}{B})
+\#define \hyperlink{conf__splitter_8h_a5352417d4199892cacd4c786fd7ee764}{M\+A\+X\+\_\+\+H\+A\+L\+F\+\_\+\+W\+I\+D\+TH}~(\hyperlink{conf__splitter_8h_a52037c938e3c1b126c6277da5ca689d0}{M}$\ast$L + \hyperlink{par__sim_8h_a111da81ae5883147168bbb8366377b10}{B})
 \item 
-\#define \hyperlink{conf__splitter_8h_a1f7bcc524423f337f53f93ad8433e6d9}{S\+Q\+R\+T\+\_\+\+S\+H\+I\+FT}~\hyperlink{par__sim_8h_af474bcea39541c1bc5d82287cc9a695c}{R\+\_\+\+C\+O\+NF}$\ast$sqrt(1+\hyperlink{conf__splitter_8h_a52037c938e3c1b126c6277da5ca689d0}{M}$\ast$\hyperlink{conf__splitter_8h_a52037c938e3c1b126c6277da5ca689d0}{M})
+\#define \hyperlink{conf__splitter_8h_a1f7bcc524423f337f53f93ad8433e6d9}{S\+Q\+R\+T\+\_\+\+S\+H\+I\+FT}~\hyperlink{par__sim_8h_af474bcea39541c1bc5d82287cc9a695c}{R\+\_\+\+C\+O\+NF}$\ast$sqrt(1 + \hyperlink{conf__splitter_8h_a52037c938e3c1b126c6277da5ca689d0}{M}$\ast$\hyperlink{conf__splitter_8h_a52037c938e3c1b126c6277da5ca689d0}{M})
 \item 
 \#define \hyperlink{conf__splitter_8h_aa7346510284354726f66cac47a24f1da}{R\+\_\+\+C\+O\+N\+F\+\_\+\+SQ}~\hyperlink{par__sim_8h_af474bcea39541c1bc5d82287cc9a695c}{R\+\_\+\+C\+O\+NF}$\ast$\hyperlink{par__sim_8h_af474bcea39541c1bc5d82287cc9a695c}{R\+\_\+\+C\+O\+NF}
 \item 
-\#define \hyperlink{conf__splitter_8h_a619d2375978bb0f5af6156f881f4fbee}{Lp}~(\hyperlink{par__sim_8h_aa73214aa5f2f94f63d90bb4e3d99fe53}{L}-\/(\hyperlink{par__sim_8h_af474bcea39541c1bc5d82287cc9a695c}{R\+\_\+\+C\+O\+NF}$\ast$\hyperlink{conf__splitter_8h_a52037c938e3c1b126c6277da5ca689d0}{M})/(sqrt(1+\hyperlink{conf__splitter_8h_a52037c938e3c1b126c6277da5ca689d0}{M}$\ast$\hyperlink{conf__splitter_8h_a52037c938e3c1b126c6277da5ca689d0}{M})))
+\#define \hyperlink{conf__splitter_8h_a619d2375978bb0f5af6156f881f4fbee}{Lp}~(L -\/ (\hyperlink{par__sim_8h_af474bcea39541c1bc5d82287cc9a695c}{R\+\_\+\+C\+O\+NF}$\ast$\hyperlink{conf__splitter_8h_a52037c938e3c1b126c6277da5ca689d0}{M})/(sqrt(1 + \hyperlink{conf__splitter_8h_a52037c938e3c1b126c6277da5ca689d0}{M}$\ast$\hyperlink{conf__splitter_8h_a52037c938e3c1b126c6277da5ca689d0}{M})))
 \end{DoxyCompactItemize}
 \subsection*{Functions}
 \begin{DoxyCompactItemize}
-\item 
-double \hyperlink{conf__splitter_8h_a2d7771a3950a4af32df29489338a109d}{yuef\+\_\+ext} (double x, double y)
-\item 
-double \hyperlink{conf__splitter_8h_a9d25de4a2859940857e5e8bad13dd8cc}{yuef\+\_\+splitter} (double x, double y)
 \item 
 void \hyperlink{conf__splitter_8h_ae2ef1efd942a3f255809d6b66f7071bd}{specs\+\_\+conf} (double binx, double biny, double bin2d)
 \item 
@@ -36,63 +43,57 @@ char $\ast$ \hyperlink{conf__splitter_8h_abcc505d662dc5334001808cb8c43eade}{prfx
 
 
 \subsection{Macro Definition Documentation}
+\mbox{\Hypertarget{conf__splitter_8h_a619d2375978bb0f5af6156f881f4fbee}\label{conf__splitter_8h_a619d2375978bb0f5af6156f881f4fbee}} 
 \index{conf\+\_\+splitter.\+h@{conf\+\_\+splitter.\+h}!Lp@{Lp}}
 \index{Lp@{Lp}!conf\+\_\+splitter.\+h@{conf\+\_\+splitter.\+h}}
-\subsubsection[{\texorpdfstring{Lp}{Lp}}]{\setlength{\rightskip}{0pt plus 5cm}\#define Lp~({\bf L}-\/({\bf R\+\_\+\+C\+O\+NF}$\ast${\bf M})/(sqrt(1+{\bf M}$\ast${\bf M})))}\hypertarget{conf__splitter_8h_a619d2375978bb0f5af6156f881f4fbee}{}\label{conf__splitter_8h_a619d2375978bb0f5af6156f881f4fbee}
+\subsubsection{\texorpdfstring{Lp}{Lp}}
+{\footnotesize\ttfamily \#define Lp~(L -\/ (\hyperlink{par__sim_8h_af474bcea39541c1bc5d82287cc9a695c}{R\+\_\+\+C\+O\+NF}$\ast$\hyperlink{conf__splitter_8h_a52037c938e3c1b126c6277da5ca689d0}{M})/(sqrt(1 + \hyperlink{conf__splitter_8h_a52037c938e3c1b126c6277da5ca689d0}{M}$\ast$\hyperlink{conf__splitter_8h_a52037c938e3c1b126c6277da5ca689d0}{M})))}
+
+\mbox{\Hypertarget{conf__splitter_8h_a52037c938e3c1b126c6277da5ca689d0}\label{conf__splitter_8h_a52037c938e3c1b126c6277da5ca689d0}} 
 \index{conf\+\_\+splitter.\+h@{conf\+\_\+splitter.\+h}!M@{M}}
 \index{M@{M}!conf\+\_\+splitter.\+h@{conf\+\_\+splitter.\+h}}
-\subsubsection[{\texorpdfstring{M}{M}}]{\setlength{\rightskip}{0pt plus 5cm}\#define M~0.\+9}\hypertarget{conf__splitter_8h_a52037c938e3c1b126c6277da5ca689d0}{}\label{conf__splitter_8h_a52037c938e3c1b126c6277da5ca689d0}
+\subsubsection{\texorpdfstring{M}{M}}
+{\footnotesize\ttfamily \#define M~0.\+9}
+
+\mbox{\Hypertarget{conf__splitter_8h_a5352417d4199892cacd4c786fd7ee764}\label{conf__splitter_8h_a5352417d4199892cacd4c786fd7ee764}} 
 \index{conf\+\_\+splitter.\+h@{conf\+\_\+splitter.\+h}!M\+A\+X\+\_\+\+H\+A\+L\+F\+\_\+\+W\+I\+D\+TH@{M\+A\+X\+\_\+\+H\+A\+L\+F\+\_\+\+W\+I\+D\+TH}}
 \index{M\+A\+X\+\_\+\+H\+A\+L\+F\+\_\+\+W\+I\+D\+TH@{M\+A\+X\+\_\+\+H\+A\+L\+F\+\_\+\+W\+I\+D\+TH}!conf\+\_\+splitter.\+h@{conf\+\_\+splitter.\+h}}
-\subsubsection[{\texorpdfstring{M\+A\+X\+\_\+\+H\+A\+L\+F\+\_\+\+W\+I\+D\+TH}{MAX_HALF_WIDTH}}]{\setlength{\rightskip}{0pt plus 5cm}\#define M\+A\+X\+\_\+\+H\+A\+L\+F\+\_\+\+W\+I\+D\+TH~({\bf M}$\ast${\bf L}+{\bf B})}\hypertarget{conf__splitter_8h_a5352417d4199892cacd4c786fd7ee764}{}\label{conf__splitter_8h_a5352417d4199892cacd4c786fd7ee764}
+\subsubsection{\texorpdfstring{M\+A\+X\+\_\+\+H\+A\+L\+F\+\_\+\+W\+I\+D\+TH}{MAX\_HALF\_WIDTH}}
+{\footnotesize\ttfamily \#define M\+A\+X\+\_\+\+H\+A\+L\+F\+\_\+\+W\+I\+D\+TH~(\hyperlink{conf__splitter_8h_a52037c938e3c1b126c6277da5ca689d0}{M}$\ast$L + \hyperlink{par__sim_8h_a111da81ae5883147168bbb8366377b10}{B})}
+
+\mbox{\Hypertarget{conf__splitter_8h_aa7346510284354726f66cac47a24f1da}\label{conf__splitter_8h_aa7346510284354726f66cac47a24f1da}} 
 \index{conf\+\_\+splitter.\+h@{conf\+\_\+splitter.\+h}!R\+\_\+\+C\+O\+N\+F\+\_\+\+SQ@{R\+\_\+\+C\+O\+N\+F\+\_\+\+SQ}}
 \index{R\+\_\+\+C\+O\+N\+F\+\_\+\+SQ@{R\+\_\+\+C\+O\+N\+F\+\_\+\+SQ}!conf\+\_\+splitter.\+h@{conf\+\_\+splitter.\+h}}
-\subsubsection[{\texorpdfstring{R\+\_\+\+C\+O\+N\+F\+\_\+\+SQ}{R_CONF_SQ}}]{\setlength{\rightskip}{0pt plus 5cm}\#define R\+\_\+\+C\+O\+N\+F\+\_\+\+SQ~{\bf R\+\_\+\+C\+O\+NF}$\ast${\bf R\+\_\+\+C\+O\+NF}}\hypertarget{conf__splitter_8h_aa7346510284354726f66cac47a24f1da}{}\label{conf__splitter_8h_aa7346510284354726f66cac47a24f1da}
+\subsubsection{\texorpdfstring{R\+\_\+\+C\+O\+N\+F\+\_\+\+SQ}{R\_CONF\_SQ}}
+{\footnotesize\ttfamily \#define R\+\_\+\+C\+O\+N\+F\+\_\+\+SQ~\hyperlink{par__sim_8h_af474bcea39541c1bc5d82287cc9a695c}{R\+\_\+\+C\+O\+NF}$\ast$\hyperlink{par__sim_8h_af474bcea39541c1bc5d82287cc9a695c}{R\+\_\+\+C\+O\+NF}}
+
+\mbox{\Hypertarget{conf__splitter_8h_a1f7bcc524423f337f53f93ad8433e6d9}\label{conf__splitter_8h_a1f7bcc524423f337f53f93ad8433e6d9}} 
 \index{conf\+\_\+splitter.\+h@{conf\+\_\+splitter.\+h}!S\+Q\+R\+T\+\_\+\+S\+H\+I\+FT@{S\+Q\+R\+T\+\_\+\+S\+H\+I\+FT}}
 \index{S\+Q\+R\+T\+\_\+\+S\+H\+I\+FT@{S\+Q\+R\+T\+\_\+\+S\+H\+I\+FT}!conf\+\_\+splitter.\+h@{conf\+\_\+splitter.\+h}}
-\subsubsection[{\texorpdfstring{S\+Q\+R\+T\+\_\+\+S\+H\+I\+FT}{SQRT_SHIFT}}]{\setlength{\rightskip}{0pt plus 5cm}\#define S\+Q\+R\+T\+\_\+\+S\+H\+I\+FT~{\bf R\+\_\+\+C\+O\+NF}$\ast$sqrt(1+{\bf M}$\ast${\bf M})}\hypertarget{conf__splitter_8h_a1f7bcc524423f337f53f93ad8433e6d9}{}\label{conf__splitter_8h_a1f7bcc524423f337f53f93ad8433e6d9}
+\subsubsection{\texorpdfstring{S\+Q\+R\+T\+\_\+\+S\+H\+I\+FT}{SQRT\_SHIFT}}
+{\footnotesize\ttfamily \#define S\+Q\+R\+T\+\_\+\+S\+H\+I\+FT~\hyperlink{par__sim_8h_af474bcea39541c1bc5d82287cc9a695c}{R\+\_\+\+C\+O\+NF}$\ast$sqrt(1 + \hyperlink{conf__splitter_8h_a52037c938e3c1b126c6277da5ca689d0}{M}$\ast$\hyperlink{conf__splitter_8h_a52037c938e3c1b126c6277da5ca689d0}{M})}
+
 
 
 \subsection{Function Documentation}
+\mbox{\Hypertarget{conf__splitter_8h_a11931c07a4cb0be830bd1cc99e3a9750}\label{conf__splitter_8h_a11931c07a4cb0be830bd1cc99e3a9750}} 
 \index{conf\+\_\+splitter.\+h@{conf\+\_\+splitter.\+h}!copycode\+\_\+conf@{copycode\+\_\+conf}}
 \index{copycode\+\_\+conf@{copycode\+\_\+conf}!conf\+\_\+splitter.\+h@{conf\+\_\+splitter.\+h}}
-\subsubsection[{\texorpdfstring{copycode\+\_\+conf()}{copycode_conf()}}]{\setlength{\rightskip}{0pt plus 5cm}void copycode\+\_\+conf (
-\begin{DoxyParamCaption}
-{}
-\end{DoxyParamCaption}
-)}\hypertarget{conf__splitter_8h_a11931c07a4cb0be830bd1cc99e3a9750}{}\label{conf__splitter_8h_a11931c07a4cb0be830bd1cc99e3a9750}
+\subsubsection{\texorpdfstring{copycode\+\_\+conf()}{copycode\_conf()}}
+{\footnotesize\ttfamily void copycode\+\_\+conf (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{conf__splitter_8h_abcc505d662dc5334001808cb8c43eade}\label{conf__splitter_8h_abcc505d662dc5334001808cb8c43eade}} 
 \index{conf\+\_\+splitter.\+h@{conf\+\_\+splitter.\+h}!prfx\+\_\+conf@{prfx\+\_\+conf}}
 \index{prfx\+\_\+conf@{prfx\+\_\+conf}!conf\+\_\+splitter.\+h@{conf\+\_\+splitter.\+h}}
-\subsubsection[{\texorpdfstring{prfx\+\_\+conf()}{prfx_conf()}}]{\setlength{\rightskip}{0pt plus 5cm}char$\ast$ prfx\+\_\+conf (
-\begin{DoxyParamCaption}
-{}
-\end{DoxyParamCaption}
-)}\hypertarget{conf__splitter_8h_abcc505d662dc5334001808cb8c43eade}{}\label{conf__splitter_8h_abcc505d662dc5334001808cb8c43eade}
+\subsubsection{\texorpdfstring{prfx\+\_\+conf()}{prfx\_conf()}}
+{\footnotesize\ttfamily char$\ast$ prfx\+\_\+conf (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
 function to provide prefix in name of working directory
 
-function that provides name of confinement \index{conf\+\_\+splitter.\+h@{conf\+\_\+splitter.\+h}!specs\+\_\+conf@{specs\+\_\+conf}}
+function that provides name of confinement \mbox{\Hypertarget{conf__splitter_8h_ae2ef1efd942a3f255809d6b66f7071bd}\label{conf__splitter_8h_ae2ef1efd942a3f255809d6b66f7071bd}} 
+\index{conf\+\_\+splitter.\+h@{conf\+\_\+splitter.\+h}!specs\+\_\+conf@{specs\+\_\+conf}}
 \index{specs\+\_\+conf@{specs\+\_\+conf}!conf\+\_\+splitter.\+h@{conf\+\_\+splitter.\+h}}
-\subsubsection[{\texorpdfstring{specs\+\_\+conf(double binx, double biny, double bin2d)}{specs_conf(double binx, double biny, double bin2d)}}]{\setlength{\rightskip}{0pt plus 5cm}void specs\+\_\+conf (
-\begin{DoxyParamCaption}
-\item[{double}]{binx, }
-\item[{double}]{biny, }
-\item[{double}]{bin2d}
-\end{DoxyParamCaption}
-)}\hypertarget{conf__splitter_8h_ae2ef1efd942a3f255809d6b66f7071bd}{}\label{conf__splitter_8h_ae2ef1efd942a3f255809d6b66f7071bd}
-function to write confinement specific information in specs file \index{conf\+\_\+splitter.\+h@{conf\+\_\+splitter.\+h}!yuef\+\_\+ext@{yuef\+\_\+ext}}
-\index{yuef\+\_\+ext@{yuef\+\_\+ext}!conf\+\_\+splitter.\+h@{conf\+\_\+splitter.\+h}}
-\subsubsection[{\texorpdfstring{yuef\+\_\+ext(double x, double y)}{yuef_ext(double x, double y)}}]{\setlength{\rightskip}{0pt plus 5cm}double yuef\+\_\+ext (
-\begin{DoxyParamCaption}
-\item[{double}]{x, }
-\item[{double}]{y}
-\end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{conf__splitter_8h_a2d7771a3950a4af32df29489338a109d}{}\label{conf__splitter_8h_a2d7771a3950a4af32df29489338a109d}
-\index{conf\+\_\+splitter.\+h@{conf\+\_\+splitter.\+h}!yuef\+\_\+splitter@{yuef\+\_\+splitter}}
-\index{yuef\+\_\+splitter@{yuef\+\_\+splitter}!conf\+\_\+splitter.\+h@{conf\+\_\+splitter.\+h}}
-\subsubsection[{\texorpdfstring{yuef\+\_\+splitter(double x, double y)}{yuef_splitter(double x, double y)}}]{\setlength{\rightskip}{0pt plus 5cm}double yuef\+\_\+splitter (
-\begin{DoxyParamCaption}
-\item[{double}]{x, }
-\item[{double}]{y}
-\end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{conf__splitter_8h_a9d25de4a2859940857e5e8bad13dd8cc}{}\label{conf__splitter_8h_a9d25de4a2859940857e5e8bad13dd8cc}
-function to provide effective boundary of confinement with saw-\/tooth profile used for the entropic splitter (see Motz et al. J. Chem. Phys. 2014). Effective boundary can only be represented piece wise\+: In the vicinity of the bottleneck, yueff is a circle with radius R\+\_\+\+C\+O\+NF. In the other sections, we have shifted straight lines parallel to the originial boundary. 
+\subsubsection{\texorpdfstring{specs\+\_\+conf()}{specs\_conf()}}
+{\footnotesize\ttfamily void specs\+\_\+conf (\begin{DoxyParamCaption}\item[{double}]{binx,  }\item[{double}]{biny,  }\item[{double}]{bin2d }\end{DoxyParamCaption})}
+
+function to write confinement specific information in specs file 

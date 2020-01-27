@@ -1,10 +1,20 @@
 \hypertarget{int__lennardjones_8h}{}\section{int\+\_\+lennardjones.\+h File Reference}
 \label{int__lennardjones_8h}\index{int\+\_\+lennardjones.\+h@{int\+\_\+lennardjones.\+h}}
-This graph shows which files directly or indirectly include this file\+:\nopagebreak
+{\ttfamily \#include $<$math.\+h$>$}\newline
+Include dependency graph for int\+\_\+lennardjones.\+h\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
-\includegraphics[width=290pt]{int__lennardjones_8h__dep__incl}
+\includegraphics[width=175pt]{int__lennardjones_8h__incl}
+\end{center}
+\end{figure}
+This graph shows which files directly or indirectly include this file\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=298pt]{int__lennardjones_8h__dep__incl}
 \end{center}
 \end{figure}
 \subsection*{Macros}
@@ -12,7 +22,7 @@ This graph shows which files directly or indirectly include this file\+:\nopageb
 \item 
 \#define \hyperlink{int__lennardjones_8h_aacb6838ac242e446e931dd32a87333cf}{R\+\_\+\+I\+NT}~(\hyperlink{par__sim_8h_af474bcea39541c1bc5d82287cc9a695c}{R\+\_\+\+C\+O\+NF})
 \item 
-\#define \hyperlink{int__lennardjones_8h_a8853009b17f81d2f8520c5604b897879}{I\+N\+T\+\_\+\+C\+U\+T\+O\+FF}~(0.\+2$\ast$\hyperlink{par__sim_8h_aa73214aa5f2f94f63d90bb4e3d99fe53}{L})
+\#define \hyperlink{int__lennardjones_8h_a8853009b17f81d2f8520c5604b897879}{I\+N\+T\+\_\+\+C\+U\+T\+O\+FF}~(0.\+2$\ast$L)
 \item 
 \#define \hyperlink{int__lennardjones_8h_a4ffb05be51681123fd16425388e55aa7}{E\+P\+S\+\_\+L}~(1.\+0)
 \item 
@@ -24,10 +34,6 @@ This graph shows which files directly or indirectly include this file\+:\nopageb
 \end{DoxyCompactItemize}
 \subsection*{Functions}
 \begin{DoxyCompactItemize}
-\item 
-double \hyperlink{int__lennardjones_8h_ae800b5e26e1969332c7f94d54cbe6207}{intforce} (double disti, double dist)
-\item 
-double \hyperlink{int__lennardjones_8h_acbdc5150d4ea9c223d66ebedb6ecc3d9}{intforce\+\_\+\+LJ} (double disti, double dist)
 \item 
 void \hyperlink{int__lennardjones_8h_ace5450301db6e880a8f6ae080107f799}{specs\+\_\+int} (double f\+\_\+cut)
 \item 
@@ -49,76 +55,87 @@ double \hyperlink{int__lennardjones_8h_a1d125840e6a044606d37ddaf9cf12b48}{fintyp
 
 
 \subsection{Macro Definition Documentation}
+\mbox{\Hypertarget{int__lennardjones_8h_a4ffb05be51681123fd16425388e55aa7}\label{int__lennardjones_8h_a4ffb05be51681123fd16425388e55aa7}} 
 \index{int\+\_\+lennardjones.\+h@{int\+\_\+lennardjones.\+h}!E\+P\+S\+\_\+L@{E\+P\+S\+\_\+L}}
 \index{E\+P\+S\+\_\+L@{E\+P\+S\+\_\+L}!int\+\_\+lennardjones.\+h@{int\+\_\+lennardjones.\+h}}
-\subsubsection[{\texorpdfstring{E\+P\+S\+\_\+L}{EPS_L}}]{\setlength{\rightskip}{0pt plus 5cm}\#define E\+P\+S\+\_\+L~(1.\+0)}\hypertarget{int__lennardjones_8h_a4ffb05be51681123fd16425388e55aa7}{}\label{int__lennardjones_8h_a4ffb05be51681123fd16425388e55aa7}
+\subsubsection{\texorpdfstring{E\+P\+S\+\_\+L}{EPS\_L}}
+{\footnotesize\ttfamily \#define E\+P\+S\+\_\+L~(1.\+0)}
+
+\mbox{\Hypertarget{int__lennardjones_8h_a8853009b17f81d2f8520c5604b897879}\label{int__lennardjones_8h_a8853009b17f81d2f8520c5604b897879}} 
 \index{int\+\_\+lennardjones.\+h@{int\+\_\+lennardjones.\+h}!I\+N\+T\+\_\+\+C\+U\+T\+O\+FF@{I\+N\+T\+\_\+\+C\+U\+T\+O\+FF}}
 \index{I\+N\+T\+\_\+\+C\+U\+T\+O\+FF@{I\+N\+T\+\_\+\+C\+U\+T\+O\+FF}!int\+\_\+lennardjones.\+h@{int\+\_\+lennardjones.\+h}}
-\subsubsection[{\texorpdfstring{I\+N\+T\+\_\+\+C\+U\+T\+O\+FF}{INT_CUTOFF}}]{\setlength{\rightskip}{0pt plus 5cm}\#define I\+N\+T\+\_\+\+C\+U\+T\+O\+FF~(0.\+2$\ast${\bf L})}\hypertarget{int__lennardjones_8h_a8853009b17f81d2f8520c5604b897879}{}\label{int__lennardjones_8h_a8853009b17f81d2f8520c5604b897879}
+\subsubsection{\texorpdfstring{I\+N\+T\+\_\+\+C\+U\+T\+O\+FF}{INT\_CUTOFF}}
+{\footnotesize\ttfamily \#define I\+N\+T\+\_\+\+C\+U\+T\+O\+FF~(0.\+2$\ast$L)}
+
+\mbox{\Hypertarget{int__lennardjones_8h_a64204cd2c28ed9e3de19174323b0950c}\label{int__lennardjones_8h_a64204cd2c28ed9e3de19174323b0950c}} 
 \index{int\+\_\+lennardjones.\+h@{int\+\_\+lennardjones.\+h}!L\+J\+M\+IN@{L\+J\+M\+IN}}
 \index{L\+J\+M\+IN@{L\+J\+M\+IN}!int\+\_\+lennardjones.\+h@{int\+\_\+lennardjones.\+h}}
-\subsubsection[{\texorpdfstring{L\+J\+M\+IN}{LJMIN}}]{\setlength{\rightskip}{0pt plus 5cm}\#define L\+J\+M\+IN~(0.\+5$\ast${\bf B})}\hypertarget{int__lennardjones_8h_a64204cd2c28ed9e3de19174323b0950c}{}\label{int__lennardjones_8h_a64204cd2c28ed9e3de19174323b0950c}
+\subsubsection{\texorpdfstring{L\+J\+M\+IN}{LJMIN}}
+{\footnotesize\ttfamily \#define L\+J\+M\+IN~(0.\+5$\ast$\hyperlink{par__sim_8h_a111da81ae5883147168bbb8366377b10}{B})}
+
+\mbox{\Hypertarget{int__lennardjones_8h_a5d498a97fcb5ce074c8efb4aa604e43b}\label{int__lennardjones_8h_a5d498a97fcb5ce074c8efb4aa604e43b}} 
 \index{int\+\_\+lennardjones.\+h@{int\+\_\+lennardjones.\+h}!L\+J\+M\+I\+N\+P\+OW@{L\+J\+M\+I\+N\+P\+OW}}
 \index{L\+J\+M\+I\+N\+P\+OW@{L\+J\+M\+I\+N\+P\+OW}!int\+\_\+lennardjones.\+h@{int\+\_\+lennardjones.\+h}}
-\subsubsection[{\texorpdfstring{L\+J\+M\+I\+N\+P\+OW}{LJMINPOW}}]{\setlength{\rightskip}{0pt plus 5cm}\#define L\+J\+M\+I\+N\+P\+OW~(pow({\bf L\+J\+M\+IN},6))}\hypertarget{int__lennardjones_8h_a5d498a97fcb5ce074c8efb4aa604e43b}{}\label{int__lennardjones_8h_a5d498a97fcb5ce074c8efb4aa604e43b}
+\subsubsection{\texorpdfstring{L\+J\+M\+I\+N\+P\+OW}{LJMINPOW}}
+{\footnotesize\ttfamily \#define L\+J\+M\+I\+N\+P\+OW~(pow(\hyperlink{int__lennardjones_8h_a64204cd2c28ed9e3de19174323b0950c}{L\+J\+M\+IN},6))}
+
+\mbox{\Hypertarget{int__lennardjones_8h_a22d54bf10820d11f17ecff9522df2846}\label{int__lennardjones_8h_a22d54bf10820d11f17ecff9522df2846}} 
 \index{int\+\_\+lennardjones.\+h@{int\+\_\+lennardjones.\+h}!L\+J\+P\+R\+E\+F\+AC@{L\+J\+P\+R\+E\+F\+AC}}
 \index{L\+J\+P\+R\+E\+F\+AC@{L\+J\+P\+R\+E\+F\+AC}!int\+\_\+lennardjones.\+h@{int\+\_\+lennardjones.\+h}}
-\subsubsection[{\texorpdfstring{L\+J\+P\+R\+E\+F\+AC}{LJPREFAC}}]{\setlength{\rightskip}{0pt plus 5cm}\#define L\+J\+P\+R\+E\+F\+AC~12.\+0$\ast${\bf E\+P\+S\+\_\+L}$\ast${\bf L\+J\+M\+I\+N\+P\+OW}}\hypertarget{int__lennardjones_8h_a22d54bf10820d11f17ecff9522df2846}{}\label{int__lennardjones_8h_a22d54bf10820d11f17ecff9522df2846}
+\subsubsection{\texorpdfstring{L\+J\+P\+R\+E\+F\+AC}{LJPREFAC}}
+{\footnotesize\ttfamily \#define L\+J\+P\+R\+E\+F\+AC~12.\+0$\ast$\hyperlink{int__lennardjones_8h_a4ffb05be51681123fd16425388e55aa7}{E\+P\+S\+\_\+L}$\ast$\hyperlink{int__lennardjones_8h_a5d498a97fcb5ce074c8efb4aa604e43b}{L\+J\+M\+I\+N\+P\+OW}}
+
+\mbox{\Hypertarget{int__lennardjones_8h_aacb6838ac242e446e931dd32a87333cf}\label{int__lennardjones_8h_aacb6838ac242e446e931dd32a87333cf}} 
 \index{int\+\_\+lennardjones.\+h@{int\+\_\+lennardjones.\+h}!R\+\_\+\+I\+NT@{R\+\_\+\+I\+NT}}
 \index{R\+\_\+\+I\+NT@{R\+\_\+\+I\+NT}!int\+\_\+lennardjones.\+h@{int\+\_\+lennardjones.\+h}}
-\subsubsection[{\texorpdfstring{R\+\_\+\+I\+NT}{R_INT}}]{\setlength{\rightskip}{0pt plus 5cm}\#define R\+\_\+\+I\+NT~({\bf R\+\_\+\+C\+O\+NF})}\hypertarget{int__lennardjones_8h_aacb6838ac242e446e931dd32a87333cf}{}\label{int__lennardjones_8h_aacb6838ac242e446e931dd32a87333cf}
+\subsubsection{\texorpdfstring{R\+\_\+\+I\+NT}{R\_INT}}
+{\footnotesize\ttfamily \#define R\+\_\+\+I\+NT~(\hyperlink{par__sim_8h_af474bcea39541c1bc5d82287cc9a695c}{R\+\_\+\+C\+O\+NF})}
+
 
 
 \subsection{Function Documentation}
+\mbox{\Hypertarget{int__lennardjones_8h_aec48559ed6cadd5a8f8ba12c6a2046a2}\label{int__lennardjones_8h_aec48559ed6cadd5a8f8ba12c6a2046a2}} 
 \index{int\+\_\+lennardjones.\+h@{int\+\_\+lennardjones.\+h}!copycode\+\_\+int@{copycode\+\_\+int}}
 \index{copycode\+\_\+int@{copycode\+\_\+int}!int\+\_\+lennardjones.\+h@{int\+\_\+lennardjones.\+h}}
-\subsubsection[{\texorpdfstring{copycode\+\_\+int()}{copycode_int()}}]{\setlength{\rightskip}{0pt plus 5cm}void copycode\+\_\+int (
-\begin{DoxyParamCaption}
-{}
-\end{DoxyParamCaption}
-)}\hypertarget{int__lennardjones_8h_aec48559ed6cadd5a8f8ba12c6a2046a2}{}\label{int__lennardjones_8h_aec48559ed6cadd5a8f8ba12c6a2046a2}
-\index{int\+\_\+lennardjones.\+h@{int\+\_\+lennardjones.\+h}!intforce@{intforce}}
-\index{intforce@{intforce}!int\+\_\+lennardjones.\+h@{int\+\_\+lennardjones.\+h}}
-\subsubsection[{\texorpdfstring{intforce(double disti, double dist)}{intforce(double disti, double dist)}}]{\setlength{\rightskip}{0pt plus 5cm}double intforce (
-\begin{DoxyParamCaption}
-\item[{double}]{disti, }
-\item[{double}]{dist}
-\end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{int__lennardjones_8h_ae800b5e26e1969332c7f94d54cbe6207}{}\label{int__lennardjones_8h_ae800b5e26e1969332c7f94d54cbe6207}
-\index{int\+\_\+lennardjones.\+h@{int\+\_\+lennardjones.\+h}!intforce\+\_\+\+LJ@{intforce\+\_\+\+LJ}}
-\index{intforce\+\_\+\+LJ@{intforce\+\_\+\+LJ}!int\+\_\+lennardjones.\+h@{int\+\_\+lennardjones.\+h}}
-\subsubsection[{\texorpdfstring{intforce\+\_\+\+L\+J(double disti, double dist)}{intforce_LJ(double disti, double dist)}}]{\setlength{\rightskip}{0pt plus 5cm}double intforce\+\_\+\+LJ (
-\begin{DoxyParamCaption}
-\item[{double}]{dist1d, }
-\item[{double}]{dist2d}
-\end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{int__lennardjones_8h_acbdc5150d4ea9c223d66ebedb6ecc3d9}{}\label{int__lennardjones_8h_acbdc5150d4ea9c223d66ebedb6ecc3d9}
-function for the calculation of the intra-\/particle force arising from a Lennard-\/\+Jones Potential. The potential is described by two parameters, position of minimum L\+J\+\_\+\+M\+IN and depth of minimum L\+J\+\_\+\+E\+PS. The potential is truncated at I\+N\+T\+\_\+\+C\+U\+T\+O\+FF. \index{int\+\_\+lennardjones.\+h@{int\+\_\+lennardjones.\+h}!prfx\+\_\+int@{prfx\+\_\+int}}
+\subsubsection{\texorpdfstring{copycode\+\_\+int()}{copycode\_int()}}
+{\footnotesize\ttfamily void copycode\+\_\+int (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{int__lennardjones_8h_a5de59c8ba60cc917512965c64fd87a77}\label{int__lennardjones_8h_a5de59c8ba60cc917512965c64fd87a77}} 
+\index{int\+\_\+lennardjones.\+h@{int\+\_\+lennardjones.\+h}!prfx\+\_\+int@{prfx\+\_\+int}}
 \index{prfx\+\_\+int@{prfx\+\_\+int}!int\+\_\+lennardjones.\+h@{int\+\_\+lennardjones.\+h}}
-\subsubsection[{\texorpdfstring{prfx\+\_\+int()}{prfx_int()}}]{\setlength{\rightskip}{0pt plus 5cm}char$\ast$ prfx\+\_\+int (
-\begin{DoxyParamCaption}
-{}
-\end{DoxyParamCaption}
-)}\hypertarget{int__lennardjones_8h_a5de59c8ba60cc917512965c64fd87a77}{}\label{int__lennardjones_8h_a5de59c8ba60cc917512965c64fd87a77}
+\subsubsection{\texorpdfstring{prfx\+\_\+int()}{prfx\_int()}}
+{\footnotesize\ttfamily char$\ast$ prfx\+\_\+int (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{int__lennardjones_8h_ace5450301db6e880a8f6ae080107f799}\label{int__lennardjones_8h_ace5450301db6e880a8f6ae080107f799}} 
 \index{int\+\_\+lennardjones.\+h@{int\+\_\+lennardjones.\+h}!specs\+\_\+int@{specs\+\_\+int}}
 \index{specs\+\_\+int@{specs\+\_\+int}!int\+\_\+lennardjones.\+h@{int\+\_\+lennardjones.\+h}}
-\subsubsection[{\texorpdfstring{specs\+\_\+int(double f\+\_\+cut)}{specs_int(double f_cut)}}]{\setlength{\rightskip}{0pt plus 5cm}void specs\+\_\+int (
-\begin{DoxyParamCaption}
-\item[{double}]{f\+\_\+cut}
-\end{DoxyParamCaption}
-)}\hypertarget{int__lennardjones_8h_ace5450301db6e880a8f6ae080107f799}{}\label{int__lennardjones_8h_ace5450301db6e880a8f6ae080107f799}
+\subsubsection{\texorpdfstring{specs\+\_\+int()}{specs\_int()}}
+{\footnotesize\ttfamily void specs\+\_\+int (\begin{DoxyParamCaption}\item[{double}]{f\+\_\+cut }\end{DoxyParamCaption})}
 
+function for the calculation of the intra-\/particle force arising from a Lennard-\/\+Jones Potential. The potential is described by two parameters, position of minimum L\+J\+\_\+\+M\+IN and depth of minimum L\+J\+\_\+\+E\+PS. The potential is truncated at I\+N\+T\+\_\+\+C\+U\+T\+O\+FF. 
 
 \subsection{Variable Documentation}
+\mbox{\Hypertarget{int__lennardjones_8h_ab25837e3f07407587bd3c8c278af97a9}\label{int__lennardjones_8h_ab25837e3f07407587bd3c8c278af97a9}} 
 \index{int\+\_\+lennardjones.\+h@{int\+\_\+lennardjones.\+h}!fintx@{fintx}}
 \index{fintx@{fintx}!int\+\_\+lennardjones.\+h@{int\+\_\+lennardjones.\+h}}
-\subsubsection[{\texorpdfstring{fintx}{fintx}}]{\setlength{\rightskip}{0pt plus 5cm}double fintx}\hypertarget{int__lennardjones_8h_ab25837e3f07407587bd3c8c278af97a9}{}\label{int__lennardjones_8h_ab25837e3f07407587bd3c8c278af97a9}
+\subsubsection{\texorpdfstring{fintx}{fintx}}
+{\footnotesize\ttfamily double fintx}
+
+\mbox{\Hypertarget{int__lennardjones_8h_aeb43073b861cca4de6868761816745c3}\label{int__lennardjones_8h_aeb43073b861cca4de6868761816745c3}} 
 \index{int\+\_\+lennardjones.\+h@{int\+\_\+lennardjones.\+h}!fintxpair@{fintxpair}}
 \index{fintxpair@{fintxpair}!int\+\_\+lennardjones.\+h@{int\+\_\+lennardjones.\+h}}
-\subsubsection[{\texorpdfstring{fintxpair}{fintxpair}}]{\setlength{\rightskip}{0pt plus 5cm}double fintxpair}\hypertarget{int__lennardjones_8h_aeb43073b861cca4de6868761816745c3}{}\label{int__lennardjones_8h_aeb43073b861cca4de6868761816745c3}
+\subsubsection{\texorpdfstring{fintxpair}{fintxpair}}
+{\footnotesize\ttfamily double fintxpair}
+
+\mbox{\Hypertarget{int__lennardjones_8h_a0d88eaf8a8ecf4a72e848102e3761ca5}\label{int__lennardjones_8h_a0d88eaf8a8ecf4a72e848102e3761ca5}} 
 \index{int\+\_\+lennardjones.\+h@{int\+\_\+lennardjones.\+h}!finty@{finty}}
 \index{finty@{finty}!int\+\_\+lennardjones.\+h@{int\+\_\+lennardjones.\+h}}
-\subsubsection[{\texorpdfstring{finty}{finty}}]{\setlength{\rightskip}{0pt plus 5cm}double finty}\hypertarget{int__lennardjones_8h_a0d88eaf8a8ecf4a72e848102e3761ca5}{}\label{int__lennardjones_8h_a0d88eaf8a8ecf4a72e848102e3761ca5}
+\subsubsection{\texorpdfstring{finty}{finty}}
+{\footnotesize\ttfamily double finty}
+
+\mbox{\Hypertarget{int__lennardjones_8h_a1d125840e6a044606d37ddaf9cf12b48}\label{int__lennardjones_8h_a1d125840e6a044606d37ddaf9cf12b48}} 
 \index{int\+\_\+lennardjones.\+h@{int\+\_\+lennardjones.\+h}!fintypair@{fintypair}}
 \index{fintypair@{fintypair}!int\+\_\+lennardjones.\+h@{int\+\_\+lennardjones.\+h}}
-\subsubsection[{\texorpdfstring{fintypair}{fintypair}}]{\setlength{\rightskip}{0pt plus 5cm}double fintypair}\hypertarget{int__lennardjones_8h_a1d125840e6a044606d37ddaf9cf12b48}{}\label{int__lennardjones_8h_a1d125840e6a044606d37ddaf9cf12b48}
+\subsubsection{\texorpdfstring{fintypair}{fintypair}}
+{\footnotesize\ttfamily double fintypair}
+

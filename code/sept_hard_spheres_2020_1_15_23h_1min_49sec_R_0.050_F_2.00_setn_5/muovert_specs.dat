@@ -1,0 +1,66 @@
+
+
+
+Code can be compiled with:
+
+mpicc -Wall muovertintparallel.c par_sim.c conf_NAME.c int_NAME.c -lgsl -lgslcblas -o muovertintparallel
+
+'masterinteract.py' can be used to create several run-files and start the jobs
+
+
+Simulation Parameters:
+
+# of particles: 200
+# of particles per set: 5
+
+Accuracy of mobility: 1.000000
+Accuracy of Deff: 10000000.000000
+# of accuracy checks: 20
+
+# of time steps for eq n=2.00e+05
+time step size dt=2.5000e-06
+number of steps between two tests: 4.0e+03
+minimum number of simulation steps: 2.80e+05
+time until checks start: 0.500
+minimum simulation time: 0.700
+number of steps between two readouts: 4.0e+03
+time between two accuracy checks: 0.010000
+time between readout of two points: 0.010000
+
+# of parallelized tasks: 1.0
+applied force F: 2.00
+initwidth: 1.00
+
+
+
+Parameters of Confinement 'Septated Channel':
+
+Channel Length L: 1.0
+Bottleneck Half-Width B: 0.10
+Amplitude AMP: 1.00
+Channel's max. Half-Width: 1.10
+Particle Radius: 0.05
+Bottrad B/R: 2.000
+
+Binwidth 1d x-Histogram: 0.020000
+Binwidht 1d y-Histogram: 0.044000
+Binwidth 2d Histogram: 0.050000
+
+
+
+Parameters of hard-sphere particle-particle interaction:
+
+Radius of Particles' Hardcore: 0.05
+Potential cut-off length: 0
+Value of int-force at cut-off length: 0.00000
+
+
+
+xcountercheck: 200
+ycountercheck: 188
+twodcountercheck: 193
+
+
+Sitcoeff.mulationtime: 0 days 0hours 0min 6sec
+Total computing time of all threads: 0 days 0hours 0min 6sec
+

@@ -1,0 +1,9 @@
+#!/bin/bash
+##$ -N sn_20_20
+##$ -o $JOB_NAME-$JOB_ID.log
+##$ -j y
+#$ -cwd
+#$ -V
+# echo 'Running on' `hostname`
+mpirun -n  1 main_brownconf 20.000 20 1
+scp your_output_files.dat  nodo00:$SGE_O_WORKDIR

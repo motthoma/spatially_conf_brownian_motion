@@ -632,7 +632,8 @@ int main (int argc, char **argv){
   double binx;
   double biny;
   double bin2d; 
-  
+   
+
   binx = 0.02*L;
   biny = 2.0*binx*MAX_HALF_WIDTH/L;
   bin2d = 0.05; 

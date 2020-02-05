@@ -13,11 +13,12 @@ extern int N, numbtest, simlong;
 extern unsigned int setnumb, nbin; 
 extern double n, initwidth, accur, deffaccur, Fswitch, F; 
 
-struct sim_parameter{
+typedef struct{
+	int N_test;
 
+}T_SimParams;
 
-} sim_params;
-
+extern T_SimParams sim_params;
 
 double time_step(int setnumb, double min_width, double r_core, double force);
 

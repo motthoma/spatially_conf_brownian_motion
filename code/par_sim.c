@@ -16,6 +16,7 @@ double Fswitch = -3e4;
 double initwidth = 1;
 double F = 1;
 
+
 double time_step(int setnumb, double min_width, double r_core, double force){
 double tstepscale, tstep;
 

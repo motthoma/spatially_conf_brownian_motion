@@ -52,9 +52,7 @@ struct TransportCoeffs{
  */ 
 void calc_transpcoeffs(int numtasks,
 		       int setn_per_task, 
-		       int setnumb,
 		       double t,
-		       double F, 
 		       long int **posshift,
 		       long int **negshift,
 		       double **posx,
@@ -69,7 +67,7 @@ void calc_transpcoeffs(int numtasks,
   int j;
   int kset;
   for(j = 0; j < setn_per_task; j++){
-	  for(kset = 0; kset < setnumb; kset++){
+	  for(kset = 0; kset < SimParams.setnumb; kset++){
 		 totalshift = posshift[j][kset] - negshift[j][kset];
 
 		 /*calculate absolute position of individual particle*/
@@ -82,18 +80,18 @@ void calc_transpcoeffs(int numtasks,
   }
   
 
-  tcoeff.meanx = xges/N*numtasks; 
-  tcoeff.meanxsqu = xgessquare/N*numtasks; 
+  tcoeff.meanx = xges/SimParams.N*numtasks; 
+  tcoeff.meanxsqu = xgessquare/SimParams.N*numtasks; 
   tcoeff.msd = tcoeff.meanxsqu - tcoeff.meanx*tcoeff.meanx;
   tcoeff.meanspd = tcoeff.meanx/t;  
-  tcoeff.mu = tcoeff.meanspd/F;
+  tcoeff.mu = tcoeff.meanspd/SimParams.F;
   tcoeff.deff = tcoeff.msd/(2*t*BOTTRAD); 
-  tcoeff.meanxqub = xgesqub/N*numtasks;
+  tcoeff.meanxqub = xgesqub/SimParams.N*numtasks;
   tcoeff.mthree = tcoeff.meanxqub - 3*tcoeff.meanx*tcoeff.meanxsqu + 2*powl(tcoeff.meanx, 3);
 }
 
 
-char* makedirectory(double a, int b, char* c, char *d){             
+char* makedirectory(char *confprfx, char *intprfx){             
 /**
  * creates directory, where code and data is transferred to
  * moves to this directory as working directory
@@ -105,7 +103,7 @@ char* makedirectory(double a, int b, char* c, char *d){
 
   char *e = malloc(100*sizeof(char));
 
-  sprintf(e, "%s_%s_%d_%d_%d_%dh_%dmin_%dsec_R_%.3lf_F_%.2lf_setn_%d", c, d, tmnow->tm_year + 1900, tmnow->tm_mon+1, tmnow->tm_mday, tmnow->tm_hour,tmnow->tm_min,tmnow->tm_sec, R_CONF, a, b);
+  sprintf(e, "%s_%s_%d_%d_%d_%dh_%dmin_%dsec_R_%.3lf_F_%.2lf_setn_%d", confprfx, intprfx, tmnow->tm_year + 1900, tmnow->tm_mon+1, tmnow->tm_mday, tmnow->tm_hour,tmnow->tm_min,tmnow->tm_sec, R_CONF, SimParams.F, SimParams.setnumb);
   /**
    * 0700 is modus for determining access rights to dir
    */
@@ -255,7 +253,7 @@ void print_resallthreads(long double msdall,
   fclose(outpmom);
 }
 
-void print_muoverf(double F,  int setnumb, int numtasks, double muall, double deffall, char *namefile)
+void print_muoverf(double F,  int numtasks, double muall, double deffall, char *namefile)
 {
 /**
  * prints results to file outside of working directory
@@ -264,10 +262,10 @@ void print_muoverf(double F,  int setnumb, int numtasks, double muall, double de
   char fnamemu[60];
 
   if(F >= 0){ 
-  	sprintf(fnamemu, "../muoverfpos_R_%.2lf_setnumb_%d.dat", R_CONF, setnumb);
+  	sprintf(fnamemu, "../muoverfpos_R_%.2lf_setnumb_%d.dat", R_CONF, SimParams.setnumb);
   }
   else{
-  	sprintf(fnamemu, "../muoverfneg_R_%.2lf_setnumb_%d.dat", R_CONF, setnumb);
+  	sprintf(fnamemu, "../muoverfneg_R_%.2lf_setnumb_%d.dat", R_CONF, SimParams.setnumb);
   }
 
   FILE *outmu;
@@ -330,7 +328,7 @@ int histogramm_mpi_reduce(int m,
                   countercheck += counterall;
 		   
 		  outp = fopen(fname, "a");
-		  fprintf(outp,"%f\t %f\t %d\t %f\n", i*bin - backshift, (i+1)*bin - backshift, counterall, counterall/(N*bin));
+		  fprintf(outp,"%f\t %f\t %d\t %f\n", i*bin - backshift, (i+1)*bin - backshift, counterall, counterall/(SimParams.N*bin));
 		  fclose(outp);      
 	  }
   }
@@ -395,7 +393,7 @@ int histogramm2d_mpi_reduce(int m,
 			  twodcountercheck += twodcounterall;
 
 			  outp = fopen(fname, "a");
-			  fprintf (outp, "%f\t%f\t%f\t%f\t\t%d\t\t%f\n", hx*bin2d, (hx+1)*bin2d, hy*bin2d - MAX_HALF_WIDTH, (hy+1)*bin2d - MAX_HALF_WIDTH, twodcounterall, twodcounterall/(N*bin2d*bin2d));
+			  fprintf (outp, "%f\t%f\t%f\t%f\t\t%d\t\t%f\n", hx*bin2d, (hx+1)*bin2d, hy*bin2d - MAX_HALF_WIDTH, (hy+1)*bin2d - MAX_HALF_WIDTH, twodcounterall, twodcounterall/(SimParams.N*bin2d*bin2d));
 			  fclose(outp);
 		  }
 	  }
@@ -404,11 +402,9 @@ int histogramm2d_mpi_reduce(int m,
 }
   
 void init_particle_pos(int setn_per_task, 
-                       int setnumb, 
                        double **positionx, 
                        double **positiony, 
                        double **xstart, 
-                       double initwidth, 
                        gsl_rng *r)
 {
   int j;
@@ -424,10 +420,10 @@ void init_particle_pos(int setn_per_task,
 
   PosValidInit = false;
   for(j = 0; j < setn_per_task; j++){
-	  for(kset = 0; kset < setnumb; kset++){
+	  for(kset = 0; kset < SimParams.setnumb; kset++){
 		  do{
 			  positionx[j][kset] = gsl_rng_uniform(r)*L;
-			  positiony[j][kset] = (2*gsl_rng_uniform(r) - 1)*initwidth;
+			  positiony[j][kset] = (2*gsl_rng_uniform(r) - 1)*SimParams.initwidth;
 			    
 			  xo = positionx[j][kset];
 			  yo = positiony[j][kset];
@@ -454,7 +450,6 @@ void init_particle_pos(int setn_per_task,
 }
 
 void init_particle_int(int setn_per_task, 
-                       int setnumb, 
                        double **positionx, 
                        double **positiony,
                        double **fintxarray,
@@ -473,10 +468,10 @@ void init_particle_int(int setn_per_task,
   double finty;
                        
   for (j = 0; j < setn_per_task; j++){  
-          for(kset = 0; kset < setnumb; kset++){
+          for(kset = 0; kset < SimParams.setnumb; kset++){
 	          fintx = 0;
 		  finty = 0;
-                  for(ktest = 0; ktest < setnumb; ktest++){
+                  for(ktest = 0; ktest < SimParams.setnumb; ktest++){
                           if(kset != ktest){
                                   distx = positionx[j][kset] - positionx[j][ktest];
                                   disty = positiony[j][kset] - positiony[j][ktest];
@@ -508,12 +503,12 @@ void print_hist_countercheck(int xcheck, int ycheck, int twodcheck, char *fname_
 	fprintf(outp, "\n\nxcountercheck: %d\nycountercheck: %d\ntwodcountercheck: %d\n\n", xcheck, ycheck, twodcheck);
 	fclose(outp);
 
-	if((xcheck != N) || (ycheck != N) || (twodcheck != N)){
+	if((xcheck != SimParams.N) || (ycheck != SimParams.N) || (twodcheck != SimParams.N)){
 	   printf("Error in Histogrammcounter!\n");
 	}
 }
 
-double reset_pos_time(int setn_per_task, int setnumb, long int **posshift, long int **negshift) 
+double reset_pos_time(int setn_per_task, long int **posshift, long int **negshift) 
 {
 /**
  * Function to reset the sitcoeff.mulated system time t and the positions
@@ -523,7 +518,7 @@ double reset_pos_time(int setn_per_task, int setnumb, long int **posshift, long 
 	int i, j;
 	double t = 0;
 	for(i = 0; i < setn_per_task; i++){
-	  for(j = 0; j < setnumb; j++){
+	  for(j = 0; j < SimParams.setnumb; j++){
 		 posshift[i][j] = 0; 
 		 negshift[i][j] = 0;
 
@@ -589,7 +584,7 @@ int update_equcounter(double tran_quant, double tran_quanto, double accurarcy, i
 	  equcounter++;
 	}
 
-	if(fabs(tran_quant - tran_quanto) >= 2*accurarcy){
+	if(fabs(tran_quant - tran_quanto) >= accurarcy){
 	  equcounter--;
 	  if(equcounter < 0) equcounter = 0;
 	}
@@ -611,7 +606,7 @@ int main (int argc, char **argv){
   double muabbo, deffabbo;
   double t, dt, xtest, ytest;
   unsigned int j, xcountercheck, ycountercheck, twodcountercheck;
-  long long i, testab, plotpoints, eq_stepnumbs;
+  long long i, testab, plotpoints, eq_stepnumb;
   long double  meanxall, meanxsquall, msdall, mthreeall;
   long double  sqrt_flucts, f_dt;
   int abb, abbdeff, ktest, kset, shiftind; 
@@ -632,7 +627,8 @@ int main (int argc, char **argv){
   double binx;
   double biny;
   double bin2d; 
-   
+  
+  init_simparams();
 
   binx = 0.02*L;
   biny = 2.0*binx*MAX_HALF_WIDTH/L;
@@ -643,15 +639,8 @@ int main (int argc, char **argv){
    */ 
   printf("\nargc: %d\n\n", argc);
   if(argc > 3){
-	F = atof(argv[1]);
-	setnumb = atof(argv[2]);
-/*	mpi_ind = atof(argv[3]);
-        if(mpi_ind = 1){
-		MPI_ON = true;
-        }
-	else{
-		MPI_ON = false;
-	}*/
+	SimParams.F = atof(argv[1]);
+	SimParams.setnumb = atof(argv[2]);
   }
   else{
  	return -1;
@@ -663,7 +652,7 @@ int main (int argc, char **argv){
    */
   conprfx = prfx_conf();
   intprfx = prfx_int();
-  namefile = makedirectory(F, setnumb, conprfx, intprfx);
+  namefile = makedirectory(conprfx, intprfx);
 
 
   /*
@@ -676,29 +665,30 @@ int main (int argc, char **argv){
   double **fintyarray;
   double **xstart;
 
-  positionx = calloc(N/setnumb, sizeof(double));
-  positiony = calloc(N/setnumb, sizeof(double));
-  fintxarray = calloc(N/setnumb, sizeof(double));
-  fintyarray = calloc(N/setnumb, sizeof(double));
-  xstart = calloc(N/setnumb, sizeof(double));
-  for(i = 0; i < N/setnumb; i++){
-  	positionx[i] = calloc(setnumb, sizeof(double));
-  	positiony[i] = calloc(setnumb, sizeof(double));
- 	fintxarray[i] = calloc(setnumb, sizeof(double));
-  	fintyarray[i] = calloc(setnumb, sizeof(double));
-  	xstart[i] = calloc(setnumb, sizeof(double));
+  positionx = calloc(SimParams.N/SimParams.setnumb, sizeof(double));
+  positiony = calloc(SimParams.N/SimParams.setnumb, sizeof(double));
+  fintxarray = calloc(SimParams.N/SimParams.setnumb, sizeof(double));
+  fintyarray = calloc(SimParams.N/SimParams.setnumb, sizeof(double));
+  xstart = calloc(SimParams.N/SimParams.setnumb, sizeof(double));
+  for(i = 0; i < SimParams.N/SimParams.setnumb; i++){
+  	positionx[i] = calloc(SimParams.setnumb, sizeof(double));
+  	positiony[i] = calloc(SimParams.setnumb, sizeof(double));
+ 	fintxarray[i] = calloc(SimParams.setnumb, sizeof(double));
+  	fintyarray[i] = calloc(SimParams.setnumb, sizeof(double));
+  	xstart[i] = calloc(SimParams.setnumb, sizeof(double));
   }
   printf("arrays for positions and interactions are initialized!\n"); 
 
 
   long int **negshift;
   long int **posshift;
-  negshift = calloc(N/setnumb, sizeof(long int));
-  posshift = calloc(N/setnumb, sizeof(long int));
-  for(i = 0; i < N/setnumb; i++){
-  	negshift[i] = calloc(setnumb, sizeof(long int));
-  	posshift[i] = calloc(setnumb, sizeof(long int));
+  negshift = calloc(SimParams.N/SimParams.setnumb, sizeof(long int));
+  posshift = calloc(SimParams.N/SimParams.setnumb, sizeof(long int));
+  for(i = 0; i < SimParams.N/SimParams.setnumb; i++){
+  	negshift[i] = calloc(SimParams.setnumb, sizeof(long int));
+  	posshift[i] = calloc(SimParams.setnumb, sizeof(long int));
   }
+  printf("arrays for negshift and posshift are initialized!\n"); 
   
 
   char fname [60];
@@ -717,21 +707,22 @@ int main (int argc, char **argv){
   /**
    * calculate number of samples of interacting particles per task
    */ 
-  setn_per_task = (int) N/(setnumb*numtasks);
+  setn_per_task = (int) SimParams.N/(SimParams.setnumb*numtasks);
 
-  dt = time_step(setnumb, B, R_INT, F); 
+  dt = time_step(B, R_INT, SimParams.F); 
   sqrt_flucts = sqrt(2*BOTTRAD*dt);
-  f_dt = F*dt;
+  f_dt = SimParams.F*dt;
 
-  if(fabs(F) <= 0.1) n = simlong*n;
+  if(fabs(SimParams.F) <= 0.1) SimParams.stepnumb = SimParams.simlong*SimParams.stepnumb;
 
-  if(F <= -2*pow(10,4)) n = 0.5*simlong*n;
+  if(SimParams.F <= -2*pow(10,4)) SimParams.stepnumb = 0.5*SimParams.simlong*SimParams.stepnumb;
 
 
-  plotpoints = (long long) n/50; 
+  plotpoints = (long long) SimParams.stepnumb/50; 
   testab = plotpoints*1;
-  eq_stepnumbs = 30*testab;
+  eq_stepnumb = 30*testab;
   
+  printf("SimParams.stepnumb: %lf, SimParams.N: %d, SimParams.numbtest: %d\n", SimParams.stepnumb, SimParams.N, SimParams.numbtest);
   if(testab % plotpoints != 0){ 
 	  printf("testab modulo plotpoints \n");
 	  return -1;
@@ -740,19 +731,19 @@ int main (int argc, char **argv){
   
   if(taskid == MASTER){
 	    
-	  sprintf(fname, "muovert_F_%.3lf.dat", F);
+	  sprintf(fname, "muovert_F_%.3lf.dat", SimParams.F);
 	  FILE *outp;
 	  outp = fopen(fname ,"w");
 	  fprintf(outp, "#time\t tcoeff.meanx\t tcoeff.mu\t Meansqdist\t  tcoeff.deff  \t abb\t abbdeff\n");
 	  fclose(outp);
 	  
-	  sprintf(fnamemom, "momsovert_F_%.3lf.dat", F);
+	  sprintf(fnamemom, "momsovert_F_%.3lf.dat", SimParams.F);
 	  FILE *outpmom;
 	  outpmom=fopen(fnamemom ,"w");
 	  fprintf(outpmom, "#time\t tcoeff.meanspd\t  <x^3>-3<x^2><x>+2<x>^3\n");
 	  fclose(outpmom);
 
-	  if(N % (numtasks*setnumb) != 0){ 
+	  if(SimParams.N % (numtasks*SimParams.setnumb) != 0){ 
 		  printf("N modulo numtasks*setnumb\n");
 		  return -1;
 	  }
@@ -761,7 +752,7 @@ int main (int argc, char **argv){
 	  copycode_par(); 
 	  copycode_conf();
 	  copycode_int();
-	  specs_args = par(n, dt, numtasks, testab, plotpoints); 
+	  specs_args = par(dt, numtasks, testab, plotpoints); 
 	  
           sprintf(fnamespecs, "muovert_specs.dat");
 	  specs_basic(specs_args, fnamespecs);
@@ -789,12 +780,12 @@ int main (int argc, char **argv){
    * Initialize particle positions 
    */
   
-  init_particle_pos(setn_per_task, setnumb, positionx, positiony, xstart, initwidth, r);
+  init_particle_pos(setn_per_task, positionx, positiony, xstart, r);
 
   printf("positions initialized!\n"); 
 
   /* Initialize inter-particle forces */
-  init_particle_int(setn_per_task, setnumb, positionx, positiony, fintxarray, fintyarray);
+  init_particle_int(setn_per_task, positionx, positiony, fintxarray, fintyarray);
 
   printf("\ntask ID:\t %d -> particle positions and forces fixed\n", taskid);
   //printf("\nepsilon:\t %lf\n", EPS_L);
@@ -813,7 +804,7 @@ int main (int argc, char **argv){
 	  i++;
 	  /* Loop over trajectories */
 	  for (j = 0; j < setn_per_task; j++){	
-		  for(kset = 0; kset < setnumb; kset++){
+		  for(kset = 0; kset < SimParams.setnumb; kset++){
 
 
 			  xo = positionx[j][kset];
@@ -865,11 +856,11 @@ int main (int argc, char **argv){
 						   x -= L;
 					  }
 					  /*sitcoeff.mulate particle-particle interaction*/ 
- 					  if (setnumb > 1){ 
+ 					  if (SimParams.setnumb > 1){ 
 						    ktest = 0;
 						    fintx = 0;
 						    finty = 0;	
-						    while((PosValid == true) && (ktest < setnumb)){
+						    while((PosValid == true) && (ktest < SimParams.setnumb)){
 							 
 							  xtest = positionx[j][ktest]; 
 							  ytest = positiony[j][ktest];
@@ -923,7 +914,7 @@ int main (int argc, char **argv){
 	  }
 	
        	
-	  if((i > n-testab) && (i <= n-testab+1)){ 
+	  if((i > SimParams.stepnumb-testab) && (i <= SimParams.stepnumb-testab+1)){ 
 		  muabbo = tcoeff.mu;
 		  deffabbo = tcoeff.deff;
 	  }
@@ -932,14 +923,13 @@ int main (int argc, char **argv){
            * Test progress of equilibration and plot results at certain 
            * sitcoeff.mulation steps i
            */ 	
-	  if(((i > n) && (i%testab == 0)) || (i%plotpoints == 0)){ 
+	  if(((i > SimParams.stepnumb) && (i%testab == 0)) || (i%plotpoints == 0)){ 
 
           /*call function for calculation of transport coefficients 
 	   * such as mobility or mean-squared displacement */ 
           calc_transpcoeffs(numtasks,
 	       	            setn_per_task, 
-		            setnumb,
-		            t, F, 
+		            t, 
 		            posshift,
 		            negshift,
 		            positionx,
@@ -950,16 +940,16 @@ int main (int argc, char **argv){
                    * Update of the equilibration counter that are used to monitore the
                    * equilibration of the mobility and diffusivity
                    */  
-		  if((i > n) && (i % testab == 0)){ 
- 			  abb = update_equcounter(tcoeff.mu, muabbo, accur, abb);
+		  if((i > SimParams.stepnumb) && (i % testab == 0)){ 
+ 			  abb = update_equcounter(tcoeff.mu, muabbo, SimParams.accur, abb);
 
 			  if(tcoeff.deff > 1.0){  
 				  
- 			  	  abbdeff = update_equcounter(tcoeff.deff, deffabbo, deffaccur*deffabbo, abbdeff);
+ 			  	  abbdeff = update_equcounter(tcoeff.deff, deffabbo, SimParams.deffaccur*deffabbo, abbdeff);
 			  }
 
 			  else{ 
- 			  	  abbdeff = update_equcounter(tcoeff.deff, deffabbo, deffaccur, abbdeff);
+ 			  	  abbdeff = update_equcounter(tcoeff.deff, deffabbo, SimParams.deffaccur, abbdeff);
 			  }		
 			  muabbo = tcoeff.mu;    
 			  deffabbo = tcoeff.deff;
@@ -980,14 +970,14 @@ int main (int argc, char **argv){
 	  /*
            *  Reset position and time information to truncate transient effects from small times 
            */
-	  if(i == eq_stepnumbs){
-		  t = reset_pos_time(setn_per_task, setnumb, posshift, negshift); 
+	  if(i == eq_stepnumb){
+		  t = reset_pos_time(setn_per_task, posshift, negshift); 
 	  } 
  
   /* 
    * Closes while loop over sitcoeff.mulation steps if criteria for equilibration are fulfilled
    */
-  }while((abb < numbtest) || (abbdeff < numbtest));
+  }while((abb < SimParams.numbtest) || (abbdeff < SimParams.numbtest));
  
   /*Merge quantities that were calculated in separated MPI threads*/ 
 #  ifdef MPI_ON
@@ -1010,37 +1000,37 @@ int main (int argc, char **argv){
   
   print_runtime_threads(prgstart, numtasks, taskid);
   
-  sprintf(fnamex, "meanx_Histogram_F_%.3lf.dat", F);
+  sprintf(fnamex, "meanx_Histogram_F_%.3lf.dat", SimParams.F);
   xcountercheck = histogramm_mpi_reduce(setn_per_task, 
-                                        setnumb, 
+                                        SimParams.setnumb, 
 					0, 
 					L, 
                                         binx, positionx, 
                                         fnamex, taskid);
 
-  sprintf(fnamey, "meany_Histogram_F_%.3lf.dat", F);
+  sprintf(fnamey, "meany_Histogram_F_%.3lf.dat", SimParams.F);
   ycountercheck = histogramm_mpi_reduce(setn_per_task, 
-                                        setnumb, 
+                                        SimParams.setnumb, 
                                         MAX_HALF_WIDTH, 
                                         2*MAX_HALF_WIDTH, 
                                         biny, positiony, 
                                         fnamey, 
                                         taskid);
 
-  sprintf(fname2d, "meanpos_Histogram2d_F_%.3lf.dat", F);
+  sprintf(fname2d, "meanpos_Histogram2d_F_%.3lf.dat", SimParams.F);
   twodcountercheck =  histogramm2d_mpi_reduce(setn_per_task, 
-                                              setnumb, bin2d, 
+                                              SimParams.setnumb, bin2d, 
                                               positionx, positiony, 
                                               fname2d, taskid);
 
 
   if(taskid == MASTER){
- 	   print_positions(setn_per_task, setnumb, positionx, positiony);
+ 	   print_positions(setn_per_task, SimParams.setnumb, positionx, positiony);
            print_hist_countercheck(xcountercheck, ycountercheck, twodcountercheck, fnamespecs);
            print_resallthreads(msdall, meanspdall, muall, deffall, meanxall, meanxsquall, mthreeall, numtasks, &fname[0], &fnamemom[0]);
-           print_muoverf(F, setnumb, numtasks, muall, deffall, namefile);
+           print_muoverf(SimParams.F, numtasks, muall, deffall, namefile);
             
-           delerrorfiles(F,setnumb);           
+           delerrorfiles(SimParams.F,SimParams.setnumb);           
             
 	   print_runtime(prgstart, numtasks);
            

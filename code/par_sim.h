@@ -9,26 +9,35 @@
 #define BOTTRAD ((RADF == 0 ? 1.0 : (1.0/RADF)))
 
 static const double L = 1.0;
-extern int N, numbtest, simlong;
-extern unsigned int setnumb, nbin; 
-extern double n, initwidth, accur, deffaccur, Fswitch, F; 
+extern unsigned int nbin; 
+//extern double initwidth, F; 
 
-typedef struct{
-	int N_test;
+
+typedef struct TAG_SimParams{
+	int N;
+	int setnumb;
+	int numbtest;
+	double stepnumb;
+	int simlong;
+	double accur;
+	double deffaccur;
+//	double Fswitch;
+	double initwidth;
+	double F;
 
 }T_SimParams;
 
-extern T_SimParams sim_params;
+extern T_SimParams SimParams;
 
-double time_step(int setnumb, double min_width, double r_core, double force);
+double time_step(double min_width, double r_core, double force);
 
 struct par_specs{
-	int N; 
-	int setn; 
-	double accur; 
-	double deffaccur; 
-	int numbtest; 
-	double n; 
+//	int N; 
+//	int setn; 
+//	double accur; 
+//	double deffaccur; 
+//	int numbtest; 
+//	double n; 
 	double dt; 
 	int testab; 
 	int min_n; 
@@ -42,8 +51,9 @@ struct par_specs{
 	double initwidth;
 };
 
-struct par_specs *par(double n, double dt, int numtasks, int testab, int plotpoints); 
+struct par_specs *par(double dt, int numtasks, int testab, int plotpoints); 
 
+extern void init_simparams(); 
 extern void specs_basic(struct par_specs *t_pars, char *fnamespec);
 extern void copycode_par();
 

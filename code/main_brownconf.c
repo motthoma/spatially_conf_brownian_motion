@@ -203,7 +203,7 @@ int timediff;
 
 	FILE *outptasks;
 	outptasks=fopen("taskres.dat", "a");
-	fprintf(outptasks, "\nTask %d:\ntcoeff.meanx = %.8Lf\t tcoeff.meanxsqu = %.8Lf\t tcoeff.meanspd = %.8lf\t tcoeff.mu = %.8lf\t tcoeff.deff = %.8lf\n", taskid, 
+	fprintf(outptasks, "\nTask %d:\nmeanx = %.8Lf\t meanxsqu = %.8Lf\t meanspd = %.8lf\t mu = %.8lf\t deff = %.8lf\n", taskid, 
 			    tcoeff.meanx, 
 			    tcoeff.meanxsqu,
 			    tcoeff.meanspd, 
@@ -606,7 +606,7 @@ int main (int argc, char **argv){
   double muabbo, deffabbo;
   double t, dt, xtest, ytest;
   unsigned int j, xcountercheck, ycountercheck, twodcountercheck;
-  long long i, testab, plotpoints, eq_stepnumb;
+  long long i;
   long double  meanxall, meanxsquall, msdall, mthreeall;
   long double  sqrt_flucts, f_dt;
   int abb, abbdeff, ktest, kset, shiftind; 
@@ -628,14 +628,8 @@ int main (int argc, char **argv){
   double biny;
   double bin2d; 
   
-  init_simparams();
-
-  binx = 0.02*L;
-  biny = 2.0*binx*MAX_HALF_WIDTH/L;
-  bin2d = 0.05; 
-
   /*
-   * read number of interacting particles per set from command line arguments
+   * read external force and number of interacting particles per set from command line arguments
    */ 
   printf("\nargc: %d\n\n", argc);
   if(argc > 3){
@@ -645,6 +639,18 @@ int main (int argc, char **argv){
   else{
  	return -1;
   }
+  
+  SimParams.time_step = time_step(B, R_INT); 
+  sqrt_flucts = sqrt(2*BOTTRAD*SimParams.time_step);
+  f_dt = SimParams.F*SimParams.time_step;
+
+  
+  init_simparams();
+
+  binx = 0.02*L;
+  biny = 2.0*binx*MAX_HALF_WIDTH/L;
+  bin2d = 0.05; 
+
 
   /*
    * get name of confinement and type of intra particle interaction
@@ -709,24 +715,6 @@ int main (int argc, char **argv){
    */ 
   setn_per_task = (int) SimParams.N/(SimParams.setnumb*numtasks);
 
-  dt = time_step(B, R_INT, SimParams.F); 
-  sqrt_flucts = sqrt(2*BOTTRAD*dt);
-  f_dt = SimParams.F*dt;
-
-  if(fabs(SimParams.F) <= 0.1) SimParams.stepnumb = SimParams.simlong*SimParams.stepnumb;
-
-  if(SimParams.F <= -2*pow(10,4)) SimParams.stepnumb = 0.5*SimParams.simlong*SimParams.stepnumb;
-
-
-  plotpoints = (long long) SimParams.stepnumb/50; 
-  testab = plotpoints*1;
-  eq_stepnumb = 30*testab;
-  
-  printf("SimParams.stepnumb: %lf, SimParams.N: %d, SimParams.numbtest: %d\n", SimParams.stepnumb, SimParams.N, SimParams.numbtest);
-  if(testab % plotpoints != 0){ 
-	  printf("testab modulo plotpoints \n");
-	  return -1;
-  }  
   
   
   if(taskid == MASTER){
@@ -752,7 +740,7 @@ int main (int argc, char **argv){
 	  copycode_par(); 
 	  copycode_conf();
 	  copycode_int();
-	  specs_args = par(dt, numtasks, testab, plotpoints); 
+	  specs_args = par(SimParams.time_step, numtasks); 
 	  
           sprintf(fnamespecs, "muovert_specs.dat");
 	  specs_basic(specs_args, fnamespecs);
@@ -792,7 +780,8 @@ int main (int argc, char **argv){
    
  
   /* Perform sitcoeff.mulation steps until equilibration is reached */
-  t = 0;	
+  t = 0;
+  dt = SimParams.time_step;  
   i = 1;      
   abb = 0;	
   abbdeff = 0;	
@@ -914,7 +903,7 @@ int main (int argc, char **argv){
 	  }
 	
        	
-	  if((i > SimParams.stepnumb-testab) && (i <= SimParams.stepnumb-testab+1)){ 
+	  if((i > SimParams.stepnumb - SimParams.testab) && (i <= SimParams.stepnumb - SimParams.testab+1)){ 
 		  muabbo = tcoeff.mu;
 		  deffabbo = tcoeff.deff;
 	  }
@@ -923,7 +912,7 @@ int main (int argc, char **argv){
            * Test progress of equilibration and plot results at certain 
            * sitcoeff.mulation steps i
            */ 	
-	  if(((i > SimParams.stepnumb) && (i%testab == 0)) || (i%plotpoints == 0)){ 
+	  if(((i > SimParams.stepnumb) && (i % SimParams.testab == 0)) || (i % SimParams.plotpoints == 0)){ 
 
           /*call function for calculation of transport coefficients 
 	   * such as mobility or mean-squared displacement */ 
@@ -940,7 +929,7 @@ int main (int argc, char **argv){
                    * Update of the equilibration counter that are used to monitore the
                    * equilibration of the mobility and diffusivity
                    */  
-		  if((i > SimParams.stepnumb) && (i % testab == 0)){ 
+		  if((i > SimParams.stepnumb) && (i % SimParams.testab == 0)){ 
  			  abb = update_equcounter(tcoeff.mu, muabbo, SimParams.accur, abb);
 
 			  if(tcoeff.deff > 1.0){  
@@ -957,7 +946,7 @@ int main (int argc, char **argv){
  		  /*
                    * Plot results to check progress of equilibration 
                    */
-		  if((i%plotpoints == 0) && (taskid == MASTER)){
+		  if((i%SimParams.plotpoints == 0) && (taskid == MASTER)){
 			  print_results_over_time(fname, 
 						  fnamemom, 
 						  t, 
@@ -970,7 +959,7 @@ int main (int argc, char **argv){
 	  /*
            *  Reset position and time information to truncate transient effects from small times 
            */
-	  if(i == eq_stepnumb){
+	  if(i == SimParams.eq_stepnumb){
 		  t = reset_pos_time(setn_per_task, posshift, negshift); 
 	  } 
  

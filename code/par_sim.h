@@ -24,12 +24,17 @@ typedef struct TAG_SimParams{
 //	double Fswitch;
 	double initwidth;
 	double F;
+	long long plotpoints;
+	long long testab;
+	long long eq_stepnumb;
+	double time_step;
+
 
 }T_SimParams;
 
 extern T_SimParams SimParams;
 
-double time_step(double min_width, double r_core, double force);
+double time_step(double lscale_conf, double lscale_part);
 
 struct par_specs{
 //	int N; 
@@ -39,7 +44,7 @@ struct par_specs{
 //	int numbtest; 
 //	double n; 
 	double dt; 
-	int testab; 
+//	int testab; 
 	int min_n; 
 	double eq_time; 
 	double tot_time; 
@@ -51,7 +56,7 @@ struct par_specs{
 	double initwidth;
 };
 
-struct par_specs *par(double dt, int numtasks, int testab, int plotpoints); 
+struct par_specs *par(double dt, int numtasks); 
 
 extern void init_simparams(); 
 extern void specs_basic(struct par_specs *t_pars, char *fnamespec);

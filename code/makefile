@@ -1,5 +1,5 @@
 CC = gcc
-CFLAGS =-c -w -Wall -Wextra -pedantic
+CFLAGS =-c -w -Wall -Wextra -pedantic -pg
 LDFLAGS = -lgsl -lgslcblas -lm
 EXECUTABLE = main_brownconf
 head_inc = dummy

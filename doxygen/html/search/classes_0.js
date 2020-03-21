@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['par_5fspecs',['par_specs',['../structpar__specs.html',1,'']]]
+  ['tag_5fsimparams',['TAG_SimParams',['../structTAG__SimParams.html',1,'']]],
+  ['transportcoeffs',['TransportCoeffs',['../structTransportCoeffs.html',1,'']]]
 ];

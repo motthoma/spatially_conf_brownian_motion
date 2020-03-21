@@ -74,51 +74,53 @@ $(function() {
 <div class="textblock"><code>#include &lt;stdio.h&gt;</code><br />
 <code>#include &lt;stdlib.h&gt;</code><br />
 <code>#include &lt;math.h&gt;</code><br />
+<code>#include &lt;stdbool.h&gt;</code><br />
 <code>#include &quot;<a class="el" href="par__sim_8h_source.html">par_sim.h</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for par_sim.c:</div>
 <div class="dyncontent">
 <div class="center"><img src="par__sim_8c__incl.png" border="0" usemap="#par__sim_8c" alt=""/></div>
 <map name="par__sim_8c" id="par__sim_8c">
-<area shape="rect" id="node5" href="par__sim_8h.html" title="par_sim.h" alt="" coords="266,80,345,107"/>
+<area shape="rect" id="node6" href="par__sim_8h.html" title="par_sim.h" alt="" coords="318,80,397,107"/>
 </map>
 </div>
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a5bd5b054482e6361b1776a8835b3bbef"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="par__sim_8c.html#a5bd5b054482e6361b1776a8835b3bbef">time_step</a> (int <a class="el" href="par__sim_8h.html#a5c6c57ee5f6beac81b3f311e9f4f2d6c">setnumb</a>, double min_width, double r_core, double force)</td></tr>
-<tr class="separator:a5bd5b054482e6361b1776a8835b3bbef"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a33f6ab6db626aa93a81141b4cb8789f1"><td class="memItemLeft" align="right" valign="top">struct <a class="el" href="structpar__specs.html">par_specs</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="par__sim_8c.html#a33f6ab6db626aa93a81141b4cb8789f1">par</a> (double <a class="el" href="par__sim_8h.html#abe63e991a7bf5d666068b15c9064428d">n</a>, double dt, int numtasks, int testab, int plotpoints)</td></tr>
-<tr class="separator:a33f6ab6db626aa93a81141b4cb8789f1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a48d0d316ac9714c4f2bdedc08614c7b5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="par__sim_8c.html#a48d0d316ac9714c4f2bdedc08614c7b5">specs_basic</a> (struct <a class="el" href="structpar__specs.html">par_specs</a> *t_pars, char *fnamespec)</td></tr>
-<tr class="separator:a48d0d316ac9714c4f2bdedc08614c7b5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad566efc087e7a80afab9615dafdb48ee"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="par__sim_8c.html#ad566efc087e7a80afab9615dafdb48ee">init_simparams</a> ()</td></tr>
+<tr class="separator:ad566efc087e7a80afab9615dafdb48ee"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af3821852a7a3b91c1632de95e0ad4f88"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="par__sim_8c.html#af3821852a7a3b91c1632de95e0ad4f88">check_parameter_consistency</a> ()</td></tr>
+<tr class="separator:af3821852a7a3b91c1632de95e0ad4f88"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a46f4333215f596e602b277577744b2dd"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="par__sim_8c.html#a46f4333215f596e602b277577744b2dd">time_step</a> (double lscale_conf, double lscale_part)</td></tr>
+<tr class="separator:a46f4333215f596e602b277577744b2dd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2735ca7f6ba0a98a20e7d4edf9a7cee7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="par__sim_8c.html#a2735ca7f6ba0a98a20e7d4edf9a7cee7">specs_basic</a> (char *fnamespec)</td></tr>
+<tr class="separator:a2735ca7f6ba0a98a20e7d4edf9a7cee7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7c72a55e9fca9ed03e32a0aa988c2042"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="par__sim_8c.html#a7c72a55e9fca9ed03e32a0aa988c2042">copycode_par</a> ()</td></tr>
 <tr class="separator:a7c72a55e9fca9ed03e32a0aa988c2042"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
 Variables</h2></td></tr>
-<tr class="memitem:a7722c8ecbb62d99aee7ce68b1752f337"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="par__sim_8c.html#a7722c8ecbb62d99aee7ce68b1752f337">N</a> = 200</td></tr>
-<tr class="separator:a7722c8ecbb62d99aee7ce68b1752f337"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5c6c57ee5f6beac81b3f311e9f4f2d6c"><td class="memItemLeft" align="right" valign="top">unsigned int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="par__sim_8c.html#a5c6c57ee5f6beac81b3f311e9f4f2d6c">setnumb</a> = 1</td></tr>
-<tr class="separator:a5c6c57ee5f6beac81b3f311e9f4f2d6c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a407e3722e47f1d9ee9db62b78947bc95"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="par__sim_8c.html#a407e3722e47f1d9ee9db62b78947bc95">numbtest</a> = 20</td></tr>
-<tr class="separator:a407e3722e47f1d9ee9db62b78947bc95"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abe63e991a7bf5d666068b15c9064428d"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="par__sim_8c.html#abe63e991a7bf5d666068b15c9064428d">n</a> = 2*1e5</td></tr>
-<tr class="separator:abe63e991a7bf5d666068b15c9064428d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a28f356e3c2e0f78fff8984a794067e46"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="par__sim_8c.html#a28f356e3c2e0f78fff8984a794067e46">simlong</a> = 20</td></tr>
-<tr class="separator:a28f356e3c2e0f78fff8984a794067e46"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab3ad12b0b9335d1c9f4b35907b473fe7"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="par__sim_8c.html#ab3ad12b0b9335d1c9f4b35907b473fe7">accur</a> = 1</td></tr>
-<tr class="separator:ab3ad12b0b9335d1c9f4b35907b473fe7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a77f28b8c4dc157bce806afb4966f88a6"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="par__sim_8c.html#a77f28b8c4dc157bce806afb4966f88a6">deffaccur</a> = 1e7</td></tr>
-<tr class="separator:a77f28b8c4dc157bce806afb4966f88a6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa23a01bbb0088c4d9f0b18563b69bbed"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="par__sim_8c.html#aa23a01bbb0088c4d9f0b18563b69bbed">Fswitch</a> = -3e4</td></tr>
-<tr class="separator:aa23a01bbb0088c4d9f0b18563b69bbed"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a73a35a1bb4b28a38beb6c2eb25a3b880"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="par__sim_8c.html#a73a35a1bb4b28a38beb6c2eb25a3b880">initwidth</a> = 1</td></tr>
-<tr class="separator:a73a35a1bb4b28a38beb6c2eb25a3b880"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae3520ebb3ff8d6feab3e6afb47ed4040"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="par__sim_8c.html#ae3520ebb3ff8d6feab3e6afb47ed4040">F</a> = 1</td></tr>
-<tr class="separator:ae3520ebb3ff8d6feab3e6afb47ed4040"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a008f988cbc35ed74f733b2dc4f2169fc"><td class="memItemLeft" align="right" valign="top"><a class="el" href="par__sim_8h.html#a9e6c52a52993f3dc5669150caf28da3f">T_SimParams</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="par__sim_8c.html#a008f988cbc35ed74f733b2dc4f2169fc">SimParams</a></td></tr>
+<tr class="separator:a008f988cbc35ed74f733b2dc4f2169fc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Function Documentation</h2>
+<a id="af3821852a7a3b91c1632de95e0ad4f88"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af3821852a7a3b91c1632de95e0ad4f88">&#9670;&nbsp;</a></span>check_parameter_consistency()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool check_parameter_consistency </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="a7c72a55e9fca9ed03e32a0aa988c2042"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a7c72a55e9fca9ed03e32a0aa988c2042">&#9670;&nbsp;</a></span>copycode_par()</h2>
 
@@ -137,55 +139,26 @@ Variables</h2></td></tr>
 
 </div>
 </div>
-<a id="a33f6ab6db626aa93a81141b4cb8789f1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a33f6ab6db626aa93a81141b4cb8789f1">&#9670;&nbsp;</a></span>par()</h2>
+<a id="ad566efc087e7a80afab9615dafdb48ee"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad566efc087e7a80afab9615dafdb48ee">&#9670;&nbsp;</a></span>init_simparams()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">struct <a class="el" href="structpar__specs.html">par_specs</a>* par </td>
+          <td class="memname">void init_simparams </td>
           <td>(</td>
-          <td class="paramtype">double&#160;</td>
-          <td class="paramname"><em>n</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
+          <td class="paramname"></td><td>)</td>
           <td></td>
-          <td class="paramtype">double&#160;</td>
-          <td class="paramname"><em>dt</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>numtasks</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>testab</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>plotpoints</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>struct with parameters used in main function of simulation function that provides pointers to parameters of type struct <a class="el" href="structpar__specs.html">par_specs</a> used for simulation </p>
+<p>Function that initializes hard coded parameters of simulation </p>
 
 </div>
 </div>
-<a id="a48d0d316ac9714c4f2bdedc08614c7b5"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a48d0d316ac9714c4f2bdedc08614c7b5">&#9670;&nbsp;</a></span>specs_basic()</h2>
+<a id="a2735ca7f6ba0a98a20e7d4edf9a7cee7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2735ca7f6ba0a98a20e7d4edf9a7cee7">&#9670;&nbsp;</a></span>specs_basic()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -193,19 +166,9 @@ Variables</h2></td></tr>
         <tr>
           <td class="memname">void specs_basic </td>
           <td>(</td>
-          <td class="paramtype">struct <a class="el" href="structpar__specs.html">par_specs</a> *&#160;</td>
-          <td class="paramname"><em>t_pars</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
           <td class="paramtype">char *&#160;</td>
-          <td class="paramname"><em>fnamespec</em>&#160;</td>
-        </tr>
-        <tr>
+          <td class="paramname"><em>fnamespec</em></td><td>)</td>
           <td></td>
-          <td>)</td>
-          <td></td><td></td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -213,8 +176,8 @@ Variables</h2></td></tr>
 
 </div>
 </div>
-<a id="a5bd5b054482e6361b1776a8835b3bbef"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5bd5b054482e6361b1776a8835b3bbef">&#9670;&nbsp;</a></span>time_step()</h2>
+<a id="a46f4333215f596e602b277577744b2dd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a46f4333215f596e602b277577744b2dd">&#9670;&nbsp;</a></span>time_step()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -222,26 +185,14 @@ Variables</h2></td></tr>
         <tr>
           <td class="memname">double time_step </td>
           <td>(</td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>setnumb</em>, </td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>lscale_conf</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">double&#160;</td>
-          <td class="paramname"><em>min_width</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">double&#160;</td>
-          <td class="paramname"><em>r_core</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">double&#160;</td>
-          <td class="paramname"><em>force</em>&#160;</td>
+          <td class="paramname"><em>lscale_part</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -250,144 +201,19 @@ Variables</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Function that initializes value of simulation time steps. Time steps are calculated by means of confinement and particle quantitites. Therefore, the function has to be called in main, where header files for confinement and particle-particle interactions are included. </p>
 
 </div>
 </div>
 <h2 class="groupheader">Variable Documentation</h2>
-<a id="ab3ad12b0b9335d1c9f4b35907b473fe7"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab3ad12b0b9335d1c9f4b35907b473fe7">&#9670;&nbsp;</a></span>accur</h2>
+<a id="a008f988cbc35ed74f733b2dc4f2169fc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a008f988cbc35ed74f733b2dc4f2169fc">&#9670;&nbsp;</a></span>SimParams</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">double accur = 1</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a77f28b8c4dc157bce806afb4966f88a6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a77f28b8c4dc157bce806afb4966f88a6">&#9670;&nbsp;</a></span>deffaccur</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">double deffaccur = 1e7</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="ae3520ebb3ff8d6feab3e6afb47ed4040"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae3520ebb3ff8d6feab3e6afb47ed4040">&#9670;&nbsp;</a></span>F</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">double F = 1</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="aa23a01bbb0088c4d9f0b18563b69bbed"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa23a01bbb0088c4d9f0b18563b69bbed">&#9670;&nbsp;</a></span>Fswitch</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">double Fswitch = -3e4</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a73a35a1bb4b28a38beb6c2eb25a3b880"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a73a35a1bb4b28a38beb6c2eb25a3b880">&#9670;&nbsp;</a></span>initwidth</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">double initwidth = 1</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a7722c8ecbb62d99aee7ce68b1752f337"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7722c8ecbb62d99aee7ce68b1752f337">&#9670;&nbsp;</a></span>N</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">int N = 200</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="abe63e991a7bf5d666068b15c9064428d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#abe63e991a7bf5d666068b15c9064428d">&#9670;&nbsp;</a></span>n</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">double n = 2*1e5</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a407e3722e47f1d9ee9db62b78947bc95"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a407e3722e47f1d9ee9db62b78947bc95">&#9670;&nbsp;</a></span>numbtest</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">int numbtest = 20</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a5c6c57ee5f6beac81b3f311e9f4f2d6c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5c6c57ee5f6beac81b3f311e9f4f2d6c">&#9670;&nbsp;</a></span>setnumb</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">unsigned int setnumb = 1</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a28f356e3c2e0f78fff8984a794067e46"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a28f356e3c2e0f78fff8984a794067e46">&#9670;&nbsp;</a></span>simlong</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">int simlong = 20</td>
+          <td class="memname"><a class="el" href="par__sim_8h.html#a9e6c52a52993f3dc5669150caf28da3f">T_SimParams</a> SimParams</td>
         </tr>
       </table>
 </div><div class="memdoc">

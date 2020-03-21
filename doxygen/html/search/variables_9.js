@@ -1,6 +1,13 @@
 var searchData=
 [
-  ['setn',['setn',['../structpar__specs.html#a0a9ad6f420e4368bed72c7283b4564f3',1,'par_specs']]],
-  ['setnumb',['setnumb',['../par__sim_8c.html#a5c6c57ee5f6beac81b3f311e9f4f2d6c',1,'setnumb():&#160;par_sim.c'],['../par__sim_8h.html#a5c6c57ee5f6beac81b3f311e9f4f2d6c',1,'setnumb():&#160;par_sim.c']]],
-  ['simlong',['simlong',['../par__sim_8c.html#a28f356e3c2e0f78fff8984a794067e46',1,'simlong():&#160;par_sim.c'],['../par__sim_8h.html#a28f356e3c2e0f78fff8984a794067e46',1,'simlong():&#160;par_sim.c']]]
+  ['scriptname',['scriptname',['../namespacemasterinteract.html#adf302957ecd36e8b76f7df2ffd89bab4',1,'masterinteract']]],
+  ['setnumb',['setnumb',['../structTAG__SimParams.html#a1ac42ed980eacb3667260e7a6d37db57',1,'TAG_SimParams']]],
+  ['simlong',['simlong',['../structTAG__SimParams.html#a1cff8eb5c40665423e55a479dba44a49',1,'TAG_SimParams']]],
+  ['simparams',['SimParams',['../par__sim_8c.html#a008f988cbc35ed74f733b2dc4f2169fc',1,'SimParams():&#160;par_sim.c'],['../par__sim_8h.html#a008f988cbc35ed74f733b2dc4f2169fc',1,'SimParams():&#160;par_sim.c']]],
+  ['sn',['sn',['../namespacemasterinteract.html#a4cf8c1f434ce0dcd31b863194493fd44',1,'masterinteract']]],
+  ['stepnumb',['stepnumb',['../structTAG__SimParams.html#ac6099e0873861517003af7de8d6e0ae1',1,'TAG_SimParams']]],
+  ['str_5frun_5fscript',['str_run_script',['../namespacemasterinteract.html#a33a9430411d5eb872c81d5e7412bf31b',1,'masterinteract']]],
+  ['string_5fcopy',['string_copy',['../namespacecode__zippull__server.html#a9f5ae4ee3e23b4da8378260e0411a39a',1,'code_zippull_server.string_copy()'],['../namespacecode__zippush__server.html#a5127e51011a463b718d72eb2a065527c',1,'code_zippush_server.string_copy()']]],
+  ['string_5funzip',['string_unzip',['../namespacecode__zippull__server.html#a957bbfa84dd3bd9648b3be158335098d',1,'code_zippull_server']]],
+  ['string_5fzip',['string_zip',['../namespacecode__zippush__server.html#a0fa1a11777e5cfe0921f4522936ff2ef',1,'code_zippush_server']]]
 ];

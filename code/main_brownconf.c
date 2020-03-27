@@ -631,7 +631,7 @@ int main (int argc, char **argv){
   int i, j;
   long double  meanxall, meanxsquall, msdall, mthreeall;
   long double  sqrt_flucts, f_dt;
-  int abb, abbdeff, ktest, kset, shiftind; 
+  int abb, abbdeff, int_ind, kset, shiftind; 
   int tasks = 1;
   int taskid = MASTER;
   int setn_per_task;
@@ -644,6 +644,8 @@ int main (int argc, char **argv){
   
   bool ParameterFlag;
   bool PosValid;
+  bool PrintRes;
+  bool TestRes;
 //  bool MPI_ON;
 
   /*
@@ -657,6 +659,7 @@ int main (int argc, char **argv){
    * read external force and number of interacting particles per set from command line arguments
    */ 
   printf("\nargc: %d\n\n", argc);
+  printf("\nB_EFF: %lf\n", B_EFF);
   if(argc > 3){
 	SimParams.F = atof(argv[1]);
 	SimParams.setnumb = atof(argv[2]);
@@ -805,7 +808,6 @@ int main (int argc, char **argv){
   init_particle_int(setn_per_task, positionx, positiony, fintxarray, fintyarray);
 
   printf("\ntask ID:\t %d -> particle positions and forces fixed\n", taskid);
-  //printf("\nepsilon:\t %lf\n", EPS_L);
    
  
   /* Perform simulation steps until equilibration is reached */
@@ -855,15 +857,17 @@ int main (int argc, char **argv){
                                    *Calculate value of confinement boundary at current
                                    *position x (y-value is needed for non-analytic treatment
                                    *of channels with cosine shape
-                                   */  	
-				  yue = yuef_ext(x,y);
+                                   */  
+				  if(fabs(y) > B_EFF){
+				  	yue = yuef_ext(x,y);
+	                          }
 				    
 				  PosValid = true;
 				  /*Check if particle is within effective boundary*/  
 				  if (fabs(y) > yue) PosValid = false;
 				  /*Check if bottleneck is passed correctly*/	
-				  if ((x < 0) && ((fabs(yo) >= B-R_CONF) || (fabs(y) >= B-R_CONF))) PosValid = false;
-				  if ((x > L) && ((fabs(yo) >= B-R_CONF) || (fabs(y) >= B-R_CONF))) PosValid = false;
+				  if ((x < 0) && ((fabs(yo) >= B_EFF) || (fabs(y) >= B_EFF))) PosValid = false;
+				  if ((x > L) && ((fabs(yo) >= B_EFF) || (fabs(y) >= B_EFF))) PosValid = false;
 
 				  if (PosValid == true){			
 					  shiftind = 0;
@@ -871,22 +875,20 @@ int main (int argc, char **argv){
 						   shiftind = -1;
 						   x += L;
 					  }
-
 					  if(x > L){
 						   shiftind = 1;
 						   x -= L;
 					  }
 					  /*simulate particle-particle interaction*/ 
  					  if (SimParams.setnumb > 1){ 
-						    ktest = 0;
 						    fintx = 0;
-						    finty = 0;	
-						    while((PosValid == true) && (ktest < SimParams.setnumb)){
+						    finty = 0;
+ 						    for(int_ind = 0; int_ind < SimParams.setnumb; int_ind++){	
 							 
-							  xtest = positionx[j][ktest]; 
-							  ytest = positiony[j][ktest];
+							  xtest = positionx[j][int_ind]; 
+							  ytest = positiony[j][int_ind];
 	 
-							  if(ktest != kset){
+							  if(int_ind != kset){
 								  distx = x - xtest;
 								  disty = y - ytest;
 
@@ -898,9 +900,12 @@ int main (int argc, char **argv){
 									distx = distx - L*(distx/abs(distx));
 								  }
 								  dist = sqrt(distx*distx + disty*disty);
-								  if(dist <= 2*R_INT) PosValid = false;
 								  
-								  if((dist <= INT_CUTOFF) && (PosValid == true)){
+							          if(dist <= 2*R_INT){ 
+								  	break;
+								  }
+								  
+								  if(dist <= INT_CUTOFF){
 									  fintxpair = intforce(distx, dist);
 									  fintypair = intforce(disty, dist);
 									  fintx += fintxpair;
@@ -909,7 +914,6 @@ int main (int argc, char **argv){
 								  }
 							  }
 
-						    ktest++;
 						    /*close loop over particles of interacting ensemble*/
 						    } 
 					    }		    
@@ -935,7 +939,10 @@ int main (int argc, char **argv){
            */
 	  }
 	
-       	
+       	  /*
+	   *Initialize reference values of mobility and diffusion coefficients
+	   *for later judgement of equilibration process.
+	  */
 	  if((i > SimParams.stepnumb - SimParams.testab) && (i <= SimParams.stepnumb - SimParams.testab + 1)){ 
 		  muabbo = tcoeff.mu;
 		  deffabbo = tcoeff.deff;
@@ -944,26 +951,35 @@ int main (int argc, char **argv){
           /*
            * Test progress of equilibration and plot results at certain 
            * sitcoeff.mulation steps i
-           */ 	
-	  if(((i > SimParams.stepnumb) && (i % SimParams.testab == 0)) || (i % SimParams.plotpoints == 0)){ 
+           */ 
+          PrintRes = false;
+	  if(i % SimParams.plotpoints == 0){
+	  	PrintRes = true;
+	  }
+	  TestRes = false;
+	  if((i > SimParams.stepnumb) && (i % SimParams.testab == 0)){
+     		TestRes = true;
+          }
 
-          /*
-	   * call function for calculation of transport coefficients 
-	   * such as mobility or mean-squared displacement 
-	   * */ 
-          calc_transpcoeffs(setn_per_task, 
-		            t, 
-		            posshift,
-		            negshift,
-		            positionx,
-		            xstart);
+	  if((TestRes == true) || PrintRes == true){ 
+
+		  /*
+		   * call function for calculation of transport coefficients 
+		   * such as mobility or mean-squared displacement 
+		   * */ 
+		  calc_transpcoeffs(setn_per_task, 
+				    t, 
+				    posshift,
+				    negshift,
+				    positionx,
+				    xstart);
 	  
 			 
                   /*
                    * Update of the equilibration counter that are used to monitore the
                    * equilibration of the mobility and diffusivity
                    */  
-		  if((i > SimParams.stepnumb) && (i % SimParams.testab == 0)){ 
+		  if(TestRes == true){ 
  			  abb = update_equcounter(tcoeff.mu, muabbo, SimParams.accur, abb);
 
 			  if(tcoeff.deff > 1.0){  
@@ -980,7 +996,7 @@ int main (int argc, char **argv){
  		  /*
                    * Plot results to check progress of equilibration 
                    */
-		  if((i % SimParams.plotpoints == 0) && (taskid == MASTER)){
+		  if((PrintRes == true) && (taskid == MASTER)){
 			  print_results_over_time(fname, 
 						  fnamemom, 
 						  t, 

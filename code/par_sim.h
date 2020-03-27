@@ -8,6 +8,7 @@
 #define B 0.1
 #define RADF 0.5
 #define R_CONF (RADF*B)
+#define B_EFF (B - R_CONF)
 #define BOTTRAD ((RADF == 0 ? 1.0 : (1.0/RADF)))
 
 static const double L = 1.0;

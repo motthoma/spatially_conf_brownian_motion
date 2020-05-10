@@ -1,143 +1,109 @@
 #include <stdio.h>
 #include<stdlib.h>
 #include <math.h>
-#include <stdbool.h>
 #include "par_sim.h" 
 
 
 /* Define parameters for simulation */
-//int N = 200;
-//unsigned int setnumb = 1;
-//int numbtest = 20;
-//double n = 2*1e5;
-//int simlong = 20; 
-//double accur = 1;
-//double deffaccur = 1e7;
-//double Fswitch = -3e4;			
-//double initwidth = 1;
-//double F = 1;
+int N = 200;
+unsigned int setnumb = 1;
+int numbtest = 20;
+double n = 2*1e5;
+int simlong = 20; 
+double accur = 1;
+double deffaccur = 1e7;
+double Fswitch = -3e4;			
+double initwidth = 1;
+double F = 1;
 
-T_SimParams SimParams;
-
-/**Function that initializes hard coded parameters of simulation*/
-void init_simparams(){
-	SimParams.N = 200;
-	SimParams.numbtest = 20;
-	SimParams.stepnumb = 2*1e5;
-	SimParams.simlong = 20;
-	SimParams.accur = 1;
-	SimParams.deffaccur = 1e7;
-	SimParams.initwidth = 1.0;
-	
-	SimParams.plotpoints =  SimParams.stepnumb/50; 
-	SimParams.testab = SimParams.plotpoints*1;
-        SimParams.reset_stepnumb = 10*SimParams.testab;
-	
-	if(fabs(SimParams.F) <= 0.1) SimParams.stepnumb = SimParams.simlong*SimParams.stepnumb;
-
-	if(SimParams.F <= -2*pow(10,4)) SimParams.stepnumb = 0.5*SimParams.simlong*SimParams.stepnumb;
-
-
-
-}
-
-bool check_parameter_consistency(){
-	bool ParaFlag = true;
-	if(SimParams.testab % SimParams.plotpoints != 0){ 
-	  printf("testab modulo SimParams.plotpoints \n");
-	  ParaFlag = false;
-	}
-	if(SimParams.N % (SimParams.numtasks*SimParams.setnumb) != 0){ 
-	  printf("N modulo numtasks*setnumb not zero!\n");
-	  ParaFlag = false;
-	}
-
-      	return ParaFlag;	
-
-}
-
-/*void init_timeparams(){
-
-}*/
-
-/**Function that initializes value of simulation time steps.
- * Time steps are calculated by means of confinement and particle quantitites.
- * Therefore, the function has to be called in main, where header files for 
- * confinement and particle-particle interactions are included. */
-double time_step(double lscale_conf, double lscale_part){
+double time_step(int setnumb, double min_width, double r_core, double force){
 double tstepscale, tstep;
 
-	if (SimParams.setnumb == 1) tstepscale = lscale_conf;
-	else tstepscale = lscale_part;
+	if (setnumb == 1) tstepscale = min_width;
+	else tstepscale = r_core;
 
-	if(fabs(SimParams.F) <= 1/lscale_conf) tstep = tstepscale*tstepscale*pow(10,-3);
-	else tstep = (tstepscale/fabs(SimParams.F))*pow(10,-3);
+	if(fabs(force) <= 1/min_width) tstep = tstepscale*tstepscale*pow(10,-3);
+	else tstep = (tstepscale/fabs(force))*pow(10,-3);
 
 return(tstep);
 }
 
-/**function used to read simulation parameters in specs file*/
-void specs_basic(char *fnamespec){
-/*some quantities that are only calculated for informational purpose in specs file,
- * but which are not needed for simulation
- */	
-int min_n;
-double eq_time;
-double tot_time;
-double check_time;
-double readout_time;
+/**struct with parameters used in main function of simulation*/
+/*struct par_specs{
+	int N; 
+	int setn; 
+	double accur; 
+	double deffaccur; 
+	long long numbtest; 
+	double n; 
+	double dt; 
+	long long testab; 
+	long long min_n; 
+	double eq_time; 
+	double tot_time; 
+	int readout_n; 
+	double check_time; 
+	double readout_time; 
+	int numtasks; 
+	double f; 
+	double initwidth;
+};*/
 
-    min_n = SimParams.stepnumb + SimParams.testab*SimParams.numbtest; 
-    eq_time = (SimParams.stepnumb - SimParams.reset_stepnumb)*SimParams.time_step; 
-    tot_time = (SimParams.stepnumb - SimParams.reset_stepnumb + SimParams.testab*SimParams.numbtest)*SimParams.time_step;
-    check_time = SimParams.testab*SimParams.time_step;
-    readout_time = SimParams.plotpoints*SimParams.time_step; 
+/**function that provides pointers to parameters of type struct par_specs used for simulation*/
+struct par_specs *par(double n, double dt, int numtasks, int testab, int plotpoints){
+	struct par_specs *t_pars;
+        t_pars = malloc(sizeof(struct par_specs));
+	t_pars->N = N; 
+	t_pars->setn = setnumb; 
+	t_pars->accur = accur; 
+	t_pars->deffaccur = deffaccur; 
+	t_pars->numbtest = numbtest; 
+	t_pars->n = n; 
+	t_pars->dt = dt; 
+	t_pars->testab = testab; 
+	t_pars->min_n = n+testab*numbtest; 
+	t_pars->eq_time = n*dt; 
+	t_pars->tot_time = (n+testab*numbtest)*dt;
+ 	t_pars->readout_n = plotpoints; 
+	t_pars->check_time = testab*dt;
+	t_pars->readout_time = plotpoints*dt; 
+	t_pars->numtasks = numtasks; 
+	t_pars->f = F; 
+	t_pars->initwidth = initwidth;
+
+
+return t_pars;
+}
+
+/**function used to read simulation parameters in specs file*/
+void specs_basic(struct par_specs *t_pars, char *fnamespec){
+int a, b, e, h, l, o;
+double c, d, f, g, i, j, k, m, n, p, q;
+
+	a = t_pars->N;
+        b = t_pars->setn;
+        c = t_pars->accur;     
+        d = t_pars->deffaccur;
+        e = t_pars->numbtest;  
+        f = t_pars->n;  
+        g = t_pars->dt;  
+	h = t_pars->testab;
+	i = t_pars->min_n; 
+        j = t_pars->eq_time;    
+        k = t_pars->tot_time; 
+ 	l = t_pars->readout_n; 
+	m = t_pars->check_time;
+	n = t_pars->readout_time;
+        o = t_pars->numtasks;
+        p = t_pars->f;
+        q = t_pars->initwidth;
 
     FILE *outpspecs;
     outpspecs = fopen(fnamespec, "w");		
     fprintf(outpspecs, "\n\n\nCode can be compiled with:\n\nmpicc -Wall muovertintparallel.c par_sim.c conf_NAME.c int_NAME.c -lgsl -lgslcblas -o muovertintparallel\n\n'masterinteract.py' can be used to create several run-files and start the jobs\n\n\nSimulation Parameters:\n\n");
+    
 
-
-    fprintf(outpspecs, "# of particles: %d\n"
-                       "# of particles per set: %d\n\n"
-		       "Accuracy of mobility: %lf\n"
-		       "Accuracy of Deff: %lf\n\n",
-		       SimParams.N,
-		       SimParams.setnumb,
-		       SimParams.accur,
-		       SimParams.deffaccur);
-
-
-    fprintf(outpspecs, 
-		       "time step size for propagation of Langevin equation: %lf\n"
-       		       "number of steps until equilibration checks start: %d\n"
-		       "time until checks start: %lf\n"
-		       "# of accuracy checks: %d\n"
-		       "number of steps between two tests: %d\n"
-		       "number of steps between two readouts: %d\n"
-		       "time between two accuracy checks: %lf\n"
-		       "time between readout of two points: %lf\n"
-		       "minimum number of simulation steps: %d\n"
-		       "minimum simulation time: %.3lf\n\n",
-		       SimParams.time_step,
-		       SimParams.stepnumb,
-		       eq_time,
-		       SimParams.numbtest,
-		       SimParams.testab,
-		       SimParams.plotpoints,
-		       check_time,
-		       readout_time,
-		       min_n,
-		       tot_time);
-
-    fprintf(outpspecs, 
-                      "# of parallelized tasks: %d\n"
-		       "applied force F: %.2lf\n"
-		       "width of strip of initial particle distributions: %.2lf\n\n", 
-		       SimParams.numtasks,
-		       SimParams.F,
-		       SimParams.initwidth);
-
+    fprintf(outpspecs, "# of particles: %d\n# of particles per set: %d\n\nAccuracy of mobility: %lf\nAccuracy of Deff: %lf\n# of accuracy checks: %d\n\n# of time steps for eq n=%.2e\ntime step size dt=%.4e\nnumber of steps between two tests: %.1e\nminimum number of simulation steps: %.2e\ntime until checks start: %.3lf\nminimum simulation time: %.3lf\nnumber of steps between two readouts: %.1e\ntime between two accuracy checks: %lf\ntime between readout of two points: %lf\n\n# of parallelized tasks: %d.0\napplied force F: %.2lf\ninitwidth: %.2lf\n\n",a,b,c,d,e,f,g,1.0*h,i,j,k,1.0*l,m,n,o,p,q);
     
 fclose(outpspecs);
 }

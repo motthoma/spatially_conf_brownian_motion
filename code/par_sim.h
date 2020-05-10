@@ -2,44 +2,48 @@
 #ifndef HEADER_PAR_SIM
 #define HEADER_PAR_SIM
 
-#include <stdbool.h>
-
 //#define L 1.0
 #define B 0.1
 #define RADF 0.5
 #define R_CONF (RADF*B)
-#define B_EFF (B - R_CONF)
 #define BOTTRAD ((RADF == 0 ? 1.0 : (1.0/RADF)))
 
 static const double L = 1.0;
-extern unsigned int nbin; 
+extern int N, numbtest, simlong;
+extern unsigned int setnumb, nbin; 
+extern double n, initwidth, accur, deffaccur, Fswitch, F; 
 
-typedef struct TAG_SimParams{
-	int N;
-	int setnumb;
-	int numbtest;
-	int stepnumb;
-	int simlong;
-	double accur;
-	double deffaccur;
-	double initwidth;
-	double F;
-	int plotpoints;
-	int testab;
-	int reset_stepnumb;
-	double time_step;
+struct sim_parameter{
+
+
+} sim_params;
+
+
+double time_step(int setnumb, double min_width, double r_core, double force);
+
+struct par_specs{
+	int N; 
+	int setn; 
+	double accur; 
+	double deffaccur; 
+	int numbtest; 
+	double n; 
+	double dt; 
+	int testab; 
+	int min_n; 
+	double eq_time; 
+	double tot_time; 
+	int readout_n; 
+	double check_time; 
+	double readout_time; 
 	int numtasks; 
+	double f; 
+	double initwidth;
+};
 
+struct par_specs *par(double n, double dt, int numtasks, int testab, int plotpoints); 
 
-}T_SimParams;
-
-extern T_SimParams SimParams;
-
-double time_step(double lscale_conf, double lscale_part);
-
-extern void init_simparams(); 
-extern bool check_parameter_consistency(); 
-extern void specs_basic(char *fnamespec);
+extern void specs_basic(struct par_specs *t_pars, char *fnamespec);
 extern void copycode_par();
 
 #endif

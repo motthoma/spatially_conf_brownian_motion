@@ -39,7 +39,6 @@ void specs_int(double f_cut){
 
 }
 
-
 void copycode_int(){
 char copycode[200];
 
@@ -50,5 +49,5 @@ char copycode[200];
 
 char* prfx_int(){
 char *a = "LJ_pot";
-return a;
+	return a;
 }

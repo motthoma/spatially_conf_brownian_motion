@@ -1,29 +1,8 @@
-"""
-
-Script that can be used to pull code to
-server. 
-
-Functions from this file are also used
-in file to push code frome server.
-
-"""
-
 import os
 import sys
-from datetime import datetime
 
 
 SERVER =  "motthoma@161.116.80.211"
-
-def scan_input(message):
-	#function to ask for user input
-	#use try except construction to enable python 2 and 3 compatibility
-	try:
-		out = raw_input(message)
-	except:
-		out = input(message)
-
-	return out
 
 def read_out_content_server():
 	#function that provides list of all zip files on 
@@ -49,69 +28,55 @@ def print_list_index(print_list, message):
 
 def get_name_zip(zip_selection, action = 'download'):
     #get name of zip file to be downloaded from or uploaded to server
-
-    if action == 'upload':
-	    take_existing_name_request = "Want to use existing name? Type [y/n]:"
-	    use_name = scan_input(take_existing_name_request)
+    args = list(sys.argv)
+    if len(args) > 1:
+    	zip_in = args[1]
     else:
-	    use_name = 'y'
- 
-
-    if 'y' in use_name:
-    	args = list(sys.argv)
-    	if len(args) > 1:
-    		zip_in = args[1]
-    	else:
-    		file_select_request = "choose the name of zip file to be " + action + "ed by typing name or index: "
+    	file_select_request = "choose the zip file to be " + action + "ed by typing name or index: "
         #use try except construction to enable python 2 and 3 compatibility
     	try:
-        	zip_in = raw_input(file_select_request) 
+    		zip_in = raw_input(file_select_request) 
     	except:
-    		zip_in = input(file_select_request)
-
-	#check if input is index number:
-    	if zip_in[0].isdigit():
-    		zip_selected_suf = zip_selection[int(zip_in)]
-    	else:
-    		zip_selected_suf = zip_in
-
-
-    	if zip_selected_suf.endswith(".zip"):
-    		zip_selected = zip_selected_suf.split(".zip")[0]
-    	else:
-    		zip_selected = zip_selected_suf
-
+        	zip_in = input(file_select_request)
+  
+    #check if input is index number:
+    if zip_in[0].isdigit():
+    	zip_selected_suf = zip_selection[int(zip_in)]
     else:
-    	now = datetime.now()
-    	str_now = now.strftime("%d_%m_%Y_%H_%M_%S")
+    	zip_selected_suf = zip_in
 
-    	zip_selected = "code_brownian_int_{}.zip".format(str_now)
+   
+    if zip_selected_suf.endswith(".zip"):
+    	zip_selected = zip_selected_suf.split(".zip")[0]
+    else:
+    	zip_selected = zip_selected_suf
 
     return zip_selected
  
-def get_selected_file(file_selected, list_files):
-    #function that validates name of selected file and picks out
-    #suitable file from server
+def get_selected_zip(zip_selected, list_code_zips):
+    #function that validates name of selected zip and picks out
+    #suitable zip from server
 
-    #truncate name of wanted file to length of longest available file name
-    max_len_file = max([len(item) for item in list_files])
-    if len(file_selected) > max_len_file:
-    	file_selected = file_selected[:max_len_file]
+    #truncate name of wanted zip to length of longest available zip name
+    #skip .zip suffix to avoid a partial truncation of .zip suffix 
+    max_len_zip = max([len(item) for item in list_code_zips])
+    if len(zip_selected) > max_len_zip:
+    	zip_selected = zip_selected[:max_len_zip]
 
-    #check if wanted file is in list of available ones
-    chosen_files = []
-    for file_file in list_files:
-    	if file_selected == file_file:
-        	chosen_files.append(file_selected)
+    #check if wanted zip is in list of available ones
+    chosen_zips = []
+    for zip_file in list_code_zips:
+    	if zip_selected == zip_file:
+        	chosen_zips.append(zip_selected)
    
-    #if none of the available files matches,
+    #if none of the available zips matches,
     #find the ones where name fits partially
-    if chosen_files == []:
-	    chosen_files = []
-	    for file_file in list_files:
-	    	if file_selected in file_file:
-                   	chosen_files.append(file_file)
-    return chosen_files
+    if chosen_zips == []:
+	    chosen_zips = []
+	    for zip_file in list_code_zips:
+	    	if zip_selected in zip_file:
+                   	chosen_zips.append(zip_file)
+    return chosen_zips
 
 def check_zip_list(list_zips):
     #stop if name was not clear so that several zips could fit
@@ -146,7 +111,7 @@ if __name__ == "__main__":
     zip_selected = get_name_zip(list_code_zips)
     print("\ndemanded zip file: {}\n".format(zip_selected))
  
-    list_chosen_zips = get_selected_file(zip_selected, list_code_zips)
+    list_chosen_zips = get_selected_zip(zip_selected, list_code_zips)
     print("suitable zips found on {}: {}\n".format(SERVER, list_chosen_zips))
     
     chosen_zip = check_zip_list(list_chosen_zips)

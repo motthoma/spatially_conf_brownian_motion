@@ -1,13 +1,6 @@
-"""
-This file creates header which itself contains header 
-files for confinement and intra-particle interaction 
-which are used in simulation.
-
-Moreover, the file executes makefile which
-links the files for the selected confinement
-and interaction.
-
-"""
+#file that creates header which collects header for 
+#confinement and intra-particle interaction which are
+#used in simulation.
 
 import sys
 import os

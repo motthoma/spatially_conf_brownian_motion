@@ -737,7 +737,7 @@ int main (int argc, char **argv){
   sprintf(fname, "muovert_F_%.3lf.dat", SimParams.F);
   FILE *outp;
   outp = fopen(fname ,"w");
-  fprintf(outp, "#time\t meanx\t mu\t Meansqdist\t  deff  \t abb\t abbdeff\n");
+  fprintf(outp, "#time\t tcoeff.meanx\t tcoeff.mu\t Meansqdist\t  tcoeff.deff  \t abb\t abbdeff\n");
   fclose(outp);
   
   sprintf(fnamemom, "momsovert_F_%.3lf.dat", SimParams.F);
@@ -857,10 +857,8 @@ int main (int argc, char **argv){
                                    *Calculate value of confinement boundary at current
                                    *position x (y-value is needed for non-analytic treatment
                                    *of channels with cosine shape
-                                   */  
-				  if(fabs(y) > B-R_CONF){
-				  	yue = yuef_ext(x,y);
-	                          }
+                                   */  	
+				  yue = yuef_ext(x,y);
 				    
 				  PosValid = true;
 				  /*Check if particle is within effective boundary*/  
@@ -875,6 +873,7 @@ int main (int argc, char **argv){
 						   shiftind = -1;
 						   x += L;
 					  }
+
 					  if(x > L){
 						   shiftind = 1;
 						   x -= L;

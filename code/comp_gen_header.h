@@ -1,3 +1,3 @@
 
-#include "int_hardspheres.h"
+#include "int_lennardjones.h"
 #include "conf_splitter.h"

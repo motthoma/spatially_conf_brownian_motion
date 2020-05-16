@@ -30,7 +30,7 @@ def write_conf_int_header(conf_string, int_string):
     out_h.close()
 
 def call_make_file(conf_string, int_string):
-    os.system("make CONF={} INT={}".format(conf_string, int_string))
+    os.system("make".format(conf_string, int_string))
 
 if __name__ == "__main__":
 

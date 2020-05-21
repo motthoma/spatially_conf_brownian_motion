@@ -68,20 +68,28 @@ def get_name_zip(zip_selection, action = 'download'):
         	zip_in = raw_input(file_select_request) 
     	except:
     		zip_in = input(file_select_request)
+	
+	print(type(zip_in))
+	if zip_in != '':
+		#check if input is index number:
+		if zip_in[0].isdigit():
+			zip_selected_suf = zip_selection[int(zip_in)]
+		else:
+			zip_selected_suf = zip_in
 
-	#check if input is index number:
-    	if zip_in[0].isdigit():
-    		zip_selected_suf = zip_selection[int(zip_in)]
-    	else:
-    		zip_selected_suf = zip_in
 
+		if zip_selected_suf.endswith(".zip"):
+			zip_selected = zip_selected_suf.split(".zip")[0]
+		else:
+			zip_selected = zip_selected_suf
+	else:
+		print('inconsistent user input: zip file with current date and time is created')
+		now = datetime.now()
+		str_now = now.strftime("%d_%m_%Y_%H_%M_%S")
 
-    	if zip_selected_suf.endswith(".zip"):
-    		zip_selected = zip_selected_suf.split(".zip")[0]
-    	else:
-    		zip_selected = zip_selected_suf
-
+		zip_selected = "code_brownian_int_{}.zip".format(str_now)
     else:
+	print('zip file with current date and time is created')
     	now = datetime.now()
     	str_now = now.strftime("%d_%m_%Y_%H_%M_%S")
 

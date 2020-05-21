@@ -10,29 +10,18 @@ the makefile based on the user's choices.
 
 """
 import os
-import pull_code_from_server as pull_code
+import dtool_pull_code_from_server as pull_code
 
 
-def get_confinement_files():
-	#function that creates and prints list of confinment c-modules
+def get_module_files(prefix, message):
+	#function that creates and prints list of c-modules of respective type
 	files = [f for f in os.listdir('.') if os.path.isfile(f) and f.endswith('.c')]
-	conf_files = [f for f in files if f.startswith('conf')]
+	conf_files = [f for f in files if f.startswith(prefix)]
 
-	message = "\n\nList of possible confinments:\n"
 	pull_code.print_list_index(conf_files, message)	
 	
 	return conf_files
 
-def get_interaction_files():
-	#function that creates and prints list of interaction c-modules
-
-	files = [f for f in os.listdir('.') if os.path.isfile(f) and f.endswith('.c')]
-	int_files = [f for f in files if f.startswith('int')]
-	
-	message = "\n\nList of possible interactions:\n"
-	pull_code.print_list_index(int_files, message)	
-	
-	return int_files
 
 def get_compiler():
 	"""
@@ -91,14 +80,42 @@ def adapt_makefile(compiler, conf_file, int_file):
 	makefile_old.close()
 	os.system('cp makefile_temp makefile')
 
+
+def write_conf_int_header(conf_file, int_file):
+#function that creates header file that contains
+#includes header for confinement and inter-particle
+#interactions
+	conf_string = conf_file.split('.c')[0]
+	conf_string += '.h'
+	int_string = int_file.split('.c')[0]
+	int_string += '.h'
+
+	out_h = open("comp_gen_header.h", 'w')
+
+	out_h.write('\n')
+
+	header_interact = int_string
+	out_h.write('#include "{}"\n'.format(header_interact))
+
+	header_conf = conf_string
+	out_h.write('#include "{}"\n'.format(header_conf))
+
+	out_h.close()
+
+def call_make_file():
+	os.system("make")
+
+
 if __name__ == "__main__":
 
-	conf_list_files = get_confinement_files()
+	message = "\n\nList of possible confinments:\n"
+	conf_list_files = get_module_files('conf', message)
 	message = "\nchoose module for confinement to be linked in compilation:"
 	conf_file = select_file(conf_list_files, message)
 	print(conf_file)
 
-	int_list_files = get_interaction_files()		
+	message = "\n\nList of possible interactions:\n"
+	int_list_files = get_module_files('int', message)		
 	message = "\nchoose module for interaction to be linked in compilation:"
 	int_file = select_file(int_list_files, message)
 	print(int_file)	
@@ -107,4 +124,7 @@ if __name__ == "__main__":
 	print(compiler)	
 	
 	adapt_makefile(compiler, conf_file, int_file)
+	
+	write_conf_int_header(conf_file, int_file)
 
+	call_make_file()

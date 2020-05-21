@@ -9,7 +9,7 @@ pulling zip files from server.
 
 import os
 from datetime import datetime
-import pull_code_from_server as pull_code
+import dtool_pull_code_from_server as pull_code
 
 
 SERVER = pull_code.SERVER

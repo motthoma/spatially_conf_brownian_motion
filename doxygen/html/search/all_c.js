@@ -1,15 +1,7 @@
 var searchData=
 [
-  ['par_5fsim_2ec',['par_sim.c',['../par__sim_8c.html',1,'']]],
-  ['par_5fsim_2eh',['par_sim.h',['../par__sim_8h.html',1,'']]],
-  ['plotpoints',['plotpoints',['../structTAG__SimParams.html#a5b375ea8e6acdb40cc96c42c91c62af0',1,'TAG_SimParams']]],
-  ['prfx_5fconf',['prfx_conf',['../conf__cos_8c.html#abcc505d662dc5334001808cb8c43eade',1,'prfx_conf():&#160;conf_cos.c'],['../conf__cos_8h.html#abcc505d662dc5334001808cb8c43eade',1,'prfx_conf():&#160;conf_cos.c'],['../conf__sept_8c.html#abcc505d662dc5334001808cb8c43eade',1,'prfx_conf():&#160;conf_sept.c'],['../conf__sept_8h.html#abcc505d662dc5334001808cb8c43eade',1,'prfx_conf():&#160;conf_cos.c'],['../conf__splitter_8c.html#abcc505d662dc5334001808cb8c43eade',1,'prfx_conf():&#160;conf_splitter.c'],['../conf__splitter_8h.html#abcc505d662dc5334001808cb8c43eade',1,'prfx_conf():&#160;conf_cos.c']]],
-  ['prfx_5fint',['prfx_int',['../int__hardspheres_8c.html#a5de59c8ba60cc917512965c64fd87a77',1,'prfx_int():&#160;int_hardspheres.c'],['../int__hardspheres_8h.html#a5de59c8ba60cc917512965c64fd87a77',1,'prfx_int():&#160;int_hardspheres.c'],['../int__lennardjones_8c.html#a5de59c8ba60cc917512965c64fd87a77',1,'prfx_int():&#160;int_lennardjones.c'],['../int__lennardjones_8h.html#a5de59c8ba60cc917512965c64fd87a77',1,'prfx_int():&#160;int_hardspheres.c']]],
-  ['print_5fhist_5fcountercheck',['print_hist_countercheck',['../main__brownconf_8c.html#a1a023cb6a4f220e598ef2ea8b3ff8da1',1,'main_brownconf.c']]],
-  ['print_5fmuoverf',['print_muoverf',['../main__brownconf_8c.html#ab298106ad92917b10bfc22e258eec9a8',1,'main_brownconf.c']]],
-  ['print_5fpositions',['print_positions',['../main__brownconf_8c.html#a501ad87d874e05f181b4f6e790da13a8',1,'main_brownconf.c']]],
-  ['print_5fresallthreads',['print_resallthreads',['../main__brownconf_8c.html#a47d8bfed2370ac19bdca3dd03d39615b',1,'main_brownconf.c']]],
-  ['print_5fresults_5fover_5ftime',['print_results_over_time',['../main__brownconf_8c.html#ac0d4d82b4b33792e268db4784a180baa',1,'main_brownconf.c']]],
-  ['print_5fruntime',['print_runtime',['../main__brownconf_8c.html#a769bddae4ead7d7a9bb425462f8044e4',1,'main_brownconf.c']]],
-  ['print_5fruntime_5fthreads',['print_runtime_threads',['../main__brownconf_8c.html#a3620d3f68382621c7c835b1a339860dd',1,'main_brownconf.c']]]
+  ['n',['N',['../structTAG__SimParams.html#aad5266be2878621dc713a3b180f8eb4c',1,'TAG_SimParams']]],
+  ['nbin',['nbin',['../par__sim_8h.html#a457e5832d12d93072dd27755b93e91e4',1,'par_sim.h']]],
+  ['numbtest',['numbtest',['../structTAG__SimParams.html#abc0df7a6982239b9b2bf30060c739e7f',1,'TAG_SimParams']]],
+  ['numtasks',['numtasks',['../structTAG__SimParams.html#a4cf0dab8c1d2c2b034df20a701f93e8e',1,'TAG_SimParams::numtasks()'],['../namespacemasterinteract.html#a64eaebb545152fa7d7babdcf10c4169c',1,'masterinteract.numtasks()']]]
 ];

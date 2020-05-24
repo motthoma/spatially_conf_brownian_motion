@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['write_5fconf_5fint_5fheader',['write_conf_int_header',['../namespacecompile__and__gen__header.html#a587b2bcdb0756dd8493b8eb19ea7fa42',1,'compile_and_gen_header']]]
+  ['unzip_5ffile',['unzip_file',['../namespacedtool__pull__code__from__server.html#a7db67dac86b60d90f8839cad63122160',1,'dtool_pull_code_from_server']]],
+  ['update_5fequcounter',['update_equcounter',['../main__brownconf_8c.html#a0220ef45b4831df2ea84842919213d36',1,'main_brownconf.c']]]
 ];

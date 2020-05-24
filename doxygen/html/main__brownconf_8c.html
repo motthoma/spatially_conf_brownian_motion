@@ -100,6 +100,8 @@ Include dependency graph for main_brownconf.c:</div>
 Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structTransportCoeffs.html">TransportCoeffs</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structPrintResults.html">PrintResults</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
 Macros</h2></td></tr>
@@ -122,8 +124,10 @@ Functions</h2></td></tr>
 <tr class="separator:a501ad87d874e05f181b4f6e790da13a8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3620d3f68382621c7c835b1a339860dd"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="main__brownconf_8c.html#a3620d3f68382621c7c835b1a339860dd">print_runtime_threads</a> (clock_t start, int numtasks, int taskid)</td></tr>
 <tr class="separator:a3620d3f68382621c7c835b1a339860dd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a47d8bfed2370ac19bdca3dd03d39615b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="main__brownconf_8c.html#a47d8bfed2370ac19bdca3dd03d39615b">print_resallthreads</a> (long double msdall, double meanspdall, double muall, double deffall, long double meanxall, long double meanxsquall, long double mthreeall, char fname[], char fnamemom[])</td></tr>
-<tr class="separator:a47d8bfed2370ac19bdca3dd03d39615b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ace43550c04b12fb79f27c650273937c9"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="main__brownconf_8c.html#ace43550c04b12fb79f27c650273937c9">print_results_over_time</a> (double t, int abb, int abbdeff)</td></tr>
+<tr class="separator:ace43550c04b12fb79f27c650273937c9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a84b5fe8102ef80e596845a91fff7a132"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="main__brownconf_8c.html#a84b5fe8102ef80e596845a91fff7a132">print_resallthreads</a> (long double msdall, double meanspeedall, double muall, double deffall, long double meanxall, long double meanxsquall, long double mthreeall)</td></tr>
+<tr class="separator:a84b5fe8102ef80e596845a91fff7a132"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab298106ad92917b10bfc22e258eec9a8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="main__brownconf_8c.html#ab298106ad92917b10bfc22e258eec9a8">print_muoverf</a> (double muall, double deffall, char *namefile)</td></tr>
 <tr class="separator:ab298106ad92917b10bfc22e258eec9a8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af89dac36bb73d4e4cfb3da716cbe1c72"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="main__brownconf_8c.html#af89dac36bb73d4e4cfb3da716cbe1c72">histogramm_mpi_reduce</a> (int m, double backshift, double length, double bin, double **positions, char *fname, int taskid)</td></tr>
@@ -138,8 +142,6 @@ Functions</h2></td></tr>
 <tr class="separator:a1a023cb6a4f220e598ef2ea8b3ff8da1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abc46eb023973ba0aa12ba489bebfeff3"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="main__brownconf_8c.html#abc46eb023973ba0aa12ba489bebfeff3">reset_pos_time</a> (int setn_per_task, long int **posshift, long int **negshift)</td></tr>
 <tr class="separator:abc46eb023973ba0aa12ba489bebfeff3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac0d4d82b4b33792e268db4784a180baa"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="main__brownconf_8c.html#ac0d4d82b4b33792e268db4784a180baa">print_results_over_time</a> (char *fname, char *fnamemom, double t, int abb, int abbdeff)</td></tr>
-<tr class="separator:ac0d4d82b4b33792e268db4784a180baa"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a322e5c1264b1b33550d3fdb541b6b18a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="main__brownconf_8c.html#a322e5c1264b1b33550d3fdb541b6b18a">adapt_posshifts</a> (int shiftind, int i, int j, long int **posshift, long int **negshift)</td></tr>
 <tr class="separator:a322e5c1264b1b33550d3fdb541b6b18a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0220ef45b4831df2ea84842919213d36"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="main__brownconf_8c.html#a0220ef45b4831df2ea84842919213d36">update_equcounter</a> (double tran_quant, double tran_quanto, double accurarcy, int equcounter)</td></tr>
@@ -155,6 +157,8 @@ Functions</h2></td></tr>
 Variables</h2></td></tr>
 <tr class="memitem:a0097c68d717bea873cf5dc1ca6b7da2a"><td class="memItemLeft" align="right" valign="top">struct <a class="el" href="structTransportCoeffs.html">TransportCoeffs</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="main__brownconf_8c.html#a0097c68d717bea873cf5dc1ca6b7da2a">tcoeff</a></td></tr>
 <tr class="separator:a0097c68d717bea873cf5dc1ca6b7da2a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac8301505197d6822e7454f0b29d8e15c"><td class="memItemLeft" align="right" valign="top">struct <a class="el" href="structPrintResults.html">PrintResults</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="main__brownconf_8c.html#ac8301505197d6822e7454f0b29d8e15c">printres</a></td></tr>
+<tr class="separator:ac8301505197d6822e7454f0b29d8e15c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Macro Definition Documentation</h2>
 <a id="a3fa2d3bf1901157f734a584d47b25d8b"></a>
@@ -297,7 +301,7 @@ Variables</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Function that allocates memory for an 2 dimensional array </p>
+<p>Function that allocates memory for a 2 dimensional array of doubles </p>
 
 </div>
 </div>
@@ -326,6 +330,7 @@ Variables</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Function that allocates memory for a 2 dimensional array of long ints </p>
 
 </div>
 </div>
@@ -741,8 +746,8 @@ Variables</h2></td></tr>
 
 </div>
 </div>
-<a id="a47d8bfed2370ac19bdca3dd03d39615b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a47d8bfed2370ac19bdca3dd03d39615b">&#9670;&nbsp;</a></span>print_resallthreads()</h2>
+<a id="a84b5fe8102ef80e596845a91fff7a132"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a84b5fe8102ef80e596845a91fff7a132">&#9670;&nbsp;</a></span>print_resallthreads()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -757,7 +762,7 @@ Variables</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">double&#160;</td>
-          <td class="paramname"><em>meanspdall</em>, </td>
+          <td class="paramname"><em>meanspeedall</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -787,19 +792,7 @@ Variables</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">long double&#160;</td>
-          <td class="paramname"><em>mthreeall</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">char&#160;</td>
-          <td class="paramname"><em>fname</em>[], </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">char&#160;</td>
-          <td class="paramname"><em>fnamemom</em>[]&#160;</td>
+          <td class="paramname"><em>mthreeall</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -808,12 +801,12 @@ Variables</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>prints results of sitcoeff.mulation to file </p>
+<p>prints results of simulation to file at the end of the simulation </p>
 
 </div>
 </div>
-<a id="ac0d4d82b4b33792e268db4784a180baa"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac0d4d82b4b33792e268db4784a180baa">&#9670;&nbsp;</a></span>print_results_over_time()</h2>
+<a id="ace43550c04b12fb79f27c650273937c9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ace43550c04b12fb79f27c650273937c9">&#9670;&nbsp;</a></span>print_results_over_time()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -821,18 +814,6 @@ Variables</h2></td></tr>
         <tr>
           <td class="memname">void print_results_over_time </td>
           <td>(</td>
-          <td class="paramtype">char *&#160;</td>
-          <td class="paramname"><em>fname</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">char *&#160;</td>
-          <td class="paramname"><em>fnamemom</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
           <td class="paramtype">double&#160;</td>
           <td class="paramname"><em>t</em>, </td>
         </tr>
@@ -855,7 +836,7 @@ Variables</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>function to plot online results of sitcoeff.mulation over time</p>
+<p>function to print online results of sitcoeff.mulation over time</p>
 
 </div>
 </div>
@@ -991,6 +972,20 @@ Variables</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Variable Documentation</h2>
+<a id="ac8301505197d6822e7454f0b29d8e15c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac8301505197d6822e7454f0b29d8e15c">&#9670;&nbsp;</a></span>printres</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">struct <a class="el" href="structPrintResults.html">PrintResults</a>  printres</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="a0097c68d717bea873cf5dc1ca6b7da2a"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a0097c68d717bea873cf5dc1ca6b7da2a">&#9670;&nbsp;</a></span>tcoeff</h2>
 

@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['reset_5fstepnumb',['reset_stepnumb',['../structTAG__SimParams.html#afe35e6e8fa54f0ceaed8c16efcb25d47',1,'TAG_SimParams']]],
-  ['runscript',['runscript',['../namespacemasterinteract.html#ac69b676a2cbc7edcee63ba46b95b6314',1,'masterinteract']]]
+  ['plotpoints',['plotpoints',['../structTAG__SimParams.html#a5b375ea8e6acdb40cc96c42c91c62af0',1,'TAG_SimParams']]],
+  ['printres',['printres',['../main__brownconf_8c.html#ac8301505197d6822e7454f0b29d8e15c',1,'main_brownconf.c']]]
 ];

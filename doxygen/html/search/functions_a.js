@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['update_5fequcounter',['update_equcounter',['../main__brownconf_8c.html#a0220ef45b4831df2ea84842919213d36',1,'main_brownconf.c']]]
+  ['time_5fstep',['time_step',['../par__sim_8c.html#a46f4333215f596e602b277577744b2dd',1,'time_step(double lscale_conf, double lscale_part):&#160;par_sim.c'],['../par__sim_8h.html#a46f4333215f596e602b277577744b2dd',1,'time_step(double lscale_conf, double lscale_part):&#160;par_sim.c']]]
 ];

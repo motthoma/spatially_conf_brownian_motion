@@ -1,0 +1,171 @@
+\hypertarget{namespacedtool__create__header__makefile}{}\section{dtool\+\_\+create\+\_\+header\+\_\+makefile Namespace Reference}
+\label{namespacedtool__create__header__makefile}\index{dtool\+\_\+create\+\_\+header\+\_\+makefile@{dtool\+\_\+create\+\_\+header\+\_\+makefile}}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+def \hyperlink{namespacedtool__create__header__makefile_aac7aaa9e2dd31199c8de0c4e31e06fc2}{get\+\_\+module\+\_\+files} (prefix, message)
+\item 
+def \hyperlink{namespacedtool__create__header__makefile_a5c365b1c484ec60962c5a4837eab8db4}{get\+\_\+compiler} (mpicc)
+\item 
+def \hyperlink{namespacedtool__create__header__makefile_a6b59b323ea5b8fe8b88d74e3101bbcc0}{select\+\_\+file} (list\+\_\+select, scan\+\_\+message)
+\item 
+def \hyperlink{namespacedtool__create__header__makefile_a4ae3a2ba6c7f434c8dbb986946212358}{adapt\+\_\+line} (line, new\+\_\+part)
+\item 
+def \hyperlink{namespacedtool__create__header__makefile_a474e747287372d16452c9e58d4dd6f76}{adapt\+\_\+makefile} (\hyperlink{namespacedtool__create__header__makefile_a8d639de030b42746e88d5c8fd8004f8c}{compiler}, \hyperlink{namespacedtool__create__header__makefile_aaaed301e2c0c16a73c61648ba7d8f9e8}{conf\+\_\+file}, \hyperlink{namespacedtool__create__header__makefile_aa5b61782d2cdd9d920d4ec7e0de1a649}{int\+\_\+file})
+\item 
+def \hyperlink{namespacedtool__create__header__makefile_a939aa1004273921a046633c692c2ff7c}{write\+\_\+conf\+\_\+int\+\_\+header} (\hyperlink{namespacedtool__create__header__makefile_aaaed301e2c0c16a73c61648ba7d8f9e8}{conf\+\_\+file}, \hyperlink{namespacedtool__create__header__makefile_aa5b61782d2cdd9d920d4ec7e0de1a649}{int\+\_\+file}, mpi\+\_\+flag)
+\item 
+def \hyperlink{namespacedtool__create__header__makefile_a342039020d50a9f80f88e325919135a8}{call\+\_\+make\+\_\+file} ()
+\item 
+def \hyperlink{namespacedtool__create__header__makefile_ade20315174e63957ab8a6386d39a19a9}{check\+\_\+for\+\_\+mpicc} ()
+\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+string \hyperlink{namespacedtool__create__header__makefile_abd0dcdac4e18093901b3578cf18519af}{list\+\_\+title\+\_\+conf} = \char`\"{}\textbackslash{}n\textbackslash{}n\+List of possible confinments\+:\textbackslash{}n\char`\"{}
+\item 
+def \hyperlink{namespacedtool__create__header__makefile_a4e3f9b82851347f997d355b0ca8f1fcb}{conf\+\_\+list\+\_\+files} = \hyperlink{namespacedtool__create__header__makefile_aac7aaa9e2dd31199c8de0c4e31e06fc2}{get\+\_\+module\+\_\+files}(\textquotesingle{}conf\textquotesingle{}, \hyperlink{namespacedtool__create__header__makefile_abd0dcdac4e18093901b3578cf18519af}{list\+\_\+title\+\_\+conf})
+\item 
+string \hyperlink{namespacedtool__create__header__makefile_a4f70e468c03f57621d3201c2f35a1156}{request\+\_\+conf} = \char`\"{}\textbackslash{}nchoose module for confinement to be linked in compilation (ind or name)\+:\char`\"{}
+\item 
+def \hyperlink{namespacedtool__create__header__makefile_aaaed301e2c0c16a73c61648ba7d8f9e8}{conf\+\_\+file} = \hyperlink{namespacedtool__create__header__makefile_a6b59b323ea5b8fe8b88d74e3101bbcc0}{select\+\_\+file}(\hyperlink{namespacedtool__create__header__makefile_a4e3f9b82851347f997d355b0ca8f1fcb}{conf\+\_\+list\+\_\+files}, \hyperlink{namespacedtool__create__header__makefile_a4f70e468c03f57621d3201c2f35a1156}{request\+\_\+conf})
+\item 
+string \hyperlink{namespacedtool__create__header__makefile_aabb386b62cca78e13093b04e1d81d5ee}{list\+\_\+title\+\_\+int} = \char`\"{}\textbackslash{}n\textbackslash{}n\+List of possible interactions\+:\textbackslash{}n\char`\"{}
+\item 
+def \hyperlink{namespacedtool__create__header__makefile_a2bbb092533b4a2f2a7ab0b00d627301d}{int\+\_\+list\+\_\+files} = \hyperlink{namespacedtool__create__header__makefile_aac7aaa9e2dd31199c8de0c4e31e06fc2}{get\+\_\+module\+\_\+files}(\textquotesingle{}int\textquotesingle{}, \hyperlink{namespacedtool__create__header__makefile_aabb386b62cca78e13093b04e1d81d5ee}{list\+\_\+title\+\_\+int})
+\item 
+string \hyperlink{namespacedtool__create__header__makefile_a5f243091bd4c1e3f0fd5a16331891da8}{request\+\_\+int} = \char`\"{}\textbackslash{}nchoose module for interaction to be linked in compilation (ind or name)\+:\char`\"{}
+\item 
+def \hyperlink{namespacedtool__create__header__makefile_aa5b61782d2cdd9d920d4ec7e0de1a649}{int\+\_\+file} = \hyperlink{namespacedtool__create__header__makefile_a6b59b323ea5b8fe8b88d74e3101bbcc0}{select\+\_\+file}(\hyperlink{namespacedtool__create__header__makefile_a2bbb092533b4a2f2a7ab0b00d627301d}{int\+\_\+list\+\_\+files}, \hyperlink{namespacedtool__create__header__makefile_a5f243091bd4c1e3f0fd5a16331891da8}{request\+\_\+int})
+\item 
+def \hyperlink{namespacedtool__create__header__makefile_a6e146944915498bf9bb492fb89fa2e56}{mpicc\+\_\+flag} = \hyperlink{namespacedtool__create__header__makefile_ade20315174e63957ab8a6386d39a19a9}{check\+\_\+for\+\_\+mpicc}()
+\item 
+def \hyperlink{namespacedtool__create__header__makefile_a8d639de030b42746e88d5c8fd8004f8c}{compiler} = \hyperlink{namespacedtool__create__header__makefile_a5c365b1c484ec60962c5a4837eab8db4}{get\+\_\+compiler}(\hyperlink{namespacedtool__create__header__makefile_a6e146944915498bf9bb492fb89fa2e56}{mpicc\+\_\+flag})
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\begin{DoxyVerb}Script that helps to create makefile
+for the compilation of brownian motion
+code.
+
+It presents the possible files for 
+confinements and interactions and composes
+the makefile based on the user's choices.\end{DoxyVerb}
+ 
+
+\subsection{Function Documentation}
+\mbox{\Hypertarget{namespacedtool__create__header__makefile_a4ae3a2ba6c7f434c8dbb986946212358}\label{namespacedtool__create__header__makefile_a4ae3a2ba6c7f434c8dbb986946212358}} 
+\index{dtool\+\_\+create\+\_\+header\+\_\+makefile@{dtool\+\_\+create\+\_\+header\+\_\+makefile}!adapt\+\_\+line@{adapt\+\_\+line}}
+\index{adapt\+\_\+line@{adapt\+\_\+line}!dtool\+\_\+create\+\_\+header\+\_\+makefile@{dtool\+\_\+create\+\_\+header\+\_\+makefile}}
+\subsubsection{\texorpdfstring{adapt\+\_\+line()}{adapt\_line()}}
+{\footnotesize\ttfamily def dtool\+\_\+create\+\_\+header\+\_\+makefile.\+adapt\+\_\+line (\begin{DoxyParamCaption}\item[{}]{line,  }\item[{}]{new\+\_\+part }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{namespacedtool__create__header__makefile_a474e747287372d16452c9e58d4dd6f76}\label{namespacedtool__create__header__makefile_a474e747287372d16452c9e58d4dd6f76}} 
+\index{dtool\+\_\+create\+\_\+header\+\_\+makefile@{dtool\+\_\+create\+\_\+header\+\_\+makefile}!adapt\+\_\+makefile@{adapt\+\_\+makefile}}
+\index{adapt\+\_\+makefile@{adapt\+\_\+makefile}!dtool\+\_\+create\+\_\+header\+\_\+makefile@{dtool\+\_\+create\+\_\+header\+\_\+makefile}}
+\subsubsection{\texorpdfstring{adapt\+\_\+makefile()}{adapt\_makefile()}}
+{\footnotesize\ttfamily def dtool\+\_\+create\+\_\+header\+\_\+makefile.\+adapt\+\_\+makefile (\begin{DoxyParamCaption}\item[{}]{compiler,  }\item[{}]{conf\+\_\+file,  }\item[{}]{int\+\_\+file }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{namespacedtool__create__header__makefile_a342039020d50a9f80f88e325919135a8}\label{namespacedtool__create__header__makefile_a342039020d50a9f80f88e325919135a8}} 
+\index{dtool\+\_\+create\+\_\+header\+\_\+makefile@{dtool\+\_\+create\+\_\+header\+\_\+makefile}!call\+\_\+make\+\_\+file@{call\+\_\+make\+\_\+file}}
+\index{call\+\_\+make\+\_\+file@{call\+\_\+make\+\_\+file}!dtool\+\_\+create\+\_\+header\+\_\+makefile@{dtool\+\_\+create\+\_\+header\+\_\+makefile}}
+\subsubsection{\texorpdfstring{call\+\_\+make\+\_\+file()}{call\_make\_file()}}
+{\footnotesize\ttfamily def dtool\+\_\+create\+\_\+header\+\_\+makefile.\+call\+\_\+make\+\_\+file (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{namespacedtool__create__header__makefile_ade20315174e63957ab8a6386d39a19a9}\label{namespacedtool__create__header__makefile_ade20315174e63957ab8a6386d39a19a9}} 
+\index{dtool\+\_\+create\+\_\+header\+\_\+makefile@{dtool\+\_\+create\+\_\+header\+\_\+makefile}!check\+\_\+for\+\_\+mpicc@{check\+\_\+for\+\_\+mpicc}}
+\index{check\+\_\+for\+\_\+mpicc@{check\+\_\+for\+\_\+mpicc}!dtool\+\_\+create\+\_\+header\+\_\+makefile@{dtool\+\_\+create\+\_\+header\+\_\+makefile}}
+\subsubsection{\texorpdfstring{check\+\_\+for\+\_\+mpicc()}{check\_for\_mpicc()}}
+{\footnotesize\ttfamily def dtool\+\_\+create\+\_\+header\+\_\+makefile.\+check\+\_\+for\+\_\+mpicc (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{namespacedtool__create__header__makefile_a5c365b1c484ec60962c5a4837eab8db4}\label{namespacedtool__create__header__makefile_a5c365b1c484ec60962c5a4837eab8db4}} 
+\index{dtool\+\_\+create\+\_\+header\+\_\+makefile@{dtool\+\_\+create\+\_\+header\+\_\+makefile}!get\+\_\+compiler@{get\+\_\+compiler}}
+\index{get\+\_\+compiler@{get\+\_\+compiler}!dtool\+\_\+create\+\_\+header\+\_\+makefile@{dtool\+\_\+create\+\_\+header\+\_\+makefile}}
+\subsubsection{\texorpdfstring{get\+\_\+compiler()}{get\_compiler()}}
+{\footnotesize\ttfamily def dtool\+\_\+create\+\_\+header\+\_\+makefile.\+get\+\_\+compiler (\begin{DoxyParamCaption}\item[{}]{mpicc }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}function that contains list of suggested compilers and takes user
+input to select compiler
+\end{DoxyVerb}
+ \mbox{\Hypertarget{namespacedtool__create__header__makefile_aac7aaa9e2dd31199c8de0c4e31e06fc2}\label{namespacedtool__create__header__makefile_aac7aaa9e2dd31199c8de0c4e31e06fc2}} 
+\index{dtool\+\_\+create\+\_\+header\+\_\+makefile@{dtool\+\_\+create\+\_\+header\+\_\+makefile}!get\+\_\+module\+\_\+files@{get\+\_\+module\+\_\+files}}
+\index{get\+\_\+module\+\_\+files@{get\+\_\+module\+\_\+files}!dtool\+\_\+create\+\_\+header\+\_\+makefile@{dtool\+\_\+create\+\_\+header\+\_\+makefile}}
+\subsubsection{\texorpdfstring{get\+\_\+module\+\_\+files()}{get\_module\_files()}}
+{\footnotesize\ttfamily def dtool\+\_\+create\+\_\+header\+\_\+makefile.\+get\+\_\+module\+\_\+files (\begin{DoxyParamCaption}\item[{}]{prefix,  }\item[{}]{message }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{namespacedtool__create__header__makefile_a6b59b323ea5b8fe8b88d74e3101bbcc0}\label{namespacedtool__create__header__makefile_a6b59b323ea5b8fe8b88d74e3101bbcc0}} 
+\index{dtool\+\_\+create\+\_\+header\+\_\+makefile@{dtool\+\_\+create\+\_\+header\+\_\+makefile}!select\+\_\+file@{select\+\_\+file}}
+\index{select\+\_\+file@{select\+\_\+file}!dtool\+\_\+create\+\_\+header\+\_\+makefile@{dtool\+\_\+create\+\_\+header\+\_\+makefile}}
+\subsubsection{\texorpdfstring{select\+\_\+file()}{select\_file()}}
+{\footnotesize\ttfamily def dtool\+\_\+create\+\_\+header\+\_\+makefile.\+select\+\_\+file (\begin{DoxyParamCaption}\item[{}]{list\+\_\+select,  }\item[{}]{scan\+\_\+message }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{namespacedtool__create__header__makefile_a939aa1004273921a046633c692c2ff7c}\label{namespacedtool__create__header__makefile_a939aa1004273921a046633c692c2ff7c}} 
+\index{dtool\+\_\+create\+\_\+header\+\_\+makefile@{dtool\+\_\+create\+\_\+header\+\_\+makefile}!write\+\_\+conf\+\_\+int\+\_\+header@{write\+\_\+conf\+\_\+int\+\_\+header}}
+\index{write\+\_\+conf\+\_\+int\+\_\+header@{write\+\_\+conf\+\_\+int\+\_\+header}!dtool\+\_\+create\+\_\+header\+\_\+makefile@{dtool\+\_\+create\+\_\+header\+\_\+makefile}}
+\subsubsection{\texorpdfstring{write\+\_\+conf\+\_\+int\+\_\+header()}{write\_conf\_int\_header()}}
+{\footnotesize\ttfamily def dtool\+\_\+create\+\_\+header\+\_\+makefile.\+write\+\_\+conf\+\_\+int\+\_\+header (\begin{DoxyParamCaption}\item[{}]{conf\+\_\+file,  }\item[{}]{int\+\_\+file,  }\item[{}]{mpi\+\_\+flag }\end{DoxyParamCaption})}
+
+
+
+\subsection{Variable Documentation}
+\mbox{\Hypertarget{namespacedtool__create__header__makefile_a8d639de030b42746e88d5c8fd8004f8c}\label{namespacedtool__create__header__makefile_a8d639de030b42746e88d5c8fd8004f8c}} 
+\index{dtool\+\_\+create\+\_\+header\+\_\+makefile@{dtool\+\_\+create\+\_\+header\+\_\+makefile}!compiler@{compiler}}
+\index{compiler@{compiler}!dtool\+\_\+create\+\_\+header\+\_\+makefile@{dtool\+\_\+create\+\_\+header\+\_\+makefile}}
+\subsubsection{\texorpdfstring{compiler}{compiler}}
+{\footnotesize\ttfamily def dtool\+\_\+create\+\_\+header\+\_\+makefile.\+compiler = \hyperlink{namespacedtool__create__header__makefile_a5c365b1c484ec60962c5a4837eab8db4}{get\+\_\+compiler}(\hyperlink{namespacedtool__create__header__makefile_a6e146944915498bf9bb492fb89fa2e56}{mpicc\+\_\+flag})}
+
+\mbox{\Hypertarget{namespacedtool__create__header__makefile_aaaed301e2c0c16a73c61648ba7d8f9e8}\label{namespacedtool__create__header__makefile_aaaed301e2c0c16a73c61648ba7d8f9e8}} 
+\index{dtool\+\_\+create\+\_\+header\+\_\+makefile@{dtool\+\_\+create\+\_\+header\+\_\+makefile}!conf\+\_\+file@{conf\+\_\+file}}
+\index{conf\+\_\+file@{conf\+\_\+file}!dtool\+\_\+create\+\_\+header\+\_\+makefile@{dtool\+\_\+create\+\_\+header\+\_\+makefile}}
+\subsubsection{\texorpdfstring{conf\+\_\+file}{conf\_file}}
+{\footnotesize\ttfamily def dtool\+\_\+create\+\_\+header\+\_\+makefile.\+conf\+\_\+file = \hyperlink{namespacedtool__create__header__makefile_a6b59b323ea5b8fe8b88d74e3101bbcc0}{select\+\_\+file}(\hyperlink{namespacedtool__create__header__makefile_a4e3f9b82851347f997d355b0ca8f1fcb}{conf\+\_\+list\+\_\+files}, \hyperlink{namespacedtool__create__header__makefile_a4f70e468c03f57621d3201c2f35a1156}{request\+\_\+conf})}
+
+\mbox{\Hypertarget{namespacedtool__create__header__makefile_a4e3f9b82851347f997d355b0ca8f1fcb}\label{namespacedtool__create__header__makefile_a4e3f9b82851347f997d355b0ca8f1fcb}} 
+\index{dtool\+\_\+create\+\_\+header\+\_\+makefile@{dtool\+\_\+create\+\_\+header\+\_\+makefile}!conf\+\_\+list\+\_\+files@{conf\+\_\+list\+\_\+files}}
+\index{conf\+\_\+list\+\_\+files@{conf\+\_\+list\+\_\+files}!dtool\+\_\+create\+\_\+header\+\_\+makefile@{dtool\+\_\+create\+\_\+header\+\_\+makefile}}
+\subsubsection{\texorpdfstring{conf\+\_\+list\+\_\+files}{conf\_list\_files}}
+{\footnotesize\ttfamily def dtool\+\_\+create\+\_\+header\+\_\+makefile.\+conf\+\_\+list\+\_\+files = \hyperlink{namespacedtool__create__header__makefile_aac7aaa9e2dd31199c8de0c4e31e06fc2}{get\+\_\+module\+\_\+files}(\textquotesingle{}conf\textquotesingle{}, \hyperlink{namespacedtool__create__header__makefile_abd0dcdac4e18093901b3578cf18519af}{list\+\_\+title\+\_\+conf})}
+
+\mbox{\Hypertarget{namespacedtool__create__header__makefile_aa5b61782d2cdd9d920d4ec7e0de1a649}\label{namespacedtool__create__header__makefile_aa5b61782d2cdd9d920d4ec7e0de1a649}} 
+\index{dtool\+\_\+create\+\_\+header\+\_\+makefile@{dtool\+\_\+create\+\_\+header\+\_\+makefile}!int\+\_\+file@{int\+\_\+file}}
+\index{int\+\_\+file@{int\+\_\+file}!dtool\+\_\+create\+\_\+header\+\_\+makefile@{dtool\+\_\+create\+\_\+header\+\_\+makefile}}
+\subsubsection{\texorpdfstring{int\+\_\+file}{int\_file}}
+{\footnotesize\ttfamily def dtool\+\_\+create\+\_\+header\+\_\+makefile.\+int\+\_\+file = \hyperlink{namespacedtool__create__header__makefile_a6b59b323ea5b8fe8b88d74e3101bbcc0}{select\+\_\+file}(\hyperlink{namespacedtool__create__header__makefile_a2bbb092533b4a2f2a7ab0b00d627301d}{int\+\_\+list\+\_\+files}, \hyperlink{namespacedtool__create__header__makefile_a5f243091bd4c1e3f0fd5a16331891da8}{request\+\_\+int})}
+
+\mbox{\Hypertarget{namespacedtool__create__header__makefile_a2bbb092533b4a2f2a7ab0b00d627301d}\label{namespacedtool__create__header__makefile_a2bbb092533b4a2f2a7ab0b00d627301d}} 
+\index{dtool\+\_\+create\+\_\+header\+\_\+makefile@{dtool\+\_\+create\+\_\+header\+\_\+makefile}!int\+\_\+list\+\_\+files@{int\+\_\+list\+\_\+files}}
+\index{int\+\_\+list\+\_\+files@{int\+\_\+list\+\_\+files}!dtool\+\_\+create\+\_\+header\+\_\+makefile@{dtool\+\_\+create\+\_\+header\+\_\+makefile}}
+\subsubsection{\texorpdfstring{int\+\_\+list\+\_\+files}{int\_list\_files}}
+{\footnotesize\ttfamily def dtool\+\_\+create\+\_\+header\+\_\+makefile.\+int\+\_\+list\+\_\+files = \hyperlink{namespacedtool__create__header__makefile_aac7aaa9e2dd31199c8de0c4e31e06fc2}{get\+\_\+module\+\_\+files}(\textquotesingle{}int\textquotesingle{}, \hyperlink{namespacedtool__create__header__makefile_aabb386b62cca78e13093b04e1d81d5ee}{list\+\_\+title\+\_\+int})}
+
+\mbox{\Hypertarget{namespacedtool__create__header__makefile_abd0dcdac4e18093901b3578cf18519af}\label{namespacedtool__create__header__makefile_abd0dcdac4e18093901b3578cf18519af}} 
+\index{dtool\+\_\+create\+\_\+header\+\_\+makefile@{dtool\+\_\+create\+\_\+header\+\_\+makefile}!list\+\_\+title\+\_\+conf@{list\+\_\+title\+\_\+conf}}
+\index{list\+\_\+title\+\_\+conf@{list\+\_\+title\+\_\+conf}!dtool\+\_\+create\+\_\+header\+\_\+makefile@{dtool\+\_\+create\+\_\+header\+\_\+makefile}}
+\subsubsection{\texorpdfstring{list\+\_\+title\+\_\+conf}{list\_title\_conf}}
+{\footnotesize\ttfamily string dtool\+\_\+create\+\_\+header\+\_\+makefile.\+list\+\_\+title\+\_\+conf = \char`\"{}\textbackslash{}n\textbackslash{}n\+List of possible confinments\+:\textbackslash{}n\char`\"{}}
+
+\mbox{\Hypertarget{namespacedtool__create__header__makefile_aabb386b62cca78e13093b04e1d81d5ee}\label{namespacedtool__create__header__makefile_aabb386b62cca78e13093b04e1d81d5ee}} 
+\index{dtool\+\_\+create\+\_\+header\+\_\+makefile@{dtool\+\_\+create\+\_\+header\+\_\+makefile}!list\+\_\+title\+\_\+int@{list\+\_\+title\+\_\+int}}
+\index{list\+\_\+title\+\_\+int@{list\+\_\+title\+\_\+int}!dtool\+\_\+create\+\_\+header\+\_\+makefile@{dtool\+\_\+create\+\_\+header\+\_\+makefile}}
+\subsubsection{\texorpdfstring{list\+\_\+title\+\_\+int}{list\_title\_int}}
+{\footnotesize\ttfamily string dtool\+\_\+create\+\_\+header\+\_\+makefile.\+list\+\_\+title\+\_\+int = \char`\"{}\textbackslash{}n\textbackslash{}n\+List of possible interactions\+:\textbackslash{}n\char`\"{}}
+
+\mbox{\Hypertarget{namespacedtool__create__header__makefile_a6e146944915498bf9bb492fb89fa2e56}\label{namespacedtool__create__header__makefile_a6e146944915498bf9bb492fb89fa2e56}} 
+\index{dtool\+\_\+create\+\_\+header\+\_\+makefile@{dtool\+\_\+create\+\_\+header\+\_\+makefile}!mpicc\+\_\+flag@{mpicc\+\_\+flag}}
+\index{mpicc\+\_\+flag@{mpicc\+\_\+flag}!dtool\+\_\+create\+\_\+header\+\_\+makefile@{dtool\+\_\+create\+\_\+header\+\_\+makefile}}
+\subsubsection{\texorpdfstring{mpicc\+\_\+flag}{mpicc\_flag}}
+{\footnotesize\ttfamily def dtool\+\_\+create\+\_\+header\+\_\+makefile.\+mpicc\+\_\+flag = \hyperlink{namespacedtool__create__header__makefile_ade20315174e63957ab8a6386d39a19a9}{check\+\_\+for\+\_\+mpicc}()}
+
+\mbox{\Hypertarget{namespacedtool__create__header__makefile_a4f70e468c03f57621d3201c2f35a1156}\label{namespacedtool__create__header__makefile_a4f70e468c03f57621d3201c2f35a1156}} 
+\index{dtool\+\_\+create\+\_\+header\+\_\+makefile@{dtool\+\_\+create\+\_\+header\+\_\+makefile}!request\+\_\+conf@{request\+\_\+conf}}
+\index{request\+\_\+conf@{request\+\_\+conf}!dtool\+\_\+create\+\_\+header\+\_\+makefile@{dtool\+\_\+create\+\_\+header\+\_\+makefile}}
+\subsubsection{\texorpdfstring{request\+\_\+conf}{request\_conf}}
+{\footnotesize\ttfamily string dtool\+\_\+create\+\_\+header\+\_\+makefile.\+request\+\_\+conf = \char`\"{}\textbackslash{}nchoose module for confinement to be linked in compilation (ind or name)\+:\char`\"{}}
+
+\mbox{\Hypertarget{namespacedtool__create__header__makefile_a5f243091bd4c1e3f0fd5a16331891da8}\label{namespacedtool__create__header__makefile_a5f243091bd4c1e3f0fd5a16331891da8}} 
+\index{dtool\+\_\+create\+\_\+header\+\_\+makefile@{dtool\+\_\+create\+\_\+header\+\_\+makefile}!request\+\_\+int@{request\+\_\+int}}
+\index{request\+\_\+int@{request\+\_\+int}!dtool\+\_\+create\+\_\+header\+\_\+makefile@{dtool\+\_\+create\+\_\+header\+\_\+makefile}}
+\subsubsection{\texorpdfstring{request\+\_\+int}{request\_int}}
+{\footnotesize\ttfamily string dtool\+\_\+create\+\_\+header\+\_\+makefile.\+request\+\_\+int = \char`\"{}\textbackslash{}nchoose module for interaction to be linked in compilation (ind or name)\+:\char`\"{}}
+

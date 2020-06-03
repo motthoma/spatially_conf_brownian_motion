@@ -1,3 +1,11 @@
+/* Module that contains functions to handle a confinement given
+ * by a saw tooth like profile used for the entropic splitter 
+ * (see Motz et al. J. Chem. Phys. 2014).
+ *
+ * Function with boundary for septate channel 
+ * is in header file for inlining and thus a
+ * better computational performance
+*/ 
 #include <stdio.h>
 #include <stdlib.h>
 #include "par_sim.h"

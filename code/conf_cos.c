@@ -1,3 +1,10 @@
+/**
+ * Module to handle a confinement with a cosine shape 
+ * (see e.g. Phd Thesis Steffen Martens 2013 page 90).
+ * Function with boundary for septate channel 
+ * is in header file for inlining and thus a
+ * better computational performance
+ */
 #include <stdio.h>
 #include <stdlib.h>
 #include "par_sim.h"

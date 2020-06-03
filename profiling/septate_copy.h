@@ -22,7 +22,7 @@
  * bottleneck, yueff is a circle with radius R_CONF. In the other sections, we
  * have shifted straight lines parallel to the originial boundary.
  */
-static inline double yuef_sept(double x, double y){
+static __inline__ double yuef_sept(double x, double y){
 
 /*If particle is in central cylinder of width 2B,
  * an evaluation of the eff. boundary is not necessary.

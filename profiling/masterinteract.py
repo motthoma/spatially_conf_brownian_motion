@@ -6,7 +6,7 @@ f = 20
 #sample number of interacting particles
 sn = 20
 #number of tasks if parallelized with MPI
-numtasks = 1
+numtasks = 10
 
 #content of run_script (specific for albeniz cluster)
 str_run_script =\
@@ -32,7 +32,7 @@ else:
 
 
 #while loop over range of forces to initialize
-#jobs with respective force
+#jobs with respective forcefind = f
 find = f
 while fabs(find) <=  fabs(f):
   scriptname = "LJ_sn_{0}_F_{1:.2f}".format(sn,f) 

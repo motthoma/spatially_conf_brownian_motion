@@ -1,3 +1,11 @@
+/* Module that contains functions to handle a confinement given
+ * by a septated channel according to: 
+ * Borromeo, Marchesoni Chem. Phys. 2010, doi = "https://doi.org/10.1016/j.chemphys.2010.03.022"
+ *
+ * Function with boundary for septate channel 
+ * is in header file for inlining and thus a
+ * better computational performance
+*/ 
 #include <stdio.h>
 #include <stdlib.h>
 #include "par_sim.h"
@@ -15,14 +23,14 @@ fclose(outpspecs);
 }
 
 void copycode_conf(){
-char copycode[200];
+    char copycode[200];
 
-  sprintf(copycode, "cp ../conf_sept.* ./");
-  system(copycode);
+     sprintf(copycode, "cp ../conf_sept.* ./");
+     system(copycode);
 
 }
 
 char* prfx_conf(){
-char *a = "sept";
+    char *a = "sept";
 return a;
 }

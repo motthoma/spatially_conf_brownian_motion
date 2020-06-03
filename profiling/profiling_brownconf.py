@@ -1,6 +1,8 @@
-#script that profiles code of interacting brownian particles project. 
-#The code is copied from 'code' directory to local one, compiled, executed
-#and profiled
+"""
+script that profiles code of interacting brownian particles project. 
+The code is copied from 'code' directory to local one, compiled, executed
+and profiled
+"""
 
 import os
 import sys
@@ -8,12 +10,12 @@ import sys
 #adjustable parameters
 #choose name of executable, type of confinement and inter-particle interaction
 executable = "main_brownconf"
-confinement = "splitter"
+confinement = "sept"
 interaction = "hardspheres"
 
 #choose value of external force, size of interacting samples
 #and number of prallel threads
-ext_force = "1000"
+ext_force = "1"
 setnumb = "1"
 numb_mpi_tasks = "0"
 

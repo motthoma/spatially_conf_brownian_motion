@@ -26,21 +26,38 @@ struct TransportCoeffs{
         /*average of particle x-positions <x>*/
 	long double meanx; 
 	/*average of particle speed in x-directions <v>*/
-	double meanspd;
+	double meanspeed;
 	/*<x^2>*/
 	long double meanxsqu; 
 	/*<x^3>*/
         long double meanxqub;
         /*mean-squared displacement of x-position (2nd moment): <x^2> - <x>^2*/
         long double msd;
-	/*third moment of x-position: <x^3> - 3*<x>*<x^2> + 2*<x>^3*/
-	long double mthree;
+	/*third cumulant of x-position: <x^3> - 3*<x>*<x^2> + 2*<x>^3*/
+	long double thirdcum;
         /*effective diffusion coeff.: (<x^2> - <x>^2)/(2*t*B/R)*/
 	double deff; 
 	/*non-linear mobility mu = <v>/F*/
 	double mu;
 
 } tcoeff;
+
+/**
+ * structure which contains variables used in the
+ * printing functions which print the resulting
+ * transport coefficients in .dat files
+ */
+struct PrintResults{
+	/*state index to monitor if header line
+         *or ongoing value has to be printed
+         */
+	int state;
+        /*array to store name of .dat file containing mobility and other coeffs*/
+	char fname [60];
+        /*array to store name of .dat file containing moments of positions*/
+	char fnamemom [60];
+
+} printres;
 
 /**
  * Function that caluclates transport coefficients such as
@@ -70,24 +87,35 @@ void calc_transpcoeffs(
 	  for(kset = 0; kset < SimParams.setnumb; kset++){
 		 totalshift = posshift[j][kset] - negshift[j][kset];
 
-		 /*calculate absolute position of individual particle*/
+		 /*absolute position of individual particle*/
 		 abspos_part = (posx[j][kset] - x_init[j][kset])/L - totalshift;
+                 /*sum of positions of all particles for later averaging*/
 		 xges += abspos_part;
+		 /*sum of x^2 over all particles*/
 		 xgessquare += powl(abspos_part, 2);
+                 /*sum of x^3 over all particles*/
 		 xgesqub += powl(abspos_part, 3);
  
 	  } 
   }
   
-
+  /*calculate transport coefficients, where the averages are ensemble averages*/
+  /*mean position <x> of all particles*/
   tcoeff.meanx = xges/SimParams.N*SimParams.numtasks; 
+  /*mean square position <x^2> of all particles*/
   tcoeff.meanxsqu = xgessquare/SimParams.N*SimParams.numtasks; 
+  /*mean squared displacement <x^2> - <x>^2 */
   tcoeff.msd = tcoeff.meanxsqu - tcoeff.meanx*tcoeff.meanx;
-  tcoeff.meanspd = tcoeff.meanx/t;  
-  tcoeff.mu = tcoeff.meanspd/SimParams.F;
+  /*means speed <v> = <x>/t */
+  tcoeff.meanspeed = tcoeff.meanx/t;  
+  /*mobility mu = <v>/F */
+  tcoeff.mu = tcoeff.meanspeed/SimParams.F;
+  /*effective diffusion D_eff = (<x^2>-<x>^2)/(2*t*b/r) */
   tcoeff.deff = tcoeff.msd/(2*t*BOTTRAD); 
+  /*third moment of position <x^3> */
   tcoeff.meanxqub = xgesqub/SimParams.N*SimParams.numtasks;
-  tcoeff.mthree = tcoeff.meanxqub - 3*tcoeff.meanx*tcoeff.meanxsqu + 2*powl(tcoeff.meanx, 3);
+  /*thrid cumulant of poisition <x^3> - 3<x><x^2> + 2<x>^3 */
+  tcoeff.thirdcum = tcoeff.meanxqub - 3*tcoeff.meanx*tcoeff.meanxsqu + 2*powl(tcoeff.meanx, 3);
 }
 
 
@@ -149,7 +177,7 @@ void print_runtime(clock_t start)
 
   FILE *outpspecs;
   outpspecs=fopen("muovert_specs.dat", "a");
-  fprintf(outpspecs, "\nSimulationtime: %d days %dhours %dmin %dsec\n", timediff/(3600*24), (timediff/3600)%24, 
+  fprintf(outpspecs, "\nComputing time: %d days %dhours %dmin %dsec\n", timediff/(3600*24), (timediff/3600)%24, 
                                                                         (timediff/60)%60, timediff%60);
 
   fprintf(outpspecs, "Total computing time of all threads: %d days %dhours %dmin %dsec\n\n", timediff_all/(3600*24), 
@@ -202,14 +230,14 @@ int timediff;
 
 	FILE *outptasks;
 	outptasks=fopen("taskres.dat", "a");
-	fprintf(outptasks, "\nTask %d:\nmeanx = %.8Lf\t meanxsqu = %.8Lf\t meanspd = %.8lf\t mu = %.8lf\t deff = %.8lf\n", taskid, 
+	fprintf(outptasks, "\nTask %d:\nmeanx = %.8Lf\t meanxsqu = %.8Lf\t meanspeed = %.8lf\t mu = %.8lf\t deff = %.8lf\n", taskid, 
 			    tcoeff.meanx, 
 			    tcoeff.meanxsqu,
-			    tcoeff.meanspd, 
+			    tcoeff.meanspeed, 
 			    tcoeff.mu, 
 			    tcoeff.deff);
 
-	fprintf(outptasks, "Sitcoeff.mulationtime for task %d: %d days %dhours %dmin %dsec\n", taskid, 
+	fprintf(outptasks, "Time of simulation for task %d: %d days %dhours %dmin %dsec\n", taskid, 
                                                                                         timediff/(3600*24), 
                                                                                         (timediff/3600)%24, 
                                                                                         (timediff/60)%60, 
@@ -219,35 +247,70 @@ int timediff;
 
 }
 
+void print_results_over_time(double t, 
+                             int abb, 
+                             int abbdeff)
+{
+       /**
+	* function to print online results of sitcoeff.mulation over time 
+	*/
+        if(printres.state == 0)	{    
+		sprintf(printres.fname, "muovert_F_%.3lf.dat", SimParams.F);
+		FILE *outp;
+		outp = fopen(printres.fname ,"w");
+		fprintf(outp, "#time\t meanx: <x>\t meanspeed: <v>\t mu\t abb\t abbdeff\n");
+		fclose(outp);
 
-void print_resallthreads(long double msdall, 
-                         double meanspdall, 
+		sprintf(printres.fnamemom, "momsovert_F_%.3lf.dat", SimParams.F);
+		FILE *outpmom;
+		outpmom=fopen(printres.fnamemom ,"w");
+		fprintf(outpmom, "#time\t meanx: <x>\t Meansqdist: <x^2> - <x>^2\t  deff: (<x^2> - <x>^2)/(2t)\t third cumulant: <x^3>-3<x^2><x>+2<x>^3\n");
+		fclose(outpmom);
+
+		printres.state = 1;
+	}
+	else{
+		FILE *outp;
+		outp=fopen(printres.fname ,"a");
+		fprintf(outp, "%.6f\t %.4Lf\t %.5lf\t %.4lf\t  %d\t %d\n", t, tcoeff.meanx, tcoeff.meanspeed, tcoeff.mu, abb, abbdeff);
+		fclose(outp);
+
+		FILE *outpmom;
+		outpmom=fopen(printres.fnamemom ,"a");
+		fprintf(outpmom, "%.6f\t %.6Lf\t %.5Lf\t %.5Lf\t %.5lf\t %.5Lf\n", t, tcoeff.meanx, tcoeff.meanxsqu, tcoeff.msd, tcoeff.deff, tcoeff.thirdcum);
+		fclose(outpmom);
+		
+	}
+}
+
+void print_resallthreads(
+			 long double msdall, 
+                         double meanspeedall, 
 			 double muall, 
                          double deffall, 
                          long double meanxall, 
                          long double meanxsquall, 
-                         long double mthreeall,
-                         char fname[],
-                         char fnamemom[])
+                         long double thirdcumall)
 /**
- * prints results of sitcoeff.mulation to file
+ * prints results of simulation to file at the end of the simulation
  */
 {
   FILE *outp;
-  outp=fopen(fname ,"a");
-  fprintf(outp, "\n\nAverage of all Threads:\n\nmsd = %.5Lf\t meanspd = %.5lf\t mu = %.5lf\t deff = %.5lf\n\n", 
-          tcoeff.msd/SimParams.numtasks,
-          tcoeff.meanspd/SimParams.numtasks, 
-	  tcoeff.mu/SimParams.numtasks, 
-	  tcoeff.deff/SimParams.numtasks);
+  outp=fopen(printres.fname ,"a");
+  fprintf(outp, "\n\nAverage of all Threads:\n\nmeanx = %.5Lf\t meanspeed = %.5lf\t mu = %.5lf\n\n", 
+          meanxall/SimParams.numtasks, 
+          meanspeedall/SimParams.numtasks, 
+	  muall/SimParams.numtasks);
   fclose(outp);
            
   FILE *outpmom;
-  outpmom=fopen(fnamemom ,"a");
-  fprintf(outpmom, "\n\nAverage of all Threads:\n\nmeanx = %.5Lf\t meanxsqu = %.5Lf\t mthree = %.5LF\n\n", 
-          tcoeff.meanx/SimParams.numtasks, 
-	  tcoeff.meanxsqu/SimParams.numtasks, 
-	  tcoeff.mthree/SimParams.numtasks);
+  outpmom=fopen(printres.fnamemom ,"a");
+  fprintf(outpmom, "\n\nAverage of all Threads:\n\nmeanx = %.5Lf\t meanxsqu = %.5Lf\t msdall = %.5Lf\t deff = %.5lf\t thirdcum = %.5LF\n\n", 
+          meanxall/SimParams.numtasks, 
+	  meanxsquall/SimParams.numtasks, 
+          msdall/SimParams.numtasks,
+	  deffall/SimParams.numtasks,  
+	  thirdcumall/SimParams.numtasks);
   fclose(outpmom);
 }
 
@@ -258,12 +321,7 @@ void print_muoverf(double muall, double deffall, char *namefile)
  */
   char fnamemu[60];
 
-  if(SimParams.F >= 0){ 
-  	sprintf(fnamemu, "../muoverfpos_R_%.2lf_setnumb_%d.dat", R_CONF, SimParams.setnumb);
-  }
-  else{
-  	sprintf(fnamemu, "../muoverfneg_R_%.2lf_setnumb_%d.dat", R_CONF, SimParams.setnumb);
-  }
+  sprintf(fnamemu, "../muoverfpos_R_%.2lf_setnumb_%d.dat", R_CONF, SimParams.setnumb);
 
   FILE *outmu;
   outmu=fopen(fnamemu, "a");
@@ -522,25 +580,6 @@ double reset_pos_time(int setn_per_task, long int **posshift, long int **negshif
 	return t;
 }
 
-void print_results_over_time(char *fname, 
-                             char *fnamemom, 
-                             double t, 
-                             int abb, 
-                             int abbdeff)
-{
-       /**
-	* function to plot online results of sitcoeff.mulation over time 
-	*/
-	FILE *outp;
-	outp=fopen(fname ,"a");
-	fprintf(outp, "%.6f\t %.4Lf\t %.5lf\t %.4Lf\t %.5lf\t %d\t %d\n", t, tcoeff.meanx, tcoeff.mu, tcoeff.meanxsqu, tcoeff.deff, abb, abbdeff);
-	fclose(outp);
-
-	FILE *outpmom;
-	outpmom=fopen(fnamemom ,"a");
-	fprintf(outpmom, "%.6f\t %.6lf\t %.5Lf\n", t, tcoeff.meanspd, tcoeff.mthree);
-	fclose(outpmom);
-}
 
 void adapt_posshifts(int shiftind, int i, int j, long int **posshift, long int **negshift)
 {
@@ -586,7 +625,7 @@ int update_equcounter(double tran_quant, double tran_quanto, double accurarcy, i
 	return equcounter;
 }
 
-/**Function that allocates memory for an 2 dimensional array*/
+/**Function that allocates memory for a 2 dimensional array of doubles*/
 double **calloc_2Ddouble_array(int m, int n){
 double **array;
 int i;
@@ -599,6 +638,7 @@ int i;
   return array;
 }
 
+/**Function that allocates memory for a 2 dimensional array of long ints*/
 long int **calloc_2Dlint_array(int m, int n){
 long int **array;
 int i;
@@ -624,29 +664,25 @@ int main (int argc, char **argv){
   clock_t prgstart; 
   prgstart = clock(); 
   
-  double u, v, x, y, yo, xo, yue, distx, disty, dist, f_cut,  deffall, meanspdall, muall;
+  double u, v, x, y, yo, xo, yue, distx, disty, dist, f_cut,  deffall, meanspeedall, muall;
   double muabbo, deffabbo;
   double t, dt, xtest, ytest;
   unsigned int xcountercheck, ycountercheck, twodcountercheck;
   int i, j;
-  long double  meanxall, meanxsquall, msdall, mthreeall;
+  long double  meanxall, meanxsquall, msdall, thirdcumall;
   long double  sqrt_flucts, f_dt;
   int abb, abbdeff, int_ind, kset, shiftind; 
   int tasks = 1;
   int taskid = MASTER;
   int setn_per_task;
   int setn;
-//  int mpi_ind;
   char *namefile;
   char *conprfx;
   char *intprfx;
-//  struct par_specs *specs_args; 
-  
   bool ParameterFlag;
   bool PosValid;
   bool PrintRes;
   bool TestRes;
-//  bool MPI_ON;
 
   /*
    * width of bins used for spatial discretization for position histograms   
@@ -654,6 +690,11 @@ int main (int argc, char **argv){
   double binx;
   double biny;
   double bin2d; 
+  
+  /* init state for print functions to check if
+   * header line in result file has been printed
+   */
+  printres.state = 0; 
   
   /*
    * read external force and number of interacting particles per set from command line arguments
@@ -725,27 +766,10 @@ int main (int argc, char **argv){
 
   printf("arrays for negshift and posshift are initialized!\n"); 
   
-
-  char fname [60];
-  char fnamemom [60];
   char fnamex [60];
   char fnamey [60];
   char fname2d [60];
   char fnamespecs [60];
-  
-	    
-  sprintf(fname, "muovert_F_%.3lf.dat", SimParams.F);
-  FILE *outp;
-  outp = fopen(fname ,"w");
-  fprintf(outp, "#time\t tcoeff.meanx\t tcoeff.mu\t Meansqdist\t  tcoeff.deff  \t abb\t abbdeff\n");
-  fclose(outp);
-  
-  sprintf(fnamemom, "momsovert_F_%.3lf.dat", SimParams.F);
-  FILE *outpmom;
-  outpmom=fopen(fnamemom ,"w");
-  fprintf(outpmom, "#time\t tcoeff.meanspd\t  <x^3>-3<x^2><x>+2<x>^3\n");
-  fclose(outpmom);
-
 
   copy_main();
   copycode_par(); 
@@ -760,11 +784,12 @@ int main (int argc, char **argv){
   specs_int(f_cut);
 
 
-#  ifdef MPI_ON
+# ifdef MPI_ON
 	  MPI_Init (&argc,&argv);
 	  MPI_Comm_size (MPI_COMM_WORLD, &tasks);
 	  MPI_Comm_rank (MPI_COMM_WORLD, &taskid); 
 # endif
+
   SimParams.numtasks = tasks;
   printf("\n numtasks: %d\n", SimParams.numtasks);
   
@@ -798,7 +823,6 @@ int main (int argc, char **argv){
   /* 
    * Initialize particle positions 
    */
-  
   init_particle_pos(setn_per_task, positionx, positiony, xstart, r);
 
   printf("positions initialized!\n"); 
@@ -858,9 +882,7 @@ int main (int argc, char **argv){
                                    *position x (y-value is needed for non-analytic treatment
                                    *of channels with cosine shape
                                    */  
-				  if(fabs(y) > B-R_CONF){
-				  	yue = yuef_ext(x,y);
-	                          }
+				  yue = yuef_ext(x,y);
 				    
 				  PosValid = true;
 				  /*Check if particle is within effective boundary*/  
@@ -997,9 +1019,7 @@ int main (int argc, char **argv){
                    * Plot results to check progress of equilibration 
                    */
 		  if((PrintRes == true) && (taskid == MASTER)){
-			  print_results_over_time(fname, 
-						  fnamemom, 
-						  t, 
+			  print_results_over_time(t, 
 						  abb, 
 						  abbdeff);
 
@@ -1023,16 +1043,16 @@ int main (int argc, char **argv){
 	  MPI_Reduce(&tcoeff.meanx, &meanxall, 1, MPI_LONG_DOUBLE, MPI_SUM, MASTER, MPI_COMM_WORLD);
 	  MPI_Reduce(&tcoeff.meanxsqu, &meanxsquall, 1, MPI_LONG_DOUBLE, MPI_SUM, MASTER, MPI_COMM_WORLD);
 	  MPI_Reduce(&tcoeff.msd, &msdall, 1, MPI_LONG_DOUBLE, MPI_SUM, MASTER, MPI_COMM_WORLD);
-	  MPI_Reduce(&tcoeff.mthree, &mthreeall, 1, MPI_LONG_DOUBLE, MPI_SUM, MASTER, MPI_COMM_WORLD);
-	  MPI_Reduce(&tcoeff.meanspd, &meanspdall, 1, MPI_DOUBLE, MPI_SUM, MASTER, MPI_COMM_WORLD);
+	  MPI_Reduce(&tcoeff.thirdcum, &thirdcumall, 1, MPI_LONG_DOUBLE, MPI_SUM, MASTER, MPI_COMM_WORLD);
+	  MPI_Reduce(&tcoeff.meanspeed, &meanspeedall, 1, MPI_DOUBLE, MPI_SUM, MASTER, MPI_COMM_WORLD);
 	  MPI_Reduce(&tcoeff.mu, &muall, 1, MPI_DOUBLE, MPI_SUM, MASTER, MPI_COMM_WORLD);
 	  MPI_Reduce(&tcoeff.deff, &deffall, 1, MPI_DOUBLE, MPI_SUM, MASTER, MPI_COMM_WORLD);
 #  else
         meanxall = tcoeff.meanx;
         meanxsquall = tcoeff.meanxsqu;
         msdall = tcoeff.msd;
-        mthreeall = tcoeff.mthree;
-        meanspdall = tcoeff.meanspd;
+        thirdcumall = tcoeff.thirdcum;
+        meanspeedall = tcoeff.meanspeed;
         muall = tcoeff.mu;
         deffall = tcoeff.deff;
 #  endif
@@ -1066,8 +1086,8 @@ int main (int argc, char **argv){
   if(taskid == MASTER){
  	   print_positions(setn_per_task, positionx, positiony);
            print_hist_countercheck(xcountercheck, ycountercheck, twodcountercheck, fnamespecs);
-           print_resallthreads(msdall, meanspdall, muall, deffall, meanxall, meanxsquall, mthreeall, &fname[0], &fnamemom[0]);
-           print_muoverf(muall, deffall, namefile);
+           print_resallthreads(msdall, meanspeedall, muall, deffall, meanxall, meanxsquall, thirdcumall);
+	   print_muoverf(muall, deffall, namefile);
             
        //    delerrorfiles();           
             

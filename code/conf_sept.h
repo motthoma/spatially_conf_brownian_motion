@@ -1,11 +1,19 @@
-/**ensure that only one header for spatial
- * confinement is included in code*/
+/**
+ * ensure that only one header for spatial
+ * confinement is included in code
+ * Function with boundary for septate channel 
+ * is in header file for inlining and thus a
+ * better computational performance
+ */
 #ifndef HEADER_CONF
 #define HEADER_CONF
 
 #include <math.h>
 #include "par_sim.h"
 
+/*define parameters which are not defined in
+  par_sim.h header file
+*/  
 #define AMP 1.0
 #define MAX_HALF_WIDTH (AMP+B)
 #define R_CONF_SQ R_CONF*R_CONF

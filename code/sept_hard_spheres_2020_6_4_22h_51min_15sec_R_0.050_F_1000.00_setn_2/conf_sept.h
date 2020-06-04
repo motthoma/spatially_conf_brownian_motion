@@ -1,6 +1,9 @@
 /**
  * ensure that only one header for spatial
  * confinement is included in code
+ * Function with boundary for septate channel 
+ * is in header file for inlining and thus a
+ * better computational performance
  */
 #ifndef HEADER_CONF
 #define HEADER_CONF
@@ -15,6 +18,22 @@
 #define MAX_HALF_WIDTH (AMP+B)
 #define R_CONF_SQ R_CONF*R_CONF
 
+/**
+ *********************************************************
+ *
+ * External types and variables
+ *
+ *********************************************************
+ */
+
+
+/**
+ *********************************************************
+ *
+ * External functions
+ *
+ *********************************************************
+ */
 
 /**function to provide effective boundary of confinement with the shape of 
  * septated channels (see e.g. Marchesoni J. Chem. Phys. 2010).
@@ -22,7 +41,7 @@
  * bottleneck, yueff is a circle with radius R_CONF. In the other sections, we
  * have shifted straight lines parallel to the originial boundary.
  */
-static __inline__ double yuef_sept(double x, double y){
+static inline double yuef_sept(double x, double y){
 
 /*If particle is in central cylinder of width 2B,
  * an evaluation of the eff. boundary is not necessary.
@@ -51,7 +70,7 @@ return(10);
 }
 
 /*function handler that provides generic interface to main*/
-static __inline__ double yuef_ext(double x, double y){
+static inline double yuef_ext(double x, double y){
 	
 	return yuef_sept(x, y);
 }

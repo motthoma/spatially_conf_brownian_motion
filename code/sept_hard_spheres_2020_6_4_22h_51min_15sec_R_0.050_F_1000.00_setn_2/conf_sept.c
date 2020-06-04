@@ -1,6 +1,10 @@
-/*Module that contains functions to handle a confinement given
-  by a septated channel according to: 
-  Borromeo, Marchesoni Chem. Phys. 2010, doi = "https://doi.org/10.1016/j.chemphys.2010.03.022"
+/* Module that contains functions to handle a confinement given
+ * by a septated channel according to: 
+ * Borromeo, Marchesoni Chem. Phys. 2010, doi = "https://doi.org/10.1016/j.chemphys.2010.03.022"
+ *
+ * Function with boundary for septate channel 
+ * is in header file for inlining and thus a
+ * better computational performance
 */ 
 #include <stdio.h>
 #include <stdlib.h>

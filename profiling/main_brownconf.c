@@ -18,7 +18,7 @@ trajektories are calculatet parallel*/
 
 
 /**
- * structure which contains transport coefficients
+ * Structure which contains transport coefficients
  * that are calculated within individual threads.
  **/
 struct TransportCoeffs{
@@ -252,7 +252,7 @@ void print_results_over_time(double t,
                              int abbdeff)
 {
        /**
-	* function to print online results of sitcoeff.mulation over time 
+	* function to print online results of simulation over time 
 	*/
         if(printres.state == 0)	{    
 		sprintf(printres.fname, "muovert_F_%.3lf.dat", SimParams.F);
@@ -339,8 +339,8 @@ int histogramm_mpi_reduce(int m,
                           int taskid)
 {
 /**
- * function that stores 1 dimensional histogram in file named fname.
- * during a spatial sweep through all length/bin slices from position 
+ * Stores 1 dimensional histogram in file named fname.
+ * During a spatial sweep through all length/bin slices from position 
  * 'backshift' to position 'length', all particle positions are checked 
  * and the number of particles in the respective slice is increased if 
  * a particle is detected. The number counter of all particles in the 
@@ -399,8 +399,8 @@ int histogramm2d_mpi_reduce(int m,
                             int taskid)
 {
 /**
- * function that stores 2 dimensional histogram in file named fname.
- * during a spatial scan over all nx*ny rectangular fields, all particle
+ * Stores 2 dimensional histogram in file named fname.
+ * During a spatial scan over all nx*ny rectangular fields, all particle
  * positions are checked and the number of particles in the respective
  * field is increased if a particle is detected. The number counter
  * of all particles in the field is stored in the file together
@@ -460,6 +460,12 @@ void init_particle_pos(int setn_per_task,
                        double **xstart, 
                        gsl_rng *r)
 {
+/**
+ * function that initializes the particle positions. The particles are uniformly distributed
+ * over the whole period length L in a strip of width SimParams.initwidth or the width of
+ * the channel if it is smaller. For interacting particles with hard core radius R_int, 
+ * configurations which involve an overlap of two particles are rejected. 
+ */
   int j;
   int kset;
   int ktest;
@@ -508,7 +514,11 @@ void init_particle_int(int setn_per_task,
                        double **fintxarray,
                        double **fintyarray)
 {
-
+/**
+ * Function that calculates depending on the positions of the particles
+ * the initial particle-particle interaction force if such a force e.g.
+ * given by a Lennard-Jones interaction is given.
+ */
   int j;
   int kset;
   int ktest;
@@ -564,9 +574,9 @@ void print_hist_countercheck(int xcheck, int ycheck, int twodcheck, char *fname_
 double reset_pos_time(int setn_per_task, long int **posshift, long int **negshift) 
 {
 /**
- * Function to reset the sitcoeff.mulated system time t and the positions
+ * Function to reset the simulated system time t and the positions
  * to originate values in order to skip transient effects from
- * start of sitcoeff.mulation.
+ * start of simulation.
  */
 	int i, j;
 	double t = 0;
@@ -584,10 +594,10 @@ double reset_pos_time(int setn_per_task, long int **posshift, long int **negshif
 void adapt_posshifts(int shiftind, int i, int j, long int **posshift, long int **negshift)
 {
 /**
-*function to update shifts which are monitored to calculate 
-*absolute position in x-direction from sitcoeff.mulation with cyclic
-*boundary conditions
-*/
+ * Function to update shifts which are monitored to calculate 
+ * absolute position in x-direction from simulation with cyclic
+ * boundary conditions
+ */
 	/*
 	 *shift particle in positive direction if 
 	 *position is 'left' of considered channel period   
@@ -607,12 +617,12 @@ void adapt_posshifts(int shiftind, int i, int j, long int **posshift, long int *
 int update_equcounter(double tran_quant, double tran_quanto, double accurarcy, int equcounter)
 {
 /**
- *function for the update of the counter that is used to monitore the
- *equilibration of the system. A transport quantity tran_quant is
- *compared with a previous value. If the difference is  below the    
- *demanded accurarcy, the value of the counter is increased.
- *If the difference is larger than twice the accurarcy the counter
- *is decreased
+ * Function for the update of the counter that is used to monitore the
+ * equilibration of the system. A transport quantity tran_quant is
+ * compared with a previous value. If the difference is  below the    
+ * demanded accurarcy, the value of the counter is increased.
+ * If the difference is larger than twice the accurarcy the counter
+ * is decreased
 */ 
 	if(fabs(tran_quant - tran_quanto) <= accurarcy){
 	  equcounter++;
@@ -625,8 +635,10 @@ int update_equcounter(double tran_quant, double tran_quanto, double accurarcy, i
 	return equcounter;
 }
 
-/**Function that allocates memory for a 2 dimensional array of doubles*/
 double **calloc_2Ddouble_array(int m, int n){
+/**
+ * Function that allocates memory for a 2 dimensional array of doubles
+ */
 double **array;
 int i;
 
@@ -638,8 +650,10 @@ int i;
   return array;
 }
 
-/**Function that allocates memory for a 2 dimensional array of long ints*/
 long int **calloc_2Dlint_array(int m, int n){
+/**
+ * Function that allocates memory for a 2 dimensional array of long ints
+ */
 long int **array;
 int i;
 
@@ -654,7 +668,7 @@ int i;
 
 
 int main (int argc, char **argv){
-/** main function of Brownian motion sitcoeff.mulation
+/** main function of Brownian motion simulation
  *
  */
 
@@ -972,7 +986,7 @@ int main (int argc, char **argv){
 	
           /*
            * Test progress of equilibration and plot results at certain 
-           * sitcoeff.mulation steps i
+           * simulation steps i
            */ 
           PrintRes = false;
 	  if(i % SimParams.plotpoints == 0){

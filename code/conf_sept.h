@@ -14,10 +14,26 @@
 /*define parameters which are not defined in
   par_sim.h header file
 */  
-#define AMP 1.0
+#define AMP 1.0*L
 #define MAX_HALF_WIDTH (AMP+B)
 #define R_CONF_SQ R_CONF*R_CONF
 
+/**
+ *********************************************************
+ *
+ * External types and variables
+ *
+ *********************************************************
+ */
+
+
+/**
+ *********************************************************
+ *
+ * External functions
+ *
+ *********************************************************
+ */
 
 /**function to provide effective boundary of confinement with the shape of 
  * septated channels (see e.g. Marchesoni J. Chem. Phys. 2010).

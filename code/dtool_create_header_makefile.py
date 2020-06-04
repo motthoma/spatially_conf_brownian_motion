@@ -97,8 +97,10 @@ def write_conf_int_header(conf_file, int_file, mpi_flag):
 	int_string += '.h'
 
 	out_h = open("comp_gen_header.h", 'w')
-
-	out_h.write('\n')
+	
+	out_h.write('/**\n * \
+                           Header file that serves as a wrapper for a generic interface to the modules of interaction and confinement.\n \
+                           Moreover, it sets the define MPI_ON if mpicc compile is used and mpi installed on operating machine.*/\n')
 
 	header_interact = int_string
 	out_h.write('#include "{}"\n'.format(header_interact))

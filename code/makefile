@@ -3,7 +3,7 @@ CFLAGS = -c -w -Wall -Wextra -pedantic
 LDFLAGS = -lgsl -lgslcblas -lm
 EXECUTABLE = main_brownconf
 
-CONF = conf_sept.c
+CONF = conf_splitter.c
 INT = int_hardspheres.c
 
 head_inc = dummy
@@ -13,7 +13,7 @@ head_inc = dummy
 
 
 $(EXECUTABLE): main_brownconf.o
-	$(CC) -w -Wall  -Wextra -pedantic main_brownconf.o par_sim.c $(CONF) $(INT) $(LDFLAGS) -o $(EXECUTABLE)
+	$(CC) -w -Wall  -Wextra -pedantic main_brownconf.o par_sim.c results_transport.c $(CONF) $(INT) $(LDFLAGS) -o $(EXECUTABLE)
 	rm *.o
 
 main_brownconf.o: main_brownconf.c

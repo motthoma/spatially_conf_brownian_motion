@@ -472,6 +472,7 @@ int main (int argc, char **argv){
   char *conprfx;
   char *intprfx;
   bool ParameterFlag;
+  bool PosValid;
   bool PrintRes;
   bool TestRes;
 

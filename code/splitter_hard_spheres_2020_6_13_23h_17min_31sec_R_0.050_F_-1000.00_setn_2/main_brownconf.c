@@ -348,6 +348,23 @@ void init_particle_int(int setn_per_task,
   }
 }
 
+void print_hist_countercheck(int xcheck, int ycheck, int twodcheck, char *fname_specs)
+{
+/**
+ * Function that prints the result of the counter checks available from the 
+ * histogram functions. There, the total number of particles is counted 
+ * in order to check if all particles are represented in the histogram
+ * and situated in the confinement.
+ */
+	FILE *outp;
+	outp=fopen(fname_specs, "a");
+	fprintf(outp, "\n\nxcountercheck: %d\nycountercheck: %d\ntwodcountercheck: %d\n\n", xcheck, ycheck, twodcheck);
+	fclose(outp);
+
+	if((xcheck != SimParams.N) || (ycheck != SimParams.N) || (twodcheck != SimParams.N)){
+	   printf("Error in Histogrammcounter!\n");
+	}
+}
 
 double reset_pos_time(int setn_per_task, long int **posshift, long int **negshift) 
 {
@@ -472,6 +489,7 @@ int main (int argc, char **argv){
   char *conprfx;
   char *intprfx;
   bool ParameterFlag;
+  bool PosValid;
   bool PrintRes;
   bool TestRes;
 
@@ -675,60 +693,64 @@ int main (int argc, char **argv){
                                    */  
 				  yue = yuef_ext(x,y);
 				    
-				 // PosValid = true;
+				  PosValid = true;
 				  /*Check if particle is within effective boundary*/  
-				  if (fabs(y) > yue) continue;
+				  if (fabs(y) > yue) PosValid = false;
 				  /*Check if bottleneck is passed correctly*/	
-				  if ((x < 0) && ((fabs(yo) >= B-R_CONF) || (fabs(y) >= B-R_CONF))) continue;
-				  if ((x > L) && ((fabs(yo) >= B-R_CONF) || (fabs(y) >= B-R_CONF))) continue;
+				  if ((x < 0) && ((fabs(yo) >= B-R_CONF) || (fabs(y) >= B-R_CONF))) PosValid = false;
+				  if ((x > L) && ((fabs(yo) >= B-R_CONF) || (fabs(y) >= B-R_CONF))) PosValid = false;
 
-				  shiftind = 0;
-				  if(x < 0){
-					   shiftind = -1;
-					   x += L;
-				  }
-				  if(x > L){
-					   shiftind = 1;
-					   x -= L;
-				  }
-				  /*simulate particle-particle interaction*/ 
-				  if (SimParams.setnumb > 1){ 
-					    fintx = 0;
-					    finty = 0;
-					    for(int_ind = 0; int_ind < SimParams.setnumb; int_ind++){	
-						 
-						  xtest = positionx[j][int_ind]; 
-						  ytest = positiony[j][int_ind];
- 
-						  if(int_ind != kset){
-							  distx = x - xtest;
-							  disty = y - ytest;
+				  if (PosValid == true){			
+					  shiftind = 0;
+					  if(x < 0){
+						   shiftind = -1;
+						   x += L;
+					  }
+					  if(x > L){
+						   shiftind = 1;
+						   x -= L;
+					  }
+					  /*simulate particle-particle interaction*/ 
+ 					  if (SimParams.setnumb > 1){ 
+						    fintx = 0;
+						    finty = 0;
+ 						    for(int_ind = 0; int_ind < SimParams.setnumb; int_ind++){	
+							 
+							  xtest = positionx[j][int_ind]; 
+							  ytest = positiony[j][int_ind];
+	 
+							  if(int_ind != kset){
+								  distx = x - xtest;
+								  disty = y - ytest;
 
-							  /* 
-							   * search relevant distance according
-							   * to minimum image conversion 
-							   */
-							  if (abs(distx) > 0.5*L){ 
-								distx = distx - L*(distx/abs(distx));
+								  /* 
+                                                                   * search relevant distance according
+ 								   * to minimum image conversion 
+ 								   */
+								  if (abs(distx) > 0.5*L){ 
+									distx = distx - L*(distx/abs(distx));
+								  }
+								  dist = sqrt(distx*distx + disty*disty);
+								  
+							          if(dist <= 2*R_INT){ 
+								  	PosValid = false;
+								  }
+								  
+								  if(dist <= INT_CUTOFF){
+									  fintxpair = intforce(distx, dist);
+									  fintypair = intforce(disty, dist);
+									  fintx += fintxpair;
+									  finty += fintypair;
+
+								  }
 							  }
-							  dist = sqrt(distx*distx + disty*disty);
-							  
-							  if(dist <= 2*R_INT) continue; 
-							  
-							  if(dist <= INT_CUTOFF){
-								  fintxpair = intforce(distx, dist);
-								  fintypair = intforce(disty, dist);
-								  fintx += fintxpair;
-								  finty += fintypair;
 
-							  }
-						  }
-
-					    /*close loop over particles of interacting ensemble*/
-					    } 
-				  }		   
-			 	  break; 
-			  }while(true);
+						    /*close loop over particles of interacting ensemble*/
+						    } 
+					    }		    
+				  }
+                              
+			  }while(PosValid == false);
 			  
 		          if(shiftind != 0){
 				  adapt_posshifts(shiftind, j, kset, posshift, negshift);

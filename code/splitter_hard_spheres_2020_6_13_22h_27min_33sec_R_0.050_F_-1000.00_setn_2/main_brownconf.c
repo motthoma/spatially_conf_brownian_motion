@@ -15,6 +15,7 @@ trajektories are calculatet parallel*/
 #include <stdbool.h>
 #include <gsl/gsl_rng.h>
 #include <gsl/gsl_randist.h>
+#define MASTER 0    
 
 
 
@@ -248,6 +249,129 @@ void print_muoverf(double muall, double deffall, char *namefile)
 
 }
 
+int histogramm_mpi_reduce(int m, 
+                          double backshift, 
+                          double length, 
+                          double bin, 
+                          double **positions, 
+                          char *fname, 
+                          int taskid)
+{
+/**
+ * Stores 1 dimensional histogram in file named fname.
+ * During a spatial sweep through all length/bin slices from position 
+ * 'backshift' to position 'length', all particle positions are checked 
+ * and the number of particles in the respective slice is increased if 
+ * a particle is detected. The number counter of all particles in the 
+ * slice is stored in the file together with the upper and lower 
+ * boundary of the slice.
+ */
+
+  int i;
+  int j;
+  int k;
+  int bin_n; 
+  int countercheck = 0;
+  int counter = 0;
+  int counterall = 0;
+  
+  FILE *outp;
+  outp = fopen(fname, "w");
+  fclose(outp);      
+
+  bin_n = (int) (length/bin);
+  for(i = 0; i < bin_n; i++){ 
+	  counter = 0;
+	  counterall = 0;
+        
+	  for(j = 0; j < m; j++){
+		for(k = 0; k < SimParams.setnumb; k++){
+		   if(((i*bin - backshift) <= positions[j][k]) && (positions[j][k] <= (i+1)*bin - backshift)){
+			counter++;
+		   }
+
+		}
+	  }
+	  #ifdef MPI_ON
+		  MPI_Reduce(&counter, &counterall, 1, MPI_INTEGER, MPI_SUM, MASTER, MPI_COMM_WORLD);
+	  #else
+		  counterall = counter;
+	  #endif
+	  if(taskid == MASTER){
+                  countercheck += counterall;
+		   
+		  outp = fopen(fname, "a");
+		  fprintf(outp,"%f\t %f\t %d\t %f\n", i*bin - backshift, (i+1)*bin - backshift, counterall, counterall/(SimParams.N*bin));
+		  fclose(outp);      
+	  }
+  }
+
+  return countercheck;
+
+}
+
+int histogramm2d_mpi_reduce(int m, 
+                            double bin2d, 
+                            double **positionsx, 
+                            double **positionsy,  
+                            char *fname, 
+                            int taskid)
+{
+/**
+ * Stores 2 dimensional histogram in file named fname.
+ * During a spatial scan over all nx*ny rectangular fields, all particle
+ * positions are checked and the number of particles in the respective
+ * field is increased if a particle is detected. The number counter
+ * of all particles in the field is stored in the file together
+ * with the upper and lower boundaries in both directions of the field.
+ */
+
+  int i;
+  int j;
+  int hx;
+  int hy;
+  
+  int bin_nx = (int) (L/bin2d);
+  int bin_ny = (int) (2*MAX_HALF_WIDTH/bin2d);
+  int twodcountercheck = 0; 
+  int twodcounter = 0;   
+  int twodcounterall = 0;   
+  
+  FILE *outp;
+  outp = fopen(fname, "w");
+  fclose(outp);      
+ 
+   for(hx = 0; hx <= bin_nx; hx++){ 
+	  for(hy = 0; hy <= bin_ny; hy++){   
+                  twodcounter = 0;   
+                  twodcounterall = 0;   
+		  for(i = 0; i < m; i++){
+			for(j = 0; j < SimParams.setnumb; j++){
+			   if((hx*bin2d <= positionsx[i][j]) && (positionsx[i][j] <= (hx+1)*bin2d)){
+				   if(((hy*bin2d - MAX_HALF_WIDTH) <= positionsy[i][j]) && (positionsy[i][j] <= (hy+1)*bin2d - MAX_HALF_WIDTH)){
+					   twodcounter++;
+				   }
+			   }   
+
+			}
+		  }
+
+		  #ifdef MPI_ON
+			  MPI_Reduce(&twodcounter, &twodcounterall, 1, MPI_INTEGER, MPI_SUM, MASTER, MPI_COMM_WORLD);
+		  #else		  
+			  twodcounterall = twodcounter;
+		  #endif
+		  if(taskid == MASTER){
+			  twodcountercheck += twodcounterall;
+
+			  outp = fopen(fname, "a");
+			  fprintf (outp, "%f\t%f\t%f\t%f\t\t%d\t\t%f\n", hx*bin2d, (hx+1)*bin2d, hy*bin2d - MAX_HALF_WIDTH, (hy+1)*bin2d - MAX_HALF_WIDTH, twodcounterall, twodcounterall/(SimParams.N*bin2d*bin2d));
+			  fclose(outp);
+		  }
+	  }
+  }
+  return twodcountercheck;
+}
   
 void init_particle_pos(int setn_per_task, 
                        double **positionx, 
@@ -348,6 +472,23 @@ void init_particle_int(int setn_per_task,
   }
 }
 
+void print_hist_countercheck(int xcheck, int ycheck, int twodcheck, char *fname_specs)
+{
+/**
+ * Function that prints the result of the counter checks available from the 
+ * histogram functions. There, the total number of particles is counted 
+ * in order to check if all particles are represented in the histogram
+ * and situated in the confinement.
+ */
+	FILE *outp;
+	outp=fopen(fname_specs, "a");
+	fprintf(outp, "\n\nxcountercheck: %d\nycountercheck: %d\ntwodcountercheck: %d\n\n", xcheck, ycheck, twodcheck);
+	fclose(outp);
+
+	if((xcheck != SimParams.N) || (ycheck != SimParams.N) || (twodcheck != SimParams.N)){
+	   printf("Error in Histogrammcounter!\n");
+	}
+}
 
 double reset_pos_time(int setn_per_task, long int **posshift, long int **negshift) 
 {
@@ -472,6 +613,7 @@ int main (int argc, char **argv){
   char *conprfx;
   char *intprfx;
   bool ParameterFlag;
+  bool PosValid;
   bool PrintRes;
   bool TestRes;
 
@@ -675,60 +817,64 @@ int main (int argc, char **argv){
                                    */  
 				  yue = yuef_ext(x,y);
 				    
-				 // PosValid = true;
+				  PosValid = true;
 				  /*Check if particle is within effective boundary*/  
-				  if (fabs(y) > yue) continue;
+				  if (fabs(y) > yue) PosValid = false;
 				  /*Check if bottleneck is passed correctly*/	
-				  if ((x < 0) && ((fabs(yo) >= B-R_CONF) || (fabs(y) >= B-R_CONF))) continue;
-				  if ((x > L) && ((fabs(yo) >= B-R_CONF) || (fabs(y) >= B-R_CONF))) continue;
+				  if ((x < 0) && ((fabs(yo) >= B-R_CONF) || (fabs(y) >= B-R_CONF))) PosValid = false;
+				  if ((x > L) && ((fabs(yo) >= B-R_CONF) || (fabs(y) >= B-R_CONF))) PosValid = false;
 
-				  shiftind = 0;
-				  if(x < 0){
-					   shiftind = -1;
-					   x += L;
-				  }
-				  if(x > L){
-					   shiftind = 1;
-					   x -= L;
-				  }
-				  /*simulate particle-particle interaction*/ 
-				  if (SimParams.setnumb > 1){ 
-					    fintx = 0;
-					    finty = 0;
-					    for(int_ind = 0; int_ind < SimParams.setnumb; int_ind++){	
-						 
-						  xtest = positionx[j][int_ind]; 
-						  ytest = positiony[j][int_ind];
- 
-						  if(int_ind != kset){
-							  distx = x - xtest;
-							  disty = y - ytest;
+				  if (PosValid == true){			
+					  shiftind = 0;
+					  if(x < 0){
+						   shiftind = -1;
+						   x += L;
+					  }
+					  if(x > L){
+						   shiftind = 1;
+						   x -= L;
+					  }
+					  /*simulate particle-particle interaction*/ 
+ 					  if (SimParams.setnumb > 1){ 
+						    fintx = 0;
+						    finty = 0;
+ 						    for(int_ind = 0; int_ind < SimParams.setnumb; int_ind++){	
+							 
+							  xtest = positionx[j][int_ind]; 
+							  ytest = positiony[j][int_ind];
+	 
+							  if(int_ind != kset){
+								  distx = x - xtest;
+								  disty = y - ytest;
 
-							  /* 
-							   * search relevant distance according
-							   * to minimum image conversion 
-							   */
-							  if (abs(distx) > 0.5*L){ 
-								distx = distx - L*(distx/abs(distx));
+								  /* 
+                                                                   * search relevant distance according
+ 								   * to minimum image conversion 
+ 								   */
+								  if (abs(distx) > 0.5*L){ 
+									distx = distx - L*(distx/abs(distx));
+								  }
+								  dist = sqrt(distx*distx + disty*disty);
+								  
+							          if(dist <= 2*R_INT){ 
+								  	break;
+								  }
+								  
+								  if(dist <= INT_CUTOFF){
+									  fintxpair = intforce(distx, dist);
+									  fintypair = intforce(disty, dist);
+									  fintx += fintxpair;
+									  finty += fintypair;
+
+								  }
 							  }
-							  dist = sqrt(distx*distx + disty*disty);
-							  
-							  if(dist <= 2*R_INT) continue; 
-							  
-							  if(dist <= INT_CUTOFF){
-								  fintxpair = intforce(distx, dist);
-								  fintypair = intforce(disty, dist);
-								  fintx += fintxpair;
-								  finty += fintypair;
 
-							  }
-						  }
-
-					    /*close loop over particles of interacting ensemble*/
-					    } 
-				  }		   
-			 	  break; 
-			  }while(true);
+						    /*close loop over particles of interacting ensemble*/
+						    } 
+					    }		    
+				  }
+                              
+			  }while(PosValid == false);
 			  
 		          if(shiftind != 0){
 				  adapt_posshifts(shiftind, j, kset, posshift, negshift);

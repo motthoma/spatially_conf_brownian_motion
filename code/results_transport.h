@@ -44,3 +44,31 @@ extern T_TransportCoeffs tcoeff;
  */
 
 extern void TCOEF_init();
+
+void calc_transpcoeffs(
+		       int setn_per_task, 
+		       double t,
+		       long int **posshift,
+		       long int **negshift,
+		       double **posx,
+		       double **x_init);
+
+int histogramm_mpi_reduce(int m, 
+                          double backshift, 
+                          double length, 
+                          double bin, 
+                          double **positions, 
+                          char *fname, 
+                          int taskid);
+
+int histogramm2d_mpi_reduce(int m, 
+                            double bin2d, 
+                            double **positionsx, 
+                            double **positionsy,  
+                            char *fname, 
+                            int taskid);
+
+void print_hist_countercheck(int xcheck, 
+			     int ycheck, 
+			     int twodcheck, 
+			     char *fname_specs);

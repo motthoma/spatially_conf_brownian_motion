@@ -59,7 +59,7 @@ double tstepscale, tstep;
 	if(fabs(SimParams.F) <= 1/lscale_conf) tstep = tstepscale*tstepscale*pow(10,-3);
 	else tstep = (tstepscale/fabs(SimParams.F))*pow(10,-3);
 
-return(tstep);
+return(tstep*(L));
 }
 
 /**function used to read simulation parameters in specs file*/

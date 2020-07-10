@@ -58,7 +58,7 @@ void calc_transpcoeffs(
 		 totalshift = posshift[j][kset] - negshift[j][kset];
 
 		 /*absolute position of individual particle*/
-		 abspos_part = (posx[j][kset] - x_init[j][kset]) - totalshift*L;
+		 abspos_part = (posx[j][kset] - x_init[j][kset])/L - totalshift;
                  /*sum of positions of all particles for later averaging*/
 		 xges += abspos_part;
 		 /*sum of x^2 over all particles*/

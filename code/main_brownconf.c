@@ -5,17 +5,17 @@ trajektories are calculatet parallel*/
 #include "par_sim.h"
 #include "comp_gen_header.h"
 #include "results_transport.h"
+#include "code_handling.h"
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <sys/stat.h>
 #include <unistd.h>
-#include <math.h>
 #include <time.h>
+#include <math.h>
 #include <stdbool.h>
 #include <gsl/gsl_rng.h>
 #include <gsl/gsl_randist.h>
-
 
 
 /**
@@ -36,49 +36,6 @@ struct PrintResults{
 } printres;
 
 
-
-char* makedirectory(char *confprfx, char *intprfx){             
-/**
- * creates directory, where code and data is transferred to
- * moves to this directory as working directory
- */
-  time_t tnow;
-  struct tm *tmnow;
-  time(&tnow);
-  tmnow = localtime(&tnow);
-
-  char *e = malloc(100*sizeof(char));
-
-  sprintf(e, "%s_%s_%d_%d_%d_%dh_%dmin_%dsec_R_%.3lf_F_%.2lf_setn_%d", confprfx, intprfx, tmnow->tm_year + 1900, tmnow->tm_mon+1, tmnow->tm_mday, tmnow->tm_hour,tmnow->tm_min,tmnow->tm_sec, R_CONF, SimParams.F, SimParams.setnumb);
-  /**
-   * 0700 is modus for determining access rights to dir
-   */
-  mkdir(e, 0700);
-  chdir(e);
-  return e;
-}
-
-void copy_main(){
-/**
- * copies main_brownianconf.c to directory created by 'makedirectory'
- */
-
-char copycode[200];
-
-  sprintf(copycode, "cp ../main_brownconf.c ../masterinteract.py ./");
-  system(copycode);
-
-}
-
-void delerrorfiles(){
-/**
- * deletes error and log files used on albeniz
- */
-char delerrorfile[100];
-  sprintf(delerrorfile, "rm ../F_%.2lf_sn_%.0d_clintparallel* ",SimParams.F, SimParams.setnumb);
-  system(delerrorfile);
-
-}
 
 void print_runtime(clock_t start)
 {
@@ -492,7 +449,7 @@ int main (int argc, char **argv){
    */ 
   printf("\nargc: %d\n\n", argc);
   if(argc > 3){
-	SimParams.F = atof(argv[1]);
+	SimParams.F = atof(argv[1])*L;
 	SimParams.setnumb = atof(argv[2]);
   }
   else{
@@ -622,7 +579,6 @@ int main (int argc, char **argv){
   init_particle_int(setn_per_task, positionx, positiony, fintxarray, fintyarray);
 
   printf("\ntask ID:\t %d -> particle positions and forces fixed\n", taskid);
-  //printf("\nepsilon:\t %lf\n", EPS_L);
    
  
   /* Perform simulation steps until equilibration is reached */
@@ -633,7 +589,8 @@ int main (int argc, char **argv){
   abbdeff = 0;	
   muabbo = 0;	
   deffabbo = 0;	
-  /*loop over simulation steps.
+  /*
+   * loop over simulation steps.
    * loop is stopped when criterion for equilibration is fulfilled.
    */
   do{	

@@ -3,4 +3,3 @@
                             Moreover, it sets the define MPI_ON if mpicc compile is used and mpi installed on operating machine.*/
 #include "int_hardspheres.h"
 #include "conf_splitter.h"
-#define MASTER 0    

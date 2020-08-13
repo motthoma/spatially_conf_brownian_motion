@@ -13,7 +13,7 @@
 
 
 /**function to write confinement specific information in specs file*/
-void specs_conf(double binx, double biny, double bin2d){
+void CONF_specs(double binx, double biny, double bin2d){
 
     FILE *outpspecs;
     outpspecs = fopen("muovert_specs.dat", "a");		
@@ -23,7 +23,7 @@ void specs_conf(double binx, double biny, double bin2d){
 fclose(outpspecs);
 }
 
-void copycode_conf(){
+void CONF_copycode(){
 char copycode[200];
 
   sprintf(copycode, "cp ../conf_cos.* ./");
@@ -32,7 +32,7 @@ char copycode[200];
 }
 
 /**function to provide prefix in name of working directory*/
-char* prfx_conf(){
+char* CONF_prfx(){
 char *a = "cos";
 return a;
 }

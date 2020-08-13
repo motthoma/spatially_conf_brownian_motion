@@ -28,7 +28,7 @@
 /**
  *********************************************************
  *
- * External functions
+ * Internal functions
  *
  *********************************************************
  */
@@ -96,16 +96,24 @@ bool PosValid;
 	return(2*fabs(y));
 }
 
+/**
+ *********************************************************
+ *
+ * External functions
+ *
+ *********************************************************
+ */
+
 /*function handler that provides generic interface to main*/
-static inline double yuef_ext(double x, double y){
+static inline double CONF_yuef(double x, double y){
 	
 	return yuef_cos(x, y);
 }
 
 /*extern double yuef_ext(double x, double y);
 extern double yuef_cos(double x, double y);*/
-extern void specs_conf(double binx, double biny, double bin2d);
-extern void copycode_conf();
-extern char *prfx_conf();
+extern void CONF_specs(double binx, double biny, double bin2d);
+extern void CONF_copycode();
+extern char *CONF_prfx();
 
 #endif

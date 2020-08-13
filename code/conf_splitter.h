@@ -25,7 +25,7 @@
 /**
  *********************************************************
  *
- * External functions
+ * Internal functions
  *
  *********************************************************
  */
@@ -61,16 +61,24 @@ if ((R_CONF <= x) && (x < Lp)){
 return(10);
 }
 
+/**
+ *********************************************************
+ *
+ * External functions
+ *
+ *********************************************************
+ */
+
 /*function wrapper that provides generic interface to main*/
-static inline double yuef_ext(double x, double y){
+static inline double CONF_yuef(double x, double y){
 	
 	return yuef_splitter(x, y);
 }
 
-/*extern double yuef_ext(double x, double y);
+/*extern double CONF_yuef(double x, double y);
 extern double yuef_splitter(double x, double y);*/
-extern void specs_conf(double binx, double biny, double bin2d);
-extern void copycode_conf();
-extern char *prfx_conf();
+extern void CONF_specs(double binx, double biny, double bin2d);
+extern void CONF_copycode();
+extern char *CONF_prfx();
 
 #endif

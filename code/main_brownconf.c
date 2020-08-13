@@ -239,7 +239,7 @@ void init_particle_pos(int setn_per_task,
 			  xo = positionx[j][kset];
 			  yo = positiony[j][kset];
 		 
-			  yue = yuef_ext(xo, yo);
+			  yue = CONF_yuef(xo, yo);
 			 
 			  PosValidInit = true; 
 			  if(fabs(positiony[j][kset]) >= yue) PosValidInit = false;
@@ -473,9 +473,9 @@ int main (int argc, char **argv){
    * get name of confinement and type of intra particle interaction
    * and provide them to function that creates working directory
    */
-  conprfx = prfx_conf();
+  conprfx = CONF_prfx();
   intprfx = prfx_int();
-  namefile = makedirectory(conprfx, intprfx);
+  namefile = CODEHAND_makedirectory(conprfx, intprfx);
   chdir(namefile);
 
 
@@ -520,16 +520,16 @@ int main (int argc, char **argv){
   char fname2d [60];
   char fnamespecs [60];
 
-  copy_main();
+  CODEHAND_copy_main();
   PARAMS_copycode(); 
-  copycode_conf();
+  CONF_copycode();
   copycode_int();
   RES_copycode();
   CODEHAND_copycode();
 
   sprintf(fnamespecs, "simulation_specs.dat");
   PARAMS_basic(fnamespecs);
-  specs_conf(binx, biny, bin2d);
+  CONF_specs(binx, biny, bin2d);
   f_cut = intforce(INT_CUTOFF, INT_CUTOFF);
   specs_int(f_cut);
 
@@ -632,7 +632,7 @@ int main (int argc, char **argv){
                                    *position x (y-value is needed for non-analytic treatment
                                    *of channels with cosine shape
                                    */  
-				  yue = yuef_ext(x,y);
+				  yue = CONF_yuef(x,y);
 				    
 				 // PosValid = true;
 				  /*Check if particle is within effective boundary*/  
@@ -835,7 +835,7 @@ int main (int argc, char **argv){
            print_resallthreads(msdall, meanspeedall, muall, deffall, meanxall, meanxsquall, thirdcumall);
 	   print_muoverf(muall, deffall, namefile);
             
-       //    delerrorfiles();           
+       //    CODEHAND_delerrorfiles();           
             
 	   print_runtime(prgstart);
            

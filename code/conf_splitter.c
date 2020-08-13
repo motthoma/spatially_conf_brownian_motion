@@ -13,7 +13,7 @@
 
 
 
-void specs_conf(double binx, double biny, double bin2d){
+void CONF_specs(double binx, double biny, double bin2d){
 
     FILE *outpspecs;
     outpspecs = fopen("muovert_specs.dat", "a");		
@@ -23,7 +23,7 @@ void specs_conf(double binx, double biny, double bin2d){
 fclose(outpspecs);
 }
 
-void copycode_conf(){
+void CONF_copycode(){
 char copycode[200];
 
   sprintf(copycode, "cp ../conf_splitter.* ./");
@@ -34,7 +34,7 @@ char copycode[200];
 /**
  * function that provides name of confinement
  */
-char* prfx_conf(){
+char* CONF_prfx(){
 	char *a = "splitter";
 	return a;
 }

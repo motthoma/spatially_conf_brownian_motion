@@ -6,7 +6,7 @@
 #include "code_handling.h"
 
 
-char* makedirectory(char *confprfx, char *intprfx){             
+char* CODEHAND_makedirectory(char *confprfx, char *intprfx){             
 /**
  * creates directory, where code and data is transferred to
  * moves to this directory as working directory
@@ -37,7 +37,7 @@ char* makedirectory(char *confprfx, char *intprfx){
   return e;
 }
 
-void copy_main(){
+void CODEHAND_copy_main(){
 /**
  * copies main_brownianconf.c to directory created by 'makedirectory'
  */
@@ -49,7 +49,7 @@ void copy_main(){
 
 }
 
-void delerrorfiles(){
+void CODEHAND_delerrorfiles(){
 /**
  * deletes error and log files used on albeniz
  */

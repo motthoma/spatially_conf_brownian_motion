@@ -5,12 +5,10 @@
 #include "results_transport.h"
 
 
-
-
 T_TransportCoeffs tcoeff;
 
 
-void RES_init(){
+void TCOEF_init(){
 	
         /*average of particle x-positions <x>*/
 	tcoeff.meanx = 0; 
@@ -39,13 +37,13 @@ void RES_init(){
  * absolute particle positions and subsequently ensemble averages 
  * of the first three moments of the position.
  */ 
-void RES_calc_transpcoeffs(
- 		          int setn_per_task, 
-		          double t,
-		          long int **posshift,
-		          long int **negshift,
-		          double **posx,
-		          double **x_init){
+void calc_transpcoeffs(
+		       int setn_per_task, 
+		       double t,
+		       long int **posshift,
+		       long int **negshift,
+		       double **posx,
+		       double **x_init){
 
   long double totalshift = 0;
   long double abspos_part = 0;
@@ -90,7 +88,7 @@ void RES_calc_transpcoeffs(
   tcoeff.thirdcum = tcoeff.meanxqub - 3*tcoeff.meanx*tcoeff.meanxsqu + 2*powl(tcoeff.meanx, 3);
 }
 
-int RES_histogramm_mpi_reduce(int m, 
+int histogramm_mpi_reduce(int m, 
                           double backshift, 
                           double length, 
                           double bin, 
@@ -142,10 +140,7 @@ int RES_histogramm_mpi_reduce(int m,
                   countercheck += counterall;
 		   
 		  outp = fopen(fname, "a");
-		  fprintf(outp,"%f\t %f\t %d\t %f\n", i*bin - backshift, 
-						      (i+1)*bin - backshift, 
-                                                      counterall, 
-                                                      counterall/(SimParams.N*bin));
+		  fprintf(outp,"%f\t %f\t %d\t %f\n", i*bin - backshift, (i+1)*bin - backshift, counterall, counterall/(SimParams.N*bin));
 		  fclose(outp);      
 	  }
   }
@@ -154,7 +149,7 @@ int RES_histogramm_mpi_reduce(int m,
 
 }
 
-int RES_histogramm2d_mpi_reduce(int m, 
+int histogramm2d_mpi_reduce(int m, 
                             double bin2d, 
                             double **positionsx, 
                             double **positionsy,  
@@ -209,12 +204,7 @@ int RES_histogramm2d_mpi_reduce(int m,
 			  twodcountercheck += twodcounterall;
 
 			  outp = fopen(fname, "a");
-			  fprintf (outp, "%f\t%f\t%f\t%f\t\t%d\t\t%f\n", hx*bin2d, 
-									 (hx+1)*bin2d, 
-									 hy*bin2d - MAX_HALF_WIDTH, 
-									 (hy+1)*bin2d - MAX_HALF_WIDTH, 
-									 twodcounterall, 
-									 twodcounterall/(SimParams.N*bin2d*bin2d));
+			  fprintf (outp, "%f\t%f\t%f\t%f\t\t%d\t\t%f\n", hx*bin2d, (hx+1)*bin2d, hy*bin2d - MAX_HALF_WIDTH, (hy+1)*bin2d - MAX_HALF_WIDTH, twodcounterall, twodcounterall/(SimParams.N*bin2d*bin2d));
 			  fclose(outp);
 		  }
 	  }
@@ -222,7 +212,7 @@ int RES_histogramm2d_mpi_reduce(int m,
   return twodcountercheck;
 }
 
-void RES_print_countercheck(int xcheck, int ycheck, int twodcheck, char *fname_specs)
+void print_hist_countercheck(int xcheck, int ycheck, int twodcheck, char *fname_specs)
 {
 /**
  * Function that prints the result of the counter checks available from the 
@@ -240,7 +230,7 @@ void RES_print_countercheck(int xcheck, int ycheck, int twodcheck, char *fname_s
 	}
 }
 
-void RES_copycode(){
+void TCOEF_copycode(){
 
    char copycode[200];
 

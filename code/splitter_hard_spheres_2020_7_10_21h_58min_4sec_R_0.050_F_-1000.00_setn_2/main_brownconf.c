@@ -462,7 +462,7 @@ int main (int argc, char **argv){
 
   
   PARAMS_init();
- // RES_init();
+ // TCOEF_init();
 
   binx = 0.02*L;
   biny = 2.0*binx*MAX_HALF_WIDTH/L;
@@ -524,7 +524,7 @@ int main (int argc, char **argv){
   PARAMS_copycode(); 
   copycode_conf();
   copycode_int();
-  RES_copycode();
+  TCOEF_copycode();
   CODEHAND_copycode();
 
   sprintf(fnamespecs, "simulation_specs.dat");
@@ -735,12 +735,12 @@ int main (int argc, char **argv){
 		   * call function for calculation of transport coefficients 
 		   * such as mobility or mean-squared displacement 
 		   * */ 
-		  RES_calc_transpcoeffs(setn_per_task, 
-		   		        t, 
-				        posshift,
-				        negshift,
-				        positionx,
-				        xstart);
+		  calc_transpcoeffs(setn_per_task, 
+				    t, 
+				    posshift,
+				    negshift,
+				    positionx,
+				    xstart);
 	  
 			 
                   /*
@@ -806,14 +806,14 @@ int main (int argc, char **argv){
   print_runtime_threads(prgstart, SimParams.numtasks, taskid);
   
   sprintf(fnamex, "meanx_Histogram_F_%.3lf.dat", SimParams.F);
-  xcountercheck = RES_histogramm_mpi_reduce(setn_per_task, 
+  xcountercheck = histogramm_mpi_reduce(setn_per_task, 
 					0, 
 					L, 
                                         binx, positionx, 
                                         fnamex, taskid);
 
   sprintf(fnamey, "meany_Histogram_F_%.3lf.dat", SimParams.F);
-  ycountercheck = RES_histogramm_mpi_reduce(setn_per_task, 
+  ycountercheck = histogramm_mpi_reduce(setn_per_task, 
                                         MAX_HALF_WIDTH, 
                                         2*MAX_HALF_WIDTH, 
                                         biny, positiony, 
@@ -821,7 +821,7 @@ int main (int argc, char **argv){
                                         taskid);
 
   sprintf(fname2d, "meanpos_Histogram2d_F_%.3lf.dat", SimParams.F);
-  twodcountercheck =  RES_histogramm2d_mpi_reduce(setn_per_task, 
+  twodcountercheck =  histogramm2d_mpi_reduce(setn_per_task, 
 					      bin2d, 
                                               positionx, 
 					      positiony, 
@@ -831,7 +831,7 @@ int main (int argc, char **argv){
 
   if(taskid == MASTER){
  	   print_positions(setn_per_task, positionx, positiony);
-           RES_print_countercheck(xcountercheck, ycountercheck, twodcountercheck, fnamespecs);
+           print_hist_countercheck(xcountercheck, ycountercheck, twodcountercheck, fnamespecs);
            print_resallthreads(msdall, meanspeedall, muall, deffall, meanxall, meanxsquall, thirdcumall);
 	   print_muoverf(muall, deffall, namefile);
             

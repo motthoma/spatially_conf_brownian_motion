@@ -43,33 +43,34 @@ extern T_TransportCoeffs tcoeff;
  *********************************************************
  */
 
-extern void RES_init();
+extern void TCOEF_init();
 
-void RES_calc_transpcoeffs(int setn_per_task, 
-		           double t,
-		           long int **posshift,
-		           long int **negshift,
-		           double **posx,
-		           double **x_init);
+void calc_transpcoeffs(
+		       int setn_per_task, 
+		       double t,
+		       long int **posshift,
+		       long int **negshift,
+		       double **posx,
+		       double **x_init);
 
-int RES_histogramm_mpi_reduce(int m, 
-                              double backshift, 
-                              double length, 
-                              double bin, 
-                              double **positions, 
-                              char *fname, 
-                              int taskid);
+int histogramm_mpi_reduce(int m, 
+                          double backshift, 
+                          double length, 
+                          double bin, 
+                          double **positions, 
+                          char *fname, 
+                          int taskid);
 
-int RES_histogramm2d_mpi_reduce(int m, 
-                                double bin2d, 
-                                double **positionsx, 
-                                double **positionsy,  
-                                char *fname, 
-                                int taskid);
+int histogramm2d_mpi_reduce(int m, 
+                            double bin2d, 
+                            double **positionsx, 
+                            double **positionsy,  
+                            char *fname, 
+                            int taskid);
 
-void RES_print_countercheck(int xcheck, 
-			    int ycheck, 
-			    int twodcheck, 
-			    char *fname_specs);
+void print_hist_countercheck(int xcheck, 
+			     int ycheck, 
+			     int twodcheck, 
+			     char *fname_specs);
 
-void RES_copycode(void);
+void TCOEF_copycode(void);

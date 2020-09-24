@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['histogramm2d_5fmpi_5freduce',['histogramm2d_mpi_reduce',['../main__brownconf_8c.html#a28bb7d78e99088f9d3c7fb7530ac3b70',1,'main_brownconf.c']]],
-  ['histogramm_5fmpi_5freduce',['histogramm_mpi_reduce',['../main__brownconf_8c.html#af89dac36bb73d4e4cfb3da716cbe1c72',1,'main_brownconf.c']]]
+  ['init_5fparticle_5fint',['init_particle_int',['../main__brownconf_8c.html#a440eb09f15b9bc580c10b627ccf2c9cf',1,'main_brownconf.c']]],
+  ['init_5fparticle_5fpos',['init_particle_pos',['../main__brownconf_8c.html#a60c283e6d38073883025f57a7ce73b88',1,'main_brownconf.c']]]
 ];

@@ -205,6 +205,37 @@ void print_muoverf(double muall, double deffall, char *namefile)
 
 }
 
+double **calloc_2Ddouble_array(int m, int n){
+/**
+ * Function that allocates memory for a 2 dimensional array of doubles
+ */
+double **array;
+int i;
+
+  array = calloc(m, sizeof(double));
+  for(i = 0; i < m; i++){
+  	array[i] = calloc(n, sizeof(double));
+  }
+
+  return array;
+}
+
+long int **calloc_2Dlint_array(int m, int n){
+/**
+ * Function that allocates memory for a 2 dimensional array of long ints
+ */
+long int **array;
+int i;
+
+  array = calloc(m, sizeof(double));
+  for(i = 0; i < m; i++){
+  	array[i] = calloc(n, sizeof(double));
+  }
+
+  return array;
+}
+
+
   
 void init_particle_pos(int setn_per_task, 
                        double **positionx, 
@@ -305,8 +336,9 @@ void init_particle_int(int setn_per_task,
   }
 }
 
-
-double reset_pos_time(int setn_per_task, long int **posshift, long int **negshift) 
+double reset_pos_time(int setn_per_task, 
+                      long int **posshift, 
+	    	      long int **negshift) 
 {
 /**
  * Function to reset the simulated system time t and the positions
@@ -370,227 +402,52 @@ int update_equcounter(double tran_quant, double tran_quanto, double accurarcy, i
 	return equcounter;
 }
 
-double **calloc_2Ddouble_array(int m, int n){
-/**
- * Function that allocates memory for a 2 dimensional array of doubles
- */
-double **array;
-int i;
 
-  array = calloc(m, sizeof(double));
-  for(i = 0; i < m; i++){
-  	array[i] = calloc(n, sizeof(double));
-  }
+void perform_simulation(int setn_per_task,
+			int setn,
+			int taskid, 
+                        double **positionx, 
+                        double **positiony, 
+                        double **xstart, 
+                        double **fintxarray,
+                        double **fintyarray,
+                        gsl_rng *r)
+{
+  /* Perform simulation steps until equilibration is reached */
 
-  return array;
-}
-
-long int **calloc_2Dlint_array(int m, int n){
-/**
- * Function that allocates memory for a 2 dimensional array of long ints
- */
-long int **array;
-int i;
-
-  array = calloc(m, sizeof(double));
-  for(i = 0; i < m; i++){
-  	array[i] = calloc(n, sizeof(double));
-  }
-
-  return array;
-}
-
-
-
-int main (int argc, char **argv){
-/** main function of Brownian motion simulation
- *
- */
-
-  /*
-   * initialize parameters for time measurement and measure time
-   */ 
-  clock_t prgstart; 
-  prgstart = clock(); 
+  double u, v, x, y, yo, xo; 
+  double xtest, ytest;
   
-  double u, v, x, y, yo, xo, yue, distx, disty, dist, f_cut,  deffall, meanspeedall, muall;
-  double muabbo, deffabbo;
-  double t, dt, xtest, ytest;
-  unsigned int xcountercheck, ycountercheck, twodcountercheck;
-  int i, j;
-  long double  meanxall, meanxsquall, msdall, thirdcumall;
+  double t = 0;
+  double dt = SimParams.time_step;  
   long double  sqrt_flucts, f_dt;
-  int abb, abbdeff, int_ind, kset, shiftind; 
-  int tasks = 1;
-  int taskid = MASTER;
-  int setn_per_task;
-  int setn;
-  char *namefile;
-  char *conprfx;
-  char *intprfx;
-  bool ParameterFlag;
+  int i = 1;     
+  int j;
+  int kset; 
+  int int_ind; 
+  int abb = 0;	
+  int abbdeff = 0;	
+  double muabbo = 0;	
+  double deffabbo = 0;	
+  double fintx;
+  double finty;
+  double fintxpair;
+  double fintypair;
+  double yue, distx, disty, dist; 
+  int shiftind;
+ 
   bool PrintRes;
   bool TestRes;
-
-  /*
-   * width of bins used for spatial discretization for position histograms   
-   */
-  double binx;
-  double biny;
-  double bin2d; 
   
-  /* init state for print functions to check if
-   * header line in result file has been printed
-   */
-  printres.state = 0; 
-  
-  /*
-   * read external force and number of interacting particles per set from command line arguments
-   */ 
-  printf("\nargc: %d\n\n", argc);
-  if(argc > 3){
-	SimParams.F = atof(argv[1])*L;
-	SimParams.setnumb = atof(argv[2]);
-  }
-  else{
- 	return -1;
-  }
-  
-  SimParams.time_step = PARAMS_time_step(B, R_INT); 
-  sqrt_flucts = sqrt(2*BOTTRAD*SimParams.time_step);
-  f_dt = SimParams.F*SimParams.time_step;
-
-  
-  PARAMS_init();
- // RES_init();
-
-  binx = 0.02*L;
-  biny = 2.0*binx*MAX_HALF_WIDTH/L;
-  bin2d = 0.05; 
-
-
-  /*
-   * get name of confinement and type of intra particle interaction
-   * and provide them to function that creates working directory
-   */
-  conprfx = CONF_prfx();
-  intprfx = prfx_int();
-  namefile = CODEHAND_makedirectory(conprfx, intprfx);
-  chdir(namefile);
-
-
-  /**
-   * calculate number of samples of interacting particles
-   */ 
-  setn = (int) SimParams.N/SimParams.setnumb;
-  
-  
-  /*
-   * initialize arrays where x- and y-coordinates of particles are stored in
-   */ 
-  printf("\ninitialize arrays for positions and interactions\n"); 
-  double **positionx;
-  double **positiony;
-  double **fintxarray;
-  double **fintyarray;
-  double **xstart;
-
-  
-  positionx = calloc_2Ddouble_array(setn, SimParams.setnumb);
-  positiony = calloc_2Ddouble_array(setn, SimParams.setnumb);
-  
-  fintxarray = calloc_2Ddouble_array(setn, SimParams.setnumb);
-  fintyarray = calloc_2Ddouble_array(setn, SimParams.setnumb);
-  
-  xstart = calloc_2Ddouble_array(setn, SimParams.setnumb);
-
-  printf("arrays for positions and interactions are initialized!\n"); 
-
-
   long int **negshift;
   long int **posshift;
   
   negshift = calloc_2Dlint_array(setn, SimParams.setnumb);
   posshift = calloc_2Dlint_array(setn, SimParams.setnumb);
-
-  printf("arrays for negshift and posshift are initialized!\n"); 
   
-  char fnamex [60];
-  char fnamey [60];
-  char fname2d [60];
-  char fnamespecs [60];
-
-  CODEHAND_copy_main();
-  PARAMS_copycode(); 
-  CONF_copycode();
-  copycode_int();
-  RES_copycode();
-  CODEHAND_copycode();
-
-  sprintf(fnamespecs, "simulation_specs.dat");
-  PARAMS_basic(fnamespecs);
-  CONF_specs(binx, biny, bin2d);
-  f_cut = intforce(INT_CUTOFF, INT_CUTOFF);
-  specs_int(f_cut);
-
-
-# ifdef MPI_ON
-	  MPI_Init (&argc,&argv);
-	  MPI_Comm_size (MPI_COMM_WORLD, &tasks);
-	  MPI_Comm_rank (MPI_COMM_WORLD, &taskid); 
-# endif
-
-  SimParams.numtasks = tasks;
-  printf("\n numtasks: %d\n", SimParams.numtasks);
+  sqrt_flucts = sqrt(2*BOTTRAD*dt);
+  f_dt = SimParams.F*dt;
   
-  ParameterFlag = PARAMS_check_consistency();
-  if(ParameterFlag == false){
-	return -1;
-  }	
-  
-  /**
-   * calculate number of samples of interacting particles per task
-   */ 
-  setn_per_task = (int) SimParams.N/(SimParams.setnumb*SimParams.numtasks);
-
-  if(taskid == MASTER){
-  	  if(SimParams.numtasks > 1){
-		  FILE *outptasks;
-		  outptasks=fopen("taskres.dat", "a");
-		  fprintf(outptasks, "\nFile shows results of all tasks if code is parallelized:\n\n");
-		  fclose(outptasks);
-          } 
-
-  }
-  
-  /* Initialize pointer r as interface to gls random functions */  
-  gsl_rng *r = gsl_rng_alloc (gsl_rng_mt19937);  
-  /* set time(NULL + taskid as 'random' seed */ 
-  gsl_rng_set(r, time(NULL) + taskid);
-  
-  printf("start to init positions!\n"); 
-  
-  /* 
-   * Initialize particle positions 
-   */
-  init_particle_pos(setn_per_task, positionx, positiony, xstart, r);
-
-  printf("positions initialized!\n"); 
-
-  /* Initialize inter-particle forces */
-  init_particle_int(setn_per_task, positionx, positiony, fintxarray, fintyarray);
-
-  printf("\ntask ID:\t %d -> particle positions and forces fixed\n", taskid);
-   
- 
-  /* Perform simulation steps until equilibration is reached */
-  t = 0;
-  dt = SimParams.time_step;  
-  i = 1;      
-  abb = 0;	
-  abbdeff = 0;	
-  muabbo = 0;	
-  deffabbo = 0;	
   /*
    * loop over simulation steps.
    * loop is stopped when criterion for equilibration is fulfilled.
@@ -632,7 +489,7 @@ int main (int argc, char **argv){
                                    *position x (y-value is needed for non-analytic treatment
                                    *of channels with cosine shape
                                    */  
-				  yue = CONF_yuef(x,y);
+				  yue = CONF_yuef(x, y);
 				    
 				 // PosValid = true;
 				  /*Check if particle is within effective boundary*/  
@@ -671,7 +528,10 @@ int main (int argc, char **argv){
 								distx = distx - L*(distx/abs(distx));
 							  }
 							  dist = sqrt(distx*distx + disty*disty);
-							  
+							  /* 
+							   * stay in do-while loop if two particles overlap  
+							   * and skip the following break statement
+							   */
 							  if(dist <= 2*R_INT) continue; 
 							  
 							  if(dist <= INT_CUTOFF){
@@ -783,6 +643,188 @@ int main (int argc, char **argv){
    * Closes while loop over simulation steps if criteria for equilibration are fulfilled
    */
   }while((abb < SimParams.numbtest) || (abbdeff < SimParams.numbtest));
+  
+  free(negshift);
+  free(posshift);
+}
+
+
+
+
+int main (int argc, char **argv){
+/** main function of Brownian motion simulation
+ *
+ */
+
+  /*
+   * initialize parameters for time measurement and measure time
+   */ 
+  clock_t prgstart; 
+  prgstart = clock(); 
+  
+  double f_cut;
+  double deffall, meanspeedall, muall;
+  unsigned int xcountercheck, ycountercheck, twodcountercheck;
+  long double  meanxall, meanxsquall, msdall, thirdcumall;
+  int tasks = 1;
+  int taskid = MASTER;
+  int setn_per_task;
+  int setn;
+  char *namefile;
+  char *conprfx;
+  char *intprfx;
+  bool ParameterFlag;
+
+  /*
+   * width of bins used for spatial discretization for position histograms   
+   */
+  double binx;
+  double biny;
+  double bin2d; 
+  
+  /* init state for print functions to check if
+   * header line in result file has been printed
+   */
+  printres.state = 0; 
+  
+  /*
+   * read external force and number of interacting particles per set from command line arguments
+   */ 
+  printf("\nargc: %d\n\n", argc);
+  if(argc > 3){
+	SimParams.F = atof(argv[1])*L;
+	SimParams.setnumb = atof(argv[2]);
+  }
+  else{
+ 	return -1;
+  }
+  
+  SimParams.time_step = PARAMS_time_step(B, R_INT); 
+
+  
+  PARAMS_init();
+ // RES_init();
+
+  binx = 0.02*L;
+  biny = 2.0*binx*MAX_HALF_WIDTH/L;
+  bin2d = 0.05; 
+
+
+  /*
+   * get name of confinement and type of intra particle interaction
+   * and provide them to function that creates working directory
+   */
+  conprfx = CONF_prfx();
+  intprfx = prfx_int();
+  namefile = CODEHAND_makedirectory(conprfx, intprfx);
+  chdir(namefile);
+
+
+  /**
+   * calculate number of samples of interacting particles
+   */ 
+  setn = (int) SimParams.N/SimParams.setnumb;
+  
+  
+  /*
+   * initialize arrays where x- and y-coordinates of particles are stored in
+   */ 
+  printf("\ninitialize arrays for positions and interactions\n"); 
+  double **positionx;
+  double **positiony;
+  double **fintxarray;
+  double **fintyarray;
+  double **xstart;
+
+  
+  positionx = calloc_2Ddouble_array(setn, SimParams.setnumb);
+  positiony = calloc_2Ddouble_array(setn, SimParams.setnumb);
+  
+  fintxarray = calloc_2Ddouble_array(setn, SimParams.setnumb);
+  fintyarray = calloc_2Ddouble_array(setn, SimParams.setnumb);
+  
+  xstart = calloc_2Ddouble_array(setn, SimParams.setnumb);
+
+  printf("arrays for positions and interactions are initialized!\n"); 
+
+  printf("arrays for negshift and posshift are initialized!\n"); 
+  
+  char fnamex [60];
+  char fnamey [60];
+  char fname2d [60];
+  char fnamespecs [60];
+
+  CODEHAND_copy_main();
+  PARAMS_copycode(); 
+  CONF_copycode();
+  copycode_int();
+  RES_copycode();
+  CODEHAND_copycode();
+
+  sprintf(fnamespecs, "simulation_specs.dat");
+  PARAMS_basic(fnamespecs);
+  CONF_specs(binx, biny, bin2d);
+  f_cut = intforce(INT_CUTOFF, INT_CUTOFF);
+  specs_int(f_cut);
+
+
+# ifdef MPI_ON
+	  MPI_Init (&argc,&argv);
+	  MPI_Comm_size (MPI_COMM_WORLD, &tasks);
+	  MPI_Comm_rank (MPI_COMM_WORLD, &taskid); 
+# endif
+
+  SimParams.numtasks = tasks;
+  printf("\n numtasks: %d\n", SimParams.numtasks);
+  
+  ParameterFlag = PARAMS_check_consistency();
+  if(ParameterFlag == false){
+	return -1;
+  }	
+  
+  /**
+   * calculate number of samples of interacting particles per task
+   */ 
+  setn_per_task = (int) SimParams.N/(SimParams.setnumb*SimParams.numtasks);
+
+  if(taskid == MASTER){
+  	  if(SimParams.numtasks > 1){
+		  FILE *outptasks;
+		  outptasks=fopen("taskres.dat", "a");
+		  fprintf(outptasks, "\nFile shows results of all tasks if code is parallelized:\n\n");
+		  fclose(outptasks);
+          } 
+
+  }
+  
+  /* Initialize pointer r as interface to gls random functions */  
+  gsl_rng *r = gsl_rng_alloc (gsl_rng_mt19937);  
+  /* set time(NULL + taskid as 'random' seed */ 
+  gsl_rng_set(r, time(NULL) + taskid);
+  
+  printf("start to init positions!\n"); 
+  
+  /* 
+   * Initialize particle positions 
+   */
+  init_particle_pos(setn_per_task, positionx, positiony, xstart, r);
+
+  printf("positions initialized!\n"); 
+
+  /* Initialize inter-particle forces */
+  init_particle_int(setn_per_task, positionx, positiony, fintxarray, fintyarray);
+
+  printf("\ntask ID:\t %d -> particle positions and forces fixed\n", taskid);
+   
+  perform_simulation(setn_per_task,
+		     setn,
+		     taskid, 
+                     positionx, 
+                     positiony, 
+                     xstart, 
+                     fintxarray,
+                     fintyarray,
+                     r);
  
   /*Merge quantities that were calculated in separated MPI threads*/ 
 #  ifdef MPI_ON
@@ -807,26 +849,26 @@ int main (int argc, char **argv){
   
   sprintf(fnamex, "meanx_Histogram_F_%.3lf.dat", SimParams.F);
   xcountercheck = RES_histogramm_mpi_reduce(setn_per_task, 
-					0, 
-					L, 
-                                        binx, positionx, 
-                                        fnamex, taskid);
+					    0, 
+					    L, 
+					    binx, positionx, 
+					    fnamex, taskid);
 
   sprintf(fnamey, "meany_Histogram_F_%.3lf.dat", SimParams.F);
   ycountercheck = RES_histogramm_mpi_reduce(setn_per_task, 
-                                        MAX_HALF_WIDTH, 
-                                        2*MAX_HALF_WIDTH, 
-                                        biny, positiony, 
-                                        fnamey, 
-                                        taskid);
+                                            MAX_HALF_WIDTH, 
+    	                                    2*MAX_HALF_WIDTH, 
+        	                            biny, positiony, 
+                	                    fnamey, 
+                        	            taskid);
 
   sprintf(fname2d, "meanpos_Histogram2d_F_%.3lf.dat", SimParams.F);
   twodcountercheck =  RES_histogramm2d_mpi_reduce(setn_per_task, 
-					      bin2d, 
-                                              positionx, 
-					      positiony, 
-                                              fname2d, 
-					      taskid);
+					    	  bin2d, 
+                                                  positionx, 
+			  		          positiony, 
+                                                  fname2d, 
+					          taskid);
 
 
   if(taskid == MASTER){
@@ -846,8 +888,7 @@ int main (int argc, char **argv){
   free(fintxarray);
   free(fintyarray);
   free(xstart);
-  free(negshift);
-  free(posshift);
+  
   #ifdef MPI_ON
 	  MPI_Finalize();
   #endif

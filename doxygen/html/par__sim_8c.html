@@ -87,16 +87,16 @@ Include dependency graph for par_sim.c:</div>
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:ad566efc087e7a80afab9615dafdb48ee"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="par__sim_8c.html#ad566efc087e7a80afab9615dafdb48ee">init_simparams</a> ()</td></tr>
-<tr class="separator:ad566efc087e7a80afab9615dafdb48ee"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af3821852a7a3b91c1632de95e0ad4f88"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="par__sim_8c.html#af3821852a7a3b91c1632de95e0ad4f88">check_parameter_consistency</a> ()</td></tr>
-<tr class="separator:af3821852a7a3b91c1632de95e0ad4f88"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a46f4333215f596e602b277577744b2dd"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="par__sim_8c.html#a46f4333215f596e602b277577744b2dd">time_step</a> (double lscale_conf, double lscale_part)</td></tr>
-<tr class="separator:a46f4333215f596e602b277577744b2dd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2735ca7f6ba0a98a20e7d4edf9a7cee7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="par__sim_8c.html#a2735ca7f6ba0a98a20e7d4edf9a7cee7">specs_basic</a> (char *fnamespec)</td></tr>
-<tr class="separator:a2735ca7f6ba0a98a20e7d4edf9a7cee7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7c72a55e9fca9ed03e32a0aa988c2042"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="par__sim_8c.html#a7c72a55e9fca9ed03e32a0aa988c2042">copycode_par</a> ()</td></tr>
-<tr class="separator:a7c72a55e9fca9ed03e32a0aa988c2042"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0a3a21b4799905eac2c0188010fa54a6"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="par__sim_8c.html#a0a3a21b4799905eac2c0188010fa54a6">PARAMS_init</a> ()</td></tr>
+<tr class="separator:a0a3a21b4799905eac2c0188010fa54a6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0bf9767e3de5b0d82c974d60d3006306"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="par__sim_8c.html#a0bf9767e3de5b0d82c974d60d3006306">PARAMS_check_consistency</a> ()</td></tr>
+<tr class="separator:a0bf9767e3de5b0d82c974d60d3006306"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a16ccaa6919a2e6477fdc74b8a59cbe1a"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="par__sim_8c.html#a16ccaa6919a2e6477fdc74b8a59cbe1a">PARAMS_time_step</a> (double lscale_conf, double lscale_part)</td></tr>
+<tr class="separator:a16ccaa6919a2e6477fdc74b8a59cbe1a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2e0a8699be26270f3f71860040e53cee"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="par__sim_8c.html#a2e0a8699be26270f3f71860040e53cee">PARAMS_basic</a> (char *fnamespec)</td></tr>
+<tr class="separator:a2e0a8699be26270f3f71860040e53cee"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad8ea18d0f530c1eb492a84877c5b4bd6"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="par__sim_8c.html#ad8ea18d0f530c1eb492a84877c5b4bd6">PARAMS_copycode</a> ()</td></tr>
+<tr class="separator:ad8ea18d0f530c1eb492a84877c5b4bd6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
 Variables</h2></td></tr>
@@ -104,67 +104,14 @@ Variables</h2></td></tr>
 <tr class="separator:a008f988cbc35ed74f733b2dc4f2169fc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Function Documentation</h2>
-<a id="af3821852a7a3b91c1632de95e0ad4f88"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af3821852a7a3b91c1632de95e0ad4f88">&#9670;&nbsp;</a></span>check_parameter_consistency()</h2>
+<a id="a2e0a8699be26270f3f71860040e53cee"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2e0a8699be26270f3f71860040e53cee">&#9670;&nbsp;</a></span>PARAMS_basic()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">bool check_parameter_consistency </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a7c72a55e9fca9ed03e32a0aa988c2042"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7c72a55e9fca9ed03e32a0aa988c2042">&#9670;&nbsp;</a></span>copycode_par()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void copycode_par </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>function that copies module in working directory </p>
-
-</div>
-</div>
-<a id="ad566efc087e7a80afab9615dafdb48ee"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad566efc087e7a80afab9615dafdb48ee">&#9670;&nbsp;</a></span>init_simparams()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void init_simparams </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Function that initializes hard coded parameters of simulation </p>
-
-</div>
-</div>
-<a id="a2735ca7f6ba0a98a20e7d4edf9a7cee7"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2735ca7f6ba0a98a20e7d4edf9a7cee7">&#9670;&nbsp;</a></span>specs_basic()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void specs_basic </td>
+          <td class="memname">void PARAMS_basic </td>
           <td>(</td>
           <td class="paramtype">char *&#160;</td>
           <td class="paramname"><em>fnamespec</em></td><td>)</td>
@@ -176,14 +123,68 @@ Variables</h2></td></tr>
 
 </div>
 </div>
-<a id="a46f4333215f596e602b277577744b2dd"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a46f4333215f596e602b277577744b2dd">&#9670;&nbsp;</a></span>time_step()</h2>
+<a id="a0bf9767e3de5b0d82c974d60d3006306"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0bf9767e3de5b0d82c974d60d3006306">&#9670;&nbsp;</a></span>PARAMS_check_consistency()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">double time_step </td>
+          <td class="memname">bool PARAMS_check_consistency </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Checks consistency of some parameters</p>
+
+</div>
+</div>
+<a id="ad8ea18d0f530c1eb492a84877c5b4bd6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad8ea18d0f530c1eb492a84877c5b4bd6">&#9670;&nbsp;</a></span>PARAMS_copycode()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void PARAMS_copycode </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>copies module in working directory</p>
+
+</div>
+</div>
+<a id="a0a3a21b4799905eac2c0188010fa54a6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0a3a21b4799905eac2c0188010fa54a6">&#9670;&nbsp;</a></span>PARAMS_init()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void PARAMS_init </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Function that initializes hard coded parameters of simulation </p>
+
+</div>
+</div>
+<a id="a16ccaa6919a2e6477fdc74b8a59cbe1a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a16ccaa6919a2e6477fdc74b8a59cbe1a">&#9670;&nbsp;</a></span>PARAMS_time_step()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">double PARAMS_time_step </td>
           <td>(</td>
           <td class="paramtype">double&#160;</td>
           <td class="paramname"><em>lscale_conf</em>, </td>

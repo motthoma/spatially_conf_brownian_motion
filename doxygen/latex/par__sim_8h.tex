@@ -8,7 +8,8 @@ Include dependency graph for par\+\_\+sim.\+h\+:\nopagebreak
 \includegraphics[width=139pt]{par__sim_8h__incl}
 \end{center}
 \end{figure}
-This graph shows which files directly or indirectly include this file\+:\nopagebreak
+This graph shows which files directly or indirectly include this file\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -23,13 +24,15 @@ struct \hyperlink{structTAG__SimParams}{T\+A\+G\+\_\+\+Sim\+Params}
 \subsection*{Macros}
 \begin{DoxyCompactItemize}
 \item 
-\#define \hyperlink{par__sim_8h_a111da81ae5883147168bbb8366377b10}{B}~0.\+1
+\#define \hyperlink{par__sim_8h_a111da81ae5883147168bbb8366377b10}{B}~0.\+1$\ast$L
 \item 
 \#define \hyperlink{par__sim_8h_a91fe5423554a4b8dc2030d8dd26bb4c4}{R\+A\+DF}~0.\+5
 \item 
 \#define \hyperlink{par__sim_8h_af474bcea39541c1bc5d82287cc9a695c}{R\+\_\+\+C\+O\+NF}~(\hyperlink{par__sim_8h_a91fe5423554a4b8dc2030d8dd26bb4c4}{R\+A\+DF}$\ast$\hyperlink{par__sim_8h_a111da81ae5883147168bbb8366377b10}{B})
 \item 
 \#define \hyperlink{par__sim_8h_a16cb6c56ede462c96211f59cd6bf5619}{B\+O\+T\+T\+R\+AD}~((\hyperlink{par__sim_8h_a91fe5423554a4b8dc2030d8dd26bb4c4}{R\+A\+DF} == 0 ? 1.\+0 \+: (1.\+0/\hyperlink{par__sim_8h_a91fe5423554a4b8dc2030d8dd26bb4c4}{R\+A\+DF})))
+\item 
+\#define \hyperlink{par__sim_8h_a3fa2d3bf1901157f734a584d47b25d8b}{M\+A\+S\+T\+ER}~0
 \end{DoxyCompactItemize}
 \subsection*{Typedefs}
 \begin{DoxyCompactItemize}
@@ -39,15 +42,15 @@ typedef struct \hyperlink{structTAG__SimParams}{T\+A\+G\+\_\+\+Sim\+Params} \hyp
 \subsection*{Functions}
 \begin{DoxyCompactItemize}
 \item 
-double \hyperlink{par__sim_8h_a46f4333215f596e602b277577744b2dd}{time\+\_\+step} (double lscale\+\_\+conf, double lscale\+\_\+part)
+double \hyperlink{par__sim_8h_a16ccaa6919a2e6477fdc74b8a59cbe1a}{P\+A\+R\+A\+M\+S\+\_\+time\+\_\+step} (double lscale\+\_\+conf, double lscale\+\_\+part)
 \item 
-void \hyperlink{par__sim_8h_ad566efc087e7a80afab9615dafdb48ee}{init\+\_\+simparams} ()
+void \hyperlink{par__sim_8h_a0a3a21b4799905eac2c0188010fa54a6}{P\+A\+R\+A\+M\+S\+\_\+init} ()
 \item 
-bool \hyperlink{par__sim_8h_af3821852a7a3b91c1632de95e0ad4f88}{check\+\_\+parameter\+\_\+consistency} ()
+bool \hyperlink{par__sim_8h_a0bf9767e3de5b0d82c974d60d3006306}{P\+A\+R\+A\+M\+S\+\_\+check\+\_\+consistency} ()
 \item 
-void \hyperlink{par__sim_8h_a2735ca7f6ba0a98a20e7d4edf9a7cee7}{specs\+\_\+basic} (char $\ast$fnamespec)
+void \hyperlink{par__sim_8h_a2e0a8699be26270f3f71860040e53cee}{P\+A\+R\+A\+M\+S\+\_\+basic} (char $\ast$fnamespec)
 \item 
-void \hyperlink{par__sim_8h_a7c72a55e9fca9ed03e32a0aa988c2042}{copycode\+\_\+par} ()
+void \hyperlink{par__sim_8h_ad8ea18d0f530c1eb492a84877c5b4bd6}{P\+A\+R\+A\+M\+S\+\_\+copycode} ()
 \end{DoxyCompactItemize}
 \subsection*{Variables}
 \begin{DoxyCompactItemize}
@@ -63,13 +66,19 @@ unsigned int \hyperlink{par__sim_8h_a457e5832d12d93072dd27755b93e91e4}{nbin}
 \index{par\+\_\+sim.\+h@{par\+\_\+sim.\+h}!B@{B}}
 \index{B@{B}!par\+\_\+sim.\+h@{par\+\_\+sim.\+h}}
 \subsubsection{\texorpdfstring{B}{B}}
-{\footnotesize\ttfamily \#define B~0.\+1}
+{\footnotesize\ttfamily \#define B~0.\+1$\ast$L}
 
 \mbox{\Hypertarget{par__sim_8h_a16cb6c56ede462c96211f59cd6bf5619}\label{par__sim_8h_a16cb6c56ede462c96211f59cd6bf5619}} 
 \index{par\+\_\+sim.\+h@{par\+\_\+sim.\+h}!B\+O\+T\+T\+R\+AD@{B\+O\+T\+T\+R\+AD}}
 \index{B\+O\+T\+T\+R\+AD@{B\+O\+T\+T\+R\+AD}!par\+\_\+sim.\+h@{par\+\_\+sim.\+h}}
 \subsubsection{\texorpdfstring{B\+O\+T\+T\+R\+AD}{BOTTRAD}}
 {\footnotesize\ttfamily \#define B\+O\+T\+T\+R\+AD~((\hyperlink{par__sim_8h_a91fe5423554a4b8dc2030d8dd26bb4c4}{R\+A\+DF} == 0 ? 1.\+0 \+: (1.\+0/\hyperlink{par__sim_8h_a91fe5423554a4b8dc2030d8dd26bb4c4}{R\+A\+DF})))}
+
+\mbox{\Hypertarget{par__sim_8h_a3fa2d3bf1901157f734a584d47b25d8b}\label{par__sim_8h_a3fa2d3bf1901157f734a584d47b25d8b}} 
+\index{par\+\_\+sim.\+h@{par\+\_\+sim.\+h}!M\+A\+S\+T\+ER@{M\+A\+S\+T\+ER}}
+\index{M\+A\+S\+T\+ER@{M\+A\+S\+T\+ER}!par\+\_\+sim.\+h@{par\+\_\+sim.\+h}}
+\subsubsection{\texorpdfstring{M\+A\+S\+T\+ER}{MASTER}}
+{\footnotesize\ttfamily \#define M\+A\+S\+T\+ER~0}
 
 \mbox{\Hypertarget{par__sim_8h_af474bcea39541c1bc5d82287cc9a695c}\label{par__sim_8h_af474bcea39541c1bc5d82287cc9a695c}} 
 \index{par\+\_\+sim.\+h@{par\+\_\+sim.\+h}!R\+\_\+\+C\+O\+NF@{R\+\_\+\+C\+O\+NF}}
@@ -95,35 +104,37 @@ unsigned int \hyperlink{par__sim_8h_a457e5832d12d93072dd27755b93e91e4}{nbin}
 
 
 \subsection{Function Documentation}
-\mbox{\Hypertarget{par__sim_8h_af3821852a7a3b91c1632de95e0ad4f88}\label{par__sim_8h_af3821852a7a3b91c1632de95e0ad4f88}} 
-\index{par\+\_\+sim.\+h@{par\+\_\+sim.\+h}!check\+\_\+parameter\+\_\+consistency@{check\+\_\+parameter\+\_\+consistency}}
-\index{check\+\_\+parameter\+\_\+consistency@{check\+\_\+parameter\+\_\+consistency}!par\+\_\+sim.\+h@{par\+\_\+sim.\+h}}
-\subsubsection{\texorpdfstring{check\+\_\+parameter\+\_\+consistency()}{check\_parameter\_consistency()}}
-{\footnotesize\ttfamily bool check\+\_\+parameter\+\_\+consistency (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+\mbox{\Hypertarget{par__sim_8h_a2e0a8699be26270f3f71860040e53cee}\label{par__sim_8h_a2e0a8699be26270f3f71860040e53cee}} 
+\index{par\+\_\+sim.\+h@{par\+\_\+sim.\+h}!P\+A\+R\+A\+M\+S\+\_\+basic@{P\+A\+R\+A\+M\+S\+\_\+basic}}
+\index{P\+A\+R\+A\+M\+S\+\_\+basic@{P\+A\+R\+A\+M\+S\+\_\+basic}!par\+\_\+sim.\+h@{par\+\_\+sim.\+h}}
+\subsubsection{\texorpdfstring{P\+A\+R\+A\+M\+S\+\_\+basic()}{PARAMS\_basic()}}
+{\footnotesize\ttfamily void P\+A\+R\+A\+M\+S\+\_\+basic (\begin{DoxyParamCaption}\item[{char $\ast$}]{fnamespec }\end{DoxyParamCaption})}
 
-\mbox{\Hypertarget{par__sim_8h_a7c72a55e9fca9ed03e32a0aa988c2042}\label{par__sim_8h_a7c72a55e9fca9ed03e32a0aa988c2042}} 
-\index{par\+\_\+sim.\+h@{par\+\_\+sim.\+h}!copycode\+\_\+par@{copycode\+\_\+par}}
-\index{copycode\+\_\+par@{copycode\+\_\+par}!par\+\_\+sim.\+h@{par\+\_\+sim.\+h}}
-\subsubsection{\texorpdfstring{copycode\+\_\+par()}{copycode\_par()}}
-{\footnotesize\ttfamily void copycode\+\_\+par (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+function used to read simulation parameters in specs file \mbox{\Hypertarget{par__sim_8h_a0bf9767e3de5b0d82c974d60d3006306}\label{par__sim_8h_a0bf9767e3de5b0d82c974d60d3006306}} 
+\index{par\+\_\+sim.\+h@{par\+\_\+sim.\+h}!P\+A\+R\+A\+M\+S\+\_\+check\+\_\+consistency@{P\+A\+R\+A\+M\+S\+\_\+check\+\_\+consistency}}
+\index{P\+A\+R\+A\+M\+S\+\_\+check\+\_\+consistency@{P\+A\+R\+A\+M\+S\+\_\+check\+\_\+consistency}!par\+\_\+sim.\+h@{par\+\_\+sim.\+h}}
+\subsubsection{\texorpdfstring{P\+A\+R\+A\+M\+S\+\_\+check\+\_\+consistency()}{PARAMS\_check\_consistency()}}
+{\footnotesize\ttfamily bool P\+A\+R\+A\+M\+S\+\_\+check\+\_\+consistency (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
 
-function that copies module in working directory \mbox{\Hypertarget{par__sim_8h_ad566efc087e7a80afab9615dafdb48ee}\label{par__sim_8h_ad566efc087e7a80afab9615dafdb48ee}} 
-\index{par\+\_\+sim.\+h@{par\+\_\+sim.\+h}!init\+\_\+simparams@{init\+\_\+simparams}}
-\index{init\+\_\+simparams@{init\+\_\+simparams}!par\+\_\+sim.\+h@{par\+\_\+sim.\+h}}
-\subsubsection{\texorpdfstring{init\+\_\+simparams()}{init\_simparams()}}
-{\footnotesize\ttfamily void init\+\_\+simparams (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+Checks consistency of some parameters\mbox{\Hypertarget{par__sim_8h_ad8ea18d0f530c1eb492a84877c5b4bd6}\label{par__sim_8h_ad8ea18d0f530c1eb492a84877c5b4bd6}} 
+\index{par\+\_\+sim.\+h@{par\+\_\+sim.\+h}!P\+A\+R\+A\+M\+S\+\_\+copycode@{P\+A\+R\+A\+M\+S\+\_\+copycode}}
+\index{P\+A\+R\+A\+M\+S\+\_\+copycode@{P\+A\+R\+A\+M\+S\+\_\+copycode}!par\+\_\+sim.\+h@{par\+\_\+sim.\+h}}
+\subsubsection{\texorpdfstring{P\+A\+R\+A\+M\+S\+\_\+copycode()}{PARAMS\_copycode()}}
+{\footnotesize\ttfamily void P\+A\+R\+A\+M\+S\+\_\+copycode (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
 
-Function that initializes hard coded parameters of simulation \mbox{\Hypertarget{par__sim_8h_a2735ca7f6ba0a98a20e7d4edf9a7cee7}\label{par__sim_8h_a2735ca7f6ba0a98a20e7d4edf9a7cee7}} 
-\index{par\+\_\+sim.\+h@{par\+\_\+sim.\+h}!specs\+\_\+basic@{specs\+\_\+basic}}
-\index{specs\+\_\+basic@{specs\+\_\+basic}!par\+\_\+sim.\+h@{par\+\_\+sim.\+h}}
-\subsubsection{\texorpdfstring{specs\+\_\+basic()}{specs\_basic()}}
-{\footnotesize\ttfamily void specs\+\_\+basic (\begin{DoxyParamCaption}\item[{char $\ast$}]{fnamespec }\end{DoxyParamCaption})}
+copies module in working directory\mbox{\Hypertarget{par__sim_8h_a0a3a21b4799905eac2c0188010fa54a6}\label{par__sim_8h_a0a3a21b4799905eac2c0188010fa54a6}} 
+\index{par\+\_\+sim.\+h@{par\+\_\+sim.\+h}!P\+A\+R\+A\+M\+S\+\_\+init@{P\+A\+R\+A\+M\+S\+\_\+init}}
+\index{P\+A\+R\+A\+M\+S\+\_\+init@{P\+A\+R\+A\+M\+S\+\_\+init}!par\+\_\+sim.\+h@{par\+\_\+sim.\+h}}
+\subsubsection{\texorpdfstring{P\+A\+R\+A\+M\+S\+\_\+init()}{PARAMS\_init()}}
+{\footnotesize\ttfamily void P\+A\+R\+A\+M\+S\+\_\+init (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
 
-function used to read simulation parameters in specs file \mbox{\Hypertarget{par__sim_8h_a46f4333215f596e602b277577744b2dd}\label{par__sim_8h_a46f4333215f596e602b277577744b2dd}} 
-\index{par\+\_\+sim.\+h@{par\+\_\+sim.\+h}!time\+\_\+step@{time\+\_\+step}}
-\index{time\+\_\+step@{time\+\_\+step}!par\+\_\+sim.\+h@{par\+\_\+sim.\+h}}
-\subsubsection{\texorpdfstring{time\+\_\+step()}{time\_step()}}
-{\footnotesize\ttfamily double time\+\_\+step (\begin{DoxyParamCaption}\item[{double}]{lscale\+\_\+conf,  }\item[{double}]{lscale\+\_\+part }\end{DoxyParamCaption})}
+Function that initializes hard coded parameters of simulation \mbox{\Hypertarget{par__sim_8h_a16ccaa6919a2e6477fdc74b8a59cbe1a}\label{par__sim_8h_a16ccaa6919a2e6477fdc74b8a59cbe1a}} 
+\index{par\+\_\+sim.\+h@{par\+\_\+sim.\+h}!P\+A\+R\+A\+M\+S\+\_\+time\+\_\+step@{P\+A\+R\+A\+M\+S\+\_\+time\+\_\+step}}
+\index{P\+A\+R\+A\+M\+S\+\_\+time\+\_\+step@{P\+A\+R\+A\+M\+S\+\_\+time\+\_\+step}!par\+\_\+sim.\+h@{par\+\_\+sim.\+h}}
+\subsubsection{\texorpdfstring{P\+A\+R\+A\+M\+S\+\_\+time\+\_\+step()}{PARAMS\_time\_step()}}
+{\footnotesize\ttfamily double P\+A\+R\+A\+M\+S\+\_\+time\+\_\+step (\begin{DoxyParamCaption}\item[{double}]{lscale\+\_\+conf,  }\item[{double}]{lscale\+\_\+part }\end{DoxyParamCaption})}
+
+External functions
 
 Function that initializes value of simulation time steps. Time steps are calculated by means of confinement and particle quantitites. Therefore, the function has to be called in main, where header files for confinement and particle-\/particle interactions are included. 
 
@@ -134,7 +145,7 @@ Function that initializes value of simulation time steps. Time steps are calcula
 \subsubsection{\texorpdfstring{nbin}{nbin}}
 {\footnotesize\ttfamily unsigned int nbin}
 
-\mbox{\Hypertarget{par__sim_8h_a008f988cbc35ed74f733b2dc4f2169fc}\label{par__sim_8h_a008f988cbc35ed74f733b2dc4f2169fc}} 
+External types and variables \mbox{\Hypertarget{par__sim_8h_a008f988cbc35ed74f733b2dc4f2169fc}\label{par__sim_8h_a008f988cbc35ed74f733b2dc4f2169fc}} 
 \index{par\+\_\+sim.\+h@{par\+\_\+sim.\+h}!Sim\+Params@{Sim\+Params}}
 \index{Sim\+Params@{Sim\+Params}!par\+\_\+sim.\+h@{par\+\_\+sim.\+h}}
 \subsubsection{\texorpdfstring{Sim\+Params}{SimParams}}

@@ -66,7 +66,6 @@ $(function() {
 <div class="header">
   <div class="summary">
 <a href="#nested-classes">Classes</a> &#124;
-<a href="#define-members">Macros</a> &#124;
 <a href="#func-members">Functions</a> &#124;
 <a href="#var-members">Variables</a>  </div>
   <div class="headertitle">
@@ -75,12 +74,14 @@ $(function() {
 <div class="contents">
 <div class="textblock"><code>#include &quot;<a class="el" href="par__sim_8h_source.html">par_sim.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="comp__gen__header_8h_source.html">comp_gen_header.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="results__transport_8h_source.html">results_transport.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="code__handling_8h_source.html">code_handling.h</a>&quot;</code><br />
 <code>#include &lt;stdio.h&gt;</code><br />
 <code>#include &lt;stdlib.h&gt;</code><br />
 <code>#include &lt;sys/stat.h&gt;</code><br />
 <code>#include &lt;unistd.h&gt;</code><br />
-<code>#include &lt;math.h&gt;</code><br />
 <code>#include &lt;time.h&gt;</code><br />
+<code>#include &lt;math.h&gt;</code><br />
 <code>#include &lt;stdbool.h&gt;</code><br />
 <code>#include &lt;gsl/gsl_rng.h&gt;</code><br />
 <code>#include &lt;gsl/gsl_randist.h&gt;</code><br />
@@ -89,35 +90,22 @@ Include dependency graph for main_brownconf.c:</div>
 <div class="dyncontent">
 <div class="center"><img src="main__brownconf_8c__incl.png" border="0" usemap="#main__brownconf_8c" alt=""/></div>
 <map name="main__brownconf_8c" id="main__brownconf_8c">
-<area shape="rect" id="node2" href="par__sim_8h.html" title="par_sim.h" alt="" coords="34,229,113,256"/>
-<area shape="rect" id="node4" href="comp__gen__header_8h.html" title="comp_gen_header.h" alt="" coords="136,80,275,107"/>
-<area shape="rect" id="node5" href="int__hardspheres_8h.html" title="int_hardspheres.h" alt="" coords="150,155,275,181"/>
-<area shape="rect" id="node6" href="conf__splitter_8h.html" title="conf_splitter.h" alt="" coords="22,155,126,181"/>
+<area shape="rect" id="node2" href="par__sim_8h.html" title="par_sim.h" alt="" coords="42,229,121,256"/>
+<area shape="rect" id="node4" href="comp__gen__header_8h.html" title="comp_gen_header.h" alt="" coords="209,80,348,107"/>
+<area shape="rect" id="node8" href="results__transport_8h.html" title="results_transport.h" alt="" coords="423,80,553,107"/>
+<area shape="rect" id="node9" href="code__handling_8h.html" title="code_handling.h" alt="" coords="578,80,694,107"/>
+<area shape="rect" id="node5" href="int__lennardjones_8h.html" title="int_lennardjones.h" alt="" coords="221,155,347,181"/>
+<area shape="rect" id="node7" href="conf__splitter_8h.html" title="conf_splitter.h" alt="" coords="92,155,196,181"/>
 </map>
 </div>
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
 Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structTransportCoeffs.html">TransportCoeffs</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structPrintResults.html">PrintResults</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
-Macros</h2></td></tr>
-<tr class="memitem:a3fa2d3bf1901157f734a584d47b25d8b"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="main__brownconf_8c.html#a3fa2d3bf1901157f734a584d47b25d8b">MASTER</a>&#160;&#160;&#160;0</td></tr>
-<tr class="separator:a3fa2d3bf1901157f734a584d47b25d8b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a680e0b4040a0f008e81153773155fe33"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="main__brownconf_8c.html#a680e0b4040a0f008e81153773155fe33">calc_transpcoeffs</a> (int setn_per_task, double t, long int **posshift, long int **negshift, double **posx, double **x_init)</td></tr>
-<tr class="separator:a680e0b4040a0f008e81153773155fe33"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a06da6ebe163c9b98c34dd2e1839b1689"><td class="memItemLeft" align="right" valign="top">char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="main__brownconf_8c.html#a06da6ebe163c9b98c34dd2e1839b1689">makedirectory</a> (char *confprfx, char *intprfx)</td></tr>
-<tr class="separator:a06da6ebe163c9b98c34dd2e1839b1689"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abcaf8f0093d7800a9ade67a1cf3f6fff"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="main__brownconf_8c.html#abcaf8f0093d7800a9ade67a1cf3f6fff">copy_main</a> ()</td></tr>
-<tr class="separator:abcaf8f0093d7800a9ade67a1cf3f6fff"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad3179ef4fdf39e957fcffb01ffc3edda"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="main__brownconf_8c.html#ad3179ef4fdf39e957fcffb01ffc3edda">delerrorfiles</a> ()</td></tr>
-<tr class="separator:ad3179ef4fdf39e957fcffb01ffc3edda"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a769bddae4ead7d7a9bb425462f8044e4"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="main__brownconf_8c.html#a769bddae4ead7d7a9bb425462f8044e4">print_runtime</a> (clock_t start)</td></tr>
 <tr class="separator:a769bddae4ead7d7a9bb425462f8044e4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a501ad87d874e05f181b4f6e790da13a8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="main__brownconf_8c.html#a501ad87d874e05f181b4f6e790da13a8">print_positions</a> (int m, double **posx, double **posy)</td></tr>
@@ -126,20 +114,14 @@ Functions</h2></td></tr>
 <tr class="separator:a3620d3f68382621c7c835b1a339860dd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ace43550c04b12fb79f27c650273937c9"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="main__brownconf_8c.html#ace43550c04b12fb79f27c650273937c9">print_results_over_time</a> (double t, int abb, int abbdeff)</td></tr>
 <tr class="separator:ace43550c04b12fb79f27c650273937c9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a84b5fe8102ef80e596845a91fff7a132"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="main__brownconf_8c.html#a84b5fe8102ef80e596845a91fff7a132">print_resallthreads</a> (long double msdall, double meanspeedall, double muall, double deffall, long double meanxall, long double meanxsquall, long double mthreeall)</td></tr>
-<tr class="separator:a84b5fe8102ef80e596845a91fff7a132"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a35630cb1511aeb88113d64d8a762525c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="main__brownconf_8c.html#a35630cb1511aeb88113d64d8a762525c">print_resallthreads</a> (long double msdall, double meanspeedall, double muall, double deffall, long double meanxall, long double meanxsquall, long double thirdcumall)</td></tr>
+<tr class="separator:a35630cb1511aeb88113d64d8a762525c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab298106ad92917b10bfc22e258eec9a8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="main__brownconf_8c.html#ab298106ad92917b10bfc22e258eec9a8">print_muoverf</a> (double muall, double deffall, char *namefile)</td></tr>
 <tr class="separator:ab298106ad92917b10bfc22e258eec9a8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af89dac36bb73d4e4cfb3da716cbe1c72"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="main__brownconf_8c.html#af89dac36bb73d4e4cfb3da716cbe1c72">histogramm_mpi_reduce</a> (int m, double backshift, double length, double bin, double **positions, char *fname, int taskid)</td></tr>
-<tr class="separator:af89dac36bb73d4e4cfb3da716cbe1c72"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a28bb7d78e99088f9d3c7fb7530ac3b70"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="main__brownconf_8c.html#a28bb7d78e99088f9d3c7fb7530ac3b70">histogramm2d_mpi_reduce</a> (int m, double bin2d, double **positionsx, double **positionsy, char *fname, int taskid)</td></tr>
-<tr class="separator:a28bb7d78e99088f9d3c7fb7530ac3b70"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a60c283e6d38073883025f57a7ce73b88"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="main__brownconf_8c.html#a60c283e6d38073883025f57a7ce73b88">init_particle_pos</a> (int setn_per_task, double **positionx, double **positiony, double **xstart, gsl_rng *r)</td></tr>
 <tr class="separator:a60c283e6d38073883025f57a7ce73b88"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a440eb09f15b9bc580c10b627ccf2c9cf"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="main__brownconf_8c.html#a440eb09f15b9bc580c10b627ccf2c9cf">init_particle_int</a> (int setn_per_task, double **positionx, double **positiony, double **fintxarray, double **fintyarray)</td></tr>
 <tr class="separator:a440eb09f15b9bc580c10b627ccf2c9cf"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1a023cb6a4f220e598ef2ea8b3ff8da1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="main__brownconf_8c.html#a1a023cb6a4f220e598ef2ea8b3ff8da1">print_hist_countercheck</a> (int xcheck, int ycheck, int twodcheck, char *fname_specs)</td></tr>
-<tr class="separator:a1a023cb6a4f220e598ef2ea8b3ff8da1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abc46eb023973ba0aa12ba489bebfeff3"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="main__brownconf_8c.html#abc46eb023973ba0aa12ba489bebfeff3">reset_pos_time</a> (int setn_per_task, long int **posshift, long int **negshift)</td></tr>
 <tr class="separator:abc46eb023973ba0aa12ba489bebfeff3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a322e5c1264b1b33550d3fdb541b6b18a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="main__brownconf_8c.html#a322e5c1264b1b33550d3fdb541b6b18a">adapt_posshifts</a> (int shiftind, int i, int j, long int **posshift, long int **negshift)</td></tr>
@@ -155,26 +137,9 @@ Functions</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
 Variables</h2></td></tr>
-<tr class="memitem:a0097c68d717bea873cf5dc1ca6b7da2a"><td class="memItemLeft" align="right" valign="top">struct <a class="el" href="structTransportCoeffs.html">TransportCoeffs</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="main__brownconf_8c.html#a0097c68d717bea873cf5dc1ca6b7da2a">tcoeff</a></td></tr>
-<tr class="separator:a0097c68d717bea873cf5dc1ca6b7da2a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac8301505197d6822e7454f0b29d8e15c"><td class="memItemLeft" align="right" valign="top">struct <a class="el" href="structPrintResults.html">PrintResults</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="main__brownconf_8c.html#ac8301505197d6822e7454f0b29d8e15c">printres</a></td></tr>
 <tr class="separator:ac8301505197d6822e7454f0b29d8e15c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Macro Definition Documentation</h2>
-<a id="a3fa2d3bf1901157f734a584d47b25d8b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3fa2d3bf1901157f734a584d47b25d8b">&#9670;&nbsp;</a></span>MASTER</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define MASTER&#160;&#160;&#160;0</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
 <h2 class="groupheader">Function Documentation</h2>
 <a id="a322e5c1264b1b33550d3fdb541b6b18a"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a322e5c1264b1b33550d3fdb541b6b18a">&#9670;&nbsp;</a></span>adapt_posshifts()</h2>
@@ -219,60 +184,7 @@ Variables</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>function to update shifts which are monitored to calculate absolute position in x-direction from sitcoeff.mulation with cyclic boundary conditions</p>
-
-</div>
-</div>
-<a id="a680e0b4040a0f008e81153773155fe33"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a680e0b4040a0f008e81153773155fe33">&#9670;&nbsp;</a></span>calc_transpcoeffs()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void calc_transpcoeffs </td>
-          <td>(</td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>setn_per_task</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">double&#160;</td>
-          <td class="paramname"><em>t</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">long int **&#160;</td>
-          <td class="paramname"><em>posshift</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">long int **&#160;</td>
-          <td class="paramname"><em>negshift</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">double **&#160;</td>
-          <td class="paramname"><em>posx</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">double **&#160;</td>
-          <td class="paramname"><em>x_init</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Function that caluclates transport coefficients such as mobility, means-squared displacement or thir moment of position. Function takes relative x-positions and values of shift to first call function for calculation of individual absolute particle positions and subsequently ensemble averages of the first three moments of the position. </p>
+<p>Function to update shifts which are monitored to calculate absolute position in x-direction from simulation with cyclic boundary conditions</p>
 
 </div>
 </div>
@@ -301,7 +213,7 @@ Variables</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Function that allocates memory for a 2 dimensional array of doubles </p>
+<p>Function that allocates memory for a 2 dimensional array of doubles</p>
 
 </div>
 </div>
@@ -330,155 +242,7 @@ Variables</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Function that allocates memory for a 2 dimensional array of long ints </p>
-
-</div>
-</div>
-<a id="abcaf8f0093d7800a9ade67a1cf3f6fff"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#abcaf8f0093d7800a9ade67a1cf3f6fff">&#9670;&nbsp;</a></span>copy_main()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void copy_main </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>copies main_brownianconf.c to directory created by 'makedirectory'</p>
-
-</div>
-</div>
-<a id="ad3179ef4fdf39e957fcffb01ffc3edda"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad3179ef4fdf39e957fcffb01ffc3edda">&#9670;&nbsp;</a></span>delerrorfiles()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void delerrorfiles </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>deletes error and log files used on albeniz</p>
-
-</div>
-</div>
-<a id="a28bb7d78e99088f9d3c7fb7530ac3b70"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a28bb7d78e99088f9d3c7fb7530ac3b70">&#9670;&nbsp;</a></span>histogramm2d_mpi_reduce()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">int histogramm2d_mpi_reduce </td>
-          <td>(</td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>m</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">double&#160;</td>
-          <td class="paramname"><em>bin2d</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">double **&#160;</td>
-          <td class="paramname"><em>positionsx</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">double **&#160;</td>
-          <td class="paramname"><em>positionsy</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">char *&#160;</td>
-          <td class="paramname"><em>fname</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>taskid</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>function that stores 2 dimensional histogram in file named fname. during a spatial scan over all nx*ny rectangular fields, all particle positions are checked and the number of particles in the respective field is increased if a particle is detected. The number counter of all particles in the field is stored in the file together with the upper and lower boundaries in both directions of the field.</p>
-
-</div>
-</div>
-<a id="af89dac36bb73d4e4cfb3da716cbe1c72"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af89dac36bb73d4e4cfb3da716cbe1c72">&#9670;&nbsp;</a></span>histogramm_mpi_reduce()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">int histogramm_mpi_reduce </td>
-          <td>(</td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>m</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">double&#160;</td>
-          <td class="paramname"><em>backshift</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">double&#160;</td>
-          <td class="paramname"><em>length</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">double&#160;</td>
-          <td class="paramname"><em>bin</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">double **&#160;</td>
-          <td class="paramname"><em>positions</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">char *&#160;</td>
-          <td class="paramname"><em>fname</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>taskid</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>function that stores 1 dimensional histogram in file named fname. during a spatial sweep through all length/bin slices from position 'backshift' to position 'length', all particle positions are checked and the number of particles in the respective slice is increased if a particle is detected. The number counter of all particles in the slice is stored in the file together with the upper and lower boundary of the slice.</p>
+<p>Function that allocates memory for a 2 dimensional array of long ints</p>
 
 </div>
 </div>
@@ -525,6 +289,7 @@ Variables</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Function that calculates depending on the positions of the particles the initial particle-particle interaction force if such a force e.g. given by a Lennard-Jones interaction is given.</p>
 
 </div>
 </div>
@@ -571,6 +336,7 @@ Variables</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>function that initializes the particle positions. The particles are uniformly distributed over the whole period length L in a strip of width SimParams.initwidth or the width of the channel if it is smaller. For interacting particles with hard core radius R_int, configurations which involve an overlap of two particles are rejected.</p>
 
 </div>
 </div>
@@ -599,80 +365,9 @@ Variables</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>main function of Brownian motion sitcoeff.mulation</p>
+<p>main function of Brownian motion simulation</p>
 <p>calculate number of samples of interacting particles</p>
 <p>calculate number of samples of interacting particles per task</p>
-
-</div>
-</div>
-<a id="a06da6ebe163c9b98c34dd2e1839b1689"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a06da6ebe163c9b98c34dd2e1839b1689">&#9670;&nbsp;</a></span>makedirectory()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">char* makedirectory </td>
-          <td>(</td>
-          <td class="paramtype">char *&#160;</td>
-          <td class="paramname"><em>confprfx</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">char *&#160;</td>
-          <td class="paramname"><em>intprfx</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>creates directory, where code and data is transferred to moves to this directory as working directory</p>
-<p>0700 is modus for determining access rights to dir</p>
-
-</div>
-</div>
-<a id="a1a023cb6a4f220e598ef2ea8b3ff8da1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1a023cb6a4f220e598ef2ea8b3ff8da1">&#9670;&nbsp;</a></span>print_hist_countercheck()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void print_hist_countercheck </td>
-          <td>(</td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>xcheck</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>ycheck</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>twodcheck</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">char *&#160;</td>
-          <td class="paramname"><em>fname_specs</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Function that prints the result of the counter checks available from the histogram functions. There, the total number of particles is counted in order to check if all particles are represented in the histogram and situated in the confinement.</p>
 
 </div>
 </div>
@@ -746,8 +441,8 @@ Variables</h2></td></tr>
 
 </div>
 </div>
-<a id="a84b5fe8102ef80e596845a91fff7a132"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a84b5fe8102ef80e596845a91fff7a132">&#9670;&nbsp;</a></span>print_resallthreads()</h2>
+<a id="a35630cb1511aeb88113d64d8a762525c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a35630cb1511aeb88113d64d8a762525c">&#9670;&nbsp;</a></span>print_resallthreads()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -792,7 +487,7 @@ Variables</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">long double&#160;</td>
-          <td class="paramname"><em>mthreeall</em>&#160;</td>
+          <td class="paramname"><em>thirdcumall</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -836,7 +531,7 @@ Variables</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>function to print online results of sitcoeff.mulation over time</p>
+<p>function to print online results of simulation over time</p>
 
 </div>
 </div>
@@ -926,7 +621,7 @@ Variables</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Function to reset the sitcoeff.mulated system time t and the positions to originate values in order to skip transient effects from start of sitcoeff.mulation.</p>
+<p>Function to reset the simulated system time t and the positions to originate values in order to skip transient effects from start of simulation.</p>
 
 </div>
 </div>
@@ -967,7 +662,7 @@ Variables</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>function for the update of the counter that is used to monitore the equilibration of the system. A transport quantity tran_quant is compared with a previous value. If the difference is below the demanded accurarcy, the value of the counter is increased. If the difference is larger than twice the accurarcy the counter is decreased</p>
+<p>Function for the update of the counter that is used to monitore the equilibration of the system. A transport quantity tran_quant is compared with a previous value. If the difference is below the demanded accurarcy, the value of the counter is increased. If the difference is larger than twice the accurarcy the counter is decreased</p>
 
 </div>
 </div>
@@ -980,20 +675,6 @@ Variables</h2></td></tr>
       <table class="memname">
         <tr>
           <td class="memname">struct <a class="el" href="structPrintResults.html">PrintResults</a>  printres</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a0097c68d717bea873cf5dc1ca6b7da2a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0097c68d717bea873cf5dc1ca6b7da2a">&#9670;&nbsp;</a></span>tcoeff</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">struct <a class="el" href="structTransportCoeffs.html">TransportCoeffs</a>  tcoeff</td>
         </tr>
       </table>
 </div><div class="memdoc">

@@ -94,7 +94,7 @@ This graph shows which files directly or indirectly include this file:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
 Macros</h2></td></tr>
-<tr class="memitem:a3069ce145143ea1c7c3744b9ddda34bc"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="conf__sept_8h.html#a3069ce145143ea1c7c3744b9ddda34bc">AMP</a>&#160;&#160;&#160;1.0</td></tr>
+<tr class="memitem:a3069ce145143ea1c7c3744b9ddda34bc"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="conf__sept_8h.html#a3069ce145143ea1c7c3744b9ddda34bc">AMP</a>&#160;&#160;&#160;1.0*L</td></tr>
 <tr class="separator:a3069ce145143ea1c7c3744b9ddda34bc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5352417d4199892cacd4c786fd7ee764"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="conf__sept_8h.html#a5352417d4199892cacd4c786fd7ee764">MAX_HALF_WIDTH</a>&#160;&#160;&#160;(<a class="el" href="conf__sept_8h.html#a3069ce145143ea1c7c3744b9ddda34bc">AMP</a>+<a class="el" href="par__sim_8h.html#a111da81ae5883147168bbb8366377b10">B</a>)</td></tr>
 <tr class="separator:a5352417d4199892cacd4c786fd7ee764"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -103,12 +103,12 @@ Macros</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:ae2ef1efd942a3f255809d6b66f7071bd"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="conf__sept_8h.html#ae2ef1efd942a3f255809d6b66f7071bd">specs_conf</a> (double binx, double biny, double bin2d)</td></tr>
-<tr class="separator:ae2ef1efd942a3f255809d6b66f7071bd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a11931c07a4cb0be830bd1cc99e3a9750"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="conf__sept_8h.html#a11931c07a4cb0be830bd1cc99e3a9750">copycode_conf</a> ()</td></tr>
-<tr class="separator:a11931c07a4cb0be830bd1cc99e3a9750"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abcc505d662dc5334001808cb8c43eade"><td class="memItemLeft" align="right" valign="top">char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="conf__sept_8h.html#abcc505d662dc5334001808cb8c43eade">prfx_conf</a> ()</td></tr>
-<tr class="separator:abcc505d662dc5334001808cb8c43eade"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a57584548b1ff12f3dee585dba05e0481"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="conf__sept_8h.html#a57584548b1ff12f3dee585dba05e0481">CONF_specs</a> (double binx, double biny, double bin2d)</td></tr>
+<tr class="separator:a57584548b1ff12f3dee585dba05e0481"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0ca99752ba6585358d273530b4acfb9b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="conf__sept_8h.html#a0ca99752ba6585358d273530b4acfb9b">CONF_copycode</a> ()</td></tr>
+<tr class="separator:a0ca99752ba6585358d273530b4acfb9b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a96b72468ce995bc58bca7b309248417a"><td class="memItemLeft" align="right" valign="top">char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="conf__sept_8h.html#a96b72468ce995bc58bca7b309248417a">CONF_prfx</a> ()</td></tr>
+<tr class="separator:a96b72468ce995bc58bca7b309248417a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Macro Definition Documentation</h2>
 <a id="a3069ce145143ea1c7c3744b9ddda34bc"></a>
@@ -118,11 +118,11 @@ Functions</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define AMP&#160;&#160;&#160;1.0</td>
+          <td class="memname">#define AMP&#160;&#160;&#160;1.0*L</td>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>ensure that only one header for spatial confinement is included in code </p>
+<p>ensure that only one header for spatial confinement is included in code Function with boundary for septate channel is in header file for inlining and thus a better computational performance </p>
 
 </div>
 </div>
@@ -155,14 +155,14 @@ Functions</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Function Documentation</h2>
-<a id="a11931c07a4cb0be830bd1cc99e3a9750"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a11931c07a4cb0be830bd1cc99e3a9750">&#9670;&nbsp;</a></span>copycode_conf()</h2>
+<a id="a0ca99752ba6585358d273530b4acfb9b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0ca99752ba6585358d273530b4acfb9b">&#9670;&nbsp;</a></span>CONF_copycode()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void copycode_conf </td>
+          <td class="memname">void CONF_copycode </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -172,14 +172,14 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="abcc505d662dc5334001808cb8c43eade"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#abcc505d662dc5334001808cb8c43eade">&#9670;&nbsp;</a></span>prfx_conf()</h2>
+<a id="a96b72468ce995bc58bca7b309248417a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a96b72468ce995bc58bca7b309248417a">&#9670;&nbsp;</a></span>CONF_prfx()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">char* prfx_conf </td>
+          <td class="memname">char* CONF_prfx </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -191,14 +191,14 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="ae2ef1efd942a3f255809d6b66f7071bd"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae2ef1efd942a3f255809d6b66f7071bd">&#9670;&nbsp;</a></span>specs_conf()</h2>
+<a id="a57584548b1ff12f3dee585dba05e0481"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a57584548b1ff12f3dee585dba05e0481">&#9670;&nbsp;</a></span>CONF_specs()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void specs_conf </td>
+          <td class="memname">void CONF_specs </td>
           <td>(</td>
           <td class="paramtype">double&#160;</td>
           <td class="paramname"><em>binx</em>, </td>
@@ -222,7 +222,7 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>function to write confinement specific information in specs file </p>
+<p>Module to handle a confinement with a cosine shape (see e.g. Phd Thesis Steffen Martens 2013 page 90). Function with boundary for septate channel is in header file for inlining and thus a better computational performancefunction to write confinement specific information in specs file </p>
 
 </div>
 </div>

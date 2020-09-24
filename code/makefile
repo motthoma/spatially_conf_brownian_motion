@@ -4,7 +4,7 @@ LDFLAGS = -lgsl -lgslcblas -lm
 EXECUTABLE = main_brownconf
 
 CONF = conf_splitter.c
-INT = int_lennardjones.c
+INT = int_hardspheres.c
 
 head_inc = dummy
 

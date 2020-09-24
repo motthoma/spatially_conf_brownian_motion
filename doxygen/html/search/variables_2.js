@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['deff',['deff',['../structTransportCoeffs.html#af3cf36f88698d3386d6c1a5b46e13b75',1,'TransportCoeffs']]],
+  ['deff',['deff',['../structTAG__TransportCoeffs.html#a050144ca8f456cff71480a1ad739622e',1,'TAG_TransportCoeffs']]],
   ['deffaccur',['deffaccur',['../structTAG__SimParams.html#a194c4bafe64984f331b98bed2983639d',1,'TAG_SimParams']]]
 ];

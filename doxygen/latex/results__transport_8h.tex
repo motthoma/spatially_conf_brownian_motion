@@ -1,0 +1,97 @@
+\hypertarget{results__transport_8h}{}\section{results\+\_\+transport.\+h File Reference}
+\label{results__transport_8h}\index{results\+\_\+transport.\+h@{results\+\_\+transport.\+h}}
+This graph shows which files directly or indirectly include this file\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=292pt]{results__transport_8h__dep__incl}
+\end{center}
+\end{figure}
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structTAG__TransportCoeffs}{T\+A\+G\+\_\+\+Transport\+Coeffs}
+\end{DoxyCompactItemize}
+\subsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef struct \hyperlink{structTAG__TransportCoeffs}{T\+A\+G\+\_\+\+Transport\+Coeffs} \hyperlink{results__transport_8h_af34a7249a03f41e6024c3b5cae7ea6a5}{T\+\_\+\+Transport\+Coeffs}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{results__transport_8h_a1a5a3bd0cc58f20c318ac3a8dcfac4e3}{R\+E\+S\+\_\+init} ()
+\item 
+void \hyperlink{results__transport_8h_aa503a121bc653e4e38da41727fc61728}{R\+E\+S\+\_\+calc\+\_\+transpcoeffs} (int setn\+\_\+per\+\_\+task, double t, long int $\ast$$\ast$posshift, long int $\ast$$\ast$negshift, double $\ast$$\ast$posx, double $\ast$$\ast$x\+\_\+init)
+\item 
+int \hyperlink{results__transport_8h_a48862e78585a2e5d43c5467b8f18f551}{R\+E\+S\+\_\+histogramm\+\_\+mpi\+\_\+reduce} (int m, double backshift, double length, double bin, double $\ast$$\ast$positions, char $\ast$fname, int taskid)
+\item 
+int \hyperlink{results__transport_8h_a4ccd5c82dfb3088fbe21acf8c07ac03f}{R\+E\+S\+\_\+histogramm2d\+\_\+mpi\+\_\+reduce} (int m, double bin2d, double $\ast$$\ast$positionsx, double $\ast$$\ast$positionsy, char $\ast$fname, int taskid)
+\item 
+void \hyperlink{results__transport_8h_a988e8233a95b688bc8b3cf3767eef5b2}{R\+E\+S\+\_\+print\+\_\+countercheck} (int xcheck, int ycheck, int twodcheck, char $\ast$fname\+\_\+specs)
+\item 
+void \hyperlink{results__transport_8h_abccfd4f8723efbe876ab5b76dea6d8a2}{R\+E\+S\+\_\+copycode} (void)
+\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{results__transport_8h_af34a7249a03f41e6024c3b5cae7ea6a5}{T\+\_\+\+Transport\+Coeffs} \hyperlink{results__transport_8h_a911da81715f2451f559eca327d92387f}{tcoeff}
+\end{DoxyCompactItemize}
+
+
+\subsection{Typedef Documentation}
+\mbox{\Hypertarget{results__transport_8h_af34a7249a03f41e6024c3b5cae7ea6a5}\label{results__transport_8h_af34a7249a03f41e6024c3b5cae7ea6a5}} 
+\index{results\+\_\+transport.\+h@{results\+\_\+transport.\+h}!T\+\_\+\+Transport\+Coeffs@{T\+\_\+\+Transport\+Coeffs}}
+\index{T\+\_\+\+Transport\+Coeffs@{T\+\_\+\+Transport\+Coeffs}!results\+\_\+transport.\+h@{results\+\_\+transport.\+h}}
+\subsubsection{\texorpdfstring{T\+\_\+\+Transport\+Coeffs}{T\_TransportCoeffs}}
+{\footnotesize\ttfamily typedef struct \hyperlink{structTAG__TransportCoeffs}{T\+A\+G\+\_\+\+Transport\+Coeffs}  \hyperlink{results__transport_8h_af34a7249a03f41e6024c3b5cae7ea6a5}{T\+\_\+\+Transport\+Coeffs}}
+
+External types and variables Structure which contains transport coefficients that are calculated within individual threads. 
+
+\subsection{Function Documentation}
+\mbox{\Hypertarget{results__transport_8h_aa503a121bc653e4e38da41727fc61728}\label{results__transport_8h_aa503a121bc653e4e38da41727fc61728}} 
+\index{results\+\_\+transport.\+h@{results\+\_\+transport.\+h}!R\+E\+S\+\_\+calc\+\_\+transpcoeffs@{R\+E\+S\+\_\+calc\+\_\+transpcoeffs}}
+\index{R\+E\+S\+\_\+calc\+\_\+transpcoeffs@{R\+E\+S\+\_\+calc\+\_\+transpcoeffs}!results\+\_\+transport.\+h@{results\+\_\+transport.\+h}}
+\subsubsection{\texorpdfstring{R\+E\+S\+\_\+calc\+\_\+transpcoeffs()}{RES\_calc\_transpcoeffs()}}
+{\footnotesize\ttfamily void R\+E\+S\+\_\+calc\+\_\+transpcoeffs (\begin{DoxyParamCaption}\item[{int}]{setn\+\_\+per\+\_\+task,  }\item[{double}]{t,  }\item[{long int $\ast$$\ast$}]{posshift,  }\item[{long int $\ast$$\ast$}]{negshift,  }\item[{double $\ast$$\ast$}]{posx,  }\item[{double $\ast$$\ast$}]{x\+\_\+init }\end{DoxyParamCaption})}
+
+Function that caluclates transport coefficients such as mobility, means-\/squared displacement or thir moment of position. Function takes relative x-\/positions and values of shift to first call function for calculation of individual absolute particle positions and subsequently ensemble averages of the first three moments of the position. \mbox{\Hypertarget{results__transport_8h_abccfd4f8723efbe876ab5b76dea6d8a2}\label{results__transport_8h_abccfd4f8723efbe876ab5b76dea6d8a2}} 
+\index{results\+\_\+transport.\+h@{results\+\_\+transport.\+h}!R\+E\+S\+\_\+copycode@{R\+E\+S\+\_\+copycode}}
+\index{R\+E\+S\+\_\+copycode@{R\+E\+S\+\_\+copycode}!results\+\_\+transport.\+h@{results\+\_\+transport.\+h}}
+\subsubsection{\texorpdfstring{R\+E\+S\+\_\+copycode()}{RES\_copycode()}}
+{\footnotesize\ttfamily void R\+E\+S\+\_\+copycode (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{results__transport_8h_a4ccd5c82dfb3088fbe21acf8c07ac03f}\label{results__transport_8h_a4ccd5c82dfb3088fbe21acf8c07ac03f}} 
+\index{results\+\_\+transport.\+h@{results\+\_\+transport.\+h}!R\+E\+S\+\_\+histogramm2d\+\_\+mpi\+\_\+reduce@{R\+E\+S\+\_\+histogramm2d\+\_\+mpi\+\_\+reduce}}
+\index{R\+E\+S\+\_\+histogramm2d\+\_\+mpi\+\_\+reduce@{R\+E\+S\+\_\+histogramm2d\+\_\+mpi\+\_\+reduce}!results\+\_\+transport.\+h@{results\+\_\+transport.\+h}}
+\subsubsection{\texorpdfstring{R\+E\+S\+\_\+histogramm2d\+\_\+mpi\+\_\+reduce()}{RES\_histogramm2d\_mpi\_reduce()}}
+{\footnotesize\ttfamily int R\+E\+S\+\_\+histogramm2d\+\_\+mpi\+\_\+reduce (\begin{DoxyParamCaption}\item[{int}]{m,  }\item[{double}]{bin2d,  }\item[{double $\ast$$\ast$}]{positionsx,  }\item[{double $\ast$$\ast$}]{positionsy,  }\item[{char $\ast$}]{fname,  }\item[{int}]{taskid }\end{DoxyParamCaption})}
+
+Stores 2 dimensional histogram in file named fname. During a spatial scan over all nx$\ast$ny rectangular fields, all particle positions are checked and the number of particles in the respective field is increased if a particle is detected. The number counter of all particles in the field is stored in the file together with the upper and lower boundaries in both directions of the field.\mbox{\Hypertarget{results__transport_8h_a48862e78585a2e5d43c5467b8f18f551}\label{results__transport_8h_a48862e78585a2e5d43c5467b8f18f551}} 
+\index{results\+\_\+transport.\+h@{results\+\_\+transport.\+h}!R\+E\+S\+\_\+histogramm\+\_\+mpi\+\_\+reduce@{R\+E\+S\+\_\+histogramm\+\_\+mpi\+\_\+reduce}}
+\index{R\+E\+S\+\_\+histogramm\+\_\+mpi\+\_\+reduce@{R\+E\+S\+\_\+histogramm\+\_\+mpi\+\_\+reduce}!results\+\_\+transport.\+h@{results\+\_\+transport.\+h}}
+\subsubsection{\texorpdfstring{R\+E\+S\+\_\+histogramm\+\_\+mpi\+\_\+reduce()}{RES\_histogramm\_mpi\_reduce()}}
+{\footnotesize\ttfamily int R\+E\+S\+\_\+histogramm\+\_\+mpi\+\_\+reduce (\begin{DoxyParamCaption}\item[{int}]{m,  }\item[{double}]{backshift,  }\item[{double}]{length,  }\item[{double}]{bin,  }\item[{double $\ast$$\ast$}]{positions,  }\item[{char $\ast$}]{fname,  }\item[{int}]{taskid }\end{DoxyParamCaption})}
+
+Stores 1 dimensional histogram in file named fname. During a spatial sweep through all length/bin slices from position \textquotesingle{}backshift\textquotesingle{} to position \textquotesingle{}length\textquotesingle{}, all particle positions are checked and the number of particles in the respective slice is increased if a particle is detected. The number counter of all particles in the slice is stored in the file together with the upper and lower boundary of the slice.\mbox{\Hypertarget{results__transport_8h_a1a5a3bd0cc58f20c318ac3a8dcfac4e3}\label{results__transport_8h_a1a5a3bd0cc58f20c318ac3a8dcfac4e3}} 
+\index{results\+\_\+transport.\+h@{results\+\_\+transport.\+h}!R\+E\+S\+\_\+init@{R\+E\+S\+\_\+init}}
+\index{R\+E\+S\+\_\+init@{R\+E\+S\+\_\+init}!results\+\_\+transport.\+h@{results\+\_\+transport.\+h}}
+\subsubsection{\texorpdfstring{R\+E\+S\+\_\+init()}{RES\_init()}}
+{\footnotesize\ttfamily void R\+E\+S\+\_\+init (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+External functions \mbox{\Hypertarget{results__transport_8h_a988e8233a95b688bc8b3cf3767eef5b2}\label{results__transport_8h_a988e8233a95b688bc8b3cf3767eef5b2}} 
+\index{results\+\_\+transport.\+h@{results\+\_\+transport.\+h}!R\+E\+S\+\_\+print\+\_\+countercheck@{R\+E\+S\+\_\+print\+\_\+countercheck}}
+\index{R\+E\+S\+\_\+print\+\_\+countercheck@{R\+E\+S\+\_\+print\+\_\+countercheck}!results\+\_\+transport.\+h@{results\+\_\+transport.\+h}}
+\subsubsection{\texorpdfstring{R\+E\+S\+\_\+print\+\_\+countercheck()}{RES\_print\_countercheck()}}
+{\footnotesize\ttfamily void R\+E\+S\+\_\+print\+\_\+countercheck (\begin{DoxyParamCaption}\item[{int}]{xcheck,  }\item[{int}]{ycheck,  }\item[{int}]{twodcheck,  }\item[{char $\ast$}]{fname\+\_\+specs }\end{DoxyParamCaption})}
+
+Function that prints the result of the counter checks available from the histogram functions. There, the total number of particles is counted in order to check if all particles are represented in the histogram and situated in the confinement.
+
+\subsection{Variable Documentation}
+\mbox{\Hypertarget{results__transport_8h_a911da81715f2451f559eca327d92387f}\label{results__transport_8h_a911da81715f2451f559eca327d92387f}} 
+\index{results\+\_\+transport.\+h@{results\+\_\+transport.\+h}!tcoeff@{tcoeff}}
+\index{tcoeff@{tcoeff}!results\+\_\+transport.\+h@{results\+\_\+transport.\+h}}
+\subsubsection{\texorpdfstring{tcoeff}{tcoeff}}
+{\footnotesize\ttfamily \hyperlink{results__transport_8h_af34a7249a03f41e6024c3b5cae7ea6a5}{T\+\_\+\+Transport\+Coeffs} tcoeff}
+

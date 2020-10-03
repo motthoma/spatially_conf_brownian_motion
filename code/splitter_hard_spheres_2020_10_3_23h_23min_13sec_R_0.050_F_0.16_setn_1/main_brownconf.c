@@ -236,16 +236,124 @@ int i;
   return array;
 }
 
+ /* 
+void init_particle_int(int setn_per_task, 
+                       double **positionx, 
+                       double **positiony,
+                       double **fintxarray,
+                       double **fintyarray)
+{
+  int j;
+  int kset;
+  int ktest;
+  double distx;
+  double disty;
+  double dist;
+  double fintxpair;
+  double fintypair;
+  double fintx;
+  double finty;
+                       
+  for (j = 0; j < setn_per_task; j++){  
+          for(kset = 0; kset < SimParams.setnumb; kset++){
+	          fintx = 0;
+		  finty = 0;
+                  for(ktest = 0; ktest < SimParams.setnumb; ktest++){
+                          if(kset != ktest){
+                                  distx = positionx[j][kset] - positionx[j][ktest];
+                                  disty = positiony[j][kset] - positiony[j][ktest];
+                                  dist = sqrt(distx*distx + disty*disty);
+                                  if(dist <= INT_CUTOFF){
+                                          fintxpair = intforce(distx, dist);
+                                          fintypair = intforce(disty, dist);
+                                          fintx += fintxpair;
+                                          finty += fintypair;
+                                  }
+                          }
+                  }
+                  fintxarray[j][kset] = fintx;
+                  fintyarray[j][kset] = finty;
+          }
+  }
+}
+*/
 
-void SIM_simulation_core(int setn_per_task,
-		 	 int setn,
-			 int taskid, 
-                         double **positionx, 
-                         double **positiony, 
-                         double **xstart, 
-                         double **fintxarray,
-                         double **fintyarray,
-                         gsl_rng *r)
+double reset_pos_time(int setn_per_task, 
+                      long int **posshift, 
+	    	      long int **negshift) 
+{
+/**
+ * Function to reset the simulated system time t and the positions
+ * to originate values in order to skip transient effects from
+ * start of simulation.
+ */
+	int i, j;
+	double t = 0;
+	for(i = 0; i < setn_per_task; i++){
+	  for(j = 0; j < SimParams.setnumb; j++){
+		 posshift[i][j] = 0; 
+		 negshift[i][j] = 0;
+
+	  } 
+	}
+	return t;
+}
+
+
+void adapt_posshifts(int shiftind, int i, int j, long int **posshift, long int **negshift)
+{
+/**
+ * Function to update shifts which are monitored to calculate 
+ * absolute position in x-direction from simulation with cyclic
+ * boundary conditions
+ */
+	/*
+	 *shift particle in positive direction if 
+	 *position is 'left' of considered channel period   
+	 */
+	if(shiftind < 0){
+	  posshift[i][j]++; 
+	} 
+	/*
+	 *shift particle in negative direction if 
+	 *position is 'right' of considered channel period   
+	*/
+	if(shiftind > 0){
+	  negshift[i][j]++;
+	}
+}
+
+int update_equcounter(double tran_quant, double tran_quanto, double accurarcy, int equcounter)
+{
+/**
+ * Function for the update of the counter that is used to monitore the
+ * equilibration of the system. A transport quantity tran_quant is
+ * compared with a previous value. If the difference is  below the    
+ * demanded accurarcy, the value of the counter is increased.
+ * If the difference is larger than twice the accurarcy the counter
+ * is decreased
+*/ 
+	if(fabs(tran_quant - tran_quanto) <= accurarcy){
+	  equcounter++;
+	}
+
+	if(fabs(tran_quant - tran_quanto) >= accurarcy){
+	  equcounter--;
+	  if(equcounter < 0) equcounter = 0;
+	}
+	return equcounter;
+}
+
+
+void perform_simulation(int setn_per_task,
+			int setn,
+			int taskid, 
+                       double **positionx, 
+                       double **positiony, 
+                       double **xstart, 
+                       double **fintxarray,
+                       double **fintyarray,
+                       gsl_rng *r)
 {
   /* Perform simulation steps until equilibration is reached */
 
@@ -671,15 +779,15 @@ int main (int argc, char **argv){
 
   printf("\ntask ID:\t %d -> particle positions and forces fixed\n", taskid);
    
-  SIM_simulation_core(setn_per_task,
-		      setn,
-		      taskid, 
-                      positionx, 
-                      positiony, 
-                      xstart, 
-                      fintxarray,
-                      fintyarray,
-                      r);
+  perform_simulation(setn_per_task,
+		     setn,
+		     taskid, 
+                     positionx, 
+                     positiony, 
+                     xstart, 
+                     fintxarray,
+                     fintyarray,
+                     r);
  
   /*Merge quantities that were calculated in separated MPI threads*/ 
 #  ifdef MPI_ON

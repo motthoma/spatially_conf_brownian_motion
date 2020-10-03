@@ -11,7 +11,7 @@ T_SimParams SimParams;
 void PARAMS_init(){
 	SimParams.N = 200;
 	SimParams.numbtest = 20;
-	SimParams.stepnumb = 0.5*1e7;
+	SimParams.stepnumb = 1e7;
 	SimParams.simlong = 20;
 	SimParams.accur = 1;
 	SimParams.deffaccur = 1e7;

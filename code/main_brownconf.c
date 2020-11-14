@@ -1,10 +1,8 @@
-/*Calculation of the average speed for a brownian partical with finite radius in 2d in a confinement, 
+/*Calculation of the averagespeed for a brownian partical with finite radius in 2d in a confinement, 
 trajektories are calculatet parallel*/
 
 
 #include "par_sim.h"
-#include "comp_gen_header.h"
-#include "results_transport.h"
 #include "code_handling.h"
 #include "simulation_core.h"
 
@@ -15,182 +13,11 @@ trajektories are calculatet parallel*/
 #include <time.h>
 #include <math.h>
 #include <stdbool.h>
-#include <gsl/gsl_rng.h>
-#include <gsl/gsl_randist.h>
-
-
-/**
- * structure which contains variables used in the
- * printing functions which print the resulting
- * transport coefficients in .dat files
- */
-struct PrintResults{
-	/*state index to monitor if header line
-         *or ongoing value has to be printed
-         */
-	int state;
-        /*array to store name of .dat file containing mobility and other coeffs*/
-	char fname [60];
-        /*array to store name of .dat file containing moments of positions*/
-	char fnamemom [60];
-
-} printres;
 
 
 
-void print_runtime(clock_t start)
-{
-/**
- * prints run time of code into file
- */
- 
-  int timediff;
-  int timediff_all;
-  clock_t end = clock();
-  
-  timediff = (int)((end-start) / CLOCKS_PER_SEC);
-  timediff_all = (int)(SimParams.numtasks*(end-start) / CLOCKS_PER_SEC);
 
-  FILE *outpspecs;
-  outpspecs=fopen("muovert_specs.dat", "a");
-  fprintf(outpspecs, "\nComputing time: %d days %dhours %dmin %dsec\n", timediff/(3600*24), (timediff/3600)%24, 
-                                                                        (timediff/60)%60, timediff%60);
-
-  fprintf(outpspecs, "Total computing time of all threads: %d days %dhours %dmin %dsec\n\n", timediff_all/(3600*24), 
-                                                                                             (timediff_all/3600)%24, 
-                                                                                             (timediff_all/60)%60, 
-                                                                                              timediff_all%60);
-  fclose(outpspecs);
-
-}
-
-void print_positions(int m, double **posx, double **posy){
-/**
- * prints particle positions to file
- */
-  int i;
-  int j;
-  FILE *outpos;
-  outpos=fopen("positions.dat", "a");
-  fprintf(outpos, "#xpositions\t ypositions\n");
-
-  for(i = 0; i < m; i++){
-	for(j = 0; j < SimParams.setnumb; j++){
-		fprintf(outpos, "%.5lf\t %.5lf\n", posx[i][j], posy[i][j]);
-		
-	}
-
-  }
-  
-  fclose(outpos);
-
-}
-
-void print_runtime_threads(clock_t start,
-			   int numtasks, 
-			   int taskid) 
-
-{
-/**
- * prints individual runtime of each thread
- */
-clock_t end;
-int timediff;
-
-  if(numtasks > 1){
-        /**
-         * measure program run time of task
-         */ 
-	end = clock();
-	timediff = (int)((end-start) / CLOCKS_PER_SEC);
-
-	FILE *outptasks;
-	outptasks=fopen("taskres.dat", "a");
-	fprintf(outptasks, "\nTask %d:\nmeanx = %.8Lf\t meanxsqu = %.8Lf\t meanspeed = %.8lf\t mu = %.8lf\t deff = %.8lf\n", taskid, 
-			    tcoeff.meanx, 
-			    tcoeff.meanxsqu,
-			    tcoeff.meanspeed, 
-			    tcoeff.mu, 
-			    tcoeff.deff);
-
-	fprintf(outptasks, "Time of simulation for task %d: %d days %dhours %dmin %dsec\n", taskid, 
-                                                                                        timediff/(3600*24), 
-                                                                                        (timediff/3600)%24, 
-                                                                                        (timediff/60)%60, 
-                                                                                        timediff%60);
-	fclose(outptasks);
-  }
-
-}
-
-void print_results_over_time(double t, 
-                             int abb, 
-                             int abbdeff)
-{
-       /**
-	* function to print online results of simulation over time 
-	*/
-        if(printres.state == 0)	{    
-		sprintf(printres.fname, "muovert_F_%.3lf.dat", SimParams.F);
-		FILE *outp;
-		outp = fopen(printres.fname ,"w");
-		fprintf(outp, "#time\t meanx: <x>\t meanspeed: <v>\t mu\t abb\t abbdeff\n");
-		fclose(outp);
-
-		sprintf(printres.fnamemom, "momsovert_F_%.3lf.dat", SimParams.F);
-		FILE *outpmom;
-		outpmom=fopen(printres.fnamemom ,"w");
-		fprintf(outpmom, "#time\t meanx: <x>\t Meansqdist: <x^2> - <x>^2\t  deff: (<x^2> - <x>^2)/(2t)\t third cumulant: <x^3>-3<x^2><x>+2<x>^3\n");
-		fclose(outpmom);
-
-		printres.state = 1;
-	}
-	else{
-		FILE *outp;
-		outp=fopen(printres.fname ,"a");
-		fprintf(outp, "%.6f\t %.4Lf\t %.5lf\t %.4lf\t  %d\t %d\n", t, tcoeff.meanx, tcoeff.meanspeed, tcoeff.mu, abb, abbdeff);
-		fclose(outp);
-
-		FILE *outpmom;
-		outpmom=fopen(printres.fnamemom ,"a");
-		fprintf(outpmom, "%.6f\t %.6Lf\t %.5Lf\t %.5Lf\t %.5lf\t %.5Lf\n", t, tcoeff.meanx, tcoeff.meanxsqu, tcoeff.msd, tcoeff.deff, tcoeff.thirdcum);
-		fclose(outpmom);
-		
-	}
-}
-
-void print_resallthreads(
-			 long double msdall, 
-                         double meanspeedall, 
-			 double muall, 
-                         double deffall, 
-                         long double meanxall, 
-                         long double meanxsquall, 
-                         long double thirdcumall)
-/**
- * prints results of simulation to file at the end of the simulation
- */
-{
-  FILE *outp;
-  outp=fopen(printres.fname ,"a");
-  fprintf(outp, "\n\nAverage of all Threads:\n\nmeanx = %.5Lf\t meanspeed = %.5lf\t mu = %.5lf\n\n", 
-          meanxall/SimParams.numtasks, 
-          meanspeedall/SimParams.numtasks, 
-	  muall/SimParams.numtasks);
-  fclose(outp);
-           
-  FILE *outpmom;
-  outpmom=fopen(printres.fnamemom ,"a");
-  fprintf(outpmom, "\n\nAverage of all Threads:\n\nmeanx = %.5Lf\t meanxsqu = %.5Lf\t msdall = %.5Lf\t deff = %.5lf\t thirdcum = %.5LF\n\n", 
-          meanxall/SimParams.numtasks, 
-	  meanxsquall/SimParams.numtasks, 
-          msdall/SimParams.numtasks,
-	  deffall/SimParams.numtasks,  
-	  thirdcumall/SimParams.numtasks);
-  fclose(outpmom);
-}
-
-void print_muoverf(double muall, double deffall, char *namefile)
+void PRINT_muoverf(double muall, double deffall, char *namefile)
 {
 /**
  * prints results to file outside of working directory
@@ -205,6 +32,8 @@ void print_muoverf(double muall, double deffall, char *namefile)
   fclose (outmu); 
 
 }
+
+
 
 double **calloc_2Ddouble_array(int m, int n){
 /**
@@ -221,269 +50,6 @@ int i;
   return array;
 }
 
-long int **calloc_2Dlint_array(int m, int n){
-/**
- * Function that allocates memory for a 2 dimensional array of long ints
- */
-long int **array;
-int i;
-
-  array = calloc(m, sizeof(double));
-  for(i = 0; i < m; i++){
-  	array[i] = calloc(n, sizeof(double));
-  }
-
-  return array;
-}
-
-
-void SIM_simulation_core(int setn_per_task,
-		 	 int setn,
-			 int taskid, 
-                         double **positionx, 
-                         double **positiony, 
-                         double **xstart, 
-                         double **fintxarray,
-                         double **fintyarray,
-                         gsl_rng *r)
-{
-  /* Perform simulation steps until equilibration is reached */
-
-  double u, v, x, y, yo, xo; 
-  double xtest, ytest;
-  
-  double t = 0;
-  double dt = SimParams.time_step;  
-  long double  sqrt_flucts, f_dt;
-  int i = 1;     
-  int j;
-  int kset; 
-  int int_ind; 
-  int abb = 0;	
-  int abbdeff = 0;	
-  double muabbo = 0;	
-  double deffabbo = 0;	
-  double fintx;
-  double finty;
-  double fintxpair;
-  double fintypair;
-  double yue, distx, disty, dist; 
-  int shiftind;
- 
-  bool PrintRes;
-  bool TestRes;
-  
-  long int **negshift;
-  long int **posshift;
-  
-  negshift = calloc_2Dlint_array(setn, SimParams.setnumb);
-  posshift = calloc_2Dlint_array(setn, SimParams.setnumb);
-  
-  sqrt_flucts = sqrt(2*BOTTRAD*dt);
-  f_dt = SimParams.F*dt;
-  
-  /*
-   * loop over simulation steps.
-   * loop is stopped when criterion for equilibration is fulfilled.
-   */
-  do{	
-	
-	  t += dt;
-	  i++;
-	  /* Loop over trajectories */
-	  for (j = 0; j < setn_per_task; j++){	
-		  for(kset = 0; kset < SimParams.setnumb; kset++){
-
-
-			  xo = positionx[j][kset];
-			  yo = positiony[j][kset];
-			  
-			  fintx = fintxarray[j][kset];
-			  finty = fintyarray[j][kset];
-		  
-		 	  /* 
- 			   * Perform simulation steps until valid step where no particles overlap
- 			   * and particles are within channel is obtained 
- 			   */
-			  do{
-                                 /*
-                                  *Create random numbers for x- and y-component of noise
-                                  */  
-				  u = gsl_ran_gaussian_ziggurat(r,1);
-				  v = gsl_ran_gaussian_ziggurat(r,1);  
-				 /* 
-                                  *Update x- and y-component of position according to
-                                  *stochastic Euler for Langevin equation
-                                  */                       
-				  x = xo + f_dt + fintx*dt + sqrt_flucts*u;
-				  y = yo + finty*dt + sqrt_flucts*v;
-			
-                                  /*
-                                   *Calculate value of confinement boundary at current
-                                   *position x (y-value is needed for non-analytic treatment
-                                   *of channels with cosine shape
-                                   */  
-				  yue = CONF_yuef(x, y);
-				    
-				 // PosValid = true;
-				  /*Check if particle is within effective boundary*/  
-				  if (fabs(y) > yue) continue;
-				  /*Check if bottleneck is passed correctly*/	
-				  if ((x < 0) && ((fabs(yo) >= B-R_CONF) || (fabs(y) >= B-R_CONF))) continue;
-				  if ((x > L) && ((fabs(yo) >= B-R_CONF) || (fabs(y) >= B-R_CONF))) continue;
-
-				  shiftind = 0;
-				  if(x < 0){
-					   shiftind = -1;
-					   x += L;
-				  }
-				  if(x > L){
-					   shiftind = 1;
-					   x -= L;
-				  }
-				  /*simulate particle-particle interaction*/ 
-				  if (SimParams.setnumb > 1){ 
-					    fintx = 0;
-					    finty = 0;
-					    for(int_ind = 0; int_ind < SimParams.setnumb; int_ind++){	
-						 
-						  xtest = positionx[j][int_ind]; 
-						  ytest = positiony[j][int_ind];
- 
-						  if(int_ind != kset){
-							  distx = x - xtest;
-							  disty = y - ytest;
-
-							  /* 
-							   * search relevant distance according
-							   * to minimum image conversion 
-							   */
-							  if (abs(distx) > 0.5*L){ 
-								distx = distx - L*(distx/abs(distx));
-							  }
-							  dist = sqrt(distx*distx + disty*disty);
-							  /* 
-							   * stay in do-while loop if two particles overlap  
-							   * and skip the following break statement
-							   */
-							  if(dist <= 2*R_INT) continue; 
-							  
-							  if(dist <= INT_CUTOFF){
-								  fintxpair = intforce(distx, dist);
-								  fintypair = intforce(disty, dist);
-								  fintx += fintxpair;
-								  finty += fintypair;
-
-							  }
-						  }
-
-					    /*close loop over particles of interacting ensemble*/
-					    } 
-				  }		   
-			 	  break; 
-			  }while(true);
-			  
-		          if(shiftind != 0){
-				  adapt_posshifts(shiftind, j, kset, posshift, negshift);
-                          }
-		  
-                         /*
-                          * Update arrays with positions and inter particle forces
-                          */     
-		          positionx[j][kset] = x; 
-		          positiony[j][kset] = y;
-			  fintxarray[j][kset] = fintx;
-			  fintyarray[j][kset] = finty;
-
-		}
- 	  /*
-           * Close loop over trajectories 
-           */
-	  }
-	
-       	  /*
-	   *Initialize reference values of mobility and diffusion coefficients
-	   *for later judgement of equilibration process.
-	  */
-	  if((i > SimParams.stepnumb - SimParams.testab) && (i <= SimParams.stepnumb - SimParams.testab + 1)){ 
-		  muabbo = tcoeff.mu;
-		  deffabbo = tcoeff.deff;
-	  }
-	
-          /*
-           * Test progress of equilibration and plot results at certain 
-           * simulation steps i
-           */ 
-          PrintRes = false;
-	  if(i % SimParams.plotpoints == 0){
-	  	PrintRes = true;
-	  }
-	  TestRes = false;
-	  if((i > SimParams.stepnumb) && (i % SimParams.testab == 0)){
-     		TestRes = true;
-          }
-
-	  if((TestRes == true) || PrintRes == true){ 
-
-		  /*
-		   * call function for calculation of transport coefficients 
-		   * such as mobility or mean-squared displacement 
-		   * */ 
-		  RES_calc_transpcoeffs(setn_per_task, 
-		   		        t, 
-				        posshift,
-				        negshift,
-				        positionx,
-				        xstart);
-	  
-			 
-                  /*
-                   * Update of the equilibration counter that are used to monitore the
-                   * equilibration of the mobility and diffusivity
-                   */  
-		  if(TestRes == true){ 
- 			  abb = update_equcounter(tcoeff.mu, muabbo, SimParams.accur, abb);
-
-			  if(tcoeff.deff > 1.0){  
-				  
- 			  	  abbdeff = update_equcounter(tcoeff.deff, deffabbo, SimParams.deffaccur*deffabbo, abbdeff);
-			  }
-
-			  else{ 
- 			  	  abbdeff = update_equcounter(tcoeff.deff, deffabbo, SimParams.deffaccur, abbdeff);
-			  }		
-			  muabbo = tcoeff.mu;    
-			  deffabbo = tcoeff.deff;
-                  }
- 		  /*
-                   * Plot results to check progress of equilibration 
-                   */
-		  if((PrintRes == true) && (taskid == MASTER)){
-			  print_results_over_time(t, 
-						  abb, 
-						  abbdeff);
-
-		  }
-	  }
-
-	  /*
-           *  Reset position and time information to truncate transient effects from small times 
-           */
-	  if(i == SimParams.reset_stepnumb){
-		  t = reset_pos_time(setn_per_task, posshift, negshift); 
-	  } 
- 
-  /* 
-   * Closes while loop over simulation steps if criteria for equilibration are fulfilled
-   */
-  }while((abb < SimParams.numbtest) || (abbdeff < SimParams.numbtest));
-  
-  free(negshift);
-  free(posshift);
-}
-
-
-
 
 int main (int argc, char **argv){
 /** main function of Brownian motion simulation
@@ -496,20 +62,12 @@ int main (int argc, char **argv){
   clock_t prgstart; 
   prgstart = clock(); 
   
-//  double u, v, x, y, yo, xo; 
   double yue, distx, disty, dist; 
   double f_cut;
-//  double f_cut,  
   double deffall, meanspeedall, muall;
-//  double muabbo, deffabbo;
-//  double t, dt; 
-//  double xtest, ytest;
   unsigned int xcountercheck, ycountercheck, twodcountercheck;
   int i, j;
   long double  meanxall, meanxsquall, msdall, thirdcumall;
-//  long double  sqrt_flucts, f_dt;
-//  int abb, abbdeff;
-//  int int_ind, kset, shiftind; 
   int tasks = 1;
   int taskid = MASTER;
   int setn_per_task;
@@ -518,8 +76,6 @@ int main (int argc, char **argv){
   char *conprfx;
   char *intprfx;
   bool ParameterFlag;
-/*  bool PrintRes;
-  bool TestRes;*/
 
   /*
    * width of bins used for spatial discretization for position histograms   
@@ -537,7 +93,7 @@ int main (int argc, char **argv){
    * read external force and number of interacting particles per set from command line arguments
    */ 
   printf("\nargc: %d\n\n", argc);
-  if(argc > 3){
+  if(argc > 2){
 	SimParams.F = atof(argv[1])*L;
 	SimParams.setnumb = atof(argv[2]);
   }
@@ -546,12 +102,8 @@ int main (int argc, char **argv){
   }
   
   SimParams.time_step = PARAMS_time_step(B, R_INT); 
-/*  sqrt_flucts = sqrt(2*BOTTRAD*SimParams.time_step);
-  f_dt = SimParams.F*SimParams.time_step;*/
-
   
   PARAMS_init();
- // RES_init();
 
   binx = 0.02*L;
   biny = 2.0*binx*MAX_HALF_WIDTH/L;
@@ -563,7 +115,7 @@ int main (int argc, char **argv){
    * and provide them to function that creates working directory
    */
   conprfx = CONF_prfx();
-  intprfx = prfx_int();
+  intprfx = INT_prfx();
   namefile = CODEHAND_makedirectory(conprfx, intprfx);
   chdir(namefile);
 
@@ -592,17 +144,6 @@ int main (int argc, char **argv){
   fintyarray = calloc_2Ddouble_array(setn, SimParams.setnumb);
   
   xstart = calloc_2Ddouble_array(setn, SimParams.setnumb);
-
-  printf("arrays for positions and interactions are initialized!\n"); 
-
-
-/*  long int **negshift;
-  long int **posshift;
-  
-  negshift = calloc_2Dlint_array(setn, SimParams.setnumb);
-  posshift = calloc_2Dlint_array(setn, SimParams.setnumb);*/
-
-  printf("arrays for negshift and posshift are initialized!\n"); 
   
   char fnamex [60];
   char fnamey [60];
@@ -612,15 +153,18 @@ int main (int argc, char **argv){
   CODEHAND_copy_main();
   PARAMS_copycode(); 
   CONF_copycode();
-  copycode_int();
+  INT_copycode();
   RES_copycode();
   CODEHAND_copycode();
+  SIM_copycode();
+  PRINT_copycode();
+  CODEHAND_copy_comp_gen_header();
 
   sprintf(fnamespecs, "simulation_specs.dat");
   PARAMS_basic(fnamespecs);
   CONF_specs(binx, biny, bin2d);
-  f_cut = intforce(INT_CUTOFF, INT_CUTOFF);
-  specs_int(f_cut);
+  f_cut = INT_force(INT_CUTOFF, INT_CUTOFF);
+  INT_specs(f_cut);
 
 
 # ifdef MPI_ON
@@ -657,20 +201,22 @@ int main (int argc, char **argv){
   /* set time(NULL + taskid as 'random' seed */ 
   gsl_rng_set(r, time(NULL) + taskid);
   
-  printf("start to init positions!\n"); 
   
   /* 
    * Initialize particle positions 
    */
   SIM_init_positions(setn_per_task, positionx, positiony, xstart, r);
 
-  printf("positions initialized!\n"); 
 
   /* Initialize inter-particle forces */
   SIM_init_interactions(setn_per_task, positionx, positiony, fintxarray, fintyarray);
 
   printf("\ntask ID:\t %d -> particle positions and forces fixed\n", taskid);
-   
+ 
+  /*
+   * Core of Simulation: particles are propagated until criteria
+   * for equilibration are met
+   */  
   SIM_simulation_core(setn_per_task,
 		      setn,
 		      taskid, 
@@ -700,7 +246,7 @@ int main (int argc, char **argv){
         deffall = tcoeff.deff;
 #  endif
   
-  print_runtime_threads(prgstart, SimParams.numtasks, taskid);
+  PRINT_runtime_threads(prgstart, SimParams.numtasks, taskid);
   
   sprintf(fnamex, "meanx_Histogram_F_%.3lf.dat", SimParams.F);
   xcountercheck = RES_histogramm_mpi_reduce(setn_per_task, 
@@ -727,14 +273,14 @@ int main (int argc, char **argv){
 
 
   if(taskid == MASTER){
- 	   print_positions(setn_per_task, positionx, positiony);
+ 	   PRINT_positions(setn_per_task, positionx, positiony);
            RES_print_countercheck(xcountercheck, ycountercheck, twodcountercheck, fnamespecs);
-           print_resallthreads(msdall, meanspeedall, muall, deffall, meanxall, meanxsquall, thirdcumall);
-	   print_muoverf(muall, deffall, namefile);
+           PRINT_resallthreads(msdall, meanspeedall, muall, deffall, meanxall, meanxsquall, thirdcumall);
+	   PRINT_muoverf(muall, deffall, namefile);
             
        //    CODEHAND_delerrorfiles();           
             
-	   print_runtime(prgstart);
+	   PRINT_runtime(prgstart);
            
   }
   
@@ -743,8 +289,7 @@ int main (int argc, char **argv){
   free(fintxarray);
   free(fintyarray);
   free(xstart);
- /* free(negshift);
-  free(posshift);*/
+  
   #ifdef MPI_ON
 	  MPI_Finalize();
   #endif

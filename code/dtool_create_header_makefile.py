@@ -89,7 +89,7 @@ def adapt_makefile(compiler, conf_file, int_file):
 
 def write_conf_int_header(conf_file, int_file, mpi_flag):
 	#function that creates header file that contains
-	#includes header for confinement and inter-particle
+	#includes header confinement and inter-particle
 	#interactions
 	conf_string = conf_file.split('.c')[0]
 	conf_string += '.h'
@@ -98,9 +98,9 @@ def write_conf_int_header(conf_file, int_file, mpi_flag):
 
 	out_h = open("comp_gen_header.h", 'w')
 	
-	out_h.write('/**\n * \
-                           Header file that serves as a wrapper for a generic interface to the modules of interaction and confinement.\n \
-                           Moreover, it sets the define MPI_ON if mpicc compile is used and mpi installed on operating machine.*/\n')
+	out_h.write('/**\n * Header file that serves as a wrapper for a generic interface to the modules of interaction and confinement.\n \
+	   * Moreover, it sets the define MPI_ON if mpi is installed on operating machine and mpicc compile is used.\n \
+	   * This header was created by the script {}*/\n\n\n'.format(__file__))
 
 	header_interact = int_string
 	out_h.write('#include "{}"\n'.format(header_interact))
@@ -111,8 +111,8 @@ def write_conf_int_header(conf_file, int_file, mpi_flag):
 	if mpi_flag == True:
 		out_h.write('#include "mpi.h"\n')
 		out_h.write('#define MPI_ON\n')
+	
 	out_h.close()
-
 def call_make_file():
 	os.system("make")
 

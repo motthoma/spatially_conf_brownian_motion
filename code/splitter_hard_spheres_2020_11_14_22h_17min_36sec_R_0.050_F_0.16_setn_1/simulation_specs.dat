@@ -1,0 +1,39 @@
+
+
+
+Code can be compiled with:
+
+mpicc -Wall muovertintparallel.c par_sim.c conf_NAME.c int_NAME.c -lgsl -lgslcblas -o muovertintparallel
+
+'masterinteract.py' can be used to create several run-files and start the jobs
+
+
+Simulation Parameters:
+
+# of particles: 200
+# of particles per set: 1
+
+Accuracy of mobility: 1.000000
+Accuracy of Deff: 10000000.000000
+
+time step size for propagation of Langevin equation: 0.000010
+number of steps until equilibration checks start: 2e+02
+time until checks start: 4.000000
+# of accuracy checks: 20000000
+number of steps between two tests: 20
+number of steps between two readouts: 400000
+time between two accuracy checks: 4.000000
+time between readout of two points: 240.000000
+minimum number of simulation steps: 400000
+minimum simulation time: 0.000
+
+# of parallelized tasks: 0
+applied force F: 0.16
+width of strip of initial particle distributions: 1.00
+
+
+
+xcountercheck: 200
+ycountercheck: 200
+twodcountercheck: 200
+

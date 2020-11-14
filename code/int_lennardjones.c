@@ -27,7 +27,7 @@ inline double intforce(double dist1d, double dist2d){
 
 }*/
 
-void specs_int(double f_cut){
+void INT_specs(double f_cut){
 	
 	FILE *outpspecs;
 	outpspecs = fopen("muovert_specs.dat", "a");
@@ -40,7 +40,7 @@ void specs_int(double f_cut){
 }
 
 
-void copycode_int(){
+void INT_copycode(){
 char copycode[200];
 
   sprintf(copycode, "cp ../int_lennardjones.* ./");
@@ -48,7 +48,7 @@ char copycode[200];
 
 }
 
-char* prfx_int(){
+char* INT_prfx(){
 char *a = "LJ_pot";
 return a;
 }

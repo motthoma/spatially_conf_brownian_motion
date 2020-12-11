@@ -2,13 +2,14 @@ var searchData=
 [
   ['call_5fmake_5ffile',['call_make_file',['../namespacedtool__create__header__makefile.html#a342039020d50a9f80f88e325919135a8',1,'dtool_create_header_makefile']]],
   ['calloc_5f2ddouble_5farray',['calloc_2Ddouble_array',['../main__brownconf_8c.html#a806f603bf9f2e6365a2cb30c4bd21cfd',1,'main_brownconf.c']]],
-  ['calloc_5f2dlint_5farray',['calloc_2Dlint_array',['../main__brownconf_8c.html#a855964fc4e9411056bbddc14fb77dd8f',1,'main_brownconf.c']]],
+  ['calloc_5f2dlint_5farray',['calloc_2Dlint_array',['../simulation__core_8c.html#a855964fc4e9411056bbddc14fb77dd8f',1,'calloc_2Dlint_array(int m, int n):&#160;simulation_core.c'],['../simulation__core_8h.html#a855964fc4e9411056bbddc14fb77dd8f',1,'calloc_2Dlint_array(int m, int n):&#160;simulation_core.c']]],
   ['check_5ffor_5fmpicc',['check_for_mpicc',['../namespacedtool__create__header__makefile.html#ade20315174e63957ab8a6386d39a19a9',1,'dtool_create_header_makefile']]],
   ['check_5fzip_5flist',['check_zip_list',['../namespacedtool__pull__code__from__server.html#a488cbd3bd206049504d4dad4e0172a00',1,'dtool_pull_code_from_server']]],
   ['checkn',['CHECKN',['../conf__cos_8h.html#a0a791200fb5fbb1764f7ad3a58266b39',1,'conf_cos.h']]],
   ['chosen_5fzip',['chosen_zip',['../namespacedtool__pull__code__from__server.html#a22e298fb7a314ba953a876ba09304e90',1,'dtool_pull_code_from_server']]],
   ['code_5fhandling_2ec',['code_handling.c',['../code__handling_8c.html',1,'']]],
   ['code_5fhandling_2eh',['code_handling.h',['../code__handling_8h.html',1,'']]],
+  ['codehand_5fcopy_5fcomp_5fgen_5fheader',['CODEHAND_copy_comp_gen_header',['../code__handling_8c.html#a23f487e6c4301646b29d504a324530a8',1,'CODEHAND_copy_comp_gen_header():&#160;code_handling.c'],['../code__handling_8h.html#aedb4c929850c33b055970810cbcde1be',1,'CODEHAND_copy_comp_gen_header(void):&#160;code_handling.c']]],
   ['codehand_5fcopy_5fmain',['CODEHAND_copy_main',['../code__handling_8c.html#ab4b69125c6cbc08240ee4f416222e9d3',1,'CODEHAND_copy_main():&#160;code_handling.c'],['../code__handling_8h.html#a9ec261702263f7ada77998b79d01ae84',1,'CODEHAND_copy_main(void):&#160;code_handling.c']]],
   ['codehand_5fcopycode',['CODEHAND_copycode',['../code__handling_8c.html#ada22777b9784161b09b4a16dd166b2a5',1,'CODEHAND_copycode():&#160;code_handling.c'],['../code__handling_8h.html#a579c0d1bdf938eb98b3e9e084c02e7b7',1,'CODEHAND_copycode(void):&#160;code_handling.c']]],
   ['codehand_5fdelerrorfiles',['CODEHAND_delerrorfiles',['../code__handling_8c.html#a8a553a8bff3cc7993aa2134db167ec7d',1,'CODEHAND_delerrorfiles():&#160;code_handling.c'],['../code__handling_8h.html#a48755850399f25159acfc02153c842f0',1,'CODEHAND_delerrorfiles(void):&#160;code_handling.c']]],
@@ -26,6 +27,5 @@ var searchData=
   ['conf_5fspecs',['CONF_specs',['../conf__cos_8c.html#a57584548b1ff12f3dee585dba05e0481',1,'CONF_specs(double binx, double biny, double bin2d):&#160;conf_cos.c'],['../conf__cos_8h.html#a57584548b1ff12f3dee585dba05e0481',1,'CONF_specs(double binx, double biny, double bin2d):&#160;conf_cos.c'],['../conf__sept_8c.html#a57584548b1ff12f3dee585dba05e0481',1,'CONF_specs(double binx, double biny, double bin2d):&#160;conf_sept.c'],['../conf__sept_8h.html#a57584548b1ff12f3dee585dba05e0481',1,'CONF_specs(double binx, double biny, double bin2d):&#160;conf_cos.c'],['../conf__splitter_8c.html#a57584548b1ff12f3dee585dba05e0481',1,'CONF_specs(double binx, double biny, double bin2d):&#160;conf_splitter.c'],['../conf__splitter_8h.html#a57584548b1ff12f3dee585dba05e0481',1,'CONF_specs(double binx, double biny, double bin2d):&#160;conf_cos.c']]],
   ['conf_5fsplitter_2ec',['conf_splitter.c',['../conf__splitter_8c.html',1,'']]],
   ['conf_5fsplitter_2eh',['conf_splitter.h',['../conf__splitter_8h.html',1,'']]],
-  ['copycode_5fint',['copycode_int',['../int__hardspheres_8c.html#aec48559ed6cadd5a8f8ba12c6a2046a2',1,'copycode_int():&#160;int_hardspheres.c'],['../int__hardspheres_8h.html#aec48559ed6cadd5a8f8ba12c6a2046a2',1,'copycode_int():&#160;int_hardspheres.c'],['../int__lennardjones_8c.html#aec48559ed6cadd5a8f8ba12c6a2046a2',1,'copycode_int():&#160;int_lennardjones.c'],['../int__lennardjones_8h.html#aec48559ed6cadd5a8f8ba12c6a2046a2',1,'copycode_int():&#160;int_hardspheres.c']]],
   ['create_5fzip',['create_zip',['../namespacedtool__push__code__to__server.html#ab7e3f41dd501b04ccbfbd5273dfa2582',1,'dtool_push_code_to_server']]]
 ];

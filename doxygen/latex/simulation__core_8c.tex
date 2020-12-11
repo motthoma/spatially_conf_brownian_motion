@@ -1,0 +1,85 @@
+\hypertarget{simulation__core_8c}{}\section{simulation\+\_\+core.\+c File Reference}
+\label{simulation__core_8c}\index{simulation\+\_\+core.\+c@{simulation\+\_\+core.\+c}}
+{\ttfamily \#include \char`\"{}simulation\+\_\+core.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}comp\+\_\+gen\+\_\+header.\+h\char`\"{}}\newline
+Include dependency graph for simulation\+\_\+core.\+c\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{simulation__core_8c__incl}
+\end{center}
+\end{figure}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{simulation__core_8c_aa20e28937a0cc84978ec5d725a8a778f}{S\+I\+M\+\_\+init\+\_\+positions} (int setn\+\_\+per\+\_\+task, double $\ast$$\ast$positionx, double $\ast$$\ast$positiony, double $\ast$$\ast$xstart, gsl\+\_\+rng $\ast$r)
+\item 
+void \hyperlink{simulation__core_8c_ae8fedd6eaf449e94cf8d686099ccd4cf}{S\+I\+M\+\_\+init\+\_\+interactions} (int setn\+\_\+per\+\_\+task, double $\ast$$\ast$positionx, double $\ast$$\ast$positiony, double $\ast$$\ast$fintxarray, double $\ast$$\ast$fintyarray)
+\item 
+double \hyperlink{simulation__core_8c_abc46eb023973ba0aa12ba489bebfeff3}{reset\+\_\+pos\+\_\+time} (int setn\+\_\+per\+\_\+task, long int $\ast$$\ast$posshift, long int $\ast$$\ast$negshift)
+\item 
+void \hyperlink{simulation__core_8c_a322e5c1264b1b33550d3fdb541b6b18a}{adapt\+\_\+posshifts} (int shiftind, int i, int j, long int $\ast$$\ast$posshift, long int $\ast$$\ast$negshift)
+\item 
+int \hyperlink{simulation__core_8c_a0220ef45b4831df2ea84842919213d36}{update\+\_\+equcounter} (double tran\+\_\+quant, double tran\+\_\+quanto, double accurarcy, int equcounter)
+\item 
+long int $\ast$$\ast$ \hyperlink{simulation__core_8c_a855964fc4e9411056bbddc14fb77dd8f}{calloc\+\_\+2\+Dlint\+\_\+array} (int m, int n)
+\item 
+void \hyperlink{simulation__core_8c_ab0c98dca5339d0a8f63b9db18f5386a1}{S\+I\+M\+\_\+simulation\+\_\+core} (int setn\+\_\+per\+\_\+task, int setn, int taskid, double $\ast$$\ast$positionx, double $\ast$$\ast$positiony, double $\ast$$\ast$xstart, double $\ast$$\ast$fintxarray, double $\ast$$\ast$fintyarray, gsl\+\_\+rng $\ast$r)
+\item 
+void \hyperlink{simulation__core_8c_a55ec47b209b66d0e76a34c77f8ef5ba6}{S\+I\+M\+\_\+copycode} ()
+\end{DoxyCompactItemize}
+
+
+\subsection{Function Documentation}
+\mbox{\Hypertarget{simulation__core_8c_a322e5c1264b1b33550d3fdb541b6b18a}\label{simulation__core_8c_a322e5c1264b1b33550d3fdb541b6b18a}} 
+\index{simulation\+\_\+core.\+c@{simulation\+\_\+core.\+c}!adapt\+\_\+posshifts@{adapt\+\_\+posshifts}}
+\index{adapt\+\_\+posshifts@{adapt\+\_\+posshifts}!simulation\+\_\+core.\+c@{simulation\+\_\+core.\+c}}
+\subsubsection{\texorpdfstring{adapt\+\_\+posshifts()}{adapt\_posshifts()}}
+{\footnotesize\ttfamily void adapt\+\_\+posshifts (\begin{DoxyParamCaption}\item[{int}]{shiftind,  }\item[{int}]{i,  }\item[{int}]{j,  }\item[{long int $\ast$$\ast$}]{posshift,  }\item[{long int $\ast$$\ast$}]{negshift }\end{DoxyParamCaption})}
+
+Function to update shifts which are monitored to calculate absolute position in x-\/direction from simulation with cyclic boundary conditions\mbox{\Hypertarget{simulation__core_8c_a855964fc4e9411056bbddc14fb77dd8f}\label{simulation__core_8c_a855964fc4e9411056bbddc14fb77dd8f}} 
+\index{simulation\+\_\+core.\+c@{simulation\+\_\+core.\+c}!calloc\+\_\+2\+Dlint\+\_\+array@{calloc\+\_\+2\+Dlint\+\_\+array}}
+\index{calloc\+\_\+2\+Dlint\+\_\+array@{calloc\+\_\+2\+Dlint\+\_\+array}!simulation\+\_\+core.\+c@{simulation\+\_\+core.\+c}}
+\subsubsection{\texorpdfstring{calloc\+\_\+2\+Dlint\+\_\+array()}{calloc\_2Dlint\_array()}}
+{\footnotesize\ttfamily long int$\ast$$\ast$ calloc\+\_\+2\+Dlint\+\_\+array (\begin{DoxyParamCaption}\item[{int}]{m,  }\item[{int}]{n }\end{DoxyParamCaption})}
+
+Function that allocates memory for a 2 dimensional array of long ints\mbox{\Hypertarget{simulation__core_8c_abc46eb023973ba0aa12ba489bebfeff3}\label{simulation__core_8c_abc46eb023973ba0aa12ba489bebfeff3}} 
+\index{simulation\+\_\+core.\+c@{simulation\+\_\+core.\+c}!reset\+\_\+pos\+\_\+time@{reset\+\_\+pos\+\_\+time}}
+\index{reset\+\_\+pos\+\_\+time@{reset\+\_\+pos\+\_\+time}!simulation\+\_\+core.\+c@{simulation\+\_\+core.\+c}}
+\subsubsection{\texorpdfstring{reset\+\_\+pos\+\_\+time()}{reset\_pos\_time()}}
+{\footnotesize\ttfamily double reset\+\_\+pos\+\_\+time (\begin{DoxyParamCaption}\item[{int}]{setn\+\_\+per\+\_\+task,  }\item[{long int $\ast$$\ast$}]{posshift,  }\item[{long int $\ast$$\ast$}]{negshift }\end{DoxyParamCaption})}
+
+External types and variables
+
+Internal functions Function to reset the simulated system time t and the positions to originate values in order to skip transient effects from start of simulation.\mbox{\Hypertarget{simulation__core_8c_a55ec47b209b66d0e76a34c77f8ef5ba6}\label{simulation__core_8c_a55ec47b209b66d0e76a34c77f8ef5ba6}} 
+\index{simulation\+\_\+core.\+c@{simulation\+\_\+core.\+c}!S\+I\+M\+\_\+copycode@{S\+I\+M\+\_\+copycode}}
+\index{S\+I\+M\+\_\+copycode@{S\+I\+M\+\_\+copycode}!simulation\+\_\+core.\+c@{simulation\+\_\+core.\+c}}
+\subsubsection{\texorpdfstring{S\+I\+M\+\_\+copycode()}{SIM\_copycode()}}
+{\footnotesize\ttfamily void S\+I\+M\+\_\+copycode (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{simulation__core_8c_ae8fedd6eaf449e94cf8d686099ccd4cf}\label{simulation__core_8c_ae8fedd6eaf449e94cf8d686099ccd4cf}} 
+\index{simulation\+\_\+core.\+c@{simulation\+\_\+core.\+c}!S\+I\+M\+\_\+init\+\_\+interactions@{S\+I\+M\+\_\+init\+\_\+interactions}}
+\index{S\+I\+M\+\_\+init\+\_\+interactions@{S\+I\+M\+\_\+init\+\_\+interactions}!simulation\+\_\+core.\+c@{simulation\+\_\+core.\+c}}
+\subsubsection{\texorpdfstring{S\+I\+M\+\_\+init\+\_\+interactions()}{SIM\_init\_interactions()}}
+{\footnotesize\ttfamily void S\+I\+M\+\_\+init\+\_\+interactions (\begin{DoxyParamCaption}\item[{int}]{setn\+\_\+per\+\_\+task,  }\item[{double $\ast$$\ast$}]{positionx,  }\item[{double $\ast$$\ast$}]{positiony,  }\item[{double $\ast$$\ast$}]{fintxarray,  }\item[{double $\ast$$\ast$}]{fintyarray }\end{DoxyParamCaption})}
+
+Function that calculates depending on the positions of the particles the initial particle-\/particle interaction force if such a force e.\+g. given by a Lennard-\/\+Jones interaction is given.\mbox{\Hypertarget{simulation__core_8c_aa20e28937a0cc84978ec5d725a8a778f}\label{simulation__core_8c_aa20e28937a0cc84978ec5d725a8a778f}} 
+\index{simulation\+\_\+core.\+c@{simulation\+\_\+core.\+c}!S\+I\+M\+\_\+init\+\_\+positions@{S\+I\+M\+\_\+init\+\_\+positions}}
+\index{S\+I\+M\+\_\+init\+\_\+positions@{S\+I\+M\+\_\+init\+\_\+positions}!simulation\+\_\+core.\+c@{simulation\+\_\+core.\+c}}
+\subsubsection{\texorpdfstring{S\+I\+M\+\_\+init\+\_\+positions()}{SIM\_init\_positions()}}
+{\footnotesize\ttfamily void S\+I\+M\+\_\+init\+\_\+positions (\begin{DoxyParamCaption}\item[{int}]{setn\+\_\+per\+\_\+task,  }\item[{double $\ast$$\ast$}]{positionx,  }\item[{double $\ast$$\ast$}]{positiony,  }\item[{double $\ast$$\ast$}]{xstart,  }\item[{gsl\+\_\+rng $\ast$}]{r }\end{DoxyParamCaption})}
+
+External functions function that initializes the particle positions. The particles are uniformly distributed over the whole period length L in a strip of width Sim\+Params.\+initwidth or the width of the channel if it is smaller. For interacting particles with hard core radius R\+\_\+int, configurations which involve an overlap of two particles are rejected.\mbox{\Hypertarget{simulation__core_8c_ab0c98dca5339d0a8f63b9db18f5386a1}\label{simulation__core_8c_ab0c98dca5339d0a8f63b9db18f5386a1}} 
+\index{simulation\+\_\+core.\+c@{simulation\+\_\+core.\+c}!S\+I\+M\+\_\+simulation\+\_\+core@{S\+I\+M\+\_\+simulation\+\_\+core}}
+\index{S\+I\+M\+\_\+simulation\+\_\+core@{S\+I\+M\+\_\+simulation\+\_\+core}!simulation\+\_\+core.\+c@{simulation\+\_\+core.\+c}}
+\subsubsection{\texorpdfstring{S\+I\+M\+\_\+simulation\+\_\+core()}{SIM\_simulation\_core()}}
+{\footnotesize\ttfamily void S\+I\+M\+\_\+simulation\+\_\+core (\begin{DoxyParamCaption}\item[{int}]{setn\+\_\+per\+\_\+task,  }\item[{int}]{setn,  }\item[{int}]{taskid,  }\item[{double $\ast$$\ast$}]{positionx,  }\item[{double $\ast$$\ast$}]{positiony,  }\item[{double $\ast$$\ast$}]{xstart,  }\item[{double $\ast$$\ast$}]{fintxarray,  }\item[{double $\ast$$\ast$}]{fintyarray,  }\item[{gsl\+\_\+rng $\ast$}]{r }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{simulation__core_8c_a0220ef45b4831df2ea84842919213d36}\label{simulation__core_8c_a0220ef45b4831df2ea84842919213d36}} 
+\index{simulation\+\_\+core.\+c@{simulation\+\_\+core.\+c}!update\+\_\+equcounter@{update\+\_\+equcounter}}
+\index{update\+\_\+equcounter@{update\+\_\+equcounter}!simulation\+\_\+core.\+c@{simulation\+\_\+core.\+c}}
+\subsubsection{\texorpdfstring{update\+\_\+equcounter()}{update\_equcounter()}}
+{\footnotesize\ttfamily int update\+\_\+equcounter (\begin{DoxyParamCaption}\item[{double}]{tran\+\_\+quant,  }\item[{double}]{tran\+\_\+quanto,  }\item[{double}]{accurarcy,  }\item[{int}]{equcounter }\end{DoxyParamCaption})}
+
+Function for the update of the counter that is used to monitore the equilibration of the system. A transport quantity tran\+\_\+quant is compared with a previous value. If the difference is below the demanded accurarcy, the value of the counter is increased. If the difference is larger than twice the accurarcy the counter is decreased

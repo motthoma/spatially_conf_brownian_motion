@@ -1,18 +1,11 @@
 \hypertarget{main__brownconf_8c}{}\section{main\+\_\+brownconf.\+c File Reference}
 \label{main__brownconf_8c}\index{main\+\_\+brownconf.\+c@{main\+\_\+brownconf.\+c}}
-{\ttfamily \#include \char`\"{}par\+\_\+sim.\+h\char`\"{}}\newline
-{\ttfamily \#include \char`\"{}comp\+\_\+gen\+\_\+header.\+h\char`\"{}}\newline
-{\ttfamily \#include \char`\"{}results\+\_\+transport.\+h\char`\"{}}\newline
 {\ttfamily \#include \char`\"{}code\+\_\+handling.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}simulation\+\_\+core.\+h\char`\"{}}\newline
 {\ttfamily \#include $<$stdio.\+h$>$}\newline
 {\ttfamily \#include $<$stdlib.\+h$>$}\newline
 {\ttfamily \#include $<$sys/stat.\+h$>$}\newline
 {\ttfamily \#include $<$unistd.\+h$>$}\newline
-{\ttfamily \#include $<$time.\+h$>$}\newline
-{\ttfamily \#include $<$math.\+h$>$}\newline
-{\ttfamily \#include $<$stdbool.\+h$>$}\newline
-{\ttfamily \#include $<$gsl/gsl\+\_\+rng.\+h$>$}\newline
-{\ttfamily \#include $<$gsl/gsl\+\_\+randist.\+h$>$}\newline
 Include dependency graph for main\+\_\+brownconf.\+c\+:
 \nopagebreak
 \begin{figure}[H]
@@ -21,81 +14,23 @@ Include dependency graph for main\+\_\+brownconf.\+c\+:
 \includegraphics[width=350pt]{main__brownconf_8c__incl}
 \end{center}
 \end{figure}
-\subsection*{Classes}
-\begin{DoxyCompactItemize}
-\item 
-struct \hyperlink{structPrintResults}{Print\+Results}
-\end{DoxyCompactItemize}
 \subsection*{Functions}
 \begin{DoxyCompactItemize}
 \item 
-void \hyperlink{main__brownconf_8c_a769bddae4ead7d7a9bb425462f8044e4}{print\+\_\+runtime} (clock\+\_\+t start)
-\item 
-void \hyperlink{main__brownconf_8c_a501ad87d874e05f181b4f6e790da13a8}{print\+\_\+positions} (int m, double $\ast$$\ast$posx, double $\ast$$\ast$posy)
-\item 
-void \hyperlink{main__brownconf_8c_a3620d3f68382621c7c835b1a339860dd}{print\+\_\+runtime\+\_\+threads} (clock\+\_\+t start, int numtasks, int taskid)
-\item 
-void \hyperlink{main__brownconf_8c_ace43550c04b12fb79f27c650273937c9}{print\+\_\+results\+\_\+over\+\_\+time} (double t, int abb, int abbdeff)
-\item 
-void \hyperlink{main__brownconf_8c_a35630cb1511aeb88113d64d8a762525c}{print\+\_\+resallthreads} (long double msdall, double meanspeedall, double muall, double deffall, long double meanxall, long double meanxsquall, long double thirdcumall)
-\item 
-void \hyperlink{main__brownconf_8c_ab298106ad92917b10bfc22e258eec9a8}{print\+\_\+muoverf} (double muall, double deffall, char $\ast$namefile)
-\item 
-void \hyperlink{main__brownconf_8c_a60c283e6d38073883025f57a7ce73b88}{init\+\_\+particle\+\_\+pos} (int setn\+\_\+per\+\_\+task, double $\ast$$\ast$positionx, double $\ast$$\ast$positiony, double $\ast$$\ast$xstart, gsl\+\_\+rng $\ast$r)
-\item 
-void \hyperlink{main__brownconf_8c_a440eb09f15b9bc580c10b627ccf2c9cf}{init\+\_\+particle\+\_\+int} (int setn\+\_\+per\+\_\+task, double $\ast$$\ast$positionx, double $\ast$$\ast$positiony, double $\ast$$\ast$fintxarray, double $\ast$$\ast$fintyarray)
-\item 
-double \hyperlink{main__brownconf_8c_abc46eb023973ba0aa12ba489bebfeff3}{reset\+\_\+pos\+\_\+time} (int setn\+\_\+per\+\_\+task, long int $\ast$$\ast$posshift, long int $\ast$$\ast$negshift)
-\item 
-void \hyperlink{main__brownconf_8c_a322e5c1264b1b33550d3fdb541b6b18a}{adapt\+\_\+posshifts} (int shiftind, int i, int j, long int $\ast$$\ast$posshift, long int $\ast$$\ast$negshift)
-\item 
-int \hyperlink{main__brownconf_8c_a0220ef45b4831df2ea84842919213d36}{update\+\_\+equcounter} (double tran\+\_\+quant, double tran\+\_\+quanto, double accurarcy, int equcounter)
-\item 
 double $\ast$$\ast$ \hyperlink{main__brownconf_8c_a806f603bf9f2e6365a2cb30c4bd21cfd}{calloc\+\_\+2\+Ddouble\+\_\+array} (int m, int n)
 \item 
-long int $\ast$$\ast$ \hyperlink{main__brownconf_8c_a855964fc4e9411056bbddc14fb77dd8f}{calloc\+\_\+2\+Dlint\+\_\+array} (int m, int n)
-\item 
 int \hyperlink{main__brownconf_8c_a3c04138a5bfe5d72780bb7e82a18e627}{main} (int argc, char $\ast$$\ast$argv)
-\end{DoxyCompactItemize}
-\subsection*{Variables}
-\begin{DoxyCompactItemize}
-\item 
-struct \hyperlink{structPrintResults}{Print\+Results} \hyperlink{main__brownconf_8c_ac8301505197d6822e7454f0b29d8e15c}{printres}
 \end{DoxyCompactItemize}
 
 
 \subsection{Function Documentation}
-\mbox{\Hypertarget{main__brownconf_8c_a322e5c1264b1b33550d3fdb541b6b18a}\label{main__brownconf_8c_a322e5c1264b1b33550d3fdb541b6b18a}} 
-\index{main\+\_\+brownconf.\+c@{main\+\_\+brownconf.\+c}!adapt\+\_\+posshifts@{adapt\+\_\+posshifts}}
-\index{adapt\+\_\+posshifts@{adapt\+\_\+posshifts}!main\+\_\+brownconf.\+c@{main\+\_\+brownconf.\+c}}
-\subsubsection{\texorpdfstring{adapt\+\_\+posshifts()}{adapt\_posshifts()}}
-{\footnotesize\ttfamily void adapt\+\_\+posshifts (\begin{DoxyParamCaption}\item[{int}]{shiftind,  }\item[{int}]{i,  }\item[{int}]{j,  }\item[{long int $\ast$$\ast$}]{posshift,  }\item[{long int $\ast$$\ast$}]{negshift }\end{DoxyParamCaption})}
-
-Function to update shifts which are monitored to calculate absolute position in x-\/direction from simulation with cyclic boundary conditions\mbox{\Hypertarget{main__brownconf_8c_a806f603bf9f2e6365a2cb30c4bd21cfd}\label{main__brownconf_8c_a806f603bf9f2e6365a2cb30c4bd21cfd}} 
+\mbox{\Hypertarget{main__brownconf_8c_a806f603bf9f2e6365a2cb30c4bd21cfd}\label{main__brownconf_8c_a806f603bf9f2e6365a2cb30c4bd21cfd}} 
 \index{main\+\_\+brownconf.\+c@{main\+\_\+brownconf.\+c}!calloc\+\_\+2\+Ddouble\+\_\+array@{calloc\+\_\+2\+Ddouble\+\_\+array}}
 \index{calloc\+\_\+2\+Ddouble\+\_\+array@{calloc\+\_\+2\+Ddouble\+\_\+array}!main\+\_\+brownconf.\+c@{main\+\_\+brownconf.\+c}}
 \subsubsection{\texorpdfstring{calloc\+\_\+2\+Ddouble\+\_\+array()}{calloc\_2Ddouble\_array()}}
 {\footnotesize\ttfamily double$\ast$$\ast$ calloc\+\_\+2\+Ddouble\+\_\+array (\begin{DoxyParamCaption}\item[{int}]{m,  }\item[{int}]{n }\end{DoxyParamCaption})}
 
-Function that allocates memory for a 2 dimensional array of doubles\mbox{\Hypertarget{main__brownconf_8c_a855964fc4e9411056bbddc14fb77dd8f}\label{main__brownconf_8c_a855964fc4e9411056bbddc14fb77dd8f}} 
-\index{main\+\_\+brownconf.\+c@{main\+\_\+brownconf.\+c}!calloc\+\_\+2\+Dlint\+\_\+array@{calloc\+\_\+2\+Dlint\+\_\+array}}
-\index{calloc\+\_\+2\+Dlint\+\_\+array@{calloc\+\_\+2\+Dlint\+\_\+array}!main\+\_\+brownconf.\+c@{main\+\_\+brownconf.\+c}}
-\subsubsection{\texorpdfstring{calloc\+\_\+2\+Dlint\+\_\+array()}{calloc\_2Dlint\_array()}}
-{\footnotesize\ttfamily long int$\ast$$\ast$ calloc\+\_\+2\+Dlint\+\_\+array (\begin{DoxyParamCaption}\item[{int}]{m,  }\item[{int}]{n }\end{DoxyParamCaption})}
-
-Function that allocates memory for a 2 dimensional array of long ints\mbox{\Hypertarget{main__brownconf_8c_a440eb09f15b9bc580c10b627ccf2c9cf}\label{main__brownconf_8c_a440eb09f15b9bc580c10b627ccf2c9cf}} 
-\index{main\+\_\+brownconf.\+c@{main\+\_\+brownconf.\+c}!init\+\_\+particle\+\_\+int@{init\+\_\+particle\+\_\+int}}
-\index{init\+\_\+particle\+\_\+int@{init\+\_\+particle\+\_\+int}!main\+\_\+brownconf.\+c@{main\+\_\+brownconf.\+c}}
-\subsubsection{\texorpdfstring{init\+\_\+particle\+\_\+int()}{init\_particle\_int()}}
-{\footnotesize\ttfamily void init\+\_\+particle\+\_\+int (\begin{DoxyParamCaption}\item[{int}]{setn\+\_\+per\+\_\+task,  }\item[{double $\ast$$\ast$}]{positionx,  }\item[{double $\ast$$\ast$}]{positiony,  }\item[{double $\ast$$\ast$}]{fintxarray,  }\item[{double $\ast$$\ast$}]{fintyarray }\end{DoxyParamCaption})}
-
-Function that calculates depending on the positions of the particles the initial particle-\/particle interaction force if such a force e.\+g. given by a Lennard-\/\+Jones interaction is given.\mbox{\Hypertarget{main__brownconf_8c_a60c283e6d38073883025f57a7ce73b88}\label{main__brownconf_8c_a60c283e6d38073883025f57a7ce73b88}} 
-\index{main\+\_\+brownconf.\+c@{main\+\_\+brownconf.\+c}!init\+\_\+particle\+\_\+pos@{init\+\_\+particle\+\_\+pos}}
-\index{init\+\_\+particle\+\_\+pos@{init\+\_\+particle\+\_\+pos}!main\+\_\+brownconf.\+c@{main\+\_\+brownconf.\+c}}
-\subsubsection{\texorpdfstring{init\+\_\+particle\+\_\+pos()}{init\_particle\_pos()}}
-{\footnotesize\ttfamily void init\+\_\+particle\+\_\+pos (\begin{DoxyParamCaption}\item[{int}]{setn\+\_\+per\+\_\+task,  }\item[{double $\ast$$\ast$}]{positionx,  }\item[{double $\ast$$\ast$}]{positiony,  }\item[{double $\ast$$\ast$}]{xstart,  }\item[{gsl\+\_\+rng $\ast$}]{r }\end{DoxyParamCaption})}
-
-function that initializes the particle positions. The particles are uniformly distributed over the whole period length L in a strip of width Sim\+Params.\+initwidth or the width of the channel if it is smaller. For interacting particles with hard core radius R\+\_\+int, configurations which involve an overlap of two particles are rejected.\mbox{\Hypertarget{main__brownconf_8c_a3c04138a5bfe5d72780bb7e82a18e627}\label{main__brownconf_8c_a3c04138a5bfe5d72780bb7e82a18e627}} 
+Function that allocates memory for a 2 dimensional array of doubles\mbox{\Hypertarget{main__brownconf_8c_a3c04138a5bfe5d72780bb7e82a18e627}\label{main__brownconf_8c_a3c04138a5bfe5d72780bb7e82a18e627}} 
 \index{main\+\_\+brownconf.\+c@{main\+\_\+brownconf.\+c}!main@{main}}
 \index{main@{main}!main\+\_\+brownconf.\+c@{main\+\_\+brownconf.\+c}}
 \subsubsection{\texorpdfstring{main()}{main()}}
@@ -105,62 +40,4 @@ main function of Brownian motion simulation
 
 calculate number of samples of interacting particles
 
-calculate number of samples of interacting particles per task\mbox{\Hypertarget{main__brownconf_8c_ab298106ad92917b10bfc22e258eec9a8}\label{main__brownconf_8c_ab298106ad92917b10bfc22e258eec9a8}} 
-\index{main\+\_\+brownconf.\+c@{main\+\_\+brownconf.\+c}!print\+\_\+muoverf@{print\+\_\+muoverf}}
-\index{print\+\_\+muoverf@{print\+\_\+muoverf}!main\+\_\+brownconf.\+c@{main\+\_\+brownconf.\+c}}
-\subsubsection{\texorpdfstring{print\+\_\+muoverf()}{print\_muoverf()}}
-{\footnotesize\ttfamily void print\+\_\+muoverf (\begin{DoxyParamCaption}\item[{double}]{muall,  }\item[{double}]{deffall,  }\item[{char $\ast$}]{namefile }\end{DoxyParamCaption})}
-
-prints results to file outside of working directory\mbox{\Hypertarget{main__brownconf_8c_a501ad87d874e05f181b4f6e790da13a8}\label{main__brownconf_8c_a501ad87d874e05f181b4f6e790da13a8}} 
-\index{main\+\_\+brownconf.\+c@{main\+\_\+brownconf.\+c}!print\+\_\+positions@{print\+\_\+positions}}
-\index{print\+\_\+positions@{print\+\_\+positions}!main\+\_\+brownconf.\+c@{main\+\_\+brownconf.\+c}}
-\subsubsection{\texorpdfstring{print\+\_\+positions()}{print\_positions()}}
-{\footnotesize\ttfamily void print\+\_\+positions (\begin{DoxyParamCaption}\item[{int}]{m,  }\item[{double $\ast$$\ast$}]{posx,  }\item[{double $\ast$$\ast$}]{posy }\end{DoxyParamCaption})}
-
-prints particle positions to file\mbox{\Hypertarget{main__brownconf_8c_a35630cb1511aeb88113d64d8a762525c}\label{main__brownconf_8c_a35630cb1511aeb88113d64d8a762525c}} 
-\index{main\+\_\+brownconf.\+c@{main\+\_\+brownconf.\+c}!print\+\_\+resallthreads@{print\+\_\+resallthreads}}
-\index{print\+\_\+resallthreads@{print\+\_\+resallthreads}!main\+\_\+brownconf.\+c@{main\+\_\+brownconf.\+c}}
-\subsubsection{\texorpdfstring{print\+\_\+resallthreads()}{print\_resallthreads()}}
-{\footnotesize\ttfamily void print\+\_\+resallthreads (\begin{DoxyParamCaption}\item[{long double}]{msdall,  }\item[{double}]{meanspeedall,  }\item[{double}]{muall,  }\item[{double}]{deffall,  }\item[{long double}]{meanxall,  }\item[{long double}]{meanxsquall,  }\item[{long double}]{thirdcumall }\end{DoxyParamCaption})}
-
-prints results of simulation to file at the end of the simulation \mbox{\Hypertarget{main__brownconf_8c_ace43550c04b12fb79f27c650273937c9}\label{main__brownconf_8c_ace43550c04b12fb79f27c650273937c9}} 
-\index{main\+\_\+brownconf.\+c@{main\+\_\+brownconf.\+c}!print\+\_\+results\+\_\+over\+\_\+time@{print\+\_\+results\+\_\+over\+\_\+time}}
-\index{print\+\_\+results\+\_\+over\+\_\+time@{print\+\_\+results\+\_\+over\+\_\+time}!main\+\_\+brownconf.\+c@{main\+\_\+brownconf.\+c}}
-\subsubsection{\texorpdfstring{print\+\_\+results\+\_\+over\+\_\+time()}{print\_results\_over\_time()}}
-{\footnotesize\ttfamily void print\+\_\+results\+\_\+over\+\_\+time (\begin{DoxyParamCaption}\item[{double}]{t,  }\item[{int}]{abb,  }\item[{int}]{abbdeff }\end{DoxyParamCaption})}
-
-function to print online results of simulation over time\mbox{\Hypertarget{main__brownconf_8c_a769bddae4ead7d7a9bb425462f8044e4}\label{main__brownconf_8c_a769bddae4ead7d7a9bb425462f8044e4}} 
-\index{main\+\_\+brownconf.\+c@{main\+\_\+brownconf.\+c}!print\+\_\+runtime@{print\+\_\+runtime}}
-\index{print\+\_\+runtime@{print\+\_\+runtime}!main\+\_\+brownconf.\+c@{main\+\_\+brownconf.\+c}}
-\subsubsection{\texorpdfstring{print\+\_\+runtime()}{print\_runtime()}}
-{\footnotesize\ttfamily void print\+\_\+runtime (\begin{DoxyParamCaption}\item[{clock\+\_\+t}]{start }\end{DoxyParamCaption})}
-
-prints run time of code into file\mbox{\Hypertarget{main__brownconf_8c_a3620d3f68382621c7c835b1a339860dd}\label{main__brownconf_8c_a3620d3f68382621c7c835b1a339860dd}} 
-\index{main\+\_\+brownconf.\+c@{main\+\_\+brownconf.\+c}!print\+\_\+runtime\+\_\+threads@{print\+\_\+runtime\+\_\+threads}}
-\index{print\+\_\+runtime\+\_\+threads@{print\+\_\+runtime\+\_\+threads}!main\+\_\+brownconf.\+c@{main\+\_\+brownconf.\+c}}
-\subsubsection{\texorpdfstring{print\+\_\+runtime\+\_\+threads()}{print\_runtime\_threads()}}
-{\footnotesize\ttfamily void print\+\_\+runtime\+\_\+threads (\begin{DoxyParamCaption}\item[{clock\+\_\+t}]{start,  }\item[{int}]{numtasks,  }\item[{int}]{taskid }\end{DoxyParamCaption})}
-
-prints individual runtime of each thread
-
-measure program run time of task\mbox{\Hypertarget{main__brownconf_8c_abc46eb023973ba0aa12ba489bebfeff3}\label{main__brownconf_8c_abc46eb023973ba0aa12ba489bebfeff3}} 
-\index{main\+\_\+brownconf.\+c@{main\+\_\+brownconf.\+c}!reset\+\_\+pos\+\_\+time@{reset\+\_\+pos\+\_\+time}}
-\index{reset\+\_\+pos\+\_\+time@{reset\+\_\+pos\+\_\+time}!main\+\_\+brownconf.\+c@{main\+\_\+brownconf.\+c}}
-\subsubsection{\texorpdfstring{reset\+\_\+pos\+\_\+time()}{reset\_pos\_time()}}
-{\footnotesize\ttfamily double reset\+\_\+pos\+\_\+time (\begin{DoxyParamCaption}\item[{int}]{setn\+\_\+per\+\_\+task,  }\item[{long int $\ast$$\ast$}]{posshift,  }\item[{long int $\ast$$\ast$}]{negshift }\end{DoxyParamCaption})}
-
-Function to reset the simulated system time t and the positions to originate values in order to skip transient effects from start of simulation.\mbox{\Hypertarget{main__brownconf_8c_a0220ef45b4831df2ea84842919213d36}\label{main__brownconf_8c_a0220ef45b4831df2ea84842919213d36}} 
-\index{main\+\_\+brownconf.\+c@{main\+\_\+brownconf.\+c}!update\+\_\+equcounter@{update\+\_\+equcounter}}
-\index{update\+\_\+equcounter@{update\+\_\+equcounter}!main\+\_\+brownconf.\+c@{main\+\_\+brownconf.\+c}}
-\subsubsection{\texorpdfstring{update\+\_\+equcounter()}{update\_equcounter()}}
-{\footnotesize\ttfamily int update\+\_\+equcounter (\begin{DoxyParamCaption}\item[{double}]{tran\+\_\+quant,  }\item[{double}]{tran\+\_\+quanto,  }\item[{double}]{accurarcy,  }\item[{int}]{equcounter }\end{DoxyParamCaption})}
-
-Function for the update of the counter that is used to monitore the equilibration of the system. A transport quantity tran\+\_\+quant is compared with a previous value. If the difference is below the demanded accurarcy, the value of the counter is increased. If the difference is larger than twice the accurarcy the counter is decreased
-
-\subsection{Variable Documentation}
-\mbox{\Hypertarget{main__brownconf_8c_ac8301505197d6822e7454f0b29d8e15c}\label{main__brownconf_8c_ac8301505197d6822e7454f0b29d8e15c}} 
-\index{main\+\_\+brownconf.\+c@{main\+\_\+brownconf.\+c}!printres@{printres}}
-\index{printres@{printres}!main\+\_\+brownconf.\+c@{main\+\_\+brownconf.\+c}}
-\subsubsection{\texorpdfstring{printres}{printres}}
-{\footnotesize\ttfamily struct \hyperlink{structPrintResults}{Print\+Results}  printres}
-
+calculate number of samples of interacting particles per task

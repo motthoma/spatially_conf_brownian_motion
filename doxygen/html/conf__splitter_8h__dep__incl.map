@@ -1,8 +1,4 @@
 <map id="conf_splitter.h" name="conf_splitter.h">
-<area shape="rect" id="node2" href="$comp__gen__header_8h.html" title="comp_gen_header.h" alt="" coords="141,80,279,107"/>
-<area shape="rect" id="node6" href="$conf__splitter_8c.html" title="conf_splitter.c" alt="" coords="303,80,407,107"/>
-<area shape="rect" id="node7" href="$headers__include_8h.html" title="headers_include.h" alt="" coords="432,80,559,107"/>
-<area shape="rect" id="node3" href="$code__handling_8c.html" title="code_handling.c" alt="" coords="5,155,121,181"/>
-<area shape="rect" id="node4" href="$main__brownconf_8c.html" title="main_brownconf.c" alt="" coords="146,155,274,181"/>
-<area shape="rect" id="node5" href="$results__transport_8c.html" title="results_transport.c" alt="" coords="298,155,429,181"/>
+<area shape="rect" id="node2" href="$conf__splitter_8c.html" title="conf_splitter.c" alt="" coords="5,80,109,107"/>
+<area shape="rect" id="node3" href="$headers__include_8h.html" title="headers_include.h" alt="" coords="134,80,261,107"/>
 </map>

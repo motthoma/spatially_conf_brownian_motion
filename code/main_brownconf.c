@@ -1,8 +1,6 @@
 /*Calculation of the averagespeed for a brownian partical with finite radius in 2d in a confinement, 
 trajektories are calculatet parallel*/
 
-
-#include "par_sim.h"
 #include "code_handling.h"
 #include "simulation_core.h"
 
@@ -10,29 +8,6 @@ trajektories are calculatet parallel*/
 #include <stdlib.h>
 #include <sys/stat.h>
 #include <unistd.h>
-#include <time.h>
-#include <math.h>
-#include <stdbool.h>
-
-
-
-
-void PRINT_muoverf(double muall, double deffall, char *namefile)
-{
-/**
- * prints results to file outside of working directory
- */
-  char fnamemu[60];
-
-  sprintf(fnamemu, "../muoverfpos_R_%.2lf_setnumb_%d.dat", R_CONF, SimParams.setnumb);
-
-  FILE *outmu;
-  outmu=fopen(fnamemu, "a");
-  fprintf(outmu, "%.3lf\t %.6lf\t %.6lf\t %s\n", SimParams.F, muall/SimParams.numtasks, deffall/SimParams.numtasks, namefile);                       
-  fclose (outmu); 
-
-}
-
 
 
 double **calloc_2Ddouble_array(int m, int n){
@@ -62,11 +37,8 @@ int main (int argc, char **argv){
   clock_t prgstart; 
   prgstart = clock(); 
   
-  double yue, distx, disty, dist; 
-  double f_cut;
   double deffall, meanspeedall, muall;
   unsigned int xcountercheck, ycountercheck, twodcountercheck;
-  int i, j;
   long double  meanxall, meanxsquall, msdall, thirdcumall;
   int tasks = 1;
   int taskid = MASTER;
@@ -77,12 +49,6 @@ int main (int argc, char **argv){
   char *intprfx;
   bool ParameterFlag;
 
-  /*
-   * width of bins used for spatial discretization for position histograms   
-   */
-  double binx;
-  double biny;
-  double bin2d; 
   
   /* init state for print functions to check if
    * header line in result file has been printed
@@ -102,12 +68,12 @@ int main (int argc, char **argv){
   }
   
   SimParams.time_step = PARAMS_time_step(B, R_INT); 
-  
+	
+  /*
+   * initialize parameters and resulting values
+   */
   PARAMS_init();
-
-  binx = 0.02*L;
-  biny = 2.0*binx*MAX_HALF_WIDTH/L;
-  bin2d = 0.05; 
+  RES_init(); 
 
 
   /*
@@ -162,9 +128,8 @@ int main (int argc, char **argv){
 
   sprintf(fnamespecs, "simulation_specs.dat");
   PARAMS_basic(fnamespecs);
-  CONF_specs(binx, biny, bin2d);
-  f_cut = INT_force(INT_CUTOFF, INT_CUTOFF);
-  INT_specs(f_cut);
+  CONF_specs(histparams.binx, histparams.biny, histparams.bin2d);
+  INT_specs();
 
 
 # ifdef MPI_ON
@@ -252,20 +217,20 @@ int main (int argc, char **argv){
   xcountercheck = RES_histogramm_mpi_reduce(setn_per_task, 
 					0, 
 					L, 
-					binx, positionx, 
+					histparams.binx, positionx, 
 					fnamex, taskid);
 
   sprintf(fnamey, "meany_Histogram_F_%.3lf.dat", SimParams.F);
   ycountercheck = RES_histogramm_mpi_reduce(setn_per_task, 
                                         MAX_HALF_WIDTH, 
                                         2*MAX_HALF_WIDTH, 
-                                        biny, positiony, 
+                                        histparams.biny, positiony, 
                                         fnamey, 
                                         taskid);
 
   sprintf(fname2d, "meanpos_Histogram2d_F_%.3lf.dat", SimParams.F);
   twodcountercheck =  RES_histogramm2d_mpi_reduce(setn_per_task, 
-					      bin2d, 
+					      histparams.bin2d, 
                                               positionx, 
 					      positiony, 
                                               fname2d, 

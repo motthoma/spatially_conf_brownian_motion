@@ -40,10 +40,8 @@ bool PARAMS_check_consistency(){
 	  printf("N modulo numtasks*setnumb not zero!\n");
 	  ParaFlag = false;
 	}
-	if(ParaFlag == false){
-		printf("Chosen simulation parameters are inconsistent!\n");
-		return -1;
-	}	
+
+      	return ParaFlag;	
 
 }
 

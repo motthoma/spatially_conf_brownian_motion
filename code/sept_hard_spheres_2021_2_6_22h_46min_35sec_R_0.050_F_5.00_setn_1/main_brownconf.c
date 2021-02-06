@@ -35,60 +35,18 @@ int main (int argc, char **argv){
    * initialize parameters for time measurement and measure time
    */ 
   clock_t prgstart; 
-  prgstart = clock();
-  /* effective diffusion coefficient accumulated from all threads
-   * if MPI parallelization is employed.
-   */ 
-  double deffall;
-  /* mean speed of all particles accumulated from all
-   * threads if MPI is employed
-   */
-  double meanspeedall;
-  /* non-linear mobility accumulated from all threads
-   * if MPI is employed.
-   */
-  double muall;
-  /* mean position in x-direction of all
-   * particles accumulated from all threads if 
-   * MPI is employed.
-   */
-  long double  meanxall;
-  /* mean squared position <x^2> accumulated from
-   * all threads if MPI is employed.
-   */ 
-  long double meanxsquall;
-  /* mean-squared displacement <x^2> - <x>^2 accumulated
-   * from all threads if MPI is employed.
-   */ 
-  long double msdall;
-  /* third cumulant of position in x-direction 
-   * accumulated from all threads if MPI is employed. 
-   */
-  long double thirdcumall;
-  /* initialize number of MPI tasks to one to
-   * get consistent behavior if MPI is not employed.
-   */
+  prgstart = clock(); 
+  
+  double deffall, meanspeedall, muall;
+  long double  meanxall, meanxsquall, msdall, thirdcumall;
   int tasks = 1;
-  /* taskid of process calling main is MASTER */
   int taskid = MASTER;
-  /* number of particle ensembles simulated in one task.
-   * this number has to be at least one, to prevent 
-   * necessary communication between the threads during 
-   * simulation time.
-   */
   int setn_per_task;
-  /* number of 'sets' or ensembles simulated */
   int setn;
-  /* pointer to variable where directory name
-   * where code and results are copied to
-   */
   char *namefile;
-  /* prefix to mark output-files with employed confinement */
   char *conprfx;
-  /* prefix to mark output-files with employed 
-   * inter-particle interaction */
   char *intprfx;
-
+  bool ParameterFlag;
 
   
   /* init state for print functions to check if
@@ -182,7 +140,10 @@ int main (int argc, char **argv){
   SimParams.numtasks = tasks;
   printf("\n numtasks: %d\n", SimParams.numtasks);
   
-  PARAMS_check_consistency();
+  ParameterFlag = PARAMS_check_consistency();
+  if(ParameterFlag == false){
+	return -1;
+  }	
   
   /**
    * calculate number of samples of interacting particles per task

@@ -245,9 +245,15 @@ void RES_print_countercheck(char *fname_specs)
  */
 	FILE *outp;
 	outp=fopen(fname_specs, "a");
-	fprintf(outp, "\n\nxcountercheck: %d\nycountercheck: %d\ntwodcountercheck: %d\n\n", histparams.xcounter, 
-											    histparams.ycounter, 
-											    histparams.twodcounter);
+	fprintf(outp, "\nThe total number of particles counted in histogram functions.\n"
+		      "This number has to be equal to the number of simulated particles.\n"	
+		      "If the number differs, the simulation is stopped.\n\n"
+		      "xcountercheck: %d\n"
+		      "ycountercheck: %d\n"
+		      "twodcountercheck: %d\n\n", 
+		      histparams.xcounter, 
+		      histparams.ycounter, 
+		      histparams.twodcounter);
 	fclose(outp);
 
 	if((histparams.xcounter != SimParams.N) || (histparams.ycounter != SimParams.N) || (histparams.twodcounter != SimParams.N)){

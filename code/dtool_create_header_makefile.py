@@ -68,18 +68,18 @@ def adapt_makefile(compiler, conf_file, int_file):
 
 	for line in makefile_old:
 		if line.startswith('CC'):
-			new_line = adapt_line(line, compiler)
-			makefile_temp.write(new_line)
+                    new_line = adapt_line(line, compiler)
+                    makefile_temp.write(new_line)
 		
 		elif line.startswith('CONF'):
-			new_line = adapt_line(line, conf_file)
-			makefile_temp.write(new_line)
+                    new_line = adapt_line(line, conf_file)
+                    makefile_temp.write(new_line)
 		
 		elif line.startswith('INT'):
-			new_line = adapt_line(line, int_file)
-			makefile_temp.write(new_line)
+                    new_line = adapt_line(line, int_file)
+                    makefile_temp.write(new_line)
 		else:
-			makefile_temp.write(line)
+                    makefile_temp.write(line)
 
 	makefile_temp.close()
 	makefile_old.close()
@@ -87,7 +87,7 @@ def adapt_makefile(compiler, conf_file, int_file):
 	os.system('rm makefile_temp')
 
 
-def write_conf_int_header(conf_file, int_file, mpi_flag):
+def write_conf_int_header(conf_file, int_file, compiler):
 	#function that creates header file that contains
 	#includes header confinement and inter-particle
 	#interactions
@@ -108,11 +108,12 @@ def write_conf_int_header(conf_file, int_file, mpi_flag):
 	header_conf = conf_string
 	out_h.write('#include "{}"\n'.format(header_conf))
 	
-	if mpi_flag == True:
+	if compiler == 'mpicc':
 		out_h.write('#include "mpi.h"\n')
 		out_h.write('#define MPI_ON\n')
 	
 	out_h.close()
+
 def call_make_file():
 	os.system("make")
 
@@ -149,6 +150,6 @@ if __name__ == "__main__":
 	
 	adapt_makefile(compiler, conf_file, int_file)
 	
-	write_conf_int_header(conf_file, int_file, mpicc_flag)
+	write_conf_int_header(conf_file, int_file, compiler)
 
 	call_make_file()

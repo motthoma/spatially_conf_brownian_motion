@@ -101,7 +101,7 @@ int main (int argc, char **argv){
    */ 
   printf("\nargc: %d\n\n", argc);
   if(argc > 2){
-	SimParams.F = atof(argv[1])*L;
+	SimParams.F = atof(argv[1])*L_CONF;
 	SimParams.setnumb = atof(argv[2]);
 //	mpi_ind = atof(argv[3]);
   }
@@ -260,7 +260,7 @@ int main (int argc, char **argv){
   sprintf(fnamex, "meanx_Histogram_F_%.3lf.dat", SimParams.F);
   histparams.xcounter = RES_histogramm_mpi_reduce(setn_per_task, 
 						0, 
-						L, 
+						L_CONF, 
 						histparams.binx, positionx, 
 						fnamex, taskid);
 

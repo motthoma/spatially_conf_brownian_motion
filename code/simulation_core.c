@@ -14,7 +14,7 @@ void SIM_init_positions(int setn_per_task,
 {
 /**
  * function that initializes the particle positions. The particles are uniformly distributed
- * over the whole period length L in a strip of width SimParams.initwidth or the width of
+ * over the whole period length L_CONF in a strip of width SimParams.initwidth or the width of
  * the channel if it is smaller. For interacting particles with hard core radius R_int, 
  * configurations which involve an overlap of two particles are rejected. 
  */
@@ -35,7 +35,7 @@ void SIM_init_positions(int setn_per_task,
   for(j = 0; j < setn_per_task; j++){
 	  for(kset = 0; kset < SimParams.setnumb; kset++){
 		  do{
-			  positionx[j][kset] = gsl_rng_uniform(r)*L;
+			  positionx[j][kset] = gsl_rng_uniform(r)*L_CONF;
 			  positiony[j][kset] = (2*gsl_rng_uniform(r) - 1)*SimParams.initwidth;
 			    
 			  xo = positionx[j][kset];
@@ -285,7 +285,7 @@ void SIM_simulation_core(int setn_per_task,
 				  if (fabs(y) > yue) continue;
 				  /*Check if bottleneck is passed correctly*/	
 				  if ((x < 0) && ((fabs(yo) >= B-R_CONF) || (fabs(y) >= B-R_CONF))) continue;
-				  if ((x > L) && ((fabs(yo) >= B-R_CONF) || (fabs(y) >= B-R_CONF))) continue;
+				  if ((x > L_CONF) && ((fabs(yo) >= B-R_CONF) || (fabs(y) >= B-R_CONF))) continue;
 
 				  /*
 				   * Adapt position according to period boundary
@@ -294,11 +294,11 @@ void SIM_simulation_core(int setn_per_task,
 				  shiftind = 0;
 				  if(x < 0){
 					   shiftind = -1;
-					   x += L;
+					   x += L_CONF;
 				  }
-				  if(x > L){
+				  if(x > L_CONF){
 					   shiftind = 1;
-					   x -= L;
+					   x -= L_CONF;
 				  }
 				  
 				  /*simulate particle-particle interaction*/ 
@@ -318,8 +318,8 @@ void SIM_simulation_core(int setn_per_task,
 							   * search relevant distance according
 							   * to minimum image conversion 
 							   */
-							  if (abs(distx) > 0.5*L){ 
-								distx = distx - L*(distx/abs(distx));
+							  if (abs(distx) > 0.5*L_CONF){ 
+								distx = distx - L_CONF*(distx/abs(distx));
 							  }
 							  dist = sqrt(distx*distx + disty*disty);
 							  /* 

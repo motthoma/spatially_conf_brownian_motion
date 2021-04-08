@@ -22,7 +22,7 @@ int \hyperlink{results__transport_8c_a48862e78585a2e5d43c5467b8f18f551}{R\+E\+S\
 \item 
 int \hyperlink{results__transport_8c_a4ccd5c82dfb3088fbe21acf8c07ac03f}{R\+E\+S\+\_\+histogramm2d\+\_\+mpi\+\_\+reduce} (int m, double bin2d, double $\ast$$\ast$positionsx, double $\ast$$\ast$positionsy, char $\ast$fname, int taskid)
 \item 
-void \hyperlink{results__transport_8c_a988e8233a95b688bc8b3cf3767eef5b2}{R\+E\+S\+\_\+print\+\_\+countercheck} (int xcheck, int ycheck, int twodcheck, char $\ast$fname\+\_\+specs)
+void \hyperlink{results__transport_8c_a75679f1813192ec55a143824b95b6d98}{R\+E\+S\+\_\+print\+\_\+countercheck} (char $\ast$fname\+\_\+specs)
 \item 
 void \hyperlink{results__transport_8c_aa9708e29819c4538bb9d5c9518401180}{R\+E\+S\+\_\+copycode} ()
 \end{DoxyCompactItemize}
@@ -30,6 +30,8 @@ void \hyperlink{results__transport_8c_aa9708e29819c4538bb9d5c9518401180}{R\+E\+S
 \begin{DoxyCompactItemize}
 \item 
 \hyperlink{results__transport_8h_af34a7249a03f41e6024c3b5cae7ea6a5}{T\+\_\+\+Transport\+Coeffs} \hyperlink{results__transport_8c_a911da81715f2451f559eca327d92387f}{tcoeff}
+\item 
+\hyperlink{results__transport_8h_a12b849afb3a2b799bdd368d9121ffe7e}{T\+\_\+\+Hist\+Params} \hyperlink{results__transport_8c_a8d3e8a892b0413f75183e7a061c5d948}{histparams}
 \end{DoxyCompactItemize}
 
 
@@ -64,15 +66,21 @@ Stores 1 dimensional histogram in file named fname. During a spatial sweep throu
 \subsubsection{\texorpdfstring{R\+E\+S\+\_\+init()}{RES\_init()}}
 {\footnotesize\ttfamily void R\+E\+S\+\_\+init (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
 
-External functions \mbox{\Hypertarget{results__transport_8c_a988e8233a95b688bc8b3cf3767eef5b2}\label{results__transport_8c_a988e8233a95b688bc8b3cf3767eef5b2}} 
+External functions \mbox{\Hypertarget{results__transport_8c_a75679f1813192ec55a143824b95b6d98}\label{results__transport_8c_a75679f1813192ec55a143824b95b6d98}} 
 \index{results\+\_\+transport.\+c@{results\+\_\+transport.\+c}!R\+E\+S\+\_\+print\+\_\+countercheck@{R\+E\+S\+\_\+print\+\_\+countercheck}}
 \index{R\+E\+S\+\_\+print\+\_\+countercheck@{R\+E\+S\+\_\+print\+\_\+countercheck}!results\+\_\+transport.\+c@{results\+\_\+transport.\+c}}
 \subsubsection{\texorpdfstring{R\+E\+S\+\_\+print\+\_\+countercheck()}{RES\_print\_countercheck()}}
-{\footnotesize\ttfamily void R\+E\+S\+\_\+print\+\_\+countercheck (\begin{DoxyParamCaption}\item[{int}]{xcheck,  }\item[{int}]{ycheck,  }\item[{int}]{twodcheck,  }\item[{char $\ast$}]{fname\+\_\+specs }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily void R\+E\+S\+\_\+print\+\_\+countercheck (\begin{DoxyParamCaption}\item[{char $\ast$}]{fname\+\_\+specs }\end{DoxyParamCaption})}
 
 Function that prints the result of the counter checks available from the histogram functions. There, the total number of particles is counted in order to check if all particles are represented in the histogram and situated in the confinement.
 
 \subsection{Variable Documentation}
+\mbox{\Hypertarget{results__transport_8c_a8d3e8a892b0413f75183e7a061c5d948}\label{results__transport_8c_a8d3e8a892b0413f75183e7a061c5d948}} 
+\index{results\+\_\+transport.\+c@{results\+\_\+transport.\+c}!histparams@{histparams}}
+\index{histparams@{histparams}!results\+\_\+transport.\+c@{results\+\_\+transport.\+c}}
+\subsubsection{\texorpdfstring{histparams}{histparams}}
+{\footnotesize\ttfamily \hyperlink{results__transport_8h_a12b849afb3a2b799bdd368d9121ffe7e}{T\+\_\+\+Hist\+Params} histparams}
+
 \mbox{\Hypertarget{results__transport_8c_a911da81715f2451f559eca327d92387f}\label{results__transport_8c_a911da81715f2451f559eca327d92387f}} 
 \index{results\+\_\+transport.\+c@{results\+\_\+transport.\+c}!tcoeff@{tcoeff}}
 \index{tcoeff@{tcoeff}!results\+\_\+transport.\+c@{results\+\_\+transport.\+c}}

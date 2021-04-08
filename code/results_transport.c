@@ -38,8 +38,8 @@ void RES_init(){
 	 * width of bins used for spatial discretization for position histograms   
 	 */
 	
-	histparams.binx = 0.02*L;
-	histparams.biny = 2.0*histparams.binx*MAX_HALF_WIDTH/L;
+	histparams.binx = 0.02*L_CONF;
+	histparams.biny = 2.0*histparams.binx*MAX_HALF_WIDTH/L_CONF;
 	histparams.bin2d = 0.05; 
 
 }
@@ -73,7 +73,7 @@ void RES_calc_transpcoeffs(
 		 totalshift = posshift[j][kset] - negshift[j][kset];
 
 		 /*absolute position of individual particle*/
-		 abspos_part = (posx[j][kset] - x_init[j][kset])/L - totalshift;
+		 abspos_part = (posx[j][kset] - x_init[j][kset])/L_CONF - totalshift;
                  /*sum of positions of all particles for later averaging*/
 		 xges += abspos_part;
 		 /*sum of x^2 over all particles*/
@@ -188,7 +188,7 @@ int RES_histogramm2d_mpi_reduce(int m,
   int hx;
   int hy;
   
-  int bin_nx = (int) (L/bin2d);
+  int bin_nx = (int) (L_CONF/bin2d);
   int bin_ny = (int) (2*MAX_HALF_WIDTH/bin2d);
   int twodcountercheck = 0; 
   int twodcounter = 0;   

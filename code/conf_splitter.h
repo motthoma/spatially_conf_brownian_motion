@@ -7,11 +7,11 @@
 #include "par_sim.h"
 
 #define M 0.9
-#define MAX_HALF_WIDTH (M*L + B)
+#define MAX_HALF_WIDTH (M*L_CONF + B)
 
 #define SQRT_SHIFT R_CONF*sqrt(1 + M*M)
 #define R_CONF_SQ  R_CONF*R_CONF
-#define Lp (L - (R_CONF*M)/(sqrt(1 + M*M)))
+#define Lp (L_CONF - (R_CONF*M)/(sqrt(1 + M*M)))
 
 /**
  *********************************************************
@@ -47,15 +47,15 @@ if(fabs(y) < B - R_CONF){
 }
 /*evaluate effective boundary*/
 if ((R_CONF < x) && (x < Lp)){
-	return (B + M*(L - x) - SQRT_SHIFT);
+	return (B + M*(L_CONF - x) - SQRT_SHIFT);
 }
 	
 else if ((0 <= x) && (x <= R_CONF)){
 	return (B - sqrt(R_CONF_SQ - x*x));
 }
 
-else if ((Lp <= x) && (x <= L)) {
-	return (B - sqrt(R_CONF_SQ - (x - L)*(x - L)));
+else if ((Lp <= x) && (x <= L_CONF)) {
+	return (B - sqrt(R_CONF_SQ - (x - L_CONF)*(x - L_CONF)));
 }
 else{
 	return(5*MAX_HALF_WIDTH);

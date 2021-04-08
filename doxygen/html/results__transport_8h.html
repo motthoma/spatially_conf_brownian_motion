@@ -78,11 +78,14 @@ This graph shows which files directly or indirectly include this file:</div>
 <div class="dyncontent">
 <div class="center"><img src="results__transport_8h__dep__incl.png" border="0" usemap="#results__transport_8hdep" alt=""/></div>
 <map name="results__transport_8hdep" id="results__transport_8hdep">
-<area shape="rect" id="node2" href="simulation__core_8h.html" title="simulation_core.h" alt="" coords="82,80,206,107"/>
-<area shape="rect" id="node5" href="print__routines_8c.html" title="print_routines.c" alt="" coords="230,80,341,107"/>
-<area shape="rect" id="node6" href="results__transport_8c.html" title="results_transport.c" alt="" coords="365,80,496,107"/>
-<area shape="rect" id="node3" href="main__brownconf_8c.html" title="main_brownconf.c" alt="" coords="5,155,133,181"/>
-<area shape="rect" id="node4" href="simulation__core_8c.html" title="simulation_core.c" alt="" coords="158,155,282,181"/>
+<area shape="rect" id="node2" href="conf__cos_8c.html" title="conf_cos.c" alt="" coords="5,80,92,107"/>
+<area shape="rect" id="node3" href="conf__sept_8c.html" title="conf_sept.c" alt="" coords="117,80,207,107"/>
+<area shape="rect" id="node4" href="conf__splitter_8c.html" title="conf_splitter.c" alt="" coords="231,80,335,107"/>
+<area shape="rect" id="node5" href="simulation__core_8h.html" title="simulation_core.h" alt="" coords="360,80,484,107"/>
+<area shape="rect" id="node8" href="print__routines_8c.html" title="print_routines.c" alt="" coords="508,80,619,107"/>
+<area shape="rect" id="node9" href="results__transport_8c.html" title="results_transport.c" alt="" coords="643,80,774,107"/>
+<area shape="rect" id="node6" href="main__brownconf_8c.html" title="main_brownconf.c" alt="" coords="282,155,410,181"/>
+<area shape="rect" id="node7" href="simulation__core_8c.html" title="simulation_core.c" alt="" coords="435,155,559,181"/>
 </map>
 </div>
 </div>
@@ -92,11 +95,15 @@ This graph shows which files directly or indirectly include this file:</div>
 Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structTAG__TransportCoeffs.html">TAG_TransportCoeffs</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structTAG__HistogramParams.html">TAG_HistogramParams</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="typedef-members"></a>
 Typedefs</h2></td></tr>
 <tr class="memitem:af34a7249a03f41e6024c3b5cae7ea6a5"><td class="memItemLeft" align="right" valign="top">typedef struct <a class="el" href="structTAG__TransportCoeffs.html">TAG_TransportCoeffs</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="results__transport_8h.html#af34a7249a03f41e6024c3b5cae7ea6a5">T_TransportCoeffs</a></td></tr>
 <tr class="separator:af34a7249a03f41e6024c3b5cae7ea6a5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a12b849afb3a2b799bdd368d9121ffe7e"><td class="memItemLeft" align="right" valign="top">typedef struct <a class="el" href="structTAG__HistogramParams.html">TAG_HistogramParams</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="results__transport_8h.html#a12b849afb3a2b799bdd368d9121ffe7e">T_HistParams</a></td></tr>
+<tr class="separator:a12b849afb3a2b799bdd368d9121ffe7e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
@@ -108,8 +115,8 @@ Functions</h2></td></tr>
 <tr class="separator:a48862e78585a2e5d43c5467b8f18f551"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4ccd5c82dfb3088fbe21acf8c07ac03f"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="results__transport_8h.html#a4ccd5c82dfb3088fbe21acf8c07ac03f">RES_histogramm2d_mpi_reduce</a> (int m, double bin2d, double **positionsx, double **positionsy, char *fname, int taskid)</td></tr>
 <tr class="separator:a4ccd5c82dfb3088fbe21acf8c07ac03f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a988e8233a95b688bc8b3cf3767eef5b2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="results__transport_8h.html#a988e8233a95b688bc8b3cf3767eef5b2">RES_print_countercheck</a> (int xcheck, int ycheck, int twodcheck, char *fname_specs)</td></tr>
-<tr class="separator:a988e8233a95b688bc8b3cf3767eef5b2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a75679f1813192ec55a143824b95b6d98"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="results__transport_8h.html#a75679f1813192ec55a143824b95b6d98">RES_print_countercheck</a> (char *fname_specs)</td></tr>
+<tr class="separator:a75679f1813192ec55a143824b95b6d98"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abccfd4f8723efbe876ab5b76dea6d8a2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="results__transport_8h.html#abccfd4f8723efbe876ab5b76dea6d8a2">RES_copycode</a> (void)</td></tr>
 <tr class="separator:abccfd4f8723efbe876ab5b76dea6d8a2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
@@ -117,8 +124,25 @@ Functions</h2></td></tr>
 Variables</h2></td></tr>
 <tr class="memitem:a911da81715f2451f559eca327d92387f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="results__transport_8h.html#af34a7249a03f41e6024c3b5cae7ea6a5">T_TransportCoeffs</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="results__transport_8h.html#a911da81715f2451f559eca327d92387f">tcoeff</a></td></tr>
 <tr class="separator:a911da81715f2451f559eca327d92387f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8d3e8a892b0413f75183e7a061c5d948"><td class="memItemLeft" align="right" valign="top"><a class="el" href="results__transport_8h.html#a12b849afb3a2b799bdd368d9121ffe7e">T_HistParams</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="results__transport_8h.html#a8d3e8a892b0413f75183e7a061c5d948">histparams</a></td></tr>
+<tr class="separator:a8d3e8a892b0413f75183e7a061c5d948"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Typedef Documentation</h2>
+<a id="a12b849afb3a2b799bdd368d9121ffe7e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a12b849afb3a2b799bdd368d9121ffe7e">&#9670;&nbsp;</a></span>T_HistParams</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef struct <a class="el" href="structTAG__HistogramParams.html">TAG_HistogramParams</a>  <a class="el" href="results__transport_8h.html#a12b849afb3a2b799bdd368d9121ffe7e">T_HistParams</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Structure which contains parameters for the histograms used. </p>
+
+</div>
+</div>
 <a id="af34a7249a03f41e6024c3b5cae7ea6a5"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#af34a7249a03f41e6024c3b5cae7ea6a5">&#9670;&nbsp;</a></span>T_TransportCoeffs</h2>
 
@@ -336,8 +360,8 @@ Variables</h2></td></tr>
 
 </div>
 </div>
-<a id="a988e8233a95b688bc8b3cf3767eef5b2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a988e8233a95b688bc8b3cf3767eef5b2">&#9670;&nbsp;</a></span>RES_print_countercheck()</h2>
+<a id="a75679f1813192ec55a143824b95b6d98"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a75679f1813192ec55a143824b95b6d98">&#9670;&nbsp;</a></span>RES_print_countercheck()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -345,31 +369,9 @@ Variables</h2></td></tr>
         <tr>
           <td class="memname">void RES_print_countercheck </td>
           <td>(</td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>xcheck</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>ycheck</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>twodcheck</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
           <td class="paramtype">char *&#160;</td>
-          <td class="paramname"><em>fname_specs</em>&#160;</td>
-        </tr>
-        <tr>
+          <td class="paramname"><em>fname_specs</em></td><td>)</td>
           <td></td>
-          <td>)</td>
-          <td></td><td></td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -378,6 +380,20 @@ Variables</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Variable Documentation</h2>
+<a id="a8d3e8a892b0413f75183e7a061c5d948"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8d3e8a892b0413f75183e7a061c5d948">&#9670;&nbsp;</a></span>histparams</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="results__transport_8h.html#a12b849afb3a2b799bdd368d9121ffe7e">T_HistParams</a> histparams</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="a911da81715f2451f559eca327d92387f"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a911da81715f2451f559eca327d92387f">&#9670;&nbsp;</a></span>tcoeff</h2>
 

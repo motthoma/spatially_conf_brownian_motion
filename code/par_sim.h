@@ -4,12 +4,22 @@
 
 #include <stdbool.h>
 
-//#define L 1.0
-static const double L = 1.0;
-#define B 0.1*L
-#define RADF 0.5
-#define R_CONF (RADF*B)
-#define BOTTRAD ((RADF == 0 ? 1.0 : (1.0/RADF)))
+/*Parameters that are used for the confinement but also
+ * needed for the scaling of the particle-particle
+ * interaction and all channel geometries are defined here
+ */
+/* period length of channel */
+#define L_CONF 1.0
+/*bottleneck width of periodic channels*/
+#define B 0.1*L_CONF
+
+/*radius of particles used in effective spatial boundary */
+#define R_CONF (0.5*B)
+
+/*scaling of noise strength depends on ration of bottleneck to particle radius */
+#define BOTTRAD ((R_CONF == 0 ? 1.0 : (B/R_CONF)))
+
+/*definition of master thread when mpi parallelization is used*/
 #define MASTER 0    
 
 /**

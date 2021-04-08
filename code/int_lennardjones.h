@@ -7,7 +7,7 @@
 #include "par_sim.h"
 
 #define R_INT (R_CONF)
-#define INT_CUTOFF (0.2*L)
+#define INT_CUTOFF (0.2*L_CONF)
 #define EPS_L (1.0)
 #define LJMIN (0.5*B)
 #define LJMINPOW (pow(LJMIN,6))

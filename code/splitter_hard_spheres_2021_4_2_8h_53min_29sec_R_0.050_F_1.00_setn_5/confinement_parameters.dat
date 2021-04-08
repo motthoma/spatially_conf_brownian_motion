@@ -1,0 +1,25 @@
+
+
+Parameters of 'Splitter'-Confinement:
+
+Channel Length L: 1.0
+Bottleneck Half-Width B: 0.10
+Slope M: 0.90
+Channel's max. Half-Width: 1.00
+Particle Radius: 0.05
+Bottrad B/R: 2.000
+Lp: 0.97
+
+Binwidth 1d x-Histogram: 0.020000
+Binwidht 1d y-Histogram: 0.040000
+Binwidth 2d Histogram: 0.050000
+
+
+The total number of particles counted in histogram functions.
+This number has to be equal to the number of simulated particles.
+If the number differs, the simulation is stopped.
+
+xcountercheck: 100
+ycountercheck: 100
+twodcountercheck: 100
+

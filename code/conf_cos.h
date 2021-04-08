@@ -11,9 +11,9 @@
 #define MAX_HALF_WIDTH (2*AMP+B)
 
 #define CHECKN 5
-#define K_COS (2.0*M_PI/L)
+#define K_COS (2.0*M_PI/L_CONF)
 
-#define XMAX (L/4.0-R_CONF)
+#define XMAX (L_CONF/4.0-R_CONF)
 #define SQRT_SHIFT R_CONF*sqrt(1+AMP*AMP*K_COS*K_COS)
 
 /**

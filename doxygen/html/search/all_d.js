@@ -16,7 +16,7 @@ var searchData=
   ['print_5fresults_5fover_5ftime',['PRINT_results_over_time',['../print__routines_8c.html#a2250142594c31313fc66c9e635d8a80d',1,'PRINT_results_over_time(double t, int abb, int abbdeff):&#160;print_routines.c'],['../print__routines_8h.html#a2250142594c31313fc66c9e635d8a80d',1,'PRINT_results_over_time(double t, int abb, int abbdeff):&#160;print_routines.c']]],
   ['print_5froutines_2ec',['print_routines.c',['../print__routines_8c.html',1,'']]],
   ['print_5froutines_2eh',['print_routines.h',['../print__routines_8h.html',1,'']]],
-  ['print_5fruntime',['PRINT_runtime',['../print__routines_8c.html#a837d8321e0d9f4bcc23fa7e876bfb7a3',1,'PRINT_runtime(clock_t start):&#160;print_routines.c'],['../print__routines_8h.html#a837d8321e0d9f4bcc23fa7e876bfb7a3',1,'PRINT_runtime(clock_t start):&#160;print_routines.c']]],
+  ['print_5fruntime',['PRINT_runtime',['../print__routines_8c.html#a0ba4edfd73c834083a19557cf4a88954',1,'PRINT_runtime(clock_t start, char *name_simspecs):&#160;print_routines.c'],['../print__routines_8h.html#a0ba4edfd73c834083a19557cf4a88954',1,'PRINT_runtime(clock_t start, char *name_simspecs):&#160;print_routines.c']]],
   ['print_5fruntime_5fthreads',['PRINT_runtime_threads',['../print__routines_8c.html#a32a907222ea98607edfd3e8ba0d490bd',1,'PRINT_runtime_threads(clock_t start, int numtasks, int taskid):&#160;print_routines.c'],['../print__routines_8h.html#a32a907222ea98607edfd3e8ba0d490bd',1,'PRINT_runtime_threads(clock_t start, int numtasks, int taskid):&#160;print_routines.c']]],
   ['printres',['printres',['../print__routines_8h.html#ac8301505197d6822e7454f0b29d8e15c',1,'print_routines.h']]],
   ['printresults',['PrintResults',['../structPrintResults.html',1,'']]],

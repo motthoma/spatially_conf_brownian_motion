@@ -26,11 +26,9 @@ struct \hyperlink{structTAG__SimParams}{T\+A\+G\+\_\+\+Sim\+Params}
 \item 
 \#define \hyperlink{par__sim_8h_a111da81ae5883147168bbb8366377b10}{B}~0.\+1$\ast$L
 \item 
-\#define \hyperlink{par__sim_8h_a91fe5423554a4b8dc2030d8dd26bb4c4}{R\+A\+DF}~0.\+5
+\#define \hyperlink{par__sim_8h_af474bcea39541c1bc5d82287cc9a695c}{R\+\_\+\+C\+O\+NF}~(0.\+5$\ast$\hyperlink{par__sim_8h_a111da81ae5883147168bbb8366377b10}{B})
 \item 
-\#define \hyperlink{par__sim_8h_af474bcea39541c1bc5d82287cc9a695c}{R\+\_\+\+C\+O\+NF}~(\hyperlink{par__sim_8h_a91fe5423554a4b8dc2030d8dd26bb4c4}{R\+A\+DF}$\ast$\hyperlink{par__sim_8h_a111da81ae5883147168bbb8366377b10}{B})
-\item 
-\#define \hyperlink{par__sim_8h_a16cb6c56ede462c96211f59cd6bf5619}{B\+O\+T\+T\+R\+AD}~((\hyperlink{par__sim_8h_a91fe5423554a4b8dc2030d8dd26bb4c4}{R\+A\+DF} == 0 ? 1.\+0 \+: (1.\+0/\hyperlink{par__sim_8h_a91fe5423554a4b8dc2030d8dd26bb4c4}{R\+A\+DF})))
+\#define \hyperlink{par__sim_8h_a16cb6c56ede462c96211f59cd6bf5619}{B\+O\+T\+T\+R\+AD}~((\hyperlink{par__sim_8h_af474bcea39541c1bc5d82287cc9a695c}{R\+\_\+\+C\+O\+NF} == 0 ? 1.\+0 \+: (\hyperlink{par__sim_8h_a111da81ae5883147168bbb8366377b10}{B}/\hyperlink{par__sim_8h_af474bcea39541c1bc5d82287cc9a695c}{R\+\_\+\+C\+O\+NF})))
 \item 
 \#define \hyperlink{par__sim_8h_a3fa2d3bf1901157f734a584d47b25d8b}{M\+A\+S\+T\+ER}~0
 \end{DoxyCompactItemize}
@@ -72,7 +70,7 @@ unsigned int \hyperlink{par__sim_8h_a457e5832d12d93072dd27755b93e91e4}{nbin}
 \index{par\+\_\+sim.\+h@{par\+\_\+sim.\+h}!B\+O\+T\+T\+R\+AD@{B\+O\+T\+T\+R\+AD}}
 \index{B\+O\+T\+T\+R\+AD@{B\+O\+T\+T\+R\+AD}!par\+\_\+sim.\+h@{par\+\_\+sim.\+h}}
 \subsubsection{\texorpdfstring{B\+O\+T\+T\+R\+AD}{BOTTRAD}}
-{\footnotesize\ttfamily \#define B\+O\+T\+T\+R\+AD~((\hyperlink{par__sim_8h_a91fe5423554a4b8dc2030d8dd26bb4c4}{R\+A\+DF} == 0 ? 1.\+0 \+: (1.\+0/\hyperlink{par__sim_8h_a91fe5423554a4b8dc2030d8dd26bb4c4}{R\+A\+DF})))}
+{\footnotesize\ttfamily \#define B\+O\+T\+T\+R\+AD~((\hyperlink{par__sim_8h_af474bcea39541c1bc5d82287cc9a695c}{R\+\_\+\+C\+O\+NF} == 0 ? 1.\+0 \+: (\hyperlink{par__sim_8h_a111da81ae5883147168bbb8366377b10}{B}/\hyperlink{par__sim_8h_af474bcea39541c1bc5d82287cc9a695c}{R\+\_\+\+C\+O\+NF})))}
 
 \mbox{\Hypertarget{par__sim_8h_a3fa2d3bf1901157f734a584d47b25d8b}\label{par__sim_8h_a3fa2d3bf1901157f734a584d47b25d8b}} 
 \index{par\+\_\+sim.\+h@{par\+\_\+sim.\+h}!M\+A\+S\+T\+ER@{M\+A\+S\+T\+ER}}
@@ -84,13 +82,7 @@ unsigned int \hyperlink{par__sim_8h_a457e5832d12d93072dd27755b93e91e4}{nbin}
 \index{par\+\_\+sim.\+h@{par\+\_\+sim.\+h}!R\+\_\+\+C\+O\+NF@{R\+\_\+\+C\+O\+NF}}
 \index{R\+\_\+\+C\+O\+NF@{R\+\_\+\+C\+O\+NF}!par\+\_\+sim.\+h@{par\+\_\+sim.\+h}}
 \subsubsection{\texorpdfstring{R\+\_\+\+C\+O\+NF}{R\_CONF}}
-{\footnotesize\ttfamily \#define R\+\_\+\+C\+O\+NF~(\hyperlink{par__sim_8h_a91fe5423554a4b8dc2030d8dd26bb4c4}{R\+A\+DF}$\ast$\hyperlink{par__sim_8h_a111da81ae5883147168bbb8366377b10}{B})}
-
-\mbox{\Hypertarget{par__sim_8h_a91fe5423554a4b8dc2030d8dd26bb4c4}\label{par__sim_8h_a91fe5423554a4b8dc2030d8dd26bb4c4}} 
-\index{par\+\_\+sim.\+h@{par\+\_\+sim.\+h}!R\+A\+DF@{R\+A\+DF}}
-\index{R\+A\+DF@{R\+A\+DF}!par\+\_\+sim.\+h@{par\+\_\+sim.\+h}}
-\subsubsection{\texorpdfstring{R\+A\+DF}{RADF}}
-{\footnotesize\ttfamily \#define R\+A\+DF~0.\+5}
+{\footnotesize\ttfamily \#define R\+\_\+\+C\+O\+NF~(0.\+5$\ast$\hyperlink{par__sim_8h_a111da81ae5883147168bbb8366377b10}{B})}
 
 
 

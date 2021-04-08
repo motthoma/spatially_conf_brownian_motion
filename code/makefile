@@ -1,4 +1,4 @@
-CC = clang
+CC = gcc
 CFLAGS = -c -w -Wall -Wextra -pedantic
 LDFLAGS = -lgsl -lgslcblas -lm
 EXECUTABLE = main_brownconf

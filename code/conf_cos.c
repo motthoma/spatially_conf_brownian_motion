@@ -7,7 +7,6 @@
  */
 #include <stdio.h>
 #include <stdlib.h>
-#include "par_sim.h"
 #include "conf_cos.h"
 #include "results_transport.h"
 
@@ -17,16 +16,27 @@ void CONF_specs(char *file_confparams){
 
     FILE *outpspecs;
     outpspecs = fopen(file_confparams, "a");		
-    fprintf(outpspecs, "\n\nParameters of 'Cosine'-Confinement:\n\nChannel Length L: %.1lf\nBottleneck Half-Width B: %.2lf\nAmplitude A: %.2lf\nChannel's max. Half-Width: %.2lf\nChannel's wave number: %.2lf\nParticle Radius: %.10lf\nBottrad B/R: %.3lf\n\nBinwidth 1d x-Histogram: %lf\nBinwidht 1d y-Histogram: %lf\nBinwidth 2d Histogram: %lf\n\n", L, 
-																	 B, 
-																	 AMP, 
-																	 MAX_HALF_WIDTH,
-																	 K_COS, 
-																	 R_CONF, 
-																	 BOTTRAD, 
-																	 histparams.binx, 
-																	 histparams.biny, 
-																	 histparams.bin2d);
+    fprintf(outpspecs, "\n\nParameters of 'Cosine'-Confinement:\n\n"
+		     	"Channel Length L_CONF: %.1lf\n"
+			"Bottleneck Half-Width B: %.2lf\n"
+			"Amplitude A: %.2lf\n"
+			"Channel's max. Half-Width: %.2lf\n"
+			"Channel's wave number: %.2lf\n"
+			"Particle Radius: %.10lf\n"
+			"Bottrad B/R: %.3lf\n\n"
+			"Binwidth 1d x-Histogram: %lf\n"
+			"Binwidht 1d y-Histogram: %lf\n"
+			"Binwidth 2d Histogram: %lf\n\n", 
+							L_CONF, 
+							B, 
+						 	AMP, 
+							MAX_HALF_WIDTH,
+							K_COS, 
+							R_CONF, 
+							BOTTRAD, 
+							histparams.binx, 
+							histparams.biny, 
+							histparams.bin2d);
 			    
     
 fclose(outpspecs);

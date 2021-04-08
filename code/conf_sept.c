@@ -8,7 +8,6 @@
 */ 
 #include <stdio.h>
 #include <stdlib.h>
-#include "par_sim.h"
 #include "conf_sept.h"
 #include "results_transport.h"
 
@@ -17,7 +16,7 @@ void CONF_specs(char *file_confparams){
     FILE *outpspecs;
     outpspecs = fopen(file_confparams, "a");		
     fprintf(outpspecs, "\n\nParameters of Confinement 'Septated Channel':\n\n"
-		    "Channel Length L: %.1lf\n"
+		    "Channel Length L_CONF: %.1lf\n"
 		    "Bottleneck Half-Width B: %.2lf\n"
 		    "Amplitude AMP: %.2lf\n"
 		    "Channel's max. Half-Width: %.2lf\n"
@@ -26,7 +25,7 @@ void CONF_specs(char *file_confparams){
 		    "Binwidth 1d x-Histogram: %lf\n"
 		    "Binwidht 1d y-Histogram: %lf\n"
 		    "Binwidth 2d Histogram: %lf\n\n", 
-		    				     L, 
+		    				     L_CONF, 
 						     B, 
 						     AMP, 
 						     MAX_HALF_WIDTH, 

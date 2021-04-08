@@ -14,7 +14,7 @@
 /*define parameters which are not defined in
   par_sim.h header file
 */  
-#define AMP 1.0*L
+#define AMP 1.0*L_CONF
 #define MAX_HALF_WIDTH (AMP+B)
 #define R_CONF_SQ R_CONF*R_CONF
 
@@ -54,14 +54,14 @@ static inline double yuef_sept(double x, double y){
 	/*evaluate effective confinement piece wise. Confinement
 	 * is given by a circle of Radius R_CONF in the vicinity 
 	 * of the bottlenecks.*/
-	if ((R_CONF < x) && (x < L - R_CONF)){
+	if ((R_CONF < x) && (x < L_CONF - R_CONF)){
 		return (B + AMP - R_CONF);
 	}
 	else if ((0 <= x) && (x <= R_CONF)){
 		return (B - sqrt(R_CONF_SQ - x*x));
 	}
-	else if ((L-R_CONF <= x) && (x <= L)) {
-		return (B - sqrt(R_CONF_SQ - (x - L)*(x - L)));
+	else if ((L_CONF-R_CONF <= x) && (x <= L_CONF)) {
+		return (B - sqrt(R_CONF_SQ - (x - L_CONF)*(x - L_CONF)));
 	}
 	else{
 		return(5*MAX_HALF_WIDTH);

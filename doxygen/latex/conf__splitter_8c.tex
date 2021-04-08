@@ -2,19 +2,19 @@
 \label{conf__splitter_8c}\index{conf\+\_\+splitter.\+c@{conf\+\_\+splitter.\+c}}
 {\ttfamily \#include $<$stdio.\+h$>$}\newline
 {\ttfamily \#include $<$stdlib.\+h$>$}\newline
-{\ttfamily \#include \char`\"{}par\+\_\+sim.\+h\char`\"{}}\newline
 {\ttfamily \#include \char`\"{}conf\+\_\+splitter.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}results\+\_\+transport.\+h\char`\"{}}\newline
 Include dependency graph for conf\+\_\+splitter.\+c\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
-\includegraphics[width=326pt]{conf__splitter_8c__incl}
+\includegraphics[width=350pt]{conf__splitter_8c__incl}
 \end{center}
 \end{figure}
 \subsection*{Functions}
 \begin{DoxyCompactItemize}
 \item 
-void \hyperlink{conf__splitter_8c_a57584548b1ff12f3dee585dba05e0481}{C\+O\+N\+F\+\_\+specs} (double binx, double biny, double bin2d)
+void \hyperlink{conf__splitter_8c_a5bc76d9d73e5e09ea15d072618151d83}{C\+O\+N\+F\+\_\+specs} (char $\ast$file\+\_\+confparams)
 \item 
 void \hyperlink{conf__splitter_8c_a0ca99752ba6585358d273530b4acfb9b}{C\+O\+N\+F\+\_\+copycode} ()
 \item 
@@ -35,10 +35,10 @@ char $\ast$ \hyperlink{conf__splitter_8c_a96b72468ce995bc58bca7b309248417a}{C\+O
 \subsubsection{\texorpdfstring{C\+O\+N\+F\+\_\+prfx()}{CONF\_prfx()}}
 {\footnotesize\ttfamily char$\ast$ C\+O\+N\+F\+\_\+prfx (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
 
-function that provides name of confinement \mbox{\Hypertarget{conf__splitter_8c_a57584548b1ff12f3dee585dba05e0481}\label{conf__splitter_8c_a57584548b1ff12f3dee585dba05e0481}} 
+function that provides name of confinement \mbox{\Hypertarget{conf__splitter_8c_a5bc76d9d73e5e09ea15d072618151d83}\label{conf__splitter_8c_a5bc76d9d73e5e09ea15d072618151d83}} 
 \index{conf\+\_\+splitter.\+c@{conf\+\_\+splitter.\+c}!C\+O\+N\+F\+\_\+specs@{C\+O\+N\+F\+\_\+specs}}
 \index{C\+O\+N\+F\+\_\+specs@{C\+O\+N\+F\+\_\+specs}!conf\+\_\+splitter.\+c@{conf\+\_\+splitter.\+c}}
 \subsubsection{\texorpdfstring{C\+O\+N\+F\+\_\+specs()}{CONF\_specs()}}
-{\footnotesize\ttfamily void C\+O\+N\+F\+\_\+specs (\begin{DoxyParamCaption}\item[{double}]{binx,  }\item[{double}]{biny,  }\item[{double}]{bin2d }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily void C\+O\+N\+F\+\_\+specs (\begin{DoxyParamCaption}\item[{char $\ast$}]{file\+\_\+confparams }\end{DoxyParamCaption})}
 
 Module to handle a confinement with a cosine shape (see e.\+g. Phd Thesis Steffen Martens 2013 page 90). Function with boundary for septate channel is in header file for inlining and thus a better computational performancefunction to write confinement specific information in specs file 

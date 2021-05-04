@@ -1,4 +1,5 @@
 <map id="simulation_core.h" name="simulation_core.h">
-<area shape="rect" id="node2" href="$main__brownconf_8c.html" title="main_brownconf.c" alt="" coords="5,80,133,107"/>
-<area shape="rect" id="node3" href="$simulation__core_8c.html" title="simulation_core.c" alt="" coords="158,80,282,107"/>
+<area shape="rect" id="node1" title=" " alt="" coords="82,5,206,32"/>
+<area shape="rect" id="node2" href="$main__brownconf_8c.html" title=" " alt="" coords="5,80,133,107"/>
+<area shape="rect" id="node3" href="$simulation__core_8c.html" title=" " alt="" coords="158,80,282,107"/>
 </map>

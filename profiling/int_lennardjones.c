@@ -1,7 +1,5 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <math.h>
-#include "par_sim.h"
 #include "int_lennardjones.h"
 
 
@@ -27,8 +25,11 @@ inline double intforce(double dist1d, double dist2d){
 
 }*/
 
-void specs_int(double f_cut){
+void INT_specs(){
 	
+	double f_cut;
+  	f_cut = INT_force(INT_CUTOFF, INT_CUTOFF);
+
 	FILE *outpspecs;
 	outpspecs = fopen("muovert_specs.dat", "a");
 	fprintf(outpspecs, "\n\nParameters of Lennard_Jones particle-particle interaction:\n\nRadius of Particles' Hardcore: %.4lf\nPotential cut-off length: %.2lf\nValue of int-force at cut-off length: %.5lf\nDepth of potential minimum epsilon: %.2lf\nPosition of potential minimum: %.2lf\nPower of 6 of minimum's position: %.4e\n\n\n", R_INT, INT_CUTOFF, f_cut, EPS_L, LJMIN, LJMINPOW);
@@ -40,7 +41,7 @@ void specs_int(double f_cut){
 }
 
 
-void copycode_int(){
+void INT_copycode(){
 char copycode[200];
 
   sprintf(copycode, "cp ../int_lennardjones.* ./");
@@ -48,7 +49,7 @@ char copycode[200];
 
 }
 
-char* prfx_int(){
+char* INT_prfx(){
 char *a = "LJ_pot";
 return a;
 }

@@ -1,7 +1,12 @@
 <map id="code_handling.c" name="code_handling.c">
-<area shape="rect" id="node4" href="$comp__gen__header_8h.html" title="comp_gen_header.h" alt="" coords="173,80,312,107"/>
-<area shape="rect" id="node10" href="$code__handling_8h.html" title="code_handling.h" alt="" coords="337,80,453,107"/>
-<area shape="rect" id="node5" href="$int__hardspheres_8h.html" title="int_hardspheres.h" alt="" coords="113,155,239,181"/>
-<area shape="rect" id="node8" href="$conf__sept_8h.html" title="conf_sept.h" alt="" coords="263,155,353,181"/>
-<area shape="rect" id="node6" href="$par__sim_8h.html" title="par_sim.h" alt="" coords="155,229,234,256"/>
+<area shape="rect" id="node1" title=" " alt="" coords="123,5,239,32"/>
+<area shape="rect" id="node2" title=" " alt="" coords="5,80,67,107"/>
+<area shape="rect" id="node3" title=" " alt="" coords="91,80,149,107"/>
+<area shape="rect" id="node4" href="$comp__gen__header_8h.html" title=" " alt="" coords="173,80,312,107"/>
+<area shape="rect" id="node10" href="$code__handling_8h.html" title=" " alt="" coords="337,80,453,107"/>
+<area shape="rect" id="node5" href="$int__hardspheres_8h.html" title=" " alt="" coords="115,155,240,181"/>
+<area shape="rect" id="node8" href="$conf__cos_8h.html" title=" " alt="" coords="265,155,351,181"/>
+<area shape="rect" id="node6" href="$par__sim_8h.html" title=" " alt="" coords="165,229,243,256"/>
+<area shape="rect" id="node7" title=" " alt="" coords="205,304,280,331"/>
+<area shape="rect" id="node9" title=" " alt="" coords="319,229,382,256"/>
 </map>

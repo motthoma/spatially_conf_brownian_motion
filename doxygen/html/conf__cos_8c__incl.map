@@ -1,5 +1,10 @@
 <map id="conf_cos.c" name="conf_cos.c">
-<area shape="rect" id="node4" href="$conf__cos_8h.html" title="conf_cos.h" alt="" coords="179,80,266,107"/>
-<area shape="rect" id="node8" href="$results__transport_8h.html" title="results_transport.h" alt="" coords="291,80,421,107"/>
-<area shape="rect" id="node7" href="$par__sim_8h.html" title="par_sim.h" alt="" coords="261,155,339,181"/>
+<area shape="rect" id="node1" title=" " alt="" coords="129,5,215,32"/>
+<area shape="rect" id="node2" title=" " alt="" coords="5,80,67,107"/>
+<area shape="rect" id="node3" title=" " alt="" coords="91,80,155,107"/>
+<area shape="rect" id="node4" href="$conf__cos_8h.html" title=" " alt="" coords="179,80,266,107"/>
+<area shape="rect" id="node8" href="$results__transport_8h.html" title=" " alt="" coords="291,80,421,107"/>
+<area shape="rect" id="node5" title=" " alt="" coords="122,155,185,181"/>
+<area shape="rect" id="node6" title=" " alt="" coords="224,229,299,256"/>
+<area shape="rect" id="node7" href="$par__sim_8h.html" title=" " alt="" coords="261,155,339,181"/>
 </map>

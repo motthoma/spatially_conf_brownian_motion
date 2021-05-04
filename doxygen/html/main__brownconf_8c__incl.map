@@ -1,10 +1,20 @@
 <map id="main_brownconf.c" name="main_brownconf.c">
-<area shape="rect" id="node2" href="$code__handling_8h.html" title="code_handling.h" alt="" coords="235,80,351,107"/>
-<area shape="rect" id="node3" href="$simulation__core_8h.html" title="simulation_core.h" alt="" coords="375,80,499,107"/>
-<area shape="rect" id="node4" href="$comp__gen__header_8h.html" title="comp_gen_header.h" alt="" coords="64,155,203,181"/>
-<area shape="rect" id="node10" href="$results__transport_8h.html" title="results_transport.h" alt="" coords="227,155,357,181"/>
-<area shape="rect" id="node11" href="$print__routines_8h.html" title="print_routines.h" alt="" coords="382,155,493,181"/>
-<area shape="rect" id="node5" href="$int__hardspheres_8h.html" title="int_hardspheres.h" alt="" coords="5,229,131,256"/>
-<area shape="rect" id="node8" href="$conf__sept_8h.html" title="conf_sept.h" alt="" coords="155,229,245,256"/>
-<area shape="rect" id="node6" href="$par__sim_8h.html" title="par_sim.h" alt="" coords="47,304,126,331"/>
+<area shape="rect" id="node1" title=" " alt="" coords="533,5,661,32"/>
+<area shape="rect" id="node2" href="$code__handling_8h.html" title=" " alt="" coords="235,80,351,107"/>
+<area shape="rect" id="node3" href="$simulation__core_8h.html" title=" " alt="" coords="375,80,499,107"/>
+<area shape="rect" id="node15" title=" " alt="" coords="524,80,585,107"/>
+<area shape="rect" id="node16" title=" " alt="" coords="609,80,673,107"/>
+<area shape="rect" id="node17" title=" " alt="" coords="697,80,777,107"/>
+<area shape="rect" id="node18" title=" " alt="" coords="802,80,870,107"/>
+<area shape="rect" id="node4" href="$comp__gen__header_8h.html" title=" " alt="" coords="64,155,203,181"/>
+<area shape="rect" id="node10" href="$results__transport_8h.html" title=" " alt="" coords="227,155,357,181"/>
+<area shape="rect" id="node11" href="$print__routines_8h.html" title=" " alt="" coords="382,155,493,181"/>
+<area shape="rect" id="node13" title=" " alt="" coords="517,155,613,181"/>
+<area shape="rect" id="node14" title=" " alt="" coords="637,155,755,181"/>
+<area shape="rect" id="node5" href="$int__hardspheres_8h.html" title=" " alt="" coords="5,229,131,256"/>
+<area shape="rect" id="node8" href="$conf__cos_8h.html" title=" " alt="" coords="155,229,242,256"/>
+<area shape="rect" id="node6" href="$par__sim_8h.html" title=" " alt="" coords="55,304,134,331"/>
+<area shape="rect" id="node7" title=" " alt="" coords="96,379,171,405"/>
+<area shape="rect" id="node9" title=" " alt="" coords="210,304,273,331"/>
+<area shape="rect" id="node12" title=" " alt="" coords="408,229,467,256"/>
 </map>

@@ -31,7 +31,7 @@ if __name__ == "__main__":
 	os.system(copy_str_masterfile)
 
 	#compile source code with debugging -p -pg flags for profiling
-	compile_str = "gcc -Wall main_brownconf.c par_sim.c conf_{0}.c int_{1}.c -lgsl -lgslcblas -lm  -o {2} -p -pg".format(confinement, interaction, executable)
+        compile_str = "gcc -Wall main_brownconf.c par_sim.c results_transport.c code_handling.c simulation_core.c print_routines.c conf_{0}.c int_{1}.c -lgsl -lgslcblas -lm  -o {2} -p -pg".format(confinement, interaction, executable)
 	print(compile_str)
 	os.system(compile_str)
 

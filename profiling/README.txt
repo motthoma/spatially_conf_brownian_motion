@@ -1,6 +1,7 @@
 ***************************************************************
 *							      *
-* Environment for profiling of brownian motion code	      *							      *
+* Environment for profiling of brownian motion code	      *		
+*                                                             *
 *							      *
 ***************************************************************
 

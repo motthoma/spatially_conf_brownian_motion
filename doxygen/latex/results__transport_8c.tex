@@ -1,5 +1,5 @@
-\hypertarget{results__transport_8c}{}\section{results\+\_\+transport.\+c File Reference}
-\label{results__transport_8c}\index{results\+\_\+transport.\+c@{results\+\_\+transport.\+c}}
+\hypertarget{results__transport_8c}{}\doxysection{results\+\_\+transport.\+c File Reference}
+\label{results__transport_8c}\index{results\_transport.c@{results\_transport.c}}
 {\ttfamily \#include $<$stdio.\+h$>$}\newline
 {\ttfamily \#include \char`\"{}comp\+\_\+gen\+\_\+header.\+h\char`\"{}}\newline
 {\ttfamily \#include \char`\"{}results\+\_\+transport.\+h\char`\"{}}\newline
@@ -11,79 +11,79 @@ Include dependency graph for results\+\_\+transport.\+c\+:
 \includegraphics[width=350pt]{results__transport_8c__incl}
 \end{center}
 \end{figure}
-\subsection*{Functions}
+\doxysubsection*{Functions}
 \begin{DoxyCompactItemize}
 \item 
-void \hyperlink{results__transport_8c_a1a5a3bd0cc58f20c318ac3a8dcfac4e3}{R\+E\+S\+\_\+init} ()
+void \mbox{\hyperlink{results__transport_8c_a1a5a3bd0cc58f20c318ac3a8dcfac4e3}{R\+E\+S\+\_\+init}} ()
 \item 
-void \hyperlink{results__transport_8c_aa503a121bc653e4e38da41727fc61728}{R\+E\+S\+\_\+calc\+\_\+transpcoeffs} (int setn\+\_\+per\+\_\+task, double t, long int $\ast$$\ast$posshift, long int $\ast$$\ast$negshift, double $\ast$$\ast$posx, double $\ast$$\ast$x\+\_\+init)
+void \mbox{\hyperlink{results__transport_8c_aa503a121bc653e4e38da41727fc61728}{R\+E\+S\+\_\+calc\+\_\+transpcoeffs}} (int setn\+\_\+per\+\_\+task, double t, long int $\ast$$\ast$posshift, long int $\ast$$\ast$negshift, double $\ast$$\ast$posx, double $\ast$$\ast$x\+\_\+init)
 \item 
-int \hyperlink{results__transport_8c_a48862e78585a2e5d43c5467b8f18f551}{R\+E\+S\+\_\+histogramm\+\_\+mpi\+\_\+reduce} (int m, double backshift, double length, double bin, double $\ast$$\ast$positions, char $\ast$fname, int taskid)
+int \mbox{\hyperlink{results__transport_8c_a48862e78585a2e5d43c5467b8f18f551}{R\+E\+S\+\_\+histogramm\+\_\+mpi\+\_\+reduce}} (int m, double backshift, double length, double bin, double $\ast$$\ast$positions, char $\ast$fname, int taskid)
 \item 
-int \hyperlink{results__transport_8c_a4ccd5c82dfb3088fbe21acf8c07ac03f}{R\+E\+S\+\_\+histogramm2d\+\_\+mpi\+\_\+reduce} (int m, double bin2d, double $\ast$$\ast$positionsx, double $\ast$$\ast$positionsy, char $\ast$fname, int taskid)
+int \mbox{\hyperlink{results__transport_8c_a4ccd5c82dfb3088fbe21acf8c07ac03f}{R\+E\+S\+\_\+histogramm2d\+\_\+mpi\+\_\+reduce}} (int m, double bin2d, double $\ast$$\ast$positionsx, double $\ast$$\ast$positionsy, char $\ast$fname, int taskid)
 \item 
-void \hyperlink{results__transport_8c_a75679f1813192ec55a143824b95b6d98}{R\+E\+S\+\_\+print\+\_\+countercheck} (char $\ast$fname\+\_\+specs)
+void \mbox{\hyperlink{results__transport_8c_a75679f1813192ec55a143824b95b6d98}{R\+E\+S\+\_\+print\+\_\+countercheck}} (char $\ast$fname\+\_\+specs)
 \item 
-void \hyperlink{results__transport_8c_aa9708e29819c4538bb9d5c9518401180}{R\+E\+S\+\_\+copycode} ()
+void \mbox{\hyperlink{results__transport_8c_aa9708e29819c4538bb9d5c9518401180}{R\+E\+S\+\_\+copycode}} ()
 \end{DoxyCompactItemize}
-\subsection*{Variables}
+\doxysubsection*{Variables}
 \begin{DoxyCompactItemize}
 \item 
-\hyperlink{results__transport_8h_af34a7249a03f41e6024c3b5cae7ea6a5}{T\+\_\+\+Transport\+Coeffs} \hyperlink{results__transport_8c_a911da81715f2451f559eca327d92387f}{tcoeff}
+\mbox{\hyperlink{results__transport_8h_a7e8e17f37f496b444f9cfc9aace34baf}{T\+\_\+\+Transport\+Coeffs}} \mbox{\hyperlink{results__transport_8c_a911da81715f2451f559eca327d92387f}{tcoeff}}
 \item 
-\hyperlink{results__transport_8h_a12b849afb3a2b799bdd368d9121ffe7e}{T\+\_\+\+Hist\+Params} \hyperlink{results__transport_8c_a8d3e8a892b0413f75183e7a061c5d948}{histparams}
+\mbox{\hyperlink{results__transport_8h_a30bef7b15dd4a167eb46c0b3d1754c11}{T\+\_\+\+Hist\+Params}} \mbox{\hyperlink{results__transport_8c_a8d3e8a892b0413f75183e7a061c5d948}{histparams}}
 \end{DoxyCompactItemize}
 
 
-\subsection{Function Documentation}
+\doxysubsection{Function Documentation}
 \mbox{\Hypertarget{results__transport_8c_aa503a121bc653e4e38da41727fc61728}\label{results__transport_8c_aa503a121bc653e4e38da41727fc61728}} 
-\index{results\+\_\+transport.\+c@{results\+\_\+transport.\+c}!R\+E\+S\+\_\+calc\+\_\+transpcoeffs@{R\+E\+S\+\_\+calc\+\_\+transpcoeffs}}
-\index{R\+E\+S\+\_\+calc\+\_\+transpcoeffs@{R\+E\+S\+\_\+calc\+\_\+transpcoeffs}!results\+\_\+transport.\+c@{results\+\_\+transport.\+c}}
-\subsubsection{\texorpdfstring{R\+E\+S\+\_\+calc\+\_\+transpcoeffs()}{RES\_calc\_transpcoeffs()}}
+\index{results\_transport.c@{results\_transport.c}!RES\_calc\_transpcoeffs@{RES\_calc\_transpcoeffs}}
+\index{RES\_calc\_transpcoeffs@{RES\_calc\_transpcoeffs}!results\_transport.c@{results\_transport.c}}
+\doxysubsubsection{\texorpdfstring{RES\_calc\_transpcoeffs()}{RES\_calc\_transpcoeffs()}}
 {\footnotesize\ttfamily void R\+E\+S\+\_\+calc\+\_\+transpcoeffs (\begin{DoxyParamCaption}\item[{int}]{setn\+\_\+per\+\_\+task,  }\item[{double}]{t,  }\item[{long int $\ast$$\ast$}]{posshift,  }\item[{long int $\ast$$\ast$}]{negshift,  }\item[{double $\ast$$\ast$}]{posx,  }\item[{double $\ast$$\ast$}]{x\+\_\+init }\end{DoxyParamCaption})}
 
 Function that caluclates transport coefficients such as mobility, means-\/squared displacement or thir moment of position. Function takes relative x-\/positions and values of shift to first call function for calculation of individual absolute particle positions and subsequently ensemble averages of the first three moments of the position. \mbox{\Hypertarget{results__transport_8c_aa9708e29819c4538bb9d5c9518401180}\label{results__transport_8c_aa9708e29819c4538bb9d5c9518401180}} 
-\index{results\+\_\+transport.\+c@{results\+\_\+transport.\+c}!R\+E\+S\+\_\+copycode@{R\+E\+S\+\_\+copycode}}
-\index{R\+E\+S\+\_\+copycode@{R\+E\+S\+\_\+copycode}!results\+\_\+transport.\+c@{results\+\_\+transport.\+c}}
-\subsubsection{\texorpdfstring{R\+E\+S\+\_\+copycode()}{RES\_copycode()}}
-{\footnotesize\ttfamily void R\+E\+S\+\_\+copycode (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+\index{results\_transport.c@{results\_transport.c}!RES\_copycode@{RES\_copycode}}
+\index{RES\_copycode@{RES\_copycode}!results\_transport.c@{results\_transport.c}}
+\doxysubsubsection{\texorpdfstring{RES\_copycode()}{RES\_copycode()}}
+{\footnotesize\ttfamily void R\+E\+S\+\_\+copycode (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
 
 \mbox{\Hypertarget{results__transport_8c_a4ccd5c82dfb3088fbe21acf8c07ac03f}\label{results__transport_8c_a4ccd5c82dfb3088fbe21acf8c07ac03f}} 
-\index{results\+\_\+transport.\+c@{results\+\_\+transport.\+c}!R\+E\+S\+\_\+histogramm2d\+\_\+mpi\+\_\+reduce@{R\+E\+S\+\_\+histogramm2d\+\_\+mpi\+\_\+reduce}}
-\index{R\+E\+S\+\_\+histogramm2d\+\_\+mpi\+\_\+reduce@{R\+E\+S\+\_\+histogramm2d\+\_\+mpi\+\_\+reduce}!results\+\_\+transport.\+c@{results\+\_\+transport.\+c}}
-\subsubsection{\texorpdfstring{R\+E\+S\+\_\+histogramm2d\+\_\+mpi\+\_\+reduce()}{RES\_histogramm2d\_mpi\_reduce()}}
+\index{results\_transport.c@{results\_transport.c}!RES\_histogramm2d\_mpi\_reduce@{RES\_histogramm2d\_mpi\_reduce}}
+\index{RES\_histogramm2d\_mpi\_reduce@{RES\_histogramm2d\_mpi\_reduce}!results\_transport.c@{results\_transport.c}}
+\doxysubsubsection{\texorpdfstring{RES\_histogramm2d\_mpi\_reduce()}{RES\_histogramm2d\_mpi\_reduce()}}
 {\footnotesize\ttfamily int R\+E\+S\+\_\+histogramm2d\+\_\+mpi\+\_\+reduce (\begin{DoxyParamCaption}\item[{int}]{m,  }\item[{double}]{bin2d,  }\item[{double $\ast$$\ast$}]{positionsx,  }\item[{double $\ast$$\ast$}]{positionsy,  }\item[{char $\ast$}]{fname,  }\item[{int}]{taskid }\end{DoxyParamCaption})}
 
 Stores 2 dimensional histogram in file named fname. During a spatial scan over all nx$\ast$ny rectangular fields, all particle positions are checked and the number of particles in the respective field is increased if a particle is detected. The number counter of all particles in the field is stored in the file together with the upper and lower boundaries in both directions of the field.\mbox{\Hypertarget{results__transport_8c_a48862e78585a2e5d43c5467b8f18f551}\label{results__transport_8c_a48862e78585a2e5d43c5467b8f18f551}} 
-\index{results\+\_\+transport.\+c@{results\+\_\+transport.\+c}!R\+E\+S\+\_\+histogramm\+\_\+mpi\+\_\+reduce@{R\+E\+S\+\_\+histogramm\+\_\+mpi\+\_\+reduce}}
-\index{R\+E\+S\+\_\+histogramm\+\_\+mpi\+\_\+reduce@{R\+E\+S\+\_\+histogramm\+\_\+mpi\+\_\+reduce}!results\+\_\+transport.\+c@{results\+\_\+transport.\+c}}
-\subsubsection{\texorpdfstring{R\+E\+S\+\_\+histogramm\+\_\+mpi\+\_\+reduce()}{RES\_histogramm\_mpi\_reduce()}}
+\index{results\_transport.c@{results\_transport.c}!RES\_histogramm\_mpi\_reduce@{RES\_histogramm\_mpi\_reduce}}
+\index{RES\_histogramm\_mpi\_reduce@{RES\_histogramm\_mpi\_reduce}!results\_transport.c@{results\_transport.c}}
+\doxysubsubsection{\texorpdfstring{RES\_histogramm\_mpi\_reduce()}{RES\_histogramm\_mpi\_reduce()}}
 {\footnotesize\ttfamily int R\+E\+S\+\_\+histogramm\+\_\+mpi\+\_\+reduce (\begin{DoxyParamCaption}\item[{int}]{m,  }\item[{double}]{backshift,  }\item[{double}]{length,  }\item[{double}]{bin,  }\item[{double $\ast$$\ast$}]{positions,  }\item[{char $\ast$}]{fname,  }\item[{int}]{taskid }\end{DoxyParamCaption})}
 
 Stores 1 dimensional histogram in file named fname. During a spatial sweep through all length/bin slices from position \textquotesingle{}backshift\textquotesingle{} to position \textquotesingle{}length\textquotesingle{}, all particle positions are checked and the number of particles in the respective slice is increased if a particle is detected. The number counter of all particles in the slice is stored in the file together with the upper and lower boundary of the slice.\mbox{\Hypertarget{results__transport_8c_a1a5a3bd0cc58f20c318ac3a8dcfac4e3}\label{results__transport_8c_a1a5a3bd0cc58f20c318ac3a8dcfac4e3}} 
-\index{results\+\_\+transport.\+c@{results\+\_\+transport.\+c}!R\+E\+S\+\_\+init@{R\+E\+S\+\_\+init}}
-\index{R\+E\+S\+\_\+init@{R\+E\+S\+\_\+init}!results\+\_\+transport.\+c@{results\+\_\+transport.\+c}}
-\subsubsection{\texorpdfstring{R\+E\+S\+\_\+init()}{RES\_init()}}
+\index{results\_transport.c@{results\_transport.c}!RES\_init@{RES\_init}}
+\index{RES\_init@{RES\_init}!results\_transport.c@{results\_transport.c}}
+\doxysubsubsection{\texorpdfstring{RES\_init()}{RES\_init()}}
 {\footnotesize\ttfamily void R\+E\+S\+\_\+init (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
 
 External functions \mbox{\Hypertarget{results__transport_8c_a75679f1813192ec55a143824b95b6d98}\label{results__transport_8c_a75679f1813192ec55a143824b95b6d98}} 
-\index{results\+\_\+transport.\+c@{results\+\_\+transport.\+c}!R\+E\+S\+\_\+print\+\_\+countercheck@{R\+E\+S\+\_\+print\+\_\+countercheck}}
-\index{R\+E\+S\+\_\+print\+\_\+countercheck@{R\+E\+S\+\_\+print\+\_\+countercheck}!results\+\_\+transport.\+c@{results\+\_\+transport.\+c}}
-\subsubsection{\texorpdfstring{R\+E\+S\+\_\+print\+\_\+countercheck()}{RES\_print\_countercheck()}}
+\index{results\_transport.c@{results\_transport.c}!RES\_print\_countercheck@{RES\_print\_countercheck}}
+\index{RES\_print\_countercheck@{RES\_print\_countercheck}!results\_transport.c@{results\_transport.c}}
+\doxysubsubsection{\texorpdfstring{RES\_print\_countercheck()}{RES\_print\_countercheck()}}
 {\footnotesize\ttfamily void R\+E\+S\+\_\+print\+\_\+countercheck (\begin{DoxyParamCaption}\item[{char $\ast$}]{fname\+\_\+specs }\end{DoxyParamCaption})}
 
 Function that prints the result of the counter checks available from the histogram functions. There, the total number of particles is counted in order to check if all particles are represented in the histogram and situated in the confinement.
 
-\subsection{Variable Documentation}
+\doxysubsection{Variable Documentation}
 \mbox{\Hypertarget{results__transport_8c_a8d3e8a892b0413f75183e7a061c5d948}\label{results__transport_8c_a8d3e8a892b0413f75183e7a061c5d948}} 
-\index{results\+\_\+transport.\+c@{results\+\_\+transport.\+c}!histparams@{histparams}}
-\index{histparams@{histparams}!results\+\_\+transport.\+c@{results\+\_\+transport.\+c}}
-\subsubsection{\texorpdfstring{histparams}{histparams}}
-{\footnotesize\ttfamily \hyperlink{results__transport_8h_a12b849afb3a2b799bdd368d9121ffe7e}{T\+\_\+\+Hist\+Params} histparams}
+\index{results\_transport.c@{results\_transport.c}!histparams@{histparams}}
+\index{histparams@{histparams}!results\_transport.c@{results\_transport.c}}
+\doxysubsubsection{\texorpdfstring{histparams}{histparams}}
+{\footnotesize\ttfamily \mbox{\hyperlink{results__transport_8h_a30bef7b15dd4a167eb46c0b3d1754c11}{T\+\_\+\+Hist\+Params}} histparams}
 
 \mbox{\Hypertarget{results__transport_8c_a911da81715f2451f559eca327d92387f}\label{results__transport_8c_a911da81715f2451f559eca327d92387f}} 
-\index{results\+\_\+transport.\+c@{results\+\_\+transport.\+c}!tcoeff@{tcoeff}}
-\index{tcoeff@{tcoeff}!results\+\_\+transport.\+c@{results\+\_\+transport.\+c}}
-\subsubsection{\texorpdfstring{tcoeff}{tcoeff}}
-{\footnotesize\ttfamily \hyperlink{results__transport_8h_af34a7249a03f41e6024c3b5cae7ea6a5}{T\+\_\+\+Transport\+Coeffs} tcoeff}
+\index{results\_transport.c@{results\_transport.c}!tcoeff@{tcoeff}}
+\index{tcoeff@{tcoeff}!results\_transport.c@{results\_transport.c}}
+\doxysubsubsection{\texorpdfstring{tcoeff}{tcoeff}}
+{\footnotesize\ttfamily \mbox{\hyperlink{results__transport_8h_a7e8e17f37f496b444f9cfc9aace34baf}{T\+\_\+\+Transport\+Coeffs}} tcoeff}
 

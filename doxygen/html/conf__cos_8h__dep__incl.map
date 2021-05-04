@@ -1,3 +1,10 @@
 <map id="conf_cos.h" name="conf_cos.h">
-<area shape="rect" id="node2" href="$conf__cos_8c.html" title="conf_cos.c" alt="" coords="5,80,92,107"/>
+<area shape="rect" id="node1" title=" " alt="" coords="281,5,368,32"/>
+<area shape="rect" id="node2" href="$comp__gen__header_8h.html" title=" " alt="" coords="187,80,326,107"/>
+<area shape="rect" id="node8" href="$conf__cos_8c.html" title=" " alt="" coords="351,80,437,107"/>
+<area shape="rect" id="node3" href="$code__handling_8c.html" title=" " alt="" coords="5,155,121,181"/>
+<area shape="rect" id="node4" href="$simulation__core_8h.html" title=" " alt="" coords="145,155,269,181"/>
+<area shape="rect" id="node6" href="$simulation__core_8c.html" title=" " alt="" coords="245,229,369,256"/>
+<area shape="rect" id="node7" href="$results__transport_8c.html" title=" " alt="" coords="345,155,475,181"/>
+<area shape="rect" id="node5" href="$main__brownconf_8c.html" title=" " alt="" coords="93,229,221,256"/>
 </map>

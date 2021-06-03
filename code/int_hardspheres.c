@@ -15,14 +15,19 @@ double fintypair = 0;
 
 }*/
 
-void INT_specs(){
+void INT_specs(char *intspecs){
 	
 	double f_cut;
   	f_cut = INT_force(INT_CUTOFF, INT_CUTOFF);
 	
 	FILE *outpspecs;
-	outpspecs = fopen("muovert_specs.dat", "a");
-	fprintf(outpspecs, "\n\nParameters of hard-sphere particle-particle interaction:\n\nRadius of Particles' Hardcore: %.2lf\nPotential cut-off length: %d\nValue of int-force at cut-off length: %.5lf\n\n", R_INT, INT_CUTOFF, f_cut);
+	outpspecs = fopen(intspecs, "a");
+	fprintf(outpspecs, "\n\nParameters of hard-sphere particle-particle interaction:\n\n"
+			   "Radius of Particles' Hardcore: %.2lf\n"
+			   "Potential cut-off length: %d\n"
+			   "Value of int-force at cut-off length: %.5lf\n\n", R_INT, 
+			   						      INT_CUTOFF, 
+									      f_cut);
 
 	fclose (outpspecs);
 

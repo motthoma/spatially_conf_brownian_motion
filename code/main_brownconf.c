@@ -158,6 +158,7 @@ int main (int argc, char **argv){
   char fname2d [60];
   char fname_simparams [60];
   char fname_confparams [60];
+  char fname_intparams [60];
 
 # ifdef MPI_ON
 	  MPI_Init (&argc,&argv);
@@ -177,11 +178,14 @@ int main (int argc, char **argv){
 	  PRINT_copycode();
 	  CODEHAND_copy_comp_gen_header();
 
-	  sprintf(fname_simparams, "simulation_specs.dat");
-	  sprintf(fname_confparams, "confinement_parameters.dat");
+	  /*filenames of simulation parameters*/
+	  sprintf(fname_simparams, "parameters_simulation_overall.dat");
+	  sprintf(fname_confparams, "parameters_confinement.dat");
+	  sprintf(fname_intparams, "parameters_particle_interaction.dat");
+	  
 	  PARAMS_basic(fname_simparams);
 	  CONF_specs(fname_confparams);
-	  INT_specs();
+	  INT_specs(fname_intparams);
 	  
 	  printf("\n numtasks: %d\n", SimParams.numtasks);
 	  

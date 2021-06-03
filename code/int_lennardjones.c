@@ -25,19 +25,25 @@ inline double intforce(double dist1d, double dist2d){
 
 }*/
 
-void INT_specs(){
+void INT_specs(char *intspecs){
 	
-	double f_cut;
-  	f_cut = INT_force(INT_CUTOFF, INT_CUTOFF);
 
 	FILE *outpspecs;
-	outpspecs = fopen("muovert_specs.dat", "a");
-	fprintf(outpspecs, "\n\nParameters of Lennard_Jones particle-particle interaction:\n\nRadius of Particles' Hardcore: %.4lf\nPotential cut-off length: %.2lf\nValue of int-force at cut-off length: %.5lf\nDepth of potential minimum epsilon: %.2lf\nPosition of potential minimum: %.2lf\nPower of 6 of minimum's position: %.4e\n\n\n", R_INT, INT_CUTOFF, f_cut, EPS_L, LJMIN, LJMINPOW);
+	outpspecs = fopen(intspecs, "a");
+	fprintf(outpspecs, "\n\nParameters of Lennard_Jones particle-particle interaction:\n\n"
+			   "Radius of Particles' Hardcore: %.4lf\n"
+			   "Potential cut-off length: %.2lf\n"
+			   "Value of int-force shift value: %.5lf\n"
+			   "Depth of potential minimum epsilon: %.2lf\n"
+			   "Position of potential minimum: %.2lf\n"
+			   "Power of 6 of minimum's position: %.4e\n\n\n", R_INT, 
+			   						   INT_CUTOFF, 
+									   FSHIFT, 
+									   EPS_L, 
+									   LJMIN, 
+									   LJMINPOW);
 
 	fclose (outpspecs);
-
-
-
 }
 
 

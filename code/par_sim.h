@@ -44,6 +44,7 @@ typedef struct TAG_SimParams{
 	int plotpoints;
 	int testab;
 	int reset_stepnumb;
+	double tstep_base;
 	double time_step;
 	int numtasks; 
 

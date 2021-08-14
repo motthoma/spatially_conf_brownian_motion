@@ -9,7 +9,10 @@
 #define R_INT (R_CONF)
 #define INT_CUTOFF (0.5*L_CONF)
 #define EPS_L (0.3)
-#define LJMIN (3*B)
+#define LJMIN (0.5*B)
+
+/* defines that are precomputed for better
+ * computational performance */
 #define LJMINPOW (pow(LJMIN,6))
 #define LJPREFAC 12.0*EPS_L*LJMINPOW
 #define FSHIFT LJPREFAC*(LJMINPOW*pow(INT_CUTOFF,-14) - pow(INT_CUTOFF,-8))*INT_CUTOFF

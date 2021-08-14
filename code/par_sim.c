@@ -25,7 +25,6 @@ void PARAMS_init(){
 
 	if(SimParams.F <= -2*pow(10,4)) SimParams.stepnumb = 0.5*SimParams.simlong*SimParams.stepnumb;
 	
-	SimParams.tstep_base = 1e-3;
 }
 
 bool PARAMS_check_consistency(){
@@ -59,8 +58,8 @@ double tstepscale, tstep;
 	if (SimParams.setnumb == 1) tstepscale = lscale_conf;
 	else tstepscale = lscale_part;
 
-	if(fabs(SimParams.F) <= 1/lscale_conf) tstep = tstepscale*tstepscale*SimParams.tstep_base;
-	else tstep = (tstepscale/fabs(SimParams.F))*SimParams.tstep_base;
+	if(fabs(SimParams.F) <= 1/lscale_conf) tstep = tstepscale*tstepscale*TSTEP_BASE;
+	else tstep = (tstepscale/fabs(SimParams.F))*TSTEP_BASE;
 
 return(tstep*L_CONF);
 }

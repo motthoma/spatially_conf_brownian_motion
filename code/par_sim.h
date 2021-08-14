@@ -19,6 +19,9 @@
 /*scaling of noise strength depends on ration of bottleneck to particle radius */
 #define BOTTRAD ((R_CONF == 0 ? 1.0 : (B/R_CONF)))
 
+/*Order of magnitude for time steps*/
+#define TSTEP_BASE 1e-3
+
 /*definition of master thread when mpi parallelization is used*/
 #define MASTER 0    
 
@@ -44,7 +47,6 @@ typedef struct TAG_SimParams{
 	int plotpoints;
 	int testab;
 	int reset_stepnumb;
-	double tstep_base;
 	double time_step;
 	int numtasks; 
 

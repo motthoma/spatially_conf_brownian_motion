@@ -4,5 +4,5 @@
  	   * This header was created by the script dtool_create_header_makefile.py*/
 
 
-#include "int_hardspheres.h"
-#include "conf_cos.h"
+#include "int_lennardjones.h"
+#include "conf_sept.h"

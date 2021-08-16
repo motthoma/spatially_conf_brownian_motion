@@ -16,22 +16,7 @@ char* CODEHAND_makedirectory(char *confprfx, char *intprfx){
   tmnow = localtime(&tnow);
 
   char *e = malloc(100*sizeof(char));
-  #ifdef LJMIN
-  sprintf(e, "%s_%s_%d_%d_%d_%dh_%dmin_%dsec_R_%.3lf_LJMIN_%.3lf_EPS_%.2lf_F_%.2lf_setn_%d", confprfx, 
-											     intprfx, 
-											     tmnow->tm_year + 1900, 
-											     tmnow->tm_mon+1, 
-											     tmnow->tm_mday, 
-											     tmnow->tm_hour,
-											     tmnow->tm_min,
-											     tmnow->tm_sec, 
-											     R_CONF,
-											     LJMIN,
-											     EPS_L, 
-											     SimParams.F, 
-											     SimParams.setnumb);
-
-  #else  
+  
   sprintf(e, "%s_%s_%d_%d_%d_%dh_%dmin_%dsec_R_%.3lf_F_%.2lf_setn_%d", confprfx, 
 								       intprfx, 
                                                                        tmnow->tm_year + 1900, 
@@ -43,7 +28,6 @@ char* CODEHAND_makedirectory(char *confprfx, char *intprfx){
                                                                        R_CONF, 
                                                                        SimParams.F, 
                                                                        SimParams.setnumb);
-  #endif
   /**
    * 0700 is modus for determining access rights to dir
    */

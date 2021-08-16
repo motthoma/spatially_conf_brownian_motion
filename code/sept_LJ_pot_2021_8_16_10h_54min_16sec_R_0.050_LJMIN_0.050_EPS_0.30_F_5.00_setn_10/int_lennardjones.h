@@ -6,22 +6,9 @@
 #include <math.h>
 #include "par_sim.h"
 
-
-/* particle radius relevant for inter-particle
- * interaction. Usualy the same as the particle
- * radius relevant for the confinement
- */
 #define R_INT (R_CONF)
-
-/* spatial cut-off of interaction to avoid 
- * long-range interactions over infinite 
- * distances. Variable not relavant for 
- * hard spheres.
- */
 #define INT_CUTOFF (0.5*L_CONF)
-/* depth of LJ potential at minimum */
 #define EPS_L (0.3)
-/* position of minimum of LJ potential */
 #define LJMIN (0.5*B)
 
 /* defines that are precomputed for better

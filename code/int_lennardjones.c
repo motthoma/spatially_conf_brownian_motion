@@ -56,6 +56,6 @@ char copycode[200];
 }
 
 char* INT_prfx(){
-char *a = "LJ_pot";
+	char *a = "LJ_pot";
 return a;
 }

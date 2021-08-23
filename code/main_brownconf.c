@@ -219,6 +219,10 @@ int main (int argc, char **argv){
    * Initialize particle positions 
    */
   SIM_init_positions(setn_per_task, positionx, positiony, xstart, r);
+  SIM_read_in_positions(setn_per_task, 
+			positionx, 
+			positiony, 
+			xstart);
 
 
   /* Initialize inter-particle forces */

@@ -60,6 +60,11 @@ void SIM_init_positions(int setn_per_task,
                         double **xstart, 
                         gsl_rng *r);
 
+void SIM_read_in_positions(int setn_per_task, 
+			   double **positionx, 
+			   double **positiony, 
+			   double **xstart);
+
 void SIM_init_interactions(int setn_per_task, 
                        double **positionx, 
                        double **positiony,

@@ -208,26 +208,28 @@ void SIM_simulation_core(int setn_per_task,
   double u, v, x, y, yo, xo; 
   double xtest, ytest;
   
-  double t = 0;
+  double t;
   double dt = SimParams.time_step;  
   long double  sqrt_flucts, f_dt;
-  int i = 1;     
+  int i;     
   int j;
   int kset; 
   int int_ind; 
-  int abb = 0;	
-  int abbdeff = 0;	
-  double muabbo = 0;	
-  double deffabbo = 0;	
+  int abb;	
+  int abbdeff;	
+  double muabbo;	
+  double deffabbo;	
   double fintx;
   double finty;
   double fintxpair;
   double fintypair;
   double yue, distx, disty, dist; 
   int shiftind;
+  int ktest;
  
   bool PrintRes;
   bool TestRes;
+  bool PosValid;
   
   long int **negshift;
   long int **posshift;
@@ -242,6 +244,12 @@ void SIM_simulation_core(int setn_per_task,
    * loop over simulation steps.
    * loop is stopped when criterion for equilibration is fulfilled.
    */
+  t = 0;
+  i = 1;     
+  abb = 0;	
+  abbdeff = 0;	
+  muabbo = 0;	
+  deffabbo = 0;	
   printf("start to propagate particles\n");
   do{	
 	
@@ -281,67 +289,71 @@ void SIM_simulation_core(int setn_per_task,
                                    */  
 				  yue = CONF_yuef(x, y);
 				  
-				  /*Check if particle is within effective boundary*/  
-				  if (fabs(y) > yue) continue;
-				  /*Check if bottleneck is passed correctly*/	
-				  if ((x < 0) && ((fabs(yo) >= B-R_CONF) || (fabs(y) >= B-R_CONF))) continue;
-				  if ((x > L_CONF) && ((fabs(yo) >= B-R_CONF) || (fabs(y) >= B-R_CONF))) continue;
-
-				  /*
-				   * Adapt position according to period boundary
-				   * conditions employed for simulation
-				   */
-				  shiftind = 0;
-				  if(x < 0){
-					   shiftind = -1;
-					   x += L_CONF;
-				  }
-				  if(x > L_CONF){
-					   shiftind = 1;
-					   x -= L_CONF;
-				  }
-				  
-				  /*simulate particle-particle interaction*/ 
-				  if (SimParams.setnumb > 1){ 
-					    fintx = 0;
-					    finty = 0;
-					    for(int_ind = 0; int_ind < SimParams.setnumb; int_ind++){	
-						 
-						  xtest = positionx[j][int_ind]; 
-						  ytest = positiony[j][int_ind];
+				  PosValid = true;
  
-						  if(int_ind != kset){
-							  distx = x - xtest;
-							  disty = y - ytest;
+				  /*Check if particle is within effective boundary*/  
+				  if (fabs(y) > yue) PosValid = false;
+				  /*Check if bottleneck is passed correctly*/	
+				  if ((x < 0) && ((fabs(yo) >= B-R_CONF) || (fabs(y) >= B-R_CONF))) PosValid = false;
+				  if ((x > L_CONF) && ((fabs(yo) >= B-R_CONF) || (fabs(y) >= B-R_CONF))) PosValid = false;
 
-							  /* 
-							   * search relevant distance according
-							   * to minimum image conversion 
-							   */
-							  if (abs(distx) > 0.5*L_CONF){ 
-								distx = distx - L_CONF*(distx/abs(distx));
+				  if(PosValid == true){
+					  /*
+					   * Adapt position according to period boundary
+					   * conditions employed for simulation
+					   */
+					  shiftind = 0;
+					  if(x < 0){
+						   shiftind = -1;
+						   x += L_CONF;
+					  }
+					  if(x > L_CONF){
+						   shiftind = 1;
+						   x -= L_CONF;
+					  }
+					  
+					  /*simulate particle-particle interaction*/ 
+					  if (SimParams.setnumb > 1){ 
+						    int_ind = 0;
+						    fintx = 0;
+						    finty = 0;
+						  //  for(int_ind = 0; int_ind < SimParams.setnumb; int_ind++){	
+						    while((PosValid == true) && (int_ind < SimParams.setnumb)){	
+							  xtest = positionx[j][int_ind]; 
+							  ytest = positiony[j][int_ind];
+	 
+							  if(int_ind != kset){
+								  distx = x - xtest;
+								  disty = y - ytest;
+
+								  /* 
+								   * search relevant distance according
+								   * to minimum image conversion 
+								   */
+								  if (abs(distx) > 0.5*L_CONF){ 
+									distx = distx - L_CONF*(distx/abs(distx));
+								  }
+								  dist = sqrt(distx*distx + disty*disty);
+								  /* 
+								   * stay in do-while loop if two particles overlap  
+								   * and skip the following break statement
+								   */
+								  if(dist <= 2*R_INT) PosValid = false;//continue; 
+								  
+								  if((dist <= INT_CUTOFF) && (PosValid == true)){
+									  fintxpair = INT_force(distx, dist);
+									  fintypair = INT_force(disty, dist);
+									  fintx += fintxpair;
+									  finty += fintypair;
+
+								  }
 							  }
-							  dist = sqrt(distx*distx + disty*disty);
-							  /* 
-							   * stay in do-while loop if two particles overlap  
-							   * and skip the following break statement
-							   */
-							  if(dist <= 2*R_INT) continue; 
-							  
-							  if(dist <= INT_CUTOFF){
-								  fintxpair = INT_force(distx, dist);
-								  fintypair = INT_force(disty, dist);
-								  fintx += fintxpair;
-								  finty += fintypair;
-
-							  }
-						  }
-
-					    /*close loop over particles of interacting ensemble*/
-					    } 
+						   	  int_ind++;
+						    /*close loop over particles of interacting ensemble*/
+						    } 
+					  }
 				  }		   
-			 	  break; 
-			  }while(true);
+			  }while(PosValid == false);
 		          
 			  if(shiftind != 0){
 				  adapt_posshifts(shiftind, j, kset, posshift, negshift);
@@ -430,9 +442,10 @@ void SIM_simulation_core(int setn_per_task,
 	  /*
            *  Reset position and time information to truncate transient effects from small times 
            */
-	  if(i == SimParams.reset_stepnumb){
+/*	  if(i == SimParams.reset_stepnumb){
 		  t = reset_pos_time(setn_per_task, posshift, negshift); 
 	  } 
+*/
  
   /* 
    * Closes while loop over simulation steps if criteria for equilibration are fulfilled

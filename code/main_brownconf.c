@@ -79,6 +79,11 @@ int main (int argc, char **argv){
   int setn_per_task;
   /* number of 'sets' or ensembles simulated */
   int setn;
+  /* flag to check if number of particles, ensemble
+   * number of interacting particles and number 
+   * of threats are consistent.
+   */
+  bool ConsistencyFlag;
   /* pointer to variable where directory name
    * where code and results are copied to
    */
@@ -109,7 +114,7 @@ int main (int argc, char **argv){
  	return -1;
   }
   
-  SimParams.time_step = PARAMS_time_step(B, R_INT); 
+  SimParams.time_step = PARAMS_time_step(BOTTLENECK_WIDTH, R_INT); 
 	
   /*
    * initialize parameters and resulting values
@@ -189,7 +194,10 @@ int main (int argc, char **argv){
 	  
 	  printf("\n numtasks: %d\n", SimParams.numtasks);
 	  
-	  PARAMS_check_consistency();
+	  ConsistencyFlag = PARAMS_check_consistency();
+	  if(ConsistencyFlag == false){
+	  	return -1;
+	  }
   }
 
 
@@ -219,10 +227,10 @@ int main (int argc, char **argv){
    * Initialize particle positions 
    */
   SIM_init_positions(setn_per_task, positionx, positiony, xstart, r);
-  SIM_read_in_positions(setn_per_task, 
+/*  SIM_read_in_positions(setn_per_task, 
 			positionx, 
 			positiony, 
-			xstart);
+			xstart);*/
 
 
   /* Initialize inter-particle forces */

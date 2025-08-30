@@ -7,7 +7,7 @@
 #include "par_sim.h"
 
 #define M 0.9
-#define MAX_HALF_WIDTH (M*L_CONF + B)
+#define MAX_HALF_WIDTH (M*L_CONF + BOTTLENECK_WIDTH)
 
 #define SQRT_SHIFT R_CONF*sqrt(1 + M*M)
 #define R_CONF_SQ  R_CONF*R_CONF
@@ -42,20 +42,20 @@ static inline double yuef_splitter(double x, double y){
  * an evaluation of the eff. boundary is not necessary.
  * Provide value of confinement that ensures y < yueff.
  */
-if(fabs(y) < B - R_CONF){
+if(fabs(y) < BOTTLENECK_WIDTH - R_CONF){
 	return(MAX_HALF_WIDTH);
 }
 /*evaluate effective boundary*/
 if ((R_CONF < x) && (x < Lp)){
-	return (B + M*(L_CONF - x) - SQRT_SHIFT);
+	return (BOTTLENECK_WIDTH + M*(L_CONF - x) - SQRT_SHIFT);
 }
 	
 else if ((0 <= x) && (x <= R_CONF)){
-	return (B - sqrt(R_CONF_SQ - x*x));
+	return (BOTTLENECK_WIDTH - sqrt(R_CONF_SQ - x*x));
 }
 
 else if ((Lp <= x) && (x <= L_CONF)) {
-	return (B - sqrt(R_CONF_SQ - (x - L_CONF)*(x - L_CONF)));
+	return (BOTTLENECK_WIDTH - sqrt(R_CONF_SQ - (x - L_CONF)*(x - L_CONF)));
 }
 else{
 	return(5*MAX_HALF_WIDTH);

@@ -18,7 +18,7 @@ void CONF_specs(char *file_confparams){
     outpspecs = fopen(file_confparams, "a");		
     fprintf(outpspecs, "\n\nParameters of 'Splitter'-Confinement:\n\n"
 		    	"Channel Length L_CONF: %.1lf\n"
-			"Bottleneck Half-Width B: %.2lf\n"
+			"Bottleneck Half-Width BOTTLENECK_WIDTH: %.2lf\n"
 			"Slope M: %.2lf\n"
 			"Channel's max. Half-Width: %.2lf\n"
 			"Particle Radius: %.2lf\n"
@@ -28,7 +28,7 @@ void CONF_specs(char *file_confparams){
 			"Binwidht 1d y-Histogram: %lf\n"
 			"Binwidth 2d Histogram: %lf\n\n", 
 							L_CONF, 
-							B, 
+							BOTTLENECK_WIDTH, 
 							M, 
 							MAX_HALF_WIDTH, 
 							R_CONF, 

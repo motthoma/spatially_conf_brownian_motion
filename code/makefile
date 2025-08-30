@@ -1,10 +1,10 @@
-CC = clang
+CC = gcc
 CFLAGS = -c -w -Wall -Wextra -pedantic
 LDFLAGS = -lgsl -lgslcblas -lm
 EXECUTABLE = main_brownconf
 
-CONF = conf_cos.c
-INT = int_hardspheres.c
+CONF = conf_sept.c
+INT = int_lennardjones.c
 
 head_inc = dummy
 
@@ -13,7 +13,7 @@ head_inc = dummy
 
 
 $(EXECUTABLE): main_brownconf.o
-	$(CC) -w -Wall  -Wextra -pedantic main_brownconf.o par_sim.c results_transport.c code_handling.c simulation_core.c print_routines.c $(CONF) $(INT) $(LDFLAGS) -o $(EXECUTABLE)
+	$(CC) -w -Wall  -Wextra -pedantic main_brownconf.o par_sim.c results_transport.c code_handling.c simulation_core_new.c print_routines.c $(CONF) $(INT) $(LDFLAGS) -o $(EXECUTABLE)
 	rm *.o
 
 main_brownconf.o: main_brownconf.c

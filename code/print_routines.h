@@ -1,3 +1,6 @@
+#ifndef PRINT_ROUTINES_H
+#define PRINT_ROUTINES_H
+
 #include <time.h>
 
 /**
@@ -23,8 +26,9 @@ struct PrintResults{
         /*array to store name of .dat file containing moments of positions*/
 	char fnamemom [60];
 
-} printres;
+};
 
+extern struct PrintResults printres;
 
 /**
  *********************************************************
@@ -68,3 +72,5 @@ void PRINT_resallthreads(
                          long double thirdcumall);
 
 void PRINT_copycode(void);
+
+#endif /* PRINT_ROUTINES_H */

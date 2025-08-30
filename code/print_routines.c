@@ -1,4 +1,8 @@
 #include "print_routines.h"
+
+/* Define the global variable exactly once */
+struct PrintResults printres = {0, "", ""};
+
 #include "par_sim.h"
 #include "results_transport.h"
 
@@ -40,7 +44,7 @@ void PRINT_results_over_time(double t,
 		sprintf(printres.fnamemom, "momsovert_F_%.3lf.dat", SimParams.F);
 		FILE *outpmom;
 		outpmom=fopen(printres.fnamemom ,"w");
-		fprintf(outpmom, "#time\t meanx: <x>\t Meansqdist: <x^2> - <x>^2\t  deff: (<x^2> - <x>^2)/(2t)\t third cumulant: <x^3>-3<x^2><x>+2<x>^3\n");
+		fprintf(outpmom, "#time\t meanx: <x>\t meanxsquare: <x^2>\t Meansqdist: <x^2> - <x>^2\t  deff: (<x^2> - <x>^2)/(2t)\t third cumulant: <x^3>-3<x^2><x>+2<x>^3\n");
 		fclose(outpmom);
 
 		printres.state = 1;

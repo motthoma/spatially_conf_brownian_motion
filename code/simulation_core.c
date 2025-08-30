@@ -35,7 +35,7 @@ void SIM_init_positions(int setn_per_task,
   for(j = 0; j < setn_per_task; j++){
 	  for(kset = 0; kset < SimParams.setnumb; kset++){
 		  do{
-			  positionx[j][kset] = gsl_rng_uniform(r)*L_CONF;
+			  positionx[j][kset] = gsl_rng_uniform(r)*L_CONF*SimParams.init_max_xpos;
 			  positiony[j][kset] = (2*gsl_rng_uniform(r) - 1)*SimParams.initwidth;
 			    
 			  xo = positionx[j][kset];
@@ -58,9 +58,58 @@ void SIM_init_positions(int setn_per_task,
 		  }while(PosValidInit == false);
 		
 		  xstart[j][kset] = xo;
+		 // printf("x_0:\t%lf\n", xo);
 	  }
   }	
   printf("positions initialized!\n"); 
+}
+
+void SIM_read_in_positions(int setn_per_task, 
+			   double **positionx, 
+			   double **positiony, 
+			   double **xstart)
+{
+/**
+ * function that reads in positions from file. 
+ * File has to be text file with two columns: x-coordinate 
+ * is stored in first column, y-coordinate in second column.
+ */
+  FILE *file;
+  int i, j, k;
+  double val;
+  char val_int;
+
+
+  file = fopen("test_positions.dat", "r");
+
+  j = 0;
+  for(i = 0; i < setn_per_task*SimParams.setnumb; i++)
+  {
+	for(k = 0; k < 2; k++)
+	{
+		fscanf(file, "%lf", &val);
+		if(k == 0)
+		{
+		       positionx[i][j] = val;
+		}
+		else positiony[i][j] = val;
+		printf("x: %lf\t y: %lf\n", positionx[i][j], positiony[i][j]);
+	}
+	j++;
+	if(j >= SimParams.setnumb)
+	{
+		j = 0;
+	}
+  }
+
+ /* for(i = 0; i < setn_per_task; i++)
+  {
+	for(j = 0; j < SimParams.setnumb; j++)
+	{
+		printf("x: %lf\t y: %lf\n", positionx[i][j], positiony[i][j]);
+	}
+  }*/
+  printf("positions read in!\n"); 
 }
 
 void SIM_init_interactions(int setn_per_task, 
@@ -108,7 +157,9 @@ void SIM_init_interactions(int setn_per_task,
   }
 }
 
-double reset_pos_time(int setn_per_task, 
+double reset_pos_time(int setn_per_task,
+	              double **xstart,	
+		      double **xposition,
                       long int **posshift, 
 	    	      long int **negshift) 
 {
@@ -123,7 +174,7 @@ double reset_pos_time(int setn_per_task,
 	  for(j = 0; j < SimParams.setnumb; j++){
 		 posshift[i][j] = 0; 
 		 negshift[i][j] = 0;
-
+		 xstart[i][j] = xposition[i][j];
 	  } 
 	}
 	return t;
@@ -294,8 +345,8 @@ void SIM_simulation_core(int setn_per_task,
 				  /*Check if particle is within effective boundary*/  
 				  if (fabs(y) > yue) PosValid = false;
 				  /*Check if bottleneck is passed correctly*/	
-				  if ((x < 0) && ((fabs(yo) >= B-R_CONF) || (fabs(y) >= B-R_CONF))) PosValid = false;
-				  if ((x > L_CONF) && ((fabs(yo) >= B-R_CONF) || (fabs(y) >= B-R_CONF))) PosValid = false;
+				  if ((x < 0) && ((fabs(yo) >= BOTTLENECK_WIDTH-R_CONF) || (fabs(y) >= BOTTLENECK_WIDTH-R_CONF))) PosValid = false;
+				  if ((x > L_CONF) && ((fabs(yo) >= BOTTLENECK_WIDTH-R_CONF) || (fabs(y) >= BOTTLENECK_WIDTH-R_CONF))) PosValid = false;
 
 				  if(PosValid == true){
 					  /*
@@ -338,7 +389,12 @@ void SIM_simulation_core(int setn_per_task,
 								   * stay in do-while loop if two particles overlap  
 								   * and skip the following break statement
 								   */
-								  if(dist <= 2*R_INT) PosValid = false;//continue; 
+								  if(dist <= 2*R_INT){ 
+									  PosValid = false;
+									  /* if continue is used, stays in while loop 
+									   * and search for a valid position is continued*/
+									  //continue; 
+								  }
 								  
 								  if((dist <= INT_CUTOFF) && (PosValid == true)){
 									  fintxpair = INT_force(distx, dist);
@@ -442,10 +498,14 @@ void SIM_simulation_core(int setn_per_task,
 	  /*
            *  Reset position and time information to truncate transient effects from small times 
            */
-/*	  if(i == SimParams.reset_stepnumb){
-		  t = reset_pos_time(setn_per_task, posshift, negshift); 
+	  if(i == SimParams.reset_stepnumb){
+		  t = reset_pos_time(setn_per_task, 
+				     xstart, 
+				     positionx, 
+				     posshift, 
+				     negshift); 
 	  } 
-*/
+
  
   /* 
    * Closes while loop over simulation steps if criteria for equilibration are fulfilled

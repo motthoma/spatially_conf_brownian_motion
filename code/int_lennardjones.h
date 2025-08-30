@@ -20,9 +20,9 @@
  */
 #define INT_CUTOFF (0.5*L_CONF)
 /* depth of LJ potential at minimum */
-#define EPS_L (0.3)
+#define EPS_L (2.0)
 /* position of minimum of LJ potential */
-#define LJMIN (0.5*B)
+#define LJMIN (2*R_INT)
 
 /* defines that are precomputed for better
  * computational performance */

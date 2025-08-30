@@ -29,6 +29,8 @@
  */
 
 double reset_pos_time(int setn_per_task, 
+	              double **xstart,	
+		      double **xposition,
                       long int **posshift, 
 	    	      long int **negshift);
 

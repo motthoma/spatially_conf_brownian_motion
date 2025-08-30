@@ -59,7 +59,7 @@ void CODEHAND_copy_main(){
 
   char copycode[200];
 
-  sprintf(copycode, "cp ../main_brownconf.c ../masterinteract.py ./");
+  sprintf(copycode, "cp ../main_brownconf.c ../masterinteract.py ../makefile ./");
   system(copycode);
 
 }

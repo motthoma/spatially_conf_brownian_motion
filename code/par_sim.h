@@ -11,13 +11,13 @@
 /* period length of channel */
 #define L_CONF 1.0
 /*bottleneck width of periodic channels*/
-#define B 0.1*L_CONF
+#define BOTTLENECK_WIDTH 0.1*L_CONF
 
 /*radius of particles used in effective spatial boundary */
-#define R_CONF (0.5*B)
+#define R_CONF (0.5*BOTTLENECK_WIDTH)
 
 /*scaling of noise strength depends on ration of bottleneck to particle radius */
-#define BOTTRAD ((R_CONF == 0 ? 1.0 : (B/R_CONF)))
+#define BOTTRAD ((R_CONF == 0 ? 1.0 : (BOTTLENECK_WIDTH/R_CONF)))
 
 /*Order of magnitude for time steps*/
 #define TSTEP_BASE 1e-3
@@ -43,6 +43,7 @@ typedef struct TAG_SimParams{
 	double accur;
 	double deffaccur;
 	double initwidth;
+	double init_max_xpos;
 	double F;
 	int plotpoints;
 	int testab;

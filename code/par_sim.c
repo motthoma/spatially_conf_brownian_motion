@@ -9,21 +9,22 @@ T_SimParams SimParams;
 
 /**Function that initializes hard coded parameters of simulation*/
 void PARAMS_init(){
-	SimParams.N = 100;
+	SimParams.N = 1;
 	SimParams.numbtest = 20;
-	SimParams.stepnumb = 0.5*1e6;
+	SimParams.stepnumb = 5*1e2;
 	SimParams.simlong = 20;
 	SimParams.accur = 1;
 	SimParams.deffaccur = 1e7;
 	SimParams.initwidth = 1.0;
+	SimParams.init_max_xpos = 0.7;
 	
-	SimParams.plotpoints =  SimParams.stepnumb/50; 
+/*	if(fabs(SimParams.F) <= 0.1) SimParams.stepnumb = SimParams.simlong*SimParams.stepnumb;
+	if(SimParams.F <= -2*pow(10,4)) SimParams.stepnumb = 0.5*SimParams.simlong*SimParams.stepnumb;*/
+	
+	SimParams.plotpoints =  SimParams.stepnumb/100; 
 	SimParams.testab = SimParams.plotpoints*1;
-        SimParams.reset_stepnumb = 10*SimParams.testab;
+        SimParams.reset_stepnumb = 15*SimParams.testab;
 	
-	if(fabs(SimParams.F) <= 0.1) SimParams.stepnumb = SimParams.simlong*SimParams.stepnumb;
-
-	if(SimParams.F <= -2*pow(10,4)) SimParams.stepnumb = 0.5*SimParams.simlong*SimParams.stepnumb;
 	
 }
 
@@ -42,9 +43,9 @@ bool PARAMS_check_consistency(){
 	}
 	if(ParaFlag == false){
 		printf("Chosen simulation parameters are inconsistent!\n");
-		return -1;
 	}	
 
+	return ParaFlag;
 }
 
 
@@ -76,7 +77,7 @@ double check_time;
 double readout_time;
 
     min_n = SimParams.stepnumb + SimParams.testab*SimParams.numbtest; 
-    eq_time = (SimParams.stepnumb - SimParams.reset_stepnumb)*SimParams.time_step; 
+    eq_time = SimParams.reset_stepnumb*SimParams.time_step; 
     tot_time = (SimParams.stepnumb - SimParams.reset_stepnumb + SimParams.testab*SimParams.numbtest)*SimParams.time_step;
     check_time = SimParams.testab*SimParams.time_step;
     readout_time = SimParams.plotpoints*SimParams.time_step; 
@@ -121,10 +122,13 @@ double readout_time;
     fprintf(outpspecs, 
                       "# of parallelized tasks: %d\n"
 		       "applied force F: %.2lf\n"
-		       "width of strip of initial particle distributions: %.2lf\n\n", 
-		       SimParams.numtasks,
-		       SimParams.F,
-		       SimParams.initwidth);
+                       "width of strip of initial particle distributions: %.2lf\n"
+                       "upper_bound of x-coordinate of initial particle positions: %.2lf\n\n",
+                       SimParams.numtasks,
+                       SimParams.F,
+                       SimParams.initwidth,
+                       SimParams.init_max_xpos);
+
 
     
 fclose(outpspecs);

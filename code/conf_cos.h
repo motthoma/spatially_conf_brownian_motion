@@ -8,7 +8,7 @@
 #include "par_sim.h"
 
 #define AMP (1.0/(2.0*M_PI))
-#define MAX_HALF_WIDTH (2*AMP+B)
+#define MAX_HALF_WIDTH (2*AMP+BOTTLENECK_WIDTH)
 
 #define CHECKN 5
 #define K_COS (2.0*M_PI/L_CONF)
@@ -65,14 +65,14 @@ bool PosValid;
          * formula is provided.
          */ 
 	if(R_CONF == 0){
-		return (B + AMP + AMP*sin(K_COS*x));
+		return (BOTTLENECK_WIDTH + AMP + AMP*sin(K_COS*x));
 	}
 	/*If particle position is well below confinement let particle pass*/
-	if((B + AMP + AMP*sin(K_COS*x) - fabs(y)) > SQRT_SHIFT){
+	if((BOTTLENECK_WIDTH + AMP + AMP*sin(K_COS*x) - fabs(y)) > SQRT_SHIFT){
 		return(2*fabs(y));
 	}
 	/*If ypos is larger than ymax don't let particle pass and leave function*/
-	ymax = B+AMP+AMP*sin(K_COS*XMAX)-R_CONF*sqrt(1+AMP*AMP*K_COS*K_COS*cos(K_COS*XMAX)*cos(K_COS*XMAX));	
+	ymax = BOTTLENECK_WIDTH+AMP+AMP*sin(K_COS*XMAX)-R_CONF*sqrt(1+AMP*AMP*K_COS*K_COS*cos(K_COS*XMAX)*cos(K_COS*XMAX));	
 	if(fabs(y) >= ymax){
 		return(ymax);
 	}
@@ -83,7 +83,7 @@ bool PosValid;
 	do{
 		xcirc = xcirc - 2*R_CONF/CHECKN;
 		xt = xcirc + x;
-		yu = B + AMP + AMP*sin(K_COS*xt);
+		yu = BOTTLENECK_WIDTH + AMP + AMP*sin(K_COS*xt);
 		ycirc = sqrt(R_CONF*R_CONF-xcirc*xcirc)+fabs(y);
 		/*leave routine if particle is outside of confinement and deliver yeff 
                  *thats below y-value of particle*/ 

@@ -26,7 +26,7 @@ void CONF_specs(char *file_confparams){
 		    "Binwidht 1d y-Histogram: %lf\n"
 		    "Binwidth 2d Histogram: %lf\n\n", 
 		    				     L_CONF, 
-						     B, 
+						     BOTTLENECK_WIDTH, 
 						     AMP, 
 						     MAX_HALF_WIDTH, 
 						     R_CONF, 

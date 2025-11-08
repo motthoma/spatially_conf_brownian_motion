@@ -9,9 +9,9 @@ T_SimParams SimParams;
 
 /**Function that initializes hard coded parameters of simulation*/
 void PARAMS_init(){
-	SimParams.N = 1000;
+	SimParams.N = 100;
 	SimParams.numbtest = 20;
-	SimParams.stepnumb = 5*1e5;
+	SimParams.stepnumb = 5*1e4;
 	SimParams.simlong = 20;
 	SimParams.accur = 1;
 	SimParams.deffaccur = 1e7;

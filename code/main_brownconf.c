@@ -208,7 +208,7 @@ int main (int argc, char **argv){
   setn_per_task = (int) SimParams.N/(SimParams.setnumb*SimParams.numtasks);
 
   if(taskid == MASTER){
-  	  if(SimParams.numtasks > 1){
+	  if(SimParams.numtasks > 1){
 		  FILE *outptasks;
 		  outptasks=fopen("taskres.dat", "a");
 		  fprintf(outptasks, "\nFile shows results of all tasks if code is parallelized:\n\n");

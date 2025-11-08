@@ -76,8 +76,7 @@ void CODEHAND_delerrorfiles(){
 
 void CODEHAND_copycode(){
 
-   char copycode[200];
-
+  char copycode[200];
   sprintf(copycode, "cp ../code_handling.* ./");
   system(copycode);
 
@@ -85,7 +84,7 @@ void CODEHAND_copycode(){
 
 
 void CODEHAND_copy_comp_gen_header(){
- 			char copycode[200];
- 			sprintf(copycode, "cp ../comp_gen_header.h ./");
- 			system(copycode);
+  char copycode[200];
+  sprintf(copycode, "cp ../comp_gen_header.h ./");
+  system(copycode);
 }

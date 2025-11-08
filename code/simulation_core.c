@@ -381,8 +381,8 @@ void SIM_simulation_core(int setn_per_task,
 								   * search relevant distance according
 								   * to minimum image conversion 
 								   */
-								  if (abs(distx) > 0.5*L_CONF){ 
-									distx = distx - L_CONF*(distx/abs(distx));
+								  if (fabs(distx) > 0.5*L_CONF){ 
+									distx = distx - L_CONF*(distx/fabs(distx));
 								  }
 								  dist = sqrt(distx*distx + disty*disty);
 								  /* 

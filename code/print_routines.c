@@ -30,16 +30,17 @@ void PRINT_results_over_time(double t,
                              int abb, 
                              int abbdeff)
 {
-       /**
-	* function to print online results of simulation over time 
-	*/
-/*	printf("start_to_print_result\n"); */
-        if(printres.state == 0)	{    
+    /**
+    * function to print online results of simulation over time 
+    */
+    /*	printf("start_to_print_result\n"); */
+    if(printres.state == 0){    
 		sprintf(printres.fname, "muovert_F_%.3lf.dat", SimParams.F);
 		FILE *outp;
 		outp = fopen(printres.fname ,"w");
 		fprintf(outp, "#time\t meanx: <x>\t meanspeed: <v>\t mu\t abb\t abbdeff\n");
 		fclose(outp);
+		printf("#time\t meanx: <x>\t meanspeed: <v>\t mu\t abb\t abbdeff\n");
 
 		sprintf(printres.fnamemom, "momsovert_F_%.3lf.dat", SimParams.F);
 		FILE *outpmom;
@@ -54,6 +55,7 @@ void PRINT_results_over_time(double t,
 		outp=fopen(printres.fname ,"a");
 		fprintf(outp, "%.6f\t %.4Lf\t %.5lf\t %.4lf\t  %d\t %d\n", t, tcoeff.meanx, tcoeff.meanspeed, tcoeff.mu, abb, abbdeff);
 		fclose(outp);
+		printf("%.6f\t %.4Lf\t %.5lf\t %.4lf\t  %d\t %d\n", t, tcoeff.meanx, tcoeff.meanspeed, tcoeff.mu, abb, abbdeff);
 
 		FILE *outpmom;
 		outpmom=fopen(printres.fnamemom ,"a");
@@ -76,13 +78,10 @@ void PRINT_positions(int m, double **posx, double **posy){
   for(i = 0; i < m; i++){
 	for(j = 0; j < SimParams.setnumb; j++){
 		fprintf(outpos, "%.5lf\t %.5lf\n", posx[i][j], posy[i][j]);
-		
 	}
 
   }
-  
   fclose(outpos);
-
 }
 
 
@@ -102,22 +101,25 @@ void PRINT_runtime(clock_t start, char *name_simspecs)
 
   FILE *outpspecs;
   outpspecs=fopen(name_simspecs, "a");
-  fprintf(outpspecs, "\nComputing time: %d days %dhours %dmin %dsec\n", timediff/(3600*24), (timediff/3600)%24, 
-                                                                        (timediff/60)%60, timediff%60);
+  fprintf(outpspecs, "\nComputing time: %d days %dhours %dmin %dsec\n",
+          timediff/(3600*24),
+          (timediff/3600)%24, 
+          (timediff/60)%60,
+          timediff%60);
 
-  fprintf(outpspecs, "Total computing time of all threads: %d days %dhours %dmin %dsec\n\n", timediff_all/(3600*24), 
-                                                                                             (timediff_all/3600)%24, 
-                                                                                             (timediff_all/60)%60, 
-                                                                                              timediff_all%60);
+  fprintf(outpspecs, "Total computing time of all threads: %d days %dhours %dmin %dsec\n\n",
+          timediff_all/(3600*24), 
+          (timediff_all/3600)%24, 
+          (timediff_all/60)%60, 
+          timediff_all%60);
   fclose(outpspecs);
 
 }
 
 
 void PRINT_runtime_threads(clock_t start,
-			   int numtasks, 
-			   int taskid) 
-
+                           int numtasks, 
+                           int taskid) 
 {
 /**
  * prints individual runtime of each thread
@@ -134,51 +136,52 @@ int timediff;
 
 	FILE *outptasks;
 	outptasks=fopen("taskres.dat", "a");
-	fprintf(outptasks, "\nTask %d:\nmeanx = %.8Lf\t meanxsqu = %.8Lf\t meanspeed = %.8lf\t mu = %.8lf\t deff = %.8lf\n", taskid, 
-			    tcoeff.meanx, 
-			    tcoeff.meanxsqu,
-			    tcoeff.meanspeed, 
-			    tcoeff.mu, 
-			    tcoeff.deff);
+	fprintf(outptasks, "\nTask %d:\nmeanx = %.8Lf\t meanxsqu = %.8Lf\t meanspeed = %.8lf\t mu = %.8lf\t deff = %.8lf\n",
+            taskid, 
+            tcoeff.meanx, 
+            tcoeff.meanxsqu,
+            tcoeff.meanspeed, 
+            tcoeff.mu, 
+            tcoeff.deff);
 
-	fprintf(outptasks, "Time of simulation for task %d: %d days %dhours %dmin %dsec\n", taskid, 
-                                                                                        timediff/(3600*24), 
-                                                                                        (timediff/3600)%24, 
-                                                                                        (timediff/60)%60, 
-                                                                                        timediff%60);
+	fprintf(outptasks, "Time of simulation for task %d: %d days %dhours %dmin %dsec\n",
+            taskid, 
+            timediff/(3600*24), 
+            (timediff/3600)%24, 
+            (timediff/60)%60, 
+            timediff%60);
 	fclose(outptasks);
   }
 
 }
 
-void PRINT_resallthreads(
-			 long double msdall, 
+void PRINT_resallthreads(long double msdall, 
                          double meanspeedall, 
-			 double muall, 
+                         double muall, 
                          double deffall, 
                          long double meanxall, 
                          long double meanxsquall, 
                          long double thirdcumall)
-/**
- * prints results of simulation to file at the end of the simulation
- */
 {
+  /**
+  * prints results of simulation to file at the end of the simulation
+  */
   FILE *outp;
   outp=fopen(printres.fname ,"a");
   fprintf(outp, "\n\nAverage of all Threads:\n\nmeanx = %.5Lf\t meanspeed = %.5lf\t mu = %.5lf\n\n", 
           meanxall/SimParams.numtasks, 
           meanspeedall/SimParams.numtasks, 
-	  muall/SimParams.numtasks);
+          muall/SimParams.numtasks);
   fclose(outp);
            
   FILE *outpmom;
   outpmom=fopen(printres.fnamemom ,"a");
   fprintf(outpmom, "\n\nAverage of all Threads:\n\nmeanx = %.5Lf\t meanxsqu = %.5Lf\t msdall = %.5Lf\t deff = %.5lf\t thirdcum = %.5LF\n\n", 
           meanxall/SimParams.numtasks, 
-	  meanxsquall/SimParams.numtasks, 
+          meanxsquall/SimParams.numtasks, 
           msdall/SimParams.numtasks,
-	  deffall/SimParams.numtasks,  
-	  thirdcumall/SimParams.numtasks);
+          deffall/SimParams.numtasks,  
+          thirdcumall/SimParams.numtasks);
   fclose(outpmom);
 }
 

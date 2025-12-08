@@ -91,7 +91,8 @@ int main (int argc, char **argv){
   /* prefix to mark output-files with employed confinement */
   char *conprfx;
   /* prefix to mark output-files with employed 
-   * inter-particle interaction */
+   * inter-particle interaction
+   */
   char *intprfx;
 
 
@@ -243,8 +244,8 @@ int main (int argc, char **argv){
    * for equilibration are met
    */  
   SIM_simulation_core(setn_per_task,
-		      setn,
-		      taskid, 
+                      setn,
+                      taskid, 
                       positionx, 
                       positiony, 
                       xstart, 
@@ -275,32 +276,32 @@ int main (int argc, char **argv){
   
   sprintf(fnamex, "meanx_Histogram_F_%.3lf.dat", SimParams.F);
   histparams.xcounter = RES_histogramm_mpi_reduce(setn_per_task, 
-						0, 
-						L_CONF, 
-						histparams.binx, positionx, 
-						fnamex, taskid);
+                                                  0, 
+                                                  L_CONF, 
+                                                  histparams.binx, positionx, 
+                                                  fnamex, taskid);
 
   sprintf(fnamey, "meany_Histogram_F_%.3lf.dat", SimParams.F);
   histparams.ycounter = RES_histogramm_mpi_reduce(setn_per_task, 
-						MAX_HALF_WIDTH, 
-						2*MAX_HALF_WIDTH, 
-						histparams.biny, positiony, 
-						fnamey, 
-						taskid);
+                                                  MAX_HALF_WIDTH, 
+                                                  2*MAX_HALF_WIDTH, 
+                                                  histparams.biny, positiony, 
+                                                  fnamey, 
+                                                  taskid);
 
   sprintf(fname2d, "meanpos_Histogram2d_F_%.3lf.dat", SimParams.F);
   histparams.twodcounter =  RES_histogramm2d_mpi_reduce(setn_per_task, 
-						      histparams.bin2d, 
-						      positionx, 
-						      positiony, 
-						      fname2d, 
-						      taskid);
+                                                        histparams.bin2d, 
+                                                        positionx, 
+                                                        positiony, 
+                                                        fname2d, 
+                                                        taskid);
 
 
   if(taskid == MASTER){
  	   PRINT_positions(setn_per_task, positionx, positiony);
-           RES_print_countercheck(fname_confparams);
-           PRINT_resallthreads(msdall, meanspeedall, muall, deffall, meanxall, meanxsquall, thirdcumall);
+       RES_print_countercheck(fname_confparams);
+       PRINT_resallthreads(msdall, meanspeedall, muall, deffall, meanxall, meanxsquall, thirdcumall);
 	   PRINT_muoverf(muall, deffall, namefile);
             
        //    CODEHAND_delerrorfiles();           

@@ -7,10 +7,10 @@
 #include <gsl/gsl_rng.h>*/
 
 void SIM_init_positions(int setn_per_task, 
-                       double **positionx, 
-                       double **positiony, 
-                       double **xstart, 
-                       gsl_rng *r)
+                        double **positionx, 
+                        double **positiony, 
+                        double **xstart, 
+                        gsl_rng *r)
 {
 /**
  * function that initializes the particle positions. The particles are uniformly distributed
@@ -135,33 +135,33 @@ void SIM_init_interactions(int setn_per_task,
   double finty;
                        
   for (j = 0; j < setn_per_task; j++){  
-          for(kset = 0; kset < SimParams.setnumb; kset++){
-	          fintx = 0;
-		  finty = 0;
-                  for(ktest = 0; ktest < SimParams.setnumb; ktest++){
-                          if(kset != ktest){
-                                  distx = positionx[j][kset] - positionx[j][ktest];
-                                  disty = positiony[j][kset] - positiony[j][ktest];
-                                  dist = sqrt(distx*distx + disty*disty);
-                                  if(dist <= INT_CUTOFF){
-                                          fintxpair = INT_force(distx, dist);
-                                          fintypair = INT_force(disty, dist);
-                                          fintx += fintxpair;
-                                          finty += fintypair;
-                                  }
-                          }
+      for(kset = 0; kset < SimParams.setnumb; kset++){
+          fintx = 0;
+          finty = 0;
+          for(ktest = 0; ktest < SimParams.setnumb; ktest++){
+              if(kset != ktest){
+                  distx = positionx[j][kset] - positionx[j][ktest];
+                  disty = positiony[j][kset] - positiony[j][ktest];
+                  dist = sqrt(distx*distx + disty*disty);
+                  if(dist <= INT_CUTOFF){
+                      fintxpair = INT_force(distx, dist);
+                      fintypair = INT_force(disty, dist);
+                      fintx += fintxpair;
+                      finty += fintypair;
                   }
-                  fintxarray[j][kset] = fintx;
-                  fintyarray[j][kset] = finty;
+              }
           }
+          fintxarray[j][kset] = fintx;
+          fintyarray[j][kset] = finty;
+      }
   }
 }
 
 double reset_pos_time(int setn_per_task,
-	              double **xstart,	
-		      double **xposition,
+                      double **xstart,	
+                      double **xposition,
                       long int **posshift, 
-	    	      long int **negshift) 
+                      long int **negshift) 
 {
 /**
  * Function to reset the simulated system time t and the positions
@@ -182,10 +182,10 @@ double reset_pos_time(int setn_per_task,
 
 
 void adapt_posshifts(int shiftind, 
-		     int i, 
-		     int j, 
-		     long int **posshift, 
-		     long int **negshift)
+                     int i, 
+                     int j, 
+                     long int **posshift, 
+                     long int **negshift)
 {
 /**
  * Function to update shifts which are monitored to calculate 
@@ -208,7 +208,10 @@ void adapt_posshifts(int shiftind,
 	}
 }
 
-int update_equcounter(double tran_quant, double tran_quanto, double accurarcy, int equcounter)
+int update_equcounter(double tran_quant,
+                      double tran_quanto,
+                      double accurarcy,
+                      int equcounter)
 {
 /**
  * Function for the update of the counter that is used to monitore the
@@ -245,8 +248,8 @@ int i;
 }
 
 void SIM_simulation_core(int setn_per_task,
-		 	 int setn,
-			 int taskid, 
+                         int setn,
+                         int taskid, 
                          double **positionx, 
                          double **positiony, 
                          double **xstart, 
@@ -327,17 +330,17 @@ void SIM_simulation_core(int setn_per_task,
                                   */  
 				  u = gsl_ran_gaussian_ziggurat(r,1);
 				  v = gsl_ran_gaussian_ziggurat(r,1);  
-				 /* 
-                                  *Update x- and y-component of position according to
-                                  *stochastic Euler for Langevin equation
-                                  */                       
+				  /* 
+                  *Update x- and y-component of position according to
+                  *stochastic Euler for Langevin equation
+                  */                       
 				  x = xo + f_dt + fintx*dt + sqrt_flucts*u;
 				  y = yo + finty*dt + sqrt_flucts*v;
-                                  /*
-                                   *Calculate value of confinement boundary at current
-                                   *position x (y-value is needed for non-analytic treatment
-                                   *of channels with cosine shape
-                                   */  
+                  /*
+                   *Calculate value of confinement boundary at current
+                   *position x (y-value is needed for non-analytic treatment
+                   *of channels with cosine shape
+                   */  
 				  yue = CONF_yuef(x, y);
 				  
 				  PosValid = true;
@@ -412,21 +415,21 @@ void SIM_simulation_core(int setn_per_task,
 			  }while(PosValid == false);
 		          
 			  if(shiftind != 0){
-				  adapt_posshifts(shiftind, j, kset, posshift, negshift);
-                          }
+                  adapt_posshifts(shiftind, j, kset, posshift, negshift);
+              }
 		  
-                         /*
-                          * Update arrays with positions and inter particle forces
-                          */     
-		          positionx[j][kset] = x; 
-		          positiony[j][kset] = y;
+             /*
+              * Update arrays with positions and inter particle forces
+              */     
+              positionx[j][kset] = x; 
+              positiony[j][kset] = y;
 			  fintxarray[j][kset] = fintx;
 			  fintyarray[j][kset] = finty;
 
 		}
- 	  /*
-           * Close loop over trajectories 
-           */
+ 	   /*
+       * Close loop over trajectories 
+       */
 	  }
 	
        	  /*
@@ -458,11 +461,11 @@ void SIM_simulation_core(int setn_per_task,
 		   * such as mobility or mean-squared displacement 
 		   * */ 
 		  RES_calc_transpcoeffs(setn_per_task, 
-		   		        t, 
-				        posshift,
-				        negshift,
-				        positionx,
-				        xstart);
+                                t, 
+                                posshift,
+                                negshift,
+                                positionx,
+                                xstart);
 	  
 			 
                   /*
@@ -485,8 +488,8 @@ void SIM_simulation_core(int setn_per_task,
                   }
 	//	  printf("equcounter updated\n");
  		  /*
-                   * Plot results to check progress of equilibration 
-                   */
+           * Plot results to check progress of equilibration 
+           */
 		  if((PrintRes == true) && (taskid == MASTER)){
 			  PRINT_results_over_time(t, 
 						  abb, 

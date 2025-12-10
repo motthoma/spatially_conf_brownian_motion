@@ -9,10 +9,10 @@
 #define HEADER_CONF
 
 #include <math.h>
-#include "par_sim.h"
+#include "sim_config.h"
 
 /*define parameters which are not defined in
-  par_sim.h header file
+  sim_config.h header file
 */  
 #define AMP 1.0*L_CONF
 #define MAX_HALF_WIDTH (AMP+BOTTLENECK_WIDTH)

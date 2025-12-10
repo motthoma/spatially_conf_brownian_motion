@@ -5,7 +5,7 @@
 
 #include <math.h>
 #include <stdbool.h>
-#include "par_sim.h"
+#include "sim_config.h"
 
 #define AMP (1.0/(2.0*M_PI))
 #define MAX_HALF_WIDTH (2*AMP+BOTTLENECK_WIDTH)

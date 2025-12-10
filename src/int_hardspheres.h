@@ -3,7 +3,7 @@
 #ifndef HEADER_INT
 #define HEADER_INT
 
-#include "par_sim.h"
+#include "sim_config.h"
 
 /* particle radius relevant for inter-particle
  * interaction. Usualy the same as the particle

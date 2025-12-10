@@ -2,7 +2,8 @@
 #include "comp_gen_header.h"
 #include "results_transport.h"
 #include "print_routines.h"
-/*#include "par_sim.h"
+/*#include "sim_config.h"
+ *
 #include "code_handling.h"
 
 #include <stdio.h>

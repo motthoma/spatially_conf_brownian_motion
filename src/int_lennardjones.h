@@ -4,7 +4,7 @@
 #define HEADER_INT
 
 #include <math.h>
-#include "par_sim.h"
+#include "sim_config.h"
 
 
 /* particle radius relevant for inter-particle

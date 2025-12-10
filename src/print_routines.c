@@ -3,7 +3,7 @@
 /* Define the global variable exactly once */
 struct PrintResults printres = {0, "", ""};
 
-#include "par_sim.h"
+#include "sim_config.h"
 #include "results_transport.h"
 
 #include <stdio.h>

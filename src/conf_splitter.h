@@ -4,7 +4,7 @@
 #define HEADER_CONF
 
 #include <math.h>
-#include "par_sim.h"
+#include "sim_config.h"
 
 #define M 0.9
 #define MAX_HALF_WIDTH (M*L_CONF + BOTTLENECK_WIDTH)

@@ -1,0 +1,21 @@
+# Byte-compiled Python files
+*.pyc
+__pycache__/
+
+# Simulation output directories
+runs/
+
+# Build artifacts
+*.o
+*.a
+*.so
+*.out
+*.exe
+
+# Binaries and generated executables
+main_brownconf
+
+# Editor/IDE clutter (optional but recommended)
+*.swp
+*.swo
+*~

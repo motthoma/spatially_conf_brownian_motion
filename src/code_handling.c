@@ -34,15 +34,15 @@ static int copy_file(const char *src, const char *dst)
     char buf[8192];
     size_t nread;
     while ((nread = fread(buf, 1, sizeof buf, in)) > 0) {
-        if (fwrite(buf, 1, nread, out) != nread) {
-            fprintf(stderr, "copy_file: write error: %s\n",
-                    strerror(errno));
+        size_t nwritten = fwrite(buf, 1, nread, out);
+        if (nwritten != nread) {
+            fprintf(stderr, "copy_file: write error: %s\n", strerror(errno));
             fclose(in);
             fclose(out);
             return -1;
-        }
+            }
     }
-
+ 
     fclose(in);
     fclose(out);
     return 0;

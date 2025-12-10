@@ -10,15 +10,56 @@ the makefile based on the user's choices.
 
 """
 import os
-import dtool_pull_code_from_server as pull_code
 
+def print_list_index(print_list, message):
+    # print list elements with corresponding index
+    # message string is printed before list elements    
+
+    print(message)
+    print('ind\t name')
+    for ind, item in enumerate(print_list):
+    	print('{}:\t {}'.format(ind, item))
+    print('\n')
+
+def scan_input(message):
+	#function to ask for user input
+	#use try except construction to enable python 2 and 3 compatibility
+	try:
+		out = raw_input(message)
+	except:
+		out = input(message)
+
+	return out
+
+def get_selected_file(file_selected, list_files):
+    #function that validates name of selected file and picks out
+    #suitable file from list_files
+
+    #truncate name of wanted file to length of longest available file name
+    max_len_file = max([len(item) for item in list_files])
+    if len(file_selected) > max_len_file:
+    	file_selected = file_selected[:max_len_file]
+
+    #check if wanted file is in list of available ones
+    chosen_files = []
+    for file_file in list_files:
+    	if file_selected == file_file:
+        	chosen_files.append(file_selected)
+   
+    #if none of the available files matches,
+    #find the ones where name fits partially
+    if chosen_files == []:
+	    for file_file in list_files:
+	    	if file_selected in file_file:
+                   	chosen_files.append(file_file)
+    return chosen_files
 
 def get_module_files(prefix, message):
 	#function that creates and prints list of c-modules of respective type
 	files = [f for f in os.listdir('.') if os.path.isfile(f) and f.endswith('.c')]
 	conf_files = [f for f in files if f.startswith(prefix)]
 
-	pull_code.print_list_index(conf_files, message)	
+	print_list_index(conf_files, message)	
 	
 	return conf_files
 
@@ -32,23 +73,23 @@ def get_compiler(mpicc):
 	if mpicc == True:
 		list_compilers.append('mpicc')
 	message = "\n\nList of suggested compilers:\n"
-	pull_code.print_list_index(list_compilers, message)	
+	print_list_index(list_compilers, message)	
 	
 	message = "\nchoose compiler by index or name used for compilation if in list. If not, type enter:"
 	compiler = select_file(list_compilers, message)
 	if compiler == []:
-		compiler = pull_code.scan_input("\ntype in wanted compiler:")	
+		compiler = scan_input("\ntype in wanted compiler:")	
 	return compiler
 	
 def select_file(list_select, scan_message):	
         #function that takes user input to select c-module from list	
 	
-	select = pull_code.scan_input(scan_message)
+	select = scan_input(scan_message)
 	
 	if select.isdigit():
 		file_sel = [list_select[int(select)]]
 	else:
-		file_sel = pull_code.get_selected_file(select, list_select)
+		file_sel = get_selected_file(select, list_select)
 	
 	return file_sel[0]
 
@@ -68,18 +109,18 @@ def adapt_makefile(compiler, conf_file, int_file):
 
 	for line in makefile_old:
 		if line.startswith('CC'):
-                    new_line = adapt_line(line, compiler)
-                    makefile_temp.write(new_line)
+            new_line = adapt_line(line, compiler)
+            makefile_temp.write(new_line)
 		
 		elif line.startswith('CONF'):
-                    new_line = adapt_line(line, conf_file)
-                    makefile_temp.write(new_line)
+            new_line = adapt_line(line, conf_file)
+            makefile_temp.write(new_line)
 		
 		elif line.startswith('INT'):
-                    new_line = adapt_line(line, int_file)
-                    makefile_temp.write(new_line)
+            new_line = adapt_line(line, int_file)
+            makefile_temp.write(new_line)
 		else:
-                    makefile_temp.write(line)
+            makefile_temp.write(line)
 
 	makefile_temp.close()
 	makefile_old.close()

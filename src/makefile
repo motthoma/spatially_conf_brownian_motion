@@ -3,8 +3,8 @@ CFLAGS = -c -w -Wall -Wextra -pedantic
 LDFLAGS = -lgsl -lgslcblas -lm
 EXECUTABLE = main_brownconf
 
-CONF = conf_sept.c
-INT = int_lennardjones.c
+CONF = conf_cos.c
+INT = int_hardspheres.c
 
 head_inc = dummy
 

@@ -115,12 +115,12 @@ int main (int argc, char **argv){
  	return -1;
   }
   
-  SimParams.time_step = PARAMS_time_step(BOTTLENECK_WIDTH, R_INT); 
+  SimParams.time_step = SIMCONFIG_time_step(BOTTLENECK_WIDTH, R_INT); 
 	
   /*
    * initialize parameters and resulting values
    */
-  PARAMS_init();
+  SIMCONFIG_init();
   RES_init(); 
 
 
@@ -175,7 +175,7 @@ int main (int argc, char **argv){
 
   if(taskid == MASTER){
 	  CODEHAND_copy_main();
-	  PARAMS_copycode(); 
+	  SIMCONFIG_copy_code(); 
 	  CONF_copycode();
 	  INT_copycode();
 	  RES_copycode();
@@ -189,13 +189,13 @@ int main (int argc, char **argv){
 	  sprintf(fname_confparams, "parameters_confinement.dat");
 	  sprintf(fname_intparams, "parameters_particle_interaction.dat");
 	  
-	  PARAMS_basic(fname_simparams);
+	  SIMCONFIG_write_specs(fname_simparams);
 	  CONF_specs(fname_confparams);
 	  INT_specs(fname_intparams);
 	  
 	  printf("\n numtasks: %d\n", SimParams.numtasks);
 	  
-	  ConsistencyFlag = PARAMS_check_consistency();
+	  ConsistencyFlag = SIMCONFIG_check_consistency();
 	  if(ConsistencyFlag == false){
 	  	return -1;
 	  }

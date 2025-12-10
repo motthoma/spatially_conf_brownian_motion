@@ -64,11 +64,11 @@ extern T_SimParams SimParams;
  *********************************************************
  */
 
-double PARAMS_time_step(double lscale_conf, double lscale_part);
+double SIMCONFIG_time_step(double lscale_conf, double lscale_part);
 
-extern void PARAMS_init(); 
-extern bool PARAMS_check_consistency();
-extern void PARAMS_basic(char *fnamespec);
-extern void PARAMS_copycode();
+extern void SIMCONFIG_init(); 
+extern bool SIMCONFIG_check_consistency();
+extern void SIMCONFIG_write_specs(const char *fnamespec);
+extern void SIMCONFIG_copy_code();
 
 #endif

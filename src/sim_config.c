@@ -1,101 +1,91 @@
+// sim_config.c
 #include <stdio.h>
-#include<stdlib.h>
+#include <stdlib.h>
 #include <math.h>
 #include <stdbool.h>
-#include "sim_config.h" 
-
+#include <string.h>
+#include "sim_config.h"
 
 T_SimParams SimParams;
 
-/**Function that initializes hard coded parameters of simulation*/
-void PARAMS_init(){
-	SimParams.N = 100;
-	SimParams.numbtest = 20;
-	SimParams.stepnumb = 5*1e4;
-	SimParams.simlong = 20;
-	SimParams.accur = 1;
-	SimParams.deffaccur = 1e7;
-	SimParams.initwidth = 1.0;
-	SimParams.init_max_xpos = 0.7;
-	
-/*	if(fabs(SimParams.F) <= 0.1) SimParams.stepnumb = SimParams.simlong*SimParams.stepnumb;
-	if(SimParams.F <= -2*pow(10,4)) SimParams.stepnumb = 0.5*SimParams.simlong*SimParams.stepnumb;*/
-	
-	SimParams.plotpoints =  SimParams.stepnumb/100; 
-	SimParams.testab = SimParams.plotpoints*1;
-    SimParams.reset_stepnumb = 15*SimParams.testab;
-	
-	
+/**
+ * Initialize simulation parameters with default values.
+ */
+void SIMCONFIG_init() {
+    SimParams.N = 100;
+    SimParams.numbtest = 20;
+    SimParams.stepnumb = 50000;       // 5*1e4
+    SimParams.simlong = 20;
+    SimParams.accur = 1;
+    SimParams.deffaccur = 1e7;
+    SimParams.initwidth = 1.0;
+    SimParams.init_max_xpos = 0.7;
+
+    SimParams.plotpoints = SimParams.stepnumb / 100;
+    SimParams.testab = SimParams.plotpoints;
+    SimParams.reset_stepnumb = 15 * SimParams.testab;
 }
 
-bool PARAMS_check_consistency(){
-    /**
-     * Checks consistency of some parameters
-     */
-	bool ParaFlag = true;
-	if(SimParams.testab % SimParams.plotpoints != 0){ 
-	  printf("testab modulo SimParams.plotpoints \n");
-	  ParaFlag = false;
-	}
-	if(SimParams.N % (SimParams.numtasks*SimParams.setnumb) != 0){ 
-	  printf("N modulo numtasks*setnumb not zero!\n");
-	  ParaFlag = false;
-	}
-	if(ParaFlag == false){
-		printf("Chosen simulation parameters are inconsistent!\n");
-	}	
+/**
+ * Check consistency of simulation parameters.
+ * Returns true if consistent, false otherwise.
+ */
+bool SIMCONFIG_check_consistency() {
+    bool consistent = true;
 
-	return ParaFlag;
+    if (SimParams.testab % SimParams.plotpoints != 0) {
+        printf("Error: testab modulo plotpoints != 0\n");
+        consistent = false;
+    }
+
+    if (SimParams.N % (SimParams.numtasks * SimParams.setnumb) != 0) {
+        printf("Error: N modulo (numtasks * setnumb) != 0\n");
+        consistent = false;
+    }
+
+    if (!consistent) {
+        printf("Chosen simulation parameters are inconsistent!\n");
+    }
+
+    return consistent;
 }
 
+/**
+ * Calculate simulation time step based on confinement and particle scales.
+ */
+double SIMCONFIG_time_step(double lscale_conf, double lscale_part) {
+    double tstep_scale = (SimParams.setnumb == 1) ? lscale_conf : lscale_part;
+    double tstep;
 
-double PARAMS_time_step(double lscale_conf, double lscale_part){
-    /**Function that initializes value of simulation time steps.
-     * Time steps are calculated by means of confinement and particle quantitites.
-     * Therefore, the function has to be called in main, where header files for 
-     * confinement and particle-particle interactions are included. */
-    double tstepscale, tstep;
-
-    if (SimParams.setnumb == 1){
-        tstepscale = lscale_conf;
-    }
-    else{
-        tstepscale = lscale_part;
+    if (fabs(SimParams.F) <= 1 / lscale_conf) {
+        tstep = tstep_scale * tstep_scale * TSTEP_BASE;
+    } else {
+        tstep = (tstep_scale / fabs(SimParams.F)) * TSTEP_BASE;
     }
 
-    if(fabs(SimParams.F) <= 1/lscale_conf){
-        tstep = tstepscale*tstepscale*TSTEP_BASE;
+    return tstep * L_CONF;
+}
+
+/**
+ * Write simulation parameters to a specs file for documentation.
+ */
+void SIMCONFIG_write_specs(const char *filename) {
+    int min_steps = SimParams.stepnumb + SimParams.testab * SimParams.numbtest;
+    double eq_time = SimParams.reset_stepnumb * SimParams.time_step;
+    double total_time = (SimParams.stepnumb - SimParams.reset_stepnumb 
+                        + SimParams.testab * SimParams.numbtest) * SimParams.time_step;
+    double check_time = SimParams.testab * SimParams.time_step;
+    double readout_time = SimParams.plotpoints * SimParams.time_step;
+
+    FILE *out_file = fopen(filename, "w");
+    if (!out_file) {
+        fprintf(stderr, "Error opening file '%s'\n", filename);
+        return;
     }
-    else{
-        tstep = (tstepscale/fabs(SimParams.F))*TSTEP_BASE;
-    }
 
-    return(tstep*L_CONF);
-    }
+    fprintf(out_file, "\nSimulation Parameters:\n\n");
 
-/**function used to read simulation parameters in specs file*/
-void PARAMS_basic(char *fnamespec){
-    /*some quantities that are only calculated for informational purpose in specs file,
-     * but which are not needed for simulation
-     */	
-    int min_n;
-    double eq_time;
-    double tot_time;
-    double check_time;
-    double readout_time;
-
-    min_n = SimParams.stepnumb + SimParams.testab*SimParams.numbtest; 
-    eq_time = SimParams.reset_stepnumb*SimParams.time_step; 
-    tot_time = (SimParams.stepnumb - SimParams.reset_stepnumb + SimParams.testab*SimParams.numbtest)*SimParams.time_step;
-    check_time = SimParams.testab*SimParams.time_step;
-    readout_time = SimParams.plotpoints*SimParams.time_step; 
-
-    FILE *outpspecs;
-    outpspecs = fopen(fnamespec, "w");		
-    fprintf(outpspecs, "\n\n\nCode can be compiled with:\n\nmpicc -Wall muovertintparallel.c sim_config.c conf_NAME.c int_NAME.c -lgsl -lgslcblas -o muovertintparallel\n\n'masterinteract.py' can be used to create several run-files and start the jobs\n\n\nSimulation Parameters:\n\n");
-
-
-    fprintf(outpspecs,
+    fprintf(out_file,
             "# of particles: %d\n"
             "# of particles per set: %d\n\n"
             "Accuracy of mobility: %lf\n"
@@ -105,51 +95,46 @@ void PARAMS_basic(char *fnamespec){
             SimParams.accur,
             SimParams.deffaccur);
 
-
-    fprintf(outpspecs, 
-            "number of steps until equilibration checks start: %.2e\n"
-            "time step size for propagation of Langevin equation: %.2e\n"
-            "time until equilibration is reset: %lf\n"
-            "number of checks to validate equilibration: %d\n"
-            "number of steps between two tests: %.2e\n"
-            "number of steps between two readouts: %.2e\n"
-            "time between two accuracy checks: %lf\n"
-            "time between readout of two points: %lf\n"
-            "minimum number of simulation steps: %.2e\n"
-            "minimum simulation time: %.3lf\n\n",
-            (double) SimParams.stepnumb,
+    fprintf(out_file,
+            "Number of steps until equilibration checks start: %.2e\n"
+            "Time step size for Langevin propagation: %.2e\n"
+            "Time until equilibration is reset: %.2lf\n"
+            "Number of equilibration checks: %d\n"
+            "Steps between two tests: %.2e\n"
+            "Steps between readouts: %.2e\n"
+            "Time between accuracy checks: %.2lf\n"
+            "Time between readouts: %.2lf\n"
+            "Minimum number of simulation steps: %.2e\n"
+            "Minimum simulation time: %.3lf\n\n",
+            (double)SimParams.stepnumb,
             SimParams.time_step,
             eq_time,
             SimParams.numbtest,
-            (double) SimParams.testab,
-            (double) SimParams.plotpoints,
+            (double)SimParams.testab,
+            (double)SimParams.plotpoints,
             check_time,
             readout_time,
-            (double) min_n,
-            tot_time);
+            (double)min_steps,
+            total_time);
 
-    fprintf(outpspecs, 
+    fprintf(out_file,
             "# of parallelized tasks: %d\n"
-		    "applied force F: %.2lf\n"
-            "width of strip of initial particle distributions: %.2lf\n"
-            "upper_bound of x-coordinate of initial particle positions: %.2lf\n\n",
+            "Applied force F: %.2lf\n"
+            "Width of initial particle distribution: %.2lf\n"
+            "Maximum initial x-coordinate: %.2lf\n\n",
             SimParams.numtasks,
             SimParams.F,
             SimParams.initwidth,
             SimParams.init_max_xpos);
 
-
-    
-fclose(outpspecs);
+    fclose(out_file);
 }
 
-void PARAMS_copycode(){
 /**
- * copies module in working directory
+ * Copy the sim_config module to the working directory.
  */
-char copycode[200];
-
-  sprintf(copycode, "cp ../sim_config* ./");
-  system(copycode);
-
+void SIMCONFIG_copy_code() {
+    char cmd[256];
+    snprintf(cmd, sizeof(cmd), "cp ../sim_config* ./");
+    system(cmd);
 }

@@ -19,9 +19,9 @@ typedef struct TAG_TransportCoeffs{
 	/*<x^2>*/
 	long double meanxsqu; 
 	/*<x^3>*/
-        long double meanxqub;
-        /*mean-squared displacement of x-position (2nd moment): <x^2> - <x>^2*/
-        long double msd;
+    long double meanxqub;
+    /*mean-squared displacement of x-position (2nd moment): <x^2> - <x>^2*/
+    long double msd;
 	/*third cumulant of x-position: <x^3> - 3*<x>*<x^2> + 2*<x>^3*/
 	long double thirdcum;
         /*effective diffusion coeff.: (<x^2> - <x>^2)/(2*t*B/R)*/
@@ -73,11 +73,11 @@ extern T_HistParams histparams;
 extern void RES_init();
 
 void RES_calc_transpcoeffs(int setn_per_task, 
-		           double t,
-		           long int **posshift,
-		           long int **negshift,
-		           double **posx,
-		           double **x_init);
+                           double t,
+                           long int **posshift,
+                           long int **negshift,
+                           double **posx,
+                           double **x_init);
 
 int RES_histogramm_mpi_reduce(int m, 
                               double backshift, 

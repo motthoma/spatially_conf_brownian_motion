@@ -10,22 +10,6 @@ trajektories are calculatet parallel*/
 #include <unistd.h>
 
 
-double **calloc_2Ddouble_array(int m, int n){
-/**
- * Function that allocates memory for a 2 dimensional array of doubles
- */
-double **array;
-int i;
-
-  array = calloc(m, sizeof(double));
-  for(i = 0; i < m; i++){
-  	array[i] = calloc(n, sizeof(double));
-  }
-
-  return array;
-}
-
-
 int main (int argc, char **argv){
 /** main function of Brownian motion simulation
  *
@@ -95,8 +79,6 @@ int main (int argc, char **argv){
    */
   char *intprfx;
 
-
-  
   /* init state for print functions to check if
    * header line in result file has been printed
    */
@@ -218,16 +200,13 @@ int main (int argc, char **argv){
 
   }
   
-  /* Initialize pointer r as interface to gls random functions */  
-  gsl_rng *r = gsl_rng_alloc (gsl_rng_mt19937);  
-  /* set time(NULL + taskid as 'random' seed */ 
-  gsl_rng_set(r, time(NULL) + taskid);
-  
+  /* Initialize pointer interface to gls random functions */  
+  SIM_init_rng(taskid);
   
   /* 
    * Initialize particle positions 
    */
-  SIM_init_positions(setn_per_task, positionx, positiony, xstart, r);
+  SIM_init_positions(setn_per_task, positionx, positiony, xstart);
 /*  SIM_read_in_positions(setn_per_task, 
 			positionx, 
 			positiony, 
@@ -235,7 +214,11 @@ int main (int argc, char **argv){
 
 
   /* Initialize inter-particle forces */
-  SIM_init_interactions(setn_per_task, positionx, positiony, fintxarray, fintyarray);
+  SIM_init_interactions(setn_per_task,
+                        positionx,
+                        positiony,
+                        fintxarray,
+                        fintyarray);
 
   printf("\ntask ID:\t %d -> particle positions and forces fixed\n", taskid);
  
@@ -250,8 +233,7 @@ int main (int argc, char **argv){
                       positiony, 
                       xstart, 
                       fintxarray,
-                      fintyarray,
-                      r);
+                      fintyarray);
  
   /*Merge quantities that were calculated in separated MPI threads*/ 
 #  ifdef MPI_ON
@@ -320,9 +302,6 @@ int main (int argc, char **argv){
 	  MPI_Finalize();
   #endif
 
-  gsl_rng_free(r);
-  r = NULL;
-
-  chdir("../");
+  SIM_free_rng();
   return 0;
 }

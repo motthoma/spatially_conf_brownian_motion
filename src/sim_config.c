@@ -3,7 +3,6 @@
 #include <stdlib.h>
 #include <math.h>
 #include <stdbool.h>
-#include <string.h>
 #include "sim_config.h"
 
 T_SimParams SimParams;

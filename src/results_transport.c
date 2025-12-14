@@ -24,9 +24,9 @@ void RES_init(){
 	/*<x^2>*/
 	tcoeff.meanxsqu = 0.0; 
 	/*<x^3>*/
-        tcoeff.meanxqub = 0.0;
-        /*mean-squared displacement of x-position (2nd moment): <x^2> - <x>^2*/
-        tcoeff.msd = 0.0;
+    tcoeff.meanxqub = 0.0;
+    /*mean-squared displacement of x-position (2nd moment): <x^2> - <x>^2*/
+    tcoeff.msd = 0.0;
 	/*third cumulant of x-position: <x^3> - 3*<x>*<x^2> + 2*<x>^3*/
 	tcoeff.thirdcum = 0.0;
         /*effective diffusion coeff.: (<x^2> - <x>^2)/(2*t*B/R)*/
@@ -52,13 +52,12 @@ void RES_init(){
  * absolute particle positions and subsequently ensemble averages 
  * of the first three moments of the position.
  */ 
-void RES_calc_transpcoeffs(
- 		          int setn_per_task, 
-		          double t,
-		          long int **posshift,
-		          long int **negshift,
-		          double **posx,
-		          double **x_init){
+void RES_calc_transpcoeffs(int setn_per_task, 
+                           double t,
+                           long int **posshift,
+                           long int **negshift,
+                           double **posx,
+                           double **x_init){
 
   long double totalshift = 0;
   long double abspos_part = 0;
@@ -104,12 +103,12 @@ void RES_calc_transpcoeffs(
 }
 
 int RES_histogramm_mpi_reduce(int m, 
-                          double backshift, 
-                          double length, 
-                          double bin, 
-                          double **positions, 
-                          char *fname, 
-                          int taskid)
+                              double backshift, 
+                              double length, 
+                              double bin, 
+                              double **positions, 
+                              char *fname, 
+                              int taskid)
 {
 /**
  * Stores 1 dimensional histogram in file named fname.
@@ -168,11 +167,11 @@ int RES_histogramm_mpi_reduce(int m,
 }
 
 int RES_histogramm2d_mpi_reduce(int m, 
-                            double bin2d, 
-                            double **positionsx, 
-                            double **positionsy,  
-                            char *fname, 
-                            int taskid)
+                                double bin2d, 
+                                double **positionsx, 
+                                double **positionsy,  
+                                char *fname, 
+                                int taskid)
 {
 /**
  * Stores 2 dimensional histogram in file named fname.

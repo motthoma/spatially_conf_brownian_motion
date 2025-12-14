@@ -27,16 +27,16 @@ void CONF_specs(char *file_confparams){
 			"Binwidth 1d x-Histogram: %lf\n"
 			"Binwidht 1d y-Histogram: %lf\n"
 			"Binwidth 2d Histogram: %lf\n\n", 
-							L_CONF, 
-							BOTTLENECK_WIDTH, 
-							M, 
-							MAX_HALF_WIDTH, 
-							R_CONF, 
-							BOTTRAD, 
-							Lp, 
-							histparams.binx, 
-							histparams.biny, 
-							histparams.bin2d);
+            L_CONF, 
+            BOTTLENECK_WIDTH, 
+            SLOPE, 
+            MAX_HALF_WIDTH, 
+            R_CONF, 
+            BOTTRAD, 
+            Lp, 
+            histparams.binx, 
+            histparams.biny, 
+            histparams.bin2d);
 
     
 fclose(outpspecs);

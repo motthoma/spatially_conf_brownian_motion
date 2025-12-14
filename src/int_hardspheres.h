@@ -38,11 +38,9 @@ extern double fintx, finty, fintxpair, fintypair;
  */
 
 static inline double INT_force(double disti, double dist){
-
 	return(0);
-
 }
-//extern int intforce(double disti, double dist);
+
 extern void INT_specs(char *intspecs);
 extern void INT_copycode();
 extern char *INT_prfx(); 

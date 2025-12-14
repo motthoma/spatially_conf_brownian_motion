@@ -2,15 +2,61 @@
 #include "comp_gen_header.h"
 /*
 #include <stdio.h>
+#include <stdbool.h>*/
 #include <time.h>
-#include <stdbool.h>
-#include <gsl/gsl_rng.h>*/
+#include <gsl/gsl_rng.h>
+
+T_SimCoreVals SimCoreVals;
+
+/**
+ * @brief Initialize the gsl_rng pointer inside SimCoreVals
+ *
+ * @param sim Pointer to SimCoreVals struct
+ * @param taskid Integer used to vary the seed
+ */
+void SIM_init_rng(int taskid) {
+    if (SimCoreVals.r) return; // safety check
+
+    // Allocate RNG
+    SimCoreVals.r = gsl_rng_alloc(gsl_rng_mt19937);
+    if (!SimCoreVals.r){ 
+        printf("random number generator initialization failed!");
+        return; // safety check
+    }
+
+    // Seed RNG with current time + taskid
+    gsl_rng_set(SimCoreVals.r, time(NULL) + taskid);
+}
+
+/**
+ * @brief Get a normally distributed random number
+ * @param sigma Standard deviation (σ)
+ * @return Gaussian random number with mean 0 and stddev σ
+ */
+double SIM_get_gaussian(double sigma) {
+    //if (!SimCoreVals.r) return 0.0; // safety check
+    return gsl_ran_gaussian_ziggurat(SimCoreVals.r, sigma);
+}
+
+/**
+ * @brief Get a uniform random number in [0,1)
+ */
+double SIM_get_uniform(void) {
+    //if (!SimCoreVals.r) return 0.0; // safety check
+   return  gsl_rng_uniform(SimCoreVals.r);
+}
+
+void SIM_free_rng(void) {
+    if (SimCoreVals.r) {
+        gsl_rng_free(SimCoreVals.r);
+        SimCoreVals.r = NULL;
+    }
+}
 
 void SIM_init_positions(int setn_per_task, 
                         double **positionx, 
                         double **positiony, 
-                        double **xstart, 
-                        gsl_rng *r)
+                        double **xstart)
 {
 /**
  * function that initializes the particle positions. The particles are uniformly distributed
@@ -35,8 +81,11 @@ void SIM_init_positions(int setn_per_task,
   for(j = 0; j < setn_per_task; j++){
 	  for(kset = 0; kset < SimParams.setnumb; kset++){
 		  do{
-			  positionx[j][kset] = gsl_rng_uniform(r)*L_CONF*SimParams.init_max_xpos;
-			  positiony[j][kset] = (2*gsl_rng_uniform(r) - 1)*SimParams.initwidth;
+			  //positionx[j][kset] = gsl_rng_uniform(SimCoreVals.r)*L_CONF*SimParams.init_max_xpos;
+			  //positiony[j][kset] = (2*gsl_rng_uniform(SimCoreVals.r) - 1)*SimParams.initwidth;
+               
+              positionx[j][kset] = SIM_get_uniform()*L_CONF*SimParams.init_max_xpos;
+			  positiony[j][kset] = (2*SIM_get_uniform() - 1)*SimParams.initwidth;
 			    
 			  xo = positionx[j][kset];
 			  yo = positiony[j][kset];
@@ -113,10 +162,10 @@ void SIM_read_in_positions(int setn_per_task,
 }
 
 void SIM_init_interactions(int setn_per_task, 
-                       double **positionx, 
-                       double **positiony,
-                       double **fintxarray,
-                       double **fintyarray)
+                           double **positionx, 
+                           double **positiony,
+                           double **fintxarray,
+                           double **fintyarray)
 {
 /**
  * Function that calculates depending on the positions of the particles
@@ -232,21 +281,42 @@ int update_equcounter(double tran_quant,
 	return equcounter;
 }
 
-long int **calloc_2Dlint_array(int m, int n){
+/**
+ * Function that allocates memory for a 2 dimensional array of doubles
+ */
+double **calloc_2Ddouble_array(int m, int n)
+{
+    double **array = malloc(m * sizeof(double *));
+    if (!array) return NULL;
+
+    double *data = calloc(m * n, sizeof(double));
+    if (!data) {
+        free(array);
+        return NULL;
+    }
+
+    for (int i = 0; i < m; i++)
+        array[i] = data + i * n;
+
+    return array;
+}
+
 /**
  * Function that allocates memory for a 2 dimensional array of long ints
  */
-long int **array;
-int i;
+long int **calloc_2Dlint_array(int m, int n) {
+    long int **array = malloc(m * sizeof(long int*));
+    if (!array) return NULL;
 
-  array = calloc(m, sizeof(double));
-  for(i = 0; i < m; i++){
-  	array[i] = calloc(n, sizeof(double));
-  }
+    long int *data = calloc(m * n, sizeof(long int));
+    if (!data) { free(array); return NULL; }
 
-  return array;
+    for (int i = 0; i < m; i++) array[i] = data + i * n;
+
+    return array;
 }
 
+/* Perform simulation steps until equilibration is reached */
 void SIM_simulation_core(int setn_per_task,
                          int setn,
                          int taskid, 
@@ -254,10 +324,7 @@ void SIM_simulation_core(int setn_per_task,
                          double **positiony, 
                          double **xstart, 
                          double **fintxarray,
-                         double **fintyarray,
-                         gsl_rng *r)
-{
-  /* Perform simulation steps until equilibration is reached */
+                         double **fintyarray){
 
   double u, v, x, y, yo, xo; 
   double xtest, ytest;
@@ -325,12 +392,13 @@ void SIM_simulation_core(int setn_per_task,
  			   * and particles are within channel is obtained 
  			   */
 			  do{
-                                 /*
-                                  *Create random numbers for x- and y-component of noise
-                                  */  
-				  u = gsl_ran_gaussian_ziggurat(r,1);
-				  v = gsl_ran_gaussian_ziggurat(r,1);  
+                 /*
+                  *Create random numbers for x- and y-component of noise
+                  */  
+                  u = SIM_get_gaussian(1.0);
+                  v = SIM_get_gaussian(1.0);
 				  /* 
+                   *
                   *Update x- and y-component of position according to
                   *stochastic Euler for Langevin equation
                   */                       
@@ -340,8 +408,11 @@ void SIM_simulation_core(int setn_per_task,
                    *Calculate value of confinement boundary at current
                    *position x (y-value is needed for non-analytic treatment
                    *of channels with cosine shape
-                   */  
+                   */   
+                  //printf("\nx: %lf\n", x);
+                  //printf("\ny: %lf\n", y);
 				  yue = CONF_yuef(x, y);
+                  //printf("\nyue: %lf\n", yue);
 				  
 				  PosValid = true;
  

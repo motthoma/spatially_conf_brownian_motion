@@ -3,8 +3,8 @@ CFLAGS = -c -w -Wall -Wextra -pedantic
 LDFLAGS = -lgsl -lgslcblas -lm
 EXECUTABLE = main_brownconf
 
-CONF = conf_cos.c
-INT = int_hardspheres.c
+CONF = conf_splitter.c
+INT = int_lennardjones.c
 
 head_inc = dummy
 
@@ -18,5 +18,3 @@ $(EXECUTABLE): main_brownconf.o
 
 main_brownconf.o: main_brownconf.c
 	$(CC) $(CFLAGS) main_brownconf.c
-
-

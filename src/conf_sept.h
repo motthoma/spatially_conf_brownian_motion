@@ -79,7 +79,6 @@ static inline double yuef_sept(double x, double y){
 
 /*function handler that provides generic interface to main*/
 static inline double CONF_yuef(double x, double y){
-	
 	return yuef_sept(x, y);
 }
 

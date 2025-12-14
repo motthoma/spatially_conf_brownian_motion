@@ -76,9 +76,7 @@ extern double intforce(double disti, double dist);*/
  */
 
 static inline double INT_force(double dist1d, double dist2d){
-
 	return intforce_lj(dist1d, dist2d);
-
 }
 
 extern void INT_specs(char *intspecs);

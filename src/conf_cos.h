@@ -47,19 +47,19 @@
  */
 static inline double yuef_cos(double x, double y){
 
-/**relative position within the particle, where the y-value of the particle
- * surface is checked if particle is within the confinement*/
-double xcirc;
-/**absolute position of scan*/
-double xt;
-/**value of confinement*/ 
-double yu;
-/**height of particle's surface at scan position xt*/
-double ycirc;
-/**maximal value of confinement*/
-double ymax;
-/**counter to break up routine if particle is outside of confinement*/
-bool PosValid;
+    /**relative position within the particle, where the y-value of the particle
+     * surface is checked if particle is within the confinement*/
+    double xcirc;
+    /**absolute position of scan*/
+    double xt;
+    /**value of confinement*/ 
+    double yu;
+    /**height of particle's surface at scan position xt*/
+    double ycirc;
+    /**maximal value of confinement*/
+    double ymax;
+    /**counter to break up routine if particle is outside of confinement*/
+    bool PosValid;
 	
 	/*If no finite sized particles are considered simply analytical 
          * formula is provided.
@@ -106,7 +106,6 @@ bool PosValid;
 
 /*function handler that provides generic interface to main*/
 static inline double CONF_yuef(double x, double y){
-	
 	return yuef_cos(x, y);
 }
 

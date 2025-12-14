@@ -59,13 +59,12 @@ void PRINT_results_over_time(double t,
 void PRINT_runtime(clock_t start, char *name_simspecs);
 
 void PRINT_runtime_threads(clock_t start,
-			   int numtasks, 
-			   int taskid); 
+                           int numtasks, 
+                           int taskid); 
 
-void PRINT_resallthreads(
-			 long double msdall, 
+void PRINT_resallthreads(long double msdall, 
                          double meanspeedall, 
-			 double muall, 
+                         double muall, 
                          double deffall, 
                          long double meanxall, 
                          long double meanxsquall, 

@@ -30,18 +30,20 @@ void INT_specs(char *intspecs){
 
 	FILE *outpspecs;
 	outpspecs = fopen(intspecs, "a");
-	fprintf(outpspecs, "\n\nParameters of Lennard_Jones particle-particle interaction:\n\n"
-			   "Radius of Particles' Hardcore: %.4lf\n"
-			   "Potential cut-off length: %.2lf\n"
-			   "Value of int-force shift value: %.5lf\n"
-			   "Depth of potential minimum epsilon: %.2lf\n"
-			   "Position of potential minimum: %.2lf\n"
-			   "Power of 6 of minimum's position: %.4e\n\n\n", R_INT, 
-			   						   INT_CUTOFF, 
-									   FSHIFT, 
-									   EPS_L, 
-									   LJMIN, 
-									   LJMINPOW);
+	fprintf(outpspecs,
+            "\n\nParameters of Lennard_Jones particle-particle interaction:\n\n"
+            "Radius of Particles' Hardcore: %.4lf\n"
+            "Potential cut-off length: %.2lf\n"
+            "Value of int-force shift value: %.5lf\n"
+            "Depth of potential minimum epsilon: %.2lf\n"
+            "Position of potential minimum: %.2lf\n"
+            "Power of 6 of minimum's position: %.4e\n\n\n",
+            R_INT, 
+            INT_CUTOFF, 
+            FSHIFT, 
+            EPS_L, 
+            LJMIN, 
+            LJMINPOW);
 
 	fclose (outpspecs);
 }

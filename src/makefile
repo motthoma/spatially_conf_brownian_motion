@@ -13,7 +13,7 @@ head_inc = dummy
 
 
 $(EXECUTABLE): main_brownconf.o
-	$(CC) -w -Wall  -Wextra -pedantic main_brownconf.o sim_config.c results_transport.c code_handling.c simulation_core.c print_routines.c $(CONF) $(INT) $(LDFLAGS) -o $(EXECUTABLE)
+	$(CC) -w -Wall  -Wextra -pedantic main_brownconf.o sim_config.c results_transport.c code_handling.c random_numb_gen.c simulation_core.c print_routines.c $(CONF) $(INT) $(LDFLAGS) -o $(EXECUTABLE)
 	rm *.o
 
 main_brownconf.o: main_brownconf.c

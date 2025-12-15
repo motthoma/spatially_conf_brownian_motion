@@ -3,6 +3,7 @@ trajektories are calculatet parallel*/
 
 #include "code_handling.h"
 #include "simulation_core.h"
+#include "random_numb_gen.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -20,60 +21,75 @@ int main (int argc, char **argv){
    */ 
   clock_t prgstart; 
   prgstart = clock();
+
   /* effective diffusion coefficient accumulated from all threads
    * if MPI parallelization is employed.
    */ 
   double deffall;
+
   /* mean speed of all particles accumulated from all
    * threads if MPI is employed
    */
   double meanspeedall;
+
   /* non-linear mobility accumulated from all threads
    * if MPI is employed.
    */
   double muall;
+
   /* mean position in x-direction of all
    * particles accumulated from all threads if 
    * MPI is employed.
    */
   long double  meanxall;
+
   /* mean squared position <x^2> accumulated from
    * all threads if MPI is employed.
    */ 
   long double meanxsquall;
+
   /* mean-squared displacement <x^2> - <x>^2 accumulated
    * from all threads if MPI is employed.
    */ 
   long double msdall;
+
   /* third cumulant of position in x-direction 
    * accumulated from all threads if MPI is employed. 
    */
   long double thirdcumall;
+
   /* initialize number of MPI tasks to one to
    * get consistent behavior if MPI is not employed.
    */
   int tasks = 1;
+
   /* taskid of process calling main is MASTER */
   int taskid = MASTER;
+
   /* number of particle ensembles simulated in one task.
    * this number has to be at least one, to prevent 
    * necessary communication between the threads during 
    * simulation time.
    */
   int setn_per_task;
+
   /* number of 'sets' or ensembles simulated */
   int setn;
+
   /* flag to check if number of particles, ensemble
    * number of interacting particles and number 
    * of threats are consistent.
    */
   bool ConsistencyFlag;
+
   /* pointer to variable where directory name
    * where code and results are copied to
    */
   char *namefile;
+
   /* prefix to mark output-files with employed confinement */
   char *conprfx;
+
   /* prefix to mark output-files with employed 
    * inter-particle interaction
    */
@@ -211,7 +227,6 @@ int main (int argc, char **argv){
 			positionx, 
 			positiony, 
 			xstart);*/
-
 
   /* Initialize inter-particle forces */
   SIM_init_interactions(setn_per_task,

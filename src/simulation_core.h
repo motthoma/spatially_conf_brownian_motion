@@ -22,20 +22,6 @@
  *********************************************************
  */
 
-// Struct to hold core simulation values
-typedef struct {
-    gsl_rng *r;  // Pointer to GSL random number generator
-} T_SimCoreVals;
-extern T_SimCoreVals SimCoreVals;
-/**
- * @brief Initialize the gsl_rng pointer inside SimCoreVals
- *
- * @param sim Pointer to SimCoreVals struct
- * @param taskid Integer used to vary the seed
- */
-void SIM_init_rng(int taskid);
-
-void SIM_free_rng(void); 
 
 /**
  *********************************************************

@@ -1,57 +1,13 @@
 #include "simulation_core.h"
 #include "comp_gen_header.h"
+#include "random_numb_gen.h"
 /*
 #include <stdio.h>
+
 #include <stdbool.h>*/
 #include <time.h>
 #include <gsl/gsl_rng.h>
 
-T_SimCoreVals SimCoreVals;
-
-/**
- * @brief Initialize the gsl_rng pointer inside SimCoreVals
- *
- * @param sim Pointer to SimCoreVals struct
- * @param taskid Integer used to vary the seed
- */
-void SIM_init_rng(int taskid) {
-    if (SimCoreVals.r) return; // safety check
-
-    // Allocate RNG
-    SimCoreVals.r = gsl_rng_alloc(gsl_rng_mt19937);
-    if (!SimCoreVals.r){ 
-        printf("random number generator initialization failed!");
-        return; // safety check
-    }
-
-    // Seed RNG with current time + taskid
-    gsl_rng_set(SimCoreVals.r, time(NULL) + taskid);
-}
-
-/**
- * @brief Get a normally distributed random number
- * @param sigma Standard deviation (σ)
- * @return Gaussian random number with mean 0 and stddev σ
- */
-double SIM_get_gaussian(double sigma) {
-    //if (!SimCoreVals.r) return 0.0; // safety check
-    return gsl_ran_gaussian_ziggurat(SimCoreVals.r, sigma);
-}
-
-/**
- * @brief Get a uniform random number in [0,1)
- */
-double SIM_get_uniform(void) {
-    //if (!SimCoreVals.r) return 0.0; // safety check
-   return  gsl_rng_uniform(SimCoreVals.r);
-}
-
-void SIM_free_rng(void) {
-    if (SimCoreVals.r) {
-        gsl_rng_free(SimCoreVals.r);
-        SimCoreVals.r = NULL;
-    }
-}
 
 void SIM_init_positions(int setn_per_task, 
                         double **positionx, 
@@ -81,8 +37,8 @@ void SIM_init_positions(int setn_per_task,
   for(j = 0; j < setn_per_task; j++){
 	  for(kset = 0; kset < SimParams.setnumb; kset++){
 		  do{
-			  //positionx[j][kset] = gsl_rng_uniform(SimCoreVals.r)*L_CONF*SimParams.init_max_xpos;
-			  //positiony[j][kset] = (2*gsl_rng_uniform(SimCoreVals.r) - 1)*SimParams.initwidth;
+			  //positionx[j][kset] = gsl_rng_uniform(GSL_RNG.r)*L_CONF*SimParams.init_max_xpos;
+			  //positiony[j][kset] = (2*gsl_rng_uniform(GSL_RNG.r) - 1)*SimParams.initwidth;
                
               positionx[j][kset] = SIM_get_uniform()*L_CONF*SimParams.init_max_xpos;
 			  positiony[j][kset] = (2*SIM_get_uniform() - 1)*SimParams.initwidth;
@@ -346,7 +302,6 @@ void SIM_simulation_core(int setn_per_task,
   double fintypair;
   double yue, distx, disty, dist; 
   int shiftind;
-  int ktest;
  
   bool PrintRes;
   bool TestRes;

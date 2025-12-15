@@ -1,0 +1,53 @@
+#include "random_numb_gen.h"
+#include <time.h>
+#include <gsl/gsl_rng.h>
+
+T_GSL_RNG GSL_RNG;
+
+/**
+ * @brief Initialize the gsl_rng pointer inside SimCoreVals
+ *
+ * @param sim Pointer to SimCoreVals struct
+ * @param taskid Integer used to vary the seed
+ */
+void SIM_init_rng(int taskid) {
+    if (GSL_RNG.r) return; // safety check
+
+    // Allocate RNG
+    GSL_RNG.r = gsl_rng_alloc(gsl_rng_mt19937);
+    if (!GSL_RNG.r){ 
+        printf("random number generator initialization failed!");
+        return; // safety check
+    }
+
+    // Seed RNG with current time + taskid
+    gsl_rng_set(GSL_RNG.r, time(NULL) + taskid);
+}
+
+/**
+ * @brief Get a normally distributed random number
+ * @param sigma Standard deviation (σ)
+ * @return Gaussian random number with mean 0 and stddev σ
+ */
+double SIM_get_gaussian(double sigma) {
+    return gsl_ran_gaussian_ziggurat(GSL_RNG.r, sigma);
+}
+
+/**
+ * @brief Get a uniform random number in [0,1)
+ */
+double SIM_get_uniform(void) {
+   return  gsl_rng_uniform(GSL_RNG.r);
+}
+
+/**
+ * @brief Free the global GSL random number generator.
+ *
+ * Frees the allocated RNG, if any, and sets the pointer to NULL.
+ */
+void SIM_free_rng(void) {
+    if (GSL_RNG.r) {
+        gsl_rng_free(GSL_RNG.r);
+        GSL_RNG.r = NULL;
+    }
+}

@@ -9,10 +9,15 @@
 #include <gsl/gsl_rng.h>
 
 
+T_EnsembleState EnsembleState;
+
+void SIM_alloc_ensemble_state(int setn){
+  EnsembleState.xstart = calloc_2Ddouble_array(setn, SimParams.setnumb);
+}
+
 void SIM_init_positions(int setn_per_task, 
                         double **positionx, 
-                        double **positiony, 
-                        double **xstart)
+                        double **positiony) 
 {
 /**
  * function that initializes the particle positions. The particles are uniformly distributed
@@ -62,7 +67,7 @@ void SIM_init_positions(int setn_per_task,
 			  
 		  }while(PosValidInit == false);
 		
-		  xstart[j][kset] = xo;
+		  EnsembleState.xstart[j][kset] = xo;
 		 // printf("x_0:\t%lf\n", xo);
 	  }
   }	
@@ -70,9 +75,8 @@ void SIM_init_positions(int setn_per_task,
 }
 
 void SIM_read_in_positions(int setn_per_task, 
-			   double **positionx, 
-			   double **positiony, 
-			   double **xstart)
+                           double **positionx, 
+                           double **positiony) 
 {
 /**
  * function that reads in positions from file. 
@@ -163,8 +167,7 @@ void SIM_init_interactions(int setn_per_task,
 }
 
 double reset_pos_time(int setn_per_task,
-                      double **xstart,	
-                      double **xposition,
+                      double **positionx,
                       long int **posshift, 
                       long int **negshift) 
 {
@@ -179,7 +182,7 @@ double reset_pos_time(int setn_per_task,
 	  for(j = 0; j < SimParams.setnumb; j++){
 		 posshift[i][j] = 0; 
 		 negshift[i][j] = 0;
-		 xstart[i][j] = xposition[i][j];
+		 EnsembleState.xstart[i][j] = positionx[i][j];
 	  } 
 	}
 	return t;
@@ -278,7 +281,6 @@ void SIM_simulation_core(int setn_per_task,
                          int taskid, 
                          double **positionx, 
                          double **positiony, 
-                         double **xstart, 
                          double **fintxarray,
                          double **fintyarray){
 
@@ -491,7 +493,7 @@ void SIM_simulation_core(int setn_per_task,
                                 posshift,
                                 negshift,
                                 positionx,
-                                xstart);
+                                EnsembleState.xstart);
 	  
 			 
                   /*
@@ -529,10 +531,9 @@ void SIM_simulation_core(int setn_per_task,
            */
 	  if(i == SimParams.reset_stepnumb){
 		  t = reset_pos_time(setn_per_task, 
-				     xstart, 
-				     positionx, 
-				     posshift, 
-				     negshift); 
+                             positionx, 
+                             posshift, 
+                             negshift); 
 	  } 
 
  
@@ -543,6 +544,7 @@ void SIM_simulation_core(int setn_per_task,
   
   free(negshift);
   free(posshift);
+  free(EnsembleState.xstart);
 }
 
 

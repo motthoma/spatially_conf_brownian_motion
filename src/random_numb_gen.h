@@ -10,7 +10,7 @@
  *********************************************************
  */
 
-// Struct to hold core simulation values
+// Struct to hold random numbers
 typedef struct {
     gsl_rng *r;  // Pointer to GSL random number generator
 } T_GSL_RNG;

@@ -30,10 +30,14 @@
  *
  *********************************************************
  */
+typedef struct {
+    double **xstart; //x-component of start positions 
+} T_EnsembleState;
+
+extern T_EnsembleState EnsembleState;
 
 double reset_pos_time(int setn_per_task, 
-                      double **xstart,	
-                      double **xposition,
+                      double **positionx,
                       long int **posshift, 
                       long int **negshift);
 
@@ -50,7 +54,6 @@ int update_equcounter(double tran_quant,
 
 long int **calloc_2Dlint_array(int m, int n);
 
-
 double **calloc_2Ddouble_array(int m, int n);
 
 /**
@@ -61,15 +64,15 @@ double **calloc_2Ddouble_array(int m, int n);
  *********************************************************
  */
 
+void SIM_alloc_ensemble_state(int setn);
+
 void SIM_init_positions(int setn_per_task, 
                         double **positionx, 
-                        double **positiony, 
-                        double **xstart);
+                        double **positiony);
 
 void SIM_read_in_positions(int setn_per_task, 
                            double **positionx, 
-                           double **positiony, 
-                           double **xstart);
+                           double **positiony); 
 
 void SIM_init_interactions(int setn_per_task, 
                            double **positionx, 
@@ -82,7 +85,6 @@ void SIM_simulation_core(int setn_per_task,
                          int taskid, 
                          double **positionx, 
                          double **positiony, 
-                         double **xstart, 
                          double **fintxarray,
                          double **fintyarray);
 

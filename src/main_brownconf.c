@@ -147,7 +147,6 @@ int main (int argc, char **argv){
   double **positiony;
   double **fintxarray;
   double **fintyarray;
-  double **xstart;
 
   
   positionx = calloc_2Ddouble_array(setn, SimParams.setnumb);
@@ -156,8 +155,12 @@ int main (int argc, char **argv){
   fintxarray = calloc_2Ddouble_array(setn, SimParams.setnumb);
   fintyarray = calloc_2Ddouble_array(setn, SimParams.setnumb);
   
-  xstart = calloc_2Ddouble_array(setn, SimParams.setnumb);
+  /*double **xstart;
+  xstart = calloc_2Ddouble_array(setn, SimParams.setnumb);*/
   
+  SIM_alloc_ensemble_state(setn);
+
+
   char fnamex [60];
   char fnamey [60];
   char fname2d [60];
@@ -223,7 +226,7 @@ int main (int argc, char **argv){
   /* 
    * Initialize particle positions 
    */
-  SIM_init_positions(setn_per_task, positionx, positiony, xstart);
+  SIM_init_positions(setn_per_task, positionx, positiony);
 /*  SIM_read_in_positions(setn_per_task, 
 			positionx, 
 			positiony, 
@@ -247,7 +250,6 @@ int main (int argc, char **argv){
                       taskid, 
                       positionx, 
                       positiony, 
-                      xstart, 
                       fintxarray,
                       fintyarray);
  
@@ -312,7 +314,6 @@ int main (int argc, char **argv){
   free(positiony);
   free(fintxarray);
   free(fintyarray);
-  free(xstart);
   
   #ifdef MPI_ON
 	  MPI_Finalize();

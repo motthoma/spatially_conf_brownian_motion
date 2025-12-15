@@ -23,14 +23,14 @@ extern T_GSL_RNG GSL_RNG;
  * @param sim Pointer to SimCoreVals struct
  * @param taskid Integer used to vary the seed
  */
-void SIM_init_rng(int taskid);
+void SIM_init_rng(int taskid, unsigned long seed);
 
 /**
  * @brief Get a normally distributed random number
  * @param sigma Standard deviation (σ)
  * @return Gaussian random number with mean 0 and stddev σ
  */
-double SIM_get_gaussian(double sigma);
+double SIM_get_gaussian(double mu, double sigma);
 
 /**
  * @brief Get a uniform random number in [0,1)

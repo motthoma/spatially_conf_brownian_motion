@@ -1,16 +1,18 @@
 #include "random_numb_gen.h"
+#include <stdio.h>
 #include <time.h>
+#include <assert.h>
 #include <gsl/gsl_rng.h>
 
 T_GSL_RNG GSL_RNG;
 
+
 /**
- * @brief Initialize the gsl_rng pointer inside SimCoreVals
- *
- * @param sim Pointer to SimCoreVals struct
+ * @brief Initialize the global GSL random number generator
  * @param taskid Integer used to vary the seed
  */
-void SIM_init_rng(int taskid) {
+
+void SIM_init_rng(int taskid, unsigned long seed) {
     if (GSL_RNG.r) return; // safety check
 
     // Allocate RNG
@@ -21,7 +23,7 @@ void SIM_init_rng(int taskid) {
     }
 
     // Seed RNG with current time + taskid
-    gsl_rng_set(GSL_RNG.r, time(NULL) + taskid);
+    gsl_rng_set(GSL_RNG.r, seed);
 }
 
 /**
@@ -29,14 +31,16 @@ void SIM_init_rng(int taskid) {
  * @param sigma Standard deviation (σ)
  * @return Gaussian random number with mean 0 and stddev σ
  */
-double SIM_get_gaussian(double sigma) {
-    return gsl_ran_gaussian_ziggurat(GSL_RNG.r, sigma);
+double SIM_get_gaussian(double mu, double sigma) {
+    assert(GSL_RNG.r && "RNG not initialized");
+    return mu + gsl_ran_gaussian_ziggurat(GSL_RNG.r, sigma);
 }
 
 /**
  * @brief Get a uniform random number in [0,1)
  */
 double SIM_get_uniform(void) {
+   assert(GSL_RNG.r && "RNG not initialized");
    return  gsl_rng_uniform(GSL_RNG.r);
 }
 

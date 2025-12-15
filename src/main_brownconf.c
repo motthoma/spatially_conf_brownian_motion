@@ -7,6 +7,7 @@ trajektories are calculatet parallel*/
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 #include <sys/stat.h>
 #include <unistd.h>
 
@@ -217,7 +218,7 @@ int main (int argc, char **argv){
   }
   
   /* Initialize pointer interface to gls random functions */  
-  SIM_init_rng(taskid);
+  SIM_init_rng(taskid, time(NULL) + taskid);
   
   /* 
    * Initialize particle positions 

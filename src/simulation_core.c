@@ -350,8 +350,8 @@ void SIM_simulation_core(int setn_per_task,
                  /*
                   *Create random numbers for x- and y-component of noise
                   */  
-                  u = SIM_get_gaussian(1.0);
-                  v = SIM_get_gaussian(1.0);
+                  u = SIM_get_gaussian(0.0, 1.0);
+                  v = SIM_get_gaussian(0.0, 1.0);
 				  /* 
                    *
                   *Update x- and y-component of position according to

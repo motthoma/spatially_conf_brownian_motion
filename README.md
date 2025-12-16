@@ -11,7 +11,7 @@ Periodic boundary conditions are used, and particle density is kept constant in 
 
 The repository consists of three main directories:
 
-1. **`code/`**
+1. **`src/`**
    - Contains the main simulation code, Makefile, and latest results.
    - Each simulation run creates a new directory containing the code and data.
 

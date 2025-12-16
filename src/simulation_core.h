@@ -1,12 +1,6 @@
-
 #include "comp_gen_header.h"
 #include "results_transport.h"
 #include "print_routines.h"
-/*#include "sim_config.h"
-#include "code_handling.h"
-
-#include <stdio.h>
-#include <stdbool.h>*/
 #include <time.h>
 #include <gsl/gsl_rng.h>
 #include <gsl/gsl_randist.h>
@@ -31,13 +25,17 @@
  *********************************************************
  */
 typedef struct {
-    double **xstart; //x-component of start positions 
+    double **xstart; 
+    double **positionx;
+    double **positiony;
+    double **fintxarray;
+    double **fintyarray;
 } T_EnsembleState;
+
 
 extern T_EnsembleState EnsembleState;
 
 double reset_pos_time(int setn_per_task, 
-                      double **positionx,
                       long int **posshift, 
                       long int **negshift);
 
@@ -66,28 +64,16 @@ double **calloc_2Ddouble_array(int m, int n);
 
 void SIM_alloc_ensemble_state(int setn);
 
-void SIM_init_positions(int setn_per_task, 
-                        double **positionx, 
-                        double **positiony);
+void SIM_init_positions(int setn_per_task); 
 
-void SIM_read_in_positions(int setn_per_task, 
-                           double **positionx, 
-                           double **positiony); 
+void SIM_read_in_positions(int setn_per_task); 
 
-void SIM_init_interactions(int setn_per_task, 
-                           double **positionx, 
-                           double **positiony,
-                           double **fintxarray,
-                           double **fintyarray);
+void SIM_init_interactions(int setn_per_task); 
 
 void SIM_simulation_core(int setn_per_task,
                          int setn,
-                         int taskid, 
-                         double **positionx, 
-                         double **positiony, 
-                         double **fintxarray,
-                         double **fintyarray);
+                         int taskid); 
 
 void SIM_copycode(void);
 
-#endif // SIMCOREVALS_H
+#endif 

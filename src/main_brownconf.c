@@ -138,29 +138,13 @@ int main (int argc, char **argv){
    */ 
   setn = (int) SimParams.N/SimParams.setnumb;
   
-  
   /*
    * initialize arrays where x- and y-coordinates of particles are stored in
+   * as well as interaction forces
    */ 
-  printf("\ninitialize arrays for positions and interactions\n"); 
-  double **positionx;
-  double **positiony;
-  double **fintxarray;
-  double **fintyarray;
-
-  
-  positionx = calloc_2Ddouble_array(setn, SimParams.setnumb);
-  positiony = calloc_2Ddouble_array(setn, SimParams.setnumb);
-  
-  fintxarray = calloc_2Ddouble_array(setn, SimParams.setnumb);
-  fintyarray = calloc_2Ddouble_array(setn, SimParams.setnumb);
-  
-  /*double **xstart;
-  xstart = calloc_2Ddouble_array(setn, SimParams.setnumb);*/
-  
+  printf("\ninitialize arrays for positions and interactions stored in enseble state\n"); 
   SIM_alloc_ensemble_state(setn);
-
-
+  
   char fnamex [60];
   char fnamey [60];
   char fname2d [60];
@@ -176,15 +160,16 @@ int main (int argc, char **argv){
   SimParams.numtasks = tasks;
 
   if(taskid == MASTER){
-	  CODEHAND_copy_main();
+	  /*CODEHAND_copy_main();
+      //
 	  SIMCONFIG_copy_code(); 
 	  CONF_copycode();
 	  INT_copycode();
 	  RES_copycode();
-	  CODEHAND_copycode();
 	  SIM_copycode();
 	  PRINT_copycode();
-	  CODEHAND_copy_comp_gen_header();
+	  CODEHAND_copy_comp_gen_header();*/
+	  CODEHAND_copycode();
 
 	  /*filenames of simulation parameters*/
 	  sprintf(fname_simparams, "parameters_simulation_overall.dat");
@@ -203,8 +188,6 @@ int main (int argc, char **argv){
 	  }
   }
 
-
-  
   /**
    * calculate number of samples of interacting particles per task
    */ 
@@ -226,19 +209,14 @@ int main (int argc, char **argv){
   /* 
    * Initialize particle positions 
    */
-  SIM_init_positions(setn_per_task, positionx, positiony);
+  SIM_init_positions(setn_per_task);
 /*  SIM_read_in_positions(setn_per_task, 
 			positionx, 
 			positiony, 
 			xstart);*/
 
   /* Initialize inter-particle forces */
-  SIM_init_interactions(setn_per_task,
-                        positionx,
-                        positiony,
-                        fintxarray,
-                        fintyarray);
-
+  SIM_init_interactions(setn_per_task);
   printf("\ntask ID:\t %d -> particle positions and forces fixed\n", taskid);
  
   /*
@@ -247,11 +225,7 @@ int main (int argc, char **argv){
    */  
   SIM_simulation_core(setn_per_task,
                       setn,
-                      taskid, 
-                      positionx, 
-                      positiony, 
-                      fintxarray,
-                      fintyarray);
+                      taskid); 
  
   /*Merge quantities that were calculated in separated MPI threads*/ 
 #  ifdef MPI_ON
@@ -278,42 +252,41 @@ int main (int argc, char **argv){
   histparams.xcounter = RES_histogramm_mpi_reduce(setn_per_task, 
                                                   0, 
                                                   L_CONF, 
-                                                  histparams.binx, positionx, 
+                                                  histparams.binx, EnsembleState.positionx, 
                                                   fnamex, taskid);
 
   sprintf(fnamey, "meany_Histogram_F_%.3lf.dat", SimParams.F);
   histparams.ycounter = RES_histogramm_mpi_reduce(setn_per_task, 
                                                   MAX_HALF_WIDTH, 
                                                   2*MAX_HALF_WIDTH, 
-                                                  histparams.biny, positiony, 
+                                                  histparams.biny,
+                                                  EnsembleState.positiony, 
                                                   fnamey, 
                                                   taskid);
 
   sprintf(fname2d, "meanpos_Histogram2d_F_%.3lf.dat", SimParams.F);
   histparams.twodcounter =  RES_histogramm2d_mpi_reduce(setn_per_task, 
                                                         histparams.bin2d, 
-                                                        positionx, 
-                                                        positiony, 
+                                                        EnsembleState.positionx, 
+                                                        EnsembleState.positiony, 
                                                         fname2d, 
                                                         taskid);
 
 
   if(taskid == MASTER){
- 	   PRINT_positions(setn_per_task, positionx, positiony);
+ 	   PRINT_positions(setn_per_task, EnsembleState.positionx, EnsembleState.positiony);
        RES_print_countercheck(fname_confparams);
        PRINT_resallthreads(msdall, meanspeedall, muall, deffall, meanxall, meanxsquall, thirdcumall);
 	   PRINT_muoverf(muall, deffall, namefile);
-            
-       //    CODEHAND_delerrorfiles();           
             
 	   PRINT_runtime(prgstart, fname_simparams);
            
   }
   
-  free(positionx);
-  free(positiony);
-  free(fintxarray);
-  free(fintyarray);
+  free(EnsembleState.positionx);
+  free(EnsembleState.positiony);
+  free(EnsembleState.fintxarray);
+  free(EnsembleState.fintyarray);
   
   #ifdef MPI_ON
 	  MPI_Finalize();

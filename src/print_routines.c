@@ -23,7 +23,6 @@ void PRINT_muoverf(double muall, double deffall, char *namefile)
   outmu=fopen(fnamemu, "a");
   fprintf(outmu, "%.3lf\t %.6lf\t %.6lf\t %s\n", SimParams.F, muall/SimParams.numtasks, deffall/SimParams.numtasks, namefile);                       
   fclose (outmu); 
-
 }
 
 void PRINT_results_over_time(double t, 
@@ -50,7 +49,7 @@ void PRINT_results_over_time(double t,
 
 		printres.state = 1;
 	}
-	else{
+    else{
 		FILE *outp;
 		outp=fopen(printres.fname ,"a");
 		fprintf(outp, "%.6f\t %.4Lf\t %.5lf\t %.4lf\t  %d\t %d\n", t, tcoeff.meanx, tcoeff.meanspeed, tcoeff.mu, abb, abbdeff);

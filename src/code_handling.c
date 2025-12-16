@@ -109,20 +109,7 @@ char* CODEHAND_makedirectory(const char *confprfx, const char *intprfx)
 void CODEHAND_copy_main(void)
 {
     copy_file("../main_brownconf.c", "main_brownconf.c");
-    copy_file("../masterinteract.py", "masterinteract.py");
     copy_file("../makefile",          "makefile");
-}
-
-void CODEHAND_copyerrorfiles(void)
-{
-    char pattern[128];
-    snprintf(pattern, sizeof pattern,
-             "../F_%.2lf_sn_%d_clintparallel",
-             SimParams.F, SimParams.setnumb);
-
-    /* Real C code can't wildcard-delete without system(“rm ...”)  
-       If you want pure-C, you'd need to scan the directory manually. */
-    fprintf(stderr, "Warning: wildcard delete not implemented in pure C.\n");
 }
 
 void CODEHAND_copycode(void)
@@ -135,4 +122,3 @@ void CODEHAND_copy_comp_gen_header(void)
 {
     copy_file("../comp_gen_header.h", "comp_gen_header.h");
 }
-

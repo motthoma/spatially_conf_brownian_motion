@@ -1,10 +1,6 @@
 #include "simulation_core.h"
 #include "comp_gen_header.h"
 #include "random_numb_gen.h"
-/*
-#include <stdio.h>
-
-#include <stdbool.h>*/
 #include <time.h>
 #include <gsl/gsl_rng.h>
 
@@ -13,11 +9,13 @@ T_EnsembleState EnsembleState;
 
 void SIM_alloc_ensemble_state(int setn){
   EnsembleState.xstart = calloc_2Ddouble_array(setn, SimParams.setnumb);
+  EnsembleState.positionx = calloc_2Ddouble_array(setn, SimParams.setnumb);
+  EnsembleState.positiony = calloc_2Ddouble_array(setn, SimParams.setnumb);
+  EnsembleState.fintxarray = calloc_2Ddouble_array(setn, SimParams.setnumb);
+  EnsembleState.fintyarray = calloc_2Ddouble_array(setn, SimParams.setnumb);
 }
 
-void SIM_init_positions(int setn_per_task, 
-                        double **positionx, 
-                        double **positiony) 
+void SIM_init_positions(int setn_per_task) 
 {
 /**
  * function that initializes the particle positions. The particles are uniformly distributed
@@ -42,24 +40,22 @@ void SIM_init_positions(int setn_per_task,
   for(j = 0; j < setn_per_task; j++){
 	  for(kset = 0; kset < SimParams.setnumb; kset++){
 		  do{
-			  //positionx[j][kset] = gsl_rng_uniform(GSL_RNG.r)*L_CONF*SimParams.init_max_xpos;
-			  //positiony[j][kset] = (2*gsl_rng_uniform(GSL_RNG.r) - 1)*SimParams.initwidth;
                
-              positionx[j][kset] = SIM_get_uniform()*L_CONF*SimParams.init_max_xpos;
-			  positiony[j][kset] = (2*SIM_get_uniform() - 1)*SimParams.initwidth;
+              EnsembleState.positionx[j][kset] = SIM_get_uniform()*L_CONF*SimParams.init_max_xpos;
+			  EnsembleState.positiony[j][kset] = (2*SIM_get_uniform() - 1)*SimParams.initwidth;
 			    
-			  xo = positionx[j][kset];
-			  yo = positiony[j][kset];
+			  xo = EnsembleState.positionx[j][kset];
+			  yo = EnsembleState.positiony[j][kset];
 		 
 			  yue = CONF_yuef(xo, yo);
 			 
 			  PosValidInit = true; 
-			  if(fabs(positiony[j][kset]) >= yue) PosValidInit = false;
+			  if(fabs(EnsembleState.positiony[j][kset]) >= yue) PosValidInit = false;
 			  if((kset > 0) && (PosValidInit == true)){
 					    
 				  for(ktest = 0; ktest < kset; ktest++){
-					  distx = xo - positionx[j][ktest];			
-					  disty = yo - positiony[j][ktest];			
+					  distx = xo - EnsembleState.positionx[j][ktest];			
+					  disty = yo - EnsembleState.positiony[j][ktest];			
 					  distinit = sqrt(distx*distx + disty*disty);
 					  if(distinit <= 2*R_INT) PosValidInit = false;
 				 }
@@ -74,9 +70,7 @@ void SIM_init_positions(int setn_per_task,
   printf("positions initialized!\n"); 
 }
 
-void SIM_read_in_positions(int setn_per_task, 
-                           double **positionx, 
-                           double **positiony) 
+void SIM_read_in_positions(int setn_per_task) 
 {
 /**
  * function that reads in positions from file. 
@@ -99,10 +93,10 @@ void SIM_read_in_positions(int setn_per_task,
 		fscanf(file, "%lf", &val);
 		if(k == 0)
 		{
-		       positionx[i][j] = val;
+		       EnsembleState.positionx[i][j] = val;
 		}
-		else positiony[i][j] = val;
-		printf("x: %lf\t y: %lf\n", positionx[i][j], positiony[i][j]);
+		else EnsembleState.positiony[i][j] = val;
+		printf("x: %lf\t y: %lf\n", EnsembleState.positionx[i][j], EnsembleState.positiony[i][j]);
 	}
 	j++;
 	if(j >= SimParams.setnumb)
@@ -121,11 +115,7 @@ void SIM_read_in_positions(int setn_per_task,
   printf("positions read in!\n"); 
 }
 
-void SIM_init_interactions(int setn_per_task, 
-                           double **positionx, 
-                           double **positiony,
-                           double **fintxarray,
-                           double **fintyarray)
+void SIM_init_interactions(int setn_per_task) 
 {
 /**
  * Function that calculates depending on the positions of the particles
@@ -149,8 +139,8 @@ void SIM_init_interactions(int setn_per_task,
           finty = 0;
           for(ktest = 0; ktest < SimParams.setnumb; ktest++){
               if(kset != ktest){
-                  distx = positionx[j][kset] - positionx[j][ktest];
-                  disty = positiony[j][kset] - positiony[j][ktest];
+                  distx = EnsembleState.positionx[j][kset] - EnsembleState.positionx[j][ktest];
+                  disty = EnsembleState.positiony[j][kset] - EnsembleState.positiony[j][ktest];
                   dist = sqrt(distx*distx + disty*disty);
                   if(dist <= INT_CUTOFF){
                       fintxpair = INT_force(distx, dist);
@@ -160,14 +150,13 @@ void SIM_init_interactions(int setn_per_task,
                   }
               }
           }
-          fintxarray[j][kset] = fintx;
-          fintyarray[j][kset] = finty;
+          EnsembleState.fintxarray[j][kset] = fintx;
+          EnsembleState.fintyarray[j][kset] = finty;
       }
   }
 }
 
 double reset_pos_time(int setn_per_task,
-                      double **positionx,
                       long int **posshift, 
                       long int **negshift) 
 {
@@ -182,7 +171,7 @@ double reset_pos_time(int setn_per_task,
 	  for(j = 0; j < SimParams.setnumb; j++){
 		 posshift[i][j] = 0; 
 		 negshift[i][j] = 0;
-		 EnsembleState.xstart[i][j] = positionx[i][j];
+		 EnsembleState.xstart[i][j] = EnsembleState.positionx[i][j];
 	  } 
 	}
 	return t;
@@ -278,11 +267,7 @@ long int **calloc_2Dlint_array(int m, int n) {
 /* Perform simulation steps until equilibration is reached */
 void SIM_simulation_core(int setn_per_task,
                          int setn,
-                         int taskid, 
-                         double **positionx, 
-                         double **positiony, 
-                         double **fintxarray,
-                         double **fintyarray){
+                         int taskid){ 
 
   double u, v, x, y, yo, xo; 
   double xtest, ytest;
@@ -338,11 +323,11 @@ void SIM_simulation_core(int setn_per_task,
 		  for(kset = 0; kset < SimParams.setnumb; kset++){
 
 
-			  xo = positionx[j][kset];
-			  yo = positiony[j][kset];
+			  xo = EnsembleState.positionx[j][kset];
+			  yo = EnsembleState.positiony[j][kset];
 			  
-			  fintx = fintxarray[j][kset];
-			  finty = fintyarray[j][kset];
+			  fintx = EnsembleState.fintxarray[j][kset];
+			  finty = EnsembleState.fintyarray[j][kset];
 		  
 		 	  /* 
  			   * Perform simulation steps until valid step where no particles overlap
@@ -401,8 +386,8 @@ void SIM_simulation_core(int setn_per_task,
 						    finty = 0;
 						  //  for(int_ind = 0; int_ind < SimParams.setnumb; int_ind++){	
 						    while((PosValid == true) && (int_ind < SimParams.setnumb)){	
-							  xtest = positionx[j][int_ind]; 
-							  ytest = positiony[j][int_ind];
+							  xtest = EnsembleState.positionx[j][int_ind]; 
+							  ytest = EnsembleState.positiony[j][int_ind];
 	 
 							  if(int_ind != kset){
 								  distx = x - xtest;
@@ -449,10 +434,10 @@ void SIM_simulation_core(int setn_per_task,
              /*
               * Update arrays with positions and inter particle forces
               */     
-              positionx[j][kset] = x; 
-              positiony[j][kset] = y;
-			  fintxarray[j][kset] = fintx;
-			  fintyarray[j][kset] = finty;
+              EnsembleState.positionx[j][kset] = x; 
+              EnsembleState.positiony[j][kset] = y;
+			  EnsembleState.fintxarray[j][kset] = fintx;
+			  EnsembleState.fintyarray[j][kset] = finty;
 
 		}
  	   /*
@@ -492,7 +477,7 @@ void SIM_simulation_core(int setn_per_task,
                                 t, 
                                 posshift,
                                 negshift,
-                                positionx,
+                                EnsembleState.positionx,
                                 EnsembleState.xstart);
 	  
 			 
@@ -531,7 +516,6 @@ void SIM_simulation_core(int setn_per_task,
            */
 	  if(i == SimParams.reset_stepnumb){
 		  t = reset_pos_time(setn_per_task, 
-                             positionx, 
                              posshift, 
                              negshift); 
 	  } 

@@ -12,7 +12,7 @@ T_GSL_RNG GSL_RNG;
  * @param taskid Integer used to vary the seed
  */
 
-void SIM_init_rng(int taskid, unsigned long seed) {
+void RNG_init_rng(int taskid, unsigned long seed) {
     if (GSL_RNG.r) return; // safety check
 
     // Allocate RNG
@@ -31,7 +31,7 @@ void SIM_init_rng(int taskid, unsigned long seed) {
  * @param sigma Standard deviation (σ)
  * @return Gaussian random number with mean 0 and stddev σ
  */
-double SIM_get_gaussian(double mu, double sigma) {
+double RNG_get_gaussian(double mu, double sigma) {
     assert(GSL_RNG.r && "RNG not initialized");
     return mu + gsl_ran_gaussian_ziggurat(GSL_RNG.r, sigma);
 }
@@ -39,7 +39,7 @@ double SIM_get_gaussian(double mu, double sigma) {
 /**
  * @brief Get a uniform random number in [0,1)
  */
-double SIM_get_uniform(void) {
+double RNG_get_uniform(void) {
    assert(GSL_RNG.r && "RNG not initialized");
    return  gsl_rng_uniform(GSL_RNG.r);
 }
@@ -49,7 +49,7 @@ double SIM_get_uniform(void) {
  *
  * Frees the allocated RNG, if any, and sets the pointer to NULL.
  */
-void SIM_free_rng(void) {
+void RNG_free_rng(void) {
     if (GSL_RNG.r) {
         gsl_rng_free(GSL_RNG.r);
         GSL_RNG.r = NULL;

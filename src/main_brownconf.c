@@ -204,7 +204,7 @@ int main (int argc, char **argv){
   }
   
   /* Initialize pointer interface to gls random functions */  
-  SIM_init_rng(taskid, time(NULL) + taskid);
+  RNG_init_rng(taskid, time(NULL) + taskid);
   
   /* 
    * Initialize particle positions 
@@ -292,6 +292,6 @@ int main (int argc, char **argv){
 	  MPI_Finalize();
   #endif
 
-  SIM_free_rng();
+  RNG_free_rng();
   return 0;
 }

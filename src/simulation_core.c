@@ -41,8 +41,8 @@ void SIM_init_positions(int setn_per_task)
 	  for(kset = 0; kset < SimParams.setnumb; kset++){
 		  do{
                
-              EnsembleState.positionx[j][kset] = SIM_get_uniform()*L_CONF*SimParams.init_max_xpos;
-			  EnsembleState.positiony[j][kset] = (2*SIM_get_uniform() - 1)*SimParams.initwidth;
+              EnsembleState.positionx[j][kset] = RNG_get_uniform()*L_CONF*SimParams.init_max_xpos;
+			  EnsembleState.positiony[j][kset] = (2*RNG_get_uniform() - 1)*SimParams.initwidth;
 			    
 			  xo = EnsembleState.positionx[j][kset];
 			  yo = EnsembleState.positiony[j][kset];
@@ -264,12 +264,63 @@ long int **calloc_2Dlint_array(int m, int n) {
     return array;
 }
 
+double SIM_perform_sim_step(double old_pos,
+                            double force_ext_dt,
+                            double force_int_dt,
+                            double sqrt_flucts){
+    double u, new_pos; 
+    /*
+     *Create random number for simulation of noise
+     */  
+     u = RNG_get_gaussian(0.0, 1.0);
+     /* 
+      *
+     *Update new value of position according to
+     *stochastic Euler for Langevin equation
+     */                       
+     new_pos = old_pos + force_ext_dt + force_int_dt + sqrt_flucts*u;
+
+    return new_pos;
+}
+
+bool SIM_check_pos_validity(double x, double y, double yo){
+    double yue;
+    bool PosValid;
+
+    /*
+    *Calculate value of confinement boundary at current
+    *position x (y-value is needed for non-analytic treatment
+    *of channels with cosine shape
+    */   
+    yue = CONF_yuef(x, y);
+
+    PosValid = true;
+
+    /*Check if particle is within effective boundary*/  
+    if (fabs(y) > yue) PosValid = false;
+    /*Check if bottleneck is passed correctly*/	
+    if ((x < 0) && ((fabs(yo) >= BOTTLENECK_WIDTH-R_CONF) || (fabs(y) >= BOTTLENECK_WIDTH-R_CONF))) PosValid = false;
+    if ((x > L_CONF) && ((fabs(yo) >= BOTTLENECK_WIDTH-R_CONF) || (fabs(y) >= BOTTLENECK_WIDTH-R_CONF))) PosValid = false;
+
+    return PosValid;
+}
+
+void update_ensemble_state(int j, int kset, double x, double y, double fintx, double finty){ 
+    /*
+     * Update arrays with positions and inter particle forces
+     */     
+     EnsembleState.positionx[j][kset] = x; 
+     EnsembleState.positiony[j][kset] = y;
+     EnsembleState.fintxarray[j][kset] = fintx;
+     EnsembleState.fintyarray[j][kset] = finty;
+}
+
 /* Perform simulation steps until equilibration is reached */
 void SIM_simulation_core(int setn_per_task,
                          int setn,
                          int taskid){ 
 
-  double u, v, x, y, yo, xo; 
+  double x, y, yo, xo; 
   double xtest, ytest;
   
   double t;
@@ -287,7 +338,7 @@ void SIM_simulation_core(int setn_per_task,
   double finty;
   double fintxpair;
   double fintypair;
-  double yue, distx, disty, dist; 
+  double distx, disty, dist; 
   int shiftind;
  
   bool PrintRes;
@@ -334,35 +385,11 @@ void SIM_simulation_core(int setn_per_task,
  			   * and particles are within channel is obtained 
  			   */
 			  do{
-                 /*
-                  *Create random numbers for x- and y-component of noise
-                  */  
-                  u = SIM_get_gaussian(0.0, 1.0);
-                  v = SIM_get_gaussian(0.0, 1.0);
-				  /* 
-                   *
-                  *Update x- and y-component of position according to
-                  *stochastic Euler for Langevin equation
-                  */                       
-				  x = xo + f_dt + fintx*dt + sqrt_flucts*u;
-				  y = yo + finty*dt + sqrt_flucts*v;
-                  /*
-                   *Calculate value of confinement boundary at current
-                   *position x (y-value is needed for non-analytic treatment
-                   *of channels with cosine shape
-                   */   
-                  //printf("\nx: %lf\n", x);
-                  //printf("\ny: %lf\n", y);
-				  yue = CONF_yuef(x, y);
-                  //printf("\nyue: %lf\n", yue);
-				  
-				  PosValid = true;
- 
-				  /*Check if particle is within effective boundary*/  
-				  if (fabs(y) > yue) PosValid = false;
-				  /*Check if bottleneck is passed correctly*/	
-				  if ((x < 0) && ((fabs(yo) >= BOTTLENECK_WIDTH-R_CONF) || (fabs(y) >= BOTTLENECK_WIDTH-R_CONF))) PosValid = false;
-				  if ((x > L_CONF) && ((fabs(yo) >= BOTTLENECK_WIDTH-R_CONF) || (fabs(y) >= BOTTLENECK_WIDTH-R_CONF))) PosValid = false;
+
+                  x = SIM_perform_sim_step(xo, f_dt, fintx*dt, sqrt_flucts);
+                  y = SIM_perform_sim_step(yo, 0, finty*dt, sqrt_flucts);
+                  
+                  PosValid = SIM_check_pos_validity(x, y, yo);
 
 				  if(PosValid == true){
 					  /*
@@ -430,22 +457,14 @@ void SIM_simulation_core(int setn_per_task,
 			  if(shiftind != 0){
                   adapt_posshifts(shiftind, j, kset, posshift, negshift);
               }
-		  
-             /*
-              * Update arrays with positions and inter particle forces
-              */     
-              EnsembleState.positionx[j][kset] = x; 
-              EnsembleState.positiony[j][kset] = y;
-			  EnsembleState.fintxarray[j][kset] = fintx;
-			  EnsembleState.fintyarray[j][kset] = finty;
-
+              update_ensemble_state(j, kset, x, y, fintx, finty);
 		}
  	   /*
        * Close loop over trajectories 
        */
 	  }
 	
-       	  /*
+      /*
 	   *Initialize reference values of mobility and diffusion coefficients
 	   *for later judgement of equilibration process.
 	  */
@@ -454,11 +473,11 @@ void SIM_simulation_core(int setn_per_task,
 		  deffabbo = tcoeff.deff;
 	  }
 	
-          /*
-           * Test progress of equilibration and plot results at certain 
-           * simulation steps i
-           */ 
-          PrintRes = false;
+      /*
+       * Test progress of equilibration and plot results at certain 
+       * simulation steps i
+       */ 
+      PrintRes = false;
 	  if(i % SimParams.plotpoints == 0){
 	  	PrintRes = true;
 	  }
@@ -481,10 +500,10 @@ void SIM_simulation_core(int setn_per_task,
                                 EnsembleState.xstart);
 	  
 			 
-                  /*
-                   * Update of the equilibration counter that are used to monitore the
-                   * equilibration of the mobility and diffusivity
-                   */  
+          /*
+           * Update of the equilibration counter that are used to monitore the
+           * equilibration of the mobility and diffusivity
+           */  
 		  if(TestRes == true){ 
  			  abb = update_equcounter(tcoeff.mu, muabbo, SimParams.accur, abb);
 
@@ -498,15 +517,14 @@ void SIM_simulation_core(int setn_per_task,
 			  }		
 			  muabbo = tcoeff.mu;    
 			  deffabbo = tcoeff.deff;
-                  }
-	//	  printf("equcounter updated\n");
+          }
  		  /*
            * Plot results to check progress of equilibration 
            */
 		  if((PrintRes == true) && (taskid == MASTER)){
 			  PRINT_results_over_time(t, 
-						  abb, 
-						  abbdeff);
+                                      abb, 
+                                      abbdeff);
 
 		  }
 	  }

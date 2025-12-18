@@ -283,9 +283,14 @@ double SIM_perform_sim_step(double old_pos,
     return new_pos;
 }
 
+double max_double(double a, double b){
+    /* returns max of doubles a and b */
+    return a > b ? a : b;
+}
+
 bool SIM_check_pos_validity(double x, double y, double yo){
     double yue;
-    bool PosValid;
+    bool PosValid = true;
 
     /*
     *Calculate value of confinement boundary at current
@@ -294,13 +299,12 @@ bool SIM_check_pos_validity(double x, double y, double yo){
     */   
     yue = CONF_yuef(x, y);
 
-    PosValid = true;
 
     /*Check if particle is within effective boundary*/  
     if (fabs(y) > yue) PosValid = false;
     /*Check if bottleneck is passed correctly*/	
-    if ((x < 0) && ((fabs(yo) >= BOTTLENECK_WIDTH-R_CONF) || (fabs(y) >= BOTTLENECK_WIDTH-R_CONF))) PosValid = false;
-    if ((x > L_CONF) && ((fabs(yo) >= BOTTLENECK_WIDTH-R_CONF) || (fabs(y) >= BOTTLENECK_WIDTH-R_CONF))) PosValid = false;
+    if ((x < 0) && ((max_double(fabs(y), fabs(yo)) >= BOTTLENECK_WIDTH-R_CONF))) PosValid = false;
+    if ((x > L_CONF) && ((max_double(fabs(y), fabs(yo)) >= BOTTLENECK_WIDTH-R_CONF))) PosValid = false;
 
     return PosValid;
 }
@@ -315,30 +319,75 @@ void update_ensemble_state(int j, int kset, double x, double y, double fintx, do
      EnsembleState.fintyarray[j][kset] = finty;
 }
 
+void calculate_inter_particle_forces(int j,
+                                     int kset,
+                                     double x,
+                                     double y,
+                                     double *fintx,
+                                     double *finty){
+    /*function that calculates the intra-particle forces*/                        
+    double distx, disty, dist, xtest, ytest;
+    int int_ind = 0;
+    bool PosValid = true;
+    *fintx = 0;
+    *finty = 0;
+    while((PosValid == true) && (int_ind < SimParams.setnumb)){	
+      xtest = EnsembleState.positionx[j][int_ind]; 
+      ytest = EnsembleState.positiony[j][int_ind];
+
+      if(int_ind != kset){
+          distx = x - xtest;
+          disty = y - ytest;
+
+          /* 
+           * search relevant distance according
+           * to minimum image conversion 
+           */
+          if (fabs(distx) > 0.5*L_CONF){ 
+            distx = distx - L_CONF*(distx/fabs(distx));
+          }
+          dist = sqrt(distx*distx + disty*disty);
+          /* 
+           * stay in do-while loop if two particles overlap  
+           * and skip the following break statement
+           */
+          if(dist <= 2*R_INT){ 
+              PosValid = false;
+              /* if continue is used, stays in while loop 
+               * and search for a valid position is continued*/
+              //continue; 
+          }
+          
+          if((dist <= INT_CUTOFF) && (PosValid == true)){
+              fintxpair = INT_force(distx, dist);
+              fintypair = INT_force(disty, dist);
+              *fintx += fintxpair;
+              *finty += fintypair;
+
+          }
+      }
+      int_ind++;
+    /*close loop over particles of interacting ensemble*/
+    } 
+}
+
 /* Perform simulation steps until equilibration is reached */
 void SIM_simulation_core(int setn_per_task,
                          int setn,
                          int taskid){ 
 
   double x, y, yo, xo; 
-  double xtest, ytest;
-  
   double t;
   double dt = SimParams.time_step;  
   long double  sqrt_flucts, f_dt;
   int i;     
   int j;
   int kset; 
-  int int_ind; 
   int abb;	
   int abbdeff;	
   double muabbo;	
   double deffabbo;	
-  double fintx;
-  double finty;
-  double fintxpair;
-  double fintypair;
-  double distx, disty, dist; 
+  double fintx, finty;
   int shiftind;
  
   bool PrintRes;
@@ -405,51 +454,12 @@ void SIM_simulation_core(int setn_per_task,
 						   shiftind = 1;
 						   x -= L_CONF;
 					  }
-					  
+					  /* calc interactions here */ 
 					  /*simulate particle-particle interaction*/ 
 					  if (SimParams.setnumb > 1){ 
-						    int_ind = 0;
-						    fintx = 0;
-						    finty = 0;
-						  //  for(int_ind = 0; int_ind < SimParams.setnumb; int_ind++){	
-						    while((PosValid == true) && (int_ind < SimParams.setnumb)){	
-							  xtest = EnsembleState.positionx[j][int_ind]; 
-							  ytest = EnsembleState.positiony[j][int_ind];
-	 
-							  if(int_ind != kset){
-								  distx = x - xtest;
-								  disty = y - ytest;
-
-								  /* 
-								   * search relevant distance according
-								   * to minimum image conversion 
-								   */
-								  if (fabs(distx) > 0.5*L_CONF){ 
-									distx = distx - L_CONF*(distx/fabs(distx));
-								  }
-								  dist = sqrt(distx*distx + disty*disty);
-								  /* 
-								   * stay in do-while loop if two particles overlap  
-								   * and skip the following break statement
-								   */
-								  if(dist <= 2*R_INT){ 
-									  PosValid = false;
-									  /* if continue is used, stays in while loop 
-									   * and search for a valid position is continued*/
-									  //continue; 
-								  }
-								  
-								  if((dist <= INT_CUTOFF) && (PosValid == true)){
-									  fintxpair = INT_force(distx, dist);
-									  fintypair = INT_force(disty, dist);
-									  fintx += fintxpair;
-									  finty += fintypair;
-
-								  }
-							  }
-						   	  int_ind++;
-						    /*close loop over particles of interacting ensemble*/
-						    } 
+                        //printf("\n\nfinx: %lf, finty: %lf\n", fintx, finty);
+                        calculate_inter_particle_forces(j, kset, x, y, &fintx, &finty);
+                        //printf("finx: %lf, finty: %lf\n\n", fintx, finty);
 					  }
 				  }		   
 			  }while(PosValid == false);
@@ -530,8 +540,8 @@ void SIM_simulation_core(int setn_per_task,
 	  }
 
 	  /*
-           *  Reset position and time information to truncate transient effects from small times 
-           */
+       *  Reset position and time information to truncate transient effects from small times 
+       */
 	  if(i == SimParams.reset_stepnumb){
 		  t = reset_pos_time(setn_per_task, 
                              posshift, 

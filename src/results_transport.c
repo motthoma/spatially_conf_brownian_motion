@@ -68,7 +68,7 @@ void RES_calc_transpcoeffs(int setn_per_task,
   int j;
   int kset;
   for(j = 0; j < setn_per_task; j++){
-	  for(kset = 0; kset < SimParams.setnumb; kset++){
+	  for(kset = 0; kset < SimParams.parts_per_set; kset++){
 		 totalshift = posshift[j][kset] - negshift[j][kset];
 
 		 /*absolute position of individual particle*/
@@ -138,7 +138,7 @@ int RES_histogramm_mpi_reduce(int m,
 	  counterall = 0;
         
 	  for(j = 0; j < m; j++){
-		for(k = 0; k < SimParams.setnumb; k++){
+		for(k = 0; k < SimParams.parts_per_set; k++){
 		   if(((i*bin - backshift) <= positions[j][k]) && (positions[j][k] <= (i+1)*bin - backshift)){
 			counter++;
 		   }
@@ -202,7 +202,7 @@ int RES_histogramm2d_mpi_reduce(int m,
                   twodcounter = 0;   
                   twodcounterall = 0;   
 		  for(i = 0; i < m; i++){
-			for(j = 0; j < SimParams.setnumb; j++){
+			for(j = 0; j < SimParams.parts_per_set; j++){
 			   if((hx*bin2d <= positionsx[i][j]) && (positionsx[i][j] <= (hx+1)*bin2d)){
 				   if(((hy*bin2d - MAX_HALF_WIDTH) <= positionsy[i][j]) && (positionsy[i][j] <= (hy+1)*bin2d - MAX_HALF_WIDTH)){
 					   twodcounter++;

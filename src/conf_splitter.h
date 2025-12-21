@@ -60,7 +60,6 @@ static inline double yuef_splitter(double x, double y){
     else{
         return(5*MAX_HALF_WIDTH);
     }
-
 }
 
 /**

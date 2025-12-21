@@ -17,7 +17,7 @@ void PRINT_muoverf(double muall, double deffall, char *namefile)
  */
   char fnamemu[60];
 
-  sprintf(fnamemu, "../muoverfpos_R_%.2lf_setnumb_%d.dat", R_CONF, SimParams.setnumb);
+  sprintf(fnamemu, "../muoverfpos_R_%.2lf_parts_per_set_%d.dat", R_CONF, SimParams.parts_per_set);
 
   FILE *outmu;
   outmu=fopen(fnamemu, "a");
@@ -75,7 +75,7 @@ void PRINT_positions(int m, double **posx, double **posy){
   fprintf(outpos, "#xpositions\t ypositions\n");
 
   for(i = 0; i < m; i++){
-	for(j = 0; j < SimParams.setnumb; j++){
+	for(j = 0; j < SimParams.parts_per_set; j++){
 		fprintf(outpos, "%.5lf\t %.5lf\n", posx[i][j], posy[i][j]);
 	}
 

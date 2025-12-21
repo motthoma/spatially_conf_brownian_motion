@@ -73,7 +73,7 @@ void calculate_inter_particle_forces(int j,
  *********************************************************
  */
 
-void SIM_alloc_ensemble_state(int setn);
+void SIM_alloc_ensemble_state();
 
 void SIM_init_positions(int setn_per_task); 
 
@@ -82,7 +82,6 @@ void SIM_read_in_positions(int setn_per_task);
 void SIM_init_interactions(int setn_per_task); 
 
 void SIM_simulation_core(int setn_per_task,
-                         int setn,
                          int taskid); 
 
 void SIM_copycode(void);

@@ -1,18 +1,59 @@
 #include "simulation_core.h"
 #include "comp_gen_header.h"
 #include "random_numb_gen.h"
+#include "sim_config.h"
 #include <time.h>
 #include <gsl/gsl_rng.h>
 
 
 T_EnsembleState EnsembleState;
 
-void SIM_alloc_ensemble_state(int setn){
-  EnsembleState.xstart = calloc_2Ddouble_array(setn, SimParams.setnumb);
-  EnsembleState.positionx = calloc_2Ddouble_array(setn, SimParams.setnumb);
-  EnsembleState.positiony = calloc_2Ddouble_array(setn, SimParams.setnumb);
-  EnsembleState.fintxarray = calloc_2Ddouble_array(setn, SimParams.setnumb);
-  EnsembleState.fintyarray = calloc_2Ddouble_array(setn, SimParams.setnumb);
+void SIM_alloc_ensemble_state(){
+  EnsembleState.xstart = calloc_2Ddouble_array(SimParams.n_interact_sets, SimParams.parts_per_set);
+  EnsembleState.positionx = calloc_2Ddouble_array(SimParams.n_interact_sets, SimParams.parts_per_set);
+  EnsembleState.positiony = calloc_2Ddouble_array(SimParams.n_interact_sets, SimParams.parts_per_set);
+  EnsembleState.fintxarray = calloc_2Ddouble_array(SimParams.n_interact_sets, SimParams.parts_per_set);
+  EnsembleState.fintyarray = calloc_2Ddouble_array(SimParams.n_interact_sets, SimParams.parts_per_set);
+}
+
+/*
+ * Function that allocates memory for a 2 dimensional array of doubles
+ */
+double **calloc_2Ddouble_array(int m, int n)
+{
+    double **array = malloc(m * sizeof(double *));
+    if (!array) return NULL;
+
+    double *data = calloc(m * n, sizeof(double));
+    if (!data) {
+        free(array);
+        return NULL;
+    }
+
+    for (int i = 0; i < m; i++)
+        array[i] = data + i * n;
+
+    return array;
+}
+
+/**
+ * Function that allocates memory for a 2 dimensional array of long ints
+ */
+long int **calloc_2Dlint_array(int m, int n) {
+    long int **array = malloc(m * sizeof(long int*));
+    if (!array) return NULL;
+
+    long int *data = calloc(m * n, sizeof(long int));
+    if (!data) { free(array); return NULL; }
+
+    for (int i = 0; i < m; i++) array[i] = data + i * n;
+
+    return array;
+}
+
+double max_double(double a, double b){
+    /* returns max of doubles a and b */
+    return a > b ? a : b;
 }
 
 void SIM_init_positions(int setn_per_task) 
@@ -38,7 +79,7 @@ void SIM_init_positions(int setn_per_task)
   
   PosValidInit = false;
   for(j = 0; j < setn_per_task; j++){
-	  for(kset = 0; kset < SimParams.setnumb; kset++){
+	  for(kset = 0; kset < SimParams.parts_per_set; kset++){
 		  do{
                
               EnsembleState.positionx[j][kset] = RNG_get_uniform()*L_CONF*SimParams.init_max_xpos;
@@ -80,13 +121,12 @@ void SIM_read_in_positions(int setn_per_task)
   FILE *file;
   int i, j, k;
   double val;
-  char val_int;
 
 
   file = fopen("test_positions.dat", "r");
 
   j = 0;
-  for(i = 0; i < setn_per_task*SimParams.setnumb; i++)
+  for(i = 0; i < setn_per_task*SimParams.parts_per_set; i++)
   {
 	for(k = 0; k < 2; k++)
 	{
@@ -99,19 +139,11 @@ void SIM_read_in_positions(int setn_per_task)
 		printf("x: %lf\t y: %lf\n", EnsembleState.positionx[i][j], EnsembleState.positiony[i][j]);
 	}
 	j++;
-	if(j >= SimParams.setnumb)
+	if(j >= SimParams.parts_per_set)
 	{
 		j = 0;
 	}
   }
-
- /* for(i = 0; i < setn_per_task; i++)
-  {
-	for(j = 0; j < SimParams.setnumb; j++)
-	{
-		printf("x: %lf\t y: %lf\n", positionx[i][j], positiony[i][j]);
-	}
-  }*/
   printf("positions read in!\n"); 
 }
 
@@ -134,10 +166,10 @@ void SIM_init_interactions(int setn_per_task)
   double finty;
                        
   for (j = 0; j < setn_per_task; j++){  
-      for(kset = 0; kset < SimParams.setnumb; kset++){
+      for(kset = 0; kset < SimParams.parts_per_set; kset++){
           fintx = 0;
           finty = 0;
-          for(ktest = 0; ktest < SimParams.setnumb; ktest++){
+          for(ktest = 0; ktest < SimParams.parts_per_set; ktest++){
               if(kset != ktest){
                   distx = EnsembleState.positionx[j][kset] - EnsembleState.positionx[j][ktest];
                   disty = EnsembleState.positiony[j][kset] - EnsembleState.positiony[j][ktest];
@@ -168,7 +200,7 @@ double reset_pos_time(int setn_per_task,
 	int i, j;
 	double t = 0;
 	for(i = 0; i < setn_per_task; i++){
-	  for(j = 0; j < SimParams.setnumb; j++){
+	  for(j = 0; j < SimParams.parts_per_set; j++){
 		 posshift[i][j] = 0; 
 		 negshift[i][j] = 0;
 		 EnsembleState.xstart[i][j] = EnsembleState.positionx[i][j];
@@ -176,7 +208,6 @@ double reset_pos_time(int setn_per_task,
 	}
 	return t;
 }
-
 
 void adapt_posshifts(int shiftind, 
                      int i, 
@@ -229,81 +260,41 @@ int update_equcounter(double tran_quant,
 	return equcounter;
 }
 
-/**
- * Function that allocates memory for a 2 dimensional array of doubles
- */
-double **calloc_2Ddouble_array(int m, int n)
-{
-    double **array = malloc(m * sizeof(double *));
-    if (!array) return NULL;
-
-    double *data = calloc(m * n, sizeof(double));
-    if (!data) {
-        free(array);
-        return NULL;
-    }
-
-    for (int i = 0; i < m; i++)
-        array[i] = data + i * n;
-
-    return array;
-}
-
-/**
- * Function that allocates memory for a 2 dimensional array of long ints
- */
-long int **calloc_2Dlint_array(int m, int n) {
-    long int **array = malloc(m * sizeof(long int*));
-    if (!array) return NULL;
-
-    long int *data = calloc(m * n, sizeof(long int));
-    if (!data) { free(array); return NULL; }
-
-    for (int i = 0; i < m; i++) array[i] = data + i * n;
-
-    return array;
-}
-
-double SIM_perform_sim_step(double old_pos,
-                            double force_ext_dt,
-                            double force_int_dt,
-                            double sqrt_flucts){
+double perform_sim_step(double old_pos,
+                        double force_ext_dt,
+                        double force_int_dt,
+                        double sqrt_flucts){
     double u, new_pos; 
     /*
      *Create random number for simulation of noise
      */  
      u = RNG_get_gaussian(0.0, 1.0);
      /* 
-      *
-     *Update new value of position according to
-     *stochastic Euler for Langevin equation
-     */                       
+      *Update new value of position according to
+      *stochastic Euler for Langevin equation
+      */                       
      new_pos = old_pos + force_ext_dt + force_int_dt + sqrt_flucts*u;
 
     return new_pos;
 }
 
-double max_double(double a, double b){
-    /* returns max of doubles a and b */
-    return a > b ? a : b;
-}
-
-bool SIM_check_pos_validity(double x, double y, double yo){
+bool check_pos_validity(double x, double y, double yo){
     double yue;
     bool PosValid = true;
 
     /*
-    *Calculate value of confinement boundary at current
-    *position x (y-value is needed for non-analytic treatment
-    *of channels with cosine shape
-    */   
+     *Calculate value of confinement boundary at current
+     *position x (y-value is needed for non-analytic treatment
+     *of channels with cosine shape
+     */   
     yue = CONF_yuef(x, y);
 
 
     /*Check if particle is within effective boundary*/  
     if (fabs(y) > yue) PosValid = false;
-    /*Check if bottleneck is passed correctly*/	
+    /*Check if bottleneck at x=0 is passed correctly*/	
     if ((x < 0) && ((max_double(fabs(y), fabs(yo)) >= BOTTLENECK_WIDTH-R_CONF))) PosValid = false;
+    /*Check if bottleneck at x=L_CONF is passed correctly*/	
     if ((x > L_CONF) && ((max_double(fabs(y), fabs(yo)) >= BOTTLENECK_WIDTH-R_CONF))) PosValid = false;
 
     return PosValid;
@@ -331,7 +322,7 @@ void calculate_inter_particle_forces(int j,
     bool PosValid = true;
     *fintx = 0;
     *finty = 0;
-    while((PosValid == true) && (int_ind < SimParams.setnumb)){	
+    while((PosValid == true) && (int_ind < SimParams.parts_per_set)){	
       xtest = EnsembleState.positionx[j][int_ind]; 
       ytest = EnsembleState.positiony[j][int_ind];
 
@@ -371,18 +362,31 @@ void calculate_inter_particle_forces(int j,
     } 
 }
 
+void adapt_pos_for_periodic_bc(double *x, int *shiftind){
+    /*
+    * Adapt position according to period boundary
+    * conditions employed for simulation
+    */
+    *shiftind = 0;
+    if(*x < 0){
+       *shiftind = -1;
+       *x += L_CONF;
+    }
+    if(*x > L_CONF){
+       *shiftind = 1;
+       *x -= L_CONF;
+    }
+    /* calc interactions here */ 
+}
+
 /* Perform simulation steps until equilibration is reached */
 void SIM_simulation_core(int setn_per_task,
-                         int setn,
                          int taskid){ 
-
   double x, y, yo, xo; 
   double t;
   double dt = SimParams.time_step;  
   long double  sqrt_flucts, f_dt;
   int i;     
-  int j;
-  int kset; 
   int abb;	
   int abbdeff;	
   double muabbo;	
@@ -397,8 +401,10 @@ void SIM_simulation_core(int setn_per_task,
   long int **negshift;
   long int **posshift;
   
-  negshift = calloc_2Dlint_array(setn, SimParams.setnumb);
-  posshift = calloc_2Dlint_array(setn, SimParams.setnumb);
+  negshift = calloc_2Dlint_array(SimParams.n_interact_sets,
+                                 SimParams.parts_per_set);
+  posshift = calloc_2Dlint_array(SimParams.n_interact_sets,
+                                 SimParams.parts_per_set);
   
   sqrt_flucts = sqrt(2*BOTTRAD*dt);
   f_dt = SimParams.F*dt;
@@ -413,15 +419,14 @@ void SIM_simulation_core(int setn_per_task,
   abbdeff = 0;	
   muabbo = 0;	
   deffabbo = 0;	
+
   printf("start to propagate particles\n");
   do{	
-	
 	  t += dt;
 	  i++;
 	  /* Loop over trajectories */
-	  for (j = 0; j < setn_per_task; j++){	
-		  for(kset = 0; kset < SimParams.setnumb; kset++){
-
+	  for (int j = 0; j < setn_per_task; j++){	
+		  for(int kset = 0; kset < SimParams.parts_per_set; kset++){
 
 			  xo = EnsembleState.positionx[j][kset];
 			  yo = EnsembleState.positiony[j][kset];
@@ -434,32 +439,20 @@ void SIM_simulation_core(int setn_per_task,
  			   * and particles are within channel is obtained 
  			   */
 			  do{
-
-                  x = SIM_perform_sim_step(xo, f_dt, fintx*dt, sqrt_flucts);
-                  y = SIM_perform_sim_step(yo, 0, finty*dt, sqrt_flucts);
+                  x = perform_sim_step(xo, f_dt, fintx*dt, sqrt_flucts);
+                  y = perform_sim_step(yo, 0, finty*dt, sqrt_flucts);
                   
-                  PosValid = SIM_check_pos_validity(x, y, yo);
+                  PosValid = check_pos_validity(x, y, yo);
 
 				  if(PosValid == true){
-					  /*
-					   * Adapt position according to period boundary
-					   * conditions employed for simulation
-					   */
-					  shiftind = 0;
-					  if(x < 0){
-						   shiftind = -1;
-						   x += L_CONF;
-					  }
-					  if(x > L_CONF){
-						   shiftind = 1;
-						   x -= L_CONF;
-					  }
+                      /*shift positions if x is outside of one period of
+                       * channel to account for periodic boundary conditions
+                       */ 
+                      adapt_pos_for_periodic_bc(&x, &shiftind);
 					  /* calc interactions here */ 
-					  /*simulate particle-particle interaction*/ 
-					  if (SimParams.setnumb > 1){ 
-                        //printf("\n\nfinx: %lf, finty: %lf\n", fintx, finty);
+					  /* simulate particle-particle interaction */ 
+					  if (SimParams.parts_per_set > 1){ 
                         calculate_inter_particle_forces(j, kset, x, y, &fintx, &finty);
-                        //printf("finx: %lf, finty: %lf\n\n", fintx, finty);
 					  }
 				  }		   
 			  }while(PosValid == false);
@@ -470,14 +463,14 @@ void SIM_simulation_core(int setn_per_task,
               update_ensemble_state(j, kset, x, y, fintx, finty);
 		}
  	   /*
-       * Close loop over trajectories 
-       */
+        * Close loop over trajectories 
+        */
 	  }
 	
       /*
 	   *Initialize reference values of mobility and diffusion coefficients
 	   *for later judgement of equilibration process.
-	  */
+	   */
 	  if((i > SimParams.stepnumb - SimParams.testab) && (i <= SimParams.stepnumb - SimParams.testab + 1)){ 
 		  muabbo = tcoeff.mu;
 		  deffabbo = tcoeff.deff;
@@ -491,25 +484,25 @@ void SIM_simulation_core(int setn_per_task,
 	  if(i % SimParams.plotpoints == 0){
 	  	PrintRes = true;
 	  }
+
 	  TestRes = false;
 	  if((i > SimParams.stepnumb) && (i % SimParams.testab == 0)){
      		TestRes = true;
-          }
+      }
 
 	  if((TestRes == true) || PrintRes == true){ 
 
 		  /*
 		   * call function for calculation of transport coefficients 
 		   * such as mobility or mean-squared displacement 
-		   * */ 
+		   */ 
 		  RES_calc_transpcoeffs(setn_per_task, 
                                 t, 
                                 posshift,
                                 negshift,
                                 EnsembleState.positionx,
                                 EnsembleState.xstart);
-	  
-			 
+          
           /*
            * Update of the equilibration counter that are used to monitore the
            * equilibration of the mobility and diffusivity
@@ -521,7 +514,6 @@ void SIM_simulation_core(int setn_per_task,
 				  
  			  	  abbdeff = update_equcounter(tcoeff.deff, deffabbo, SimParams.deffaccur*deffabbo, abbdeff);
 			  }
-
 			  else{ 
  			  	  abbdeff = update_equcounter(tcoeff.deff, deffabbo, SimParams.deffaccur, abbdeff);
 			  }		
@@ -547,8 +539,6 @@ void SIM_simulation_core(int setn_per_task,
                              posshift, 
                              negshift); 
 	  } 
-
- 
   /* 
    * Closes while loop over simulation steps if criteria for equilibration are fulfilled
    */
@@ -559,12 +549,10 @@ void SIM_simulation_core(int setn_per_task,
   free(EnsembleState.xstart);
 }
 
-
 void SIM_copycode(){
 
    char copycode[200];
 
   sprintf(copycode, "cp ../simulation_core.* ./");
   system(copycode);
-
 }

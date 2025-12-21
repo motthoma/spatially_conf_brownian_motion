@@ -2,6 +2,7 @@
 trajektories are calculatet parallel*/
 
 #include "code_handling.h"
+#include "sim_config.h"
 #include "simulation_core.h"
 #include "random_numb_gen.h"
 
@@ -42,7 +43,7 @@ int main (int argc, char **argv){
    * particles accumulated from all threads if 
    * MPI is employed.
    */
-  long double  meanxall;
+  long double meanxall;
 
   /* mean squared position <x^2> accumulated from
    * all threads if MPI is employed.
@@ -74,9 +75,6 @@ int main (int argc, char **argv){
    */
   int setn_per_task;
 
-  /* number of 'sets' or ensembles simulated */
-  int setn;
-
   /* flag to check if number of particles, ensemble
    * number of interacting particles and number 
    * of threats are consistent.
@@ -107,21 +105,33 @@ int main (int argc, char **argv){
   printf("\nargc: %d\n\n", argc);
   if(argc > 2){
 	SimParams.F = atof(argv[1])*L_CONF;
-	SimParams.setnumb = atof(argv[2]);
+	SimParams.parts_per_set = atof(argv[2]);
 //	mpi_ind = atof(argv[3]);
   }
   else{
  	return -1;
   }
-  
-  SimParams.time_step = SIMCONFIG_time_step(BOTTLENECK_WIDTH, R_INT); 
-	
+
+# ifdef MPI_ON
+	  MPI_Init (&argc,&argv);
+	  MPI_Comm_size (MPI_COMM_WORLD, &tasks);
+	  MPI_Comm_rank (MPI_COMM_WORLD, &taskid); 
+# endif
   /*
    * initialize parameters and resulting values
    */
   SIMCONFIG_init();
-  RES_init(); 
+  
+  SimParams.numtasks = tasks;
+  SimParams.time_step = SIMCONFIG_time_step(BOTTLENECK_WIDTH, R_INT); 
 
+  /* calculate number of sets of interacting particles */ 
+  SimParams.n_interact_sets = (int) SimParams.N/SimParams.parts_per_set;
+
+  /* calculate number of samples of interacting particles per task */ 
+  setn_per_task = (int) SimParams.N/(SimParams.parts_per_set*SimParams.numtasks);
+  
+  RES_init(); 
 
   /*
    * get name of confinement and type of intra particle interaction
@@ -132,18 +142,12 @@ int main (int argc, char **argv){
   namefile = CODEHAND_makedirectory(conprfx, intprfx);
   chdir(namefile);
 
-
-  /**
-   * calculate number of samples of interacting particles
-   */ 
-  setn = (int) SimParams.N/SimParams.setnumb;
-  
   /*
    * initialize arrays where x- and y-coordinates of particles are stored in
    * as well as interaction forces
    */ 
   printf("\ninitialize arrays for positions and interactions stored in enseble state\n"); 
-  SIM_alloc_ensemble_state(setn);
+  SIM_alloc_ensemble_state();
   
   char fnamex [60];
   char fnamey [60];
@@ -152,12 +156,6 @@ int main (int argc, char **argv){
   char fname_confparams [60];
   char fname_intparams [60];
 
-# ifdef MPI_ON
-	  MPI_Init (&argc,&argv);
-	  MPI_Comm_size (MPI_COMM_WORLD, &tasks);
-	  MPI_Comm_rank (MPI_COMM_WORLD, &taskid); 
-# endif
-  SimParams.numtasks = tasks;
 
   if(taskid == MASTER){
 	  /*CODEHAND_copy_main();
@@ -188,10 +186,6 @@ int main (int argc, char **argv){
 	  }
   }
 
-  /**
-   * calculate number of samples of interacting particles per task
-   */ 
-  setn_per_task = (int) SimParams.N/(SimParams.setnumb*SimParams.numtasks);
 
   if(taskid == MASTER){
 	  if(SimParams.numtasks > 1){
@@ -200,7 +194,6 @@ int main (int argc, char **argv){
 		  fprintf(outptasks, "\nFile shows results of all tasks if code is parallelized:\n\n");
 		  fclose(outptasks);
           } 
-
   }
   
   /* Initialize pointer interface to gls random functions */  
@@ -210,10 +203,10 @@ int main (int argc, char **argv){
    * Initialize particle positions 
    */
   SIM_init_positions(setn_per_task);
-/*  SIM_read_in_positions(setn_per_task, 
-			positionx, 
-			positiony, 
-			xstart);*/
+  /*SIM_read_in_positions(setn_per_task, 
+                          positionx, 
+                          positiony, 
+                          xstart);*/
 
   /* Initialize inter-particle forces */
   SIM_init_interactions(setn_per_task);
@@ -224,7 +217,6 @@ int main (int argc, char **argv){
    * for equilibration are met
    */  
   SIM_simulation_core(setn_per_task,
-                      setn,
                       taskid); 
  
   /*Merge quantities that were calculated in separated MPI threads*/ 

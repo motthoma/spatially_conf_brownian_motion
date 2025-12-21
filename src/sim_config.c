@@ -23,6 +23,7 @@ void SIMCONFIG_init() {
     SimParams.plotpoints = SimParams.stepnumb / 100;
     SimParams.testab = SimParams.plotpoints;
     SimParams.reset_stepnumb = 15 * SimParams.testab;
+    //SimParams.setn_per_task = (int) SimParams.N/(SimParams.parts_per_set*SimParams.numtasks);
 }
 
 /**
@@ -37,8 +38,8 @@ bool SIMCONFIG_check_consistency() {
         consistent = false;
     }
 
-    if (SimParams.N % (SimParams.numtasks * SimParams.setnumb) != 0) {
-        printf("Error: N modulo (numtasks * setnumb) != 0\n");
+    if (SimParams.N % (SimParams.numtasks * SimParams.parts_per_set) != 0) {
+        printf("Error: N modulo (numtasks * parts_per_set) != 0\n");
         consistent = false;
     }
 
@@ -53,7 +54,7 @@ bool SIMCONFIG_check_consistency() {
  * Calculate simulation time step based on confinement and particle scales.
  */
 double SIMCONFIG_time_step(double lscale_conf, double lscale_part) {
-    double tstep_scale = (SimParams.setnumb == 1) ? lscale_conf : lscale_part;
+    double tstep_scale = (SimParams.parts_per_set == 1) ? lscale_conf : lscale_part;
     double tstep;
 
     if (fabs(SimParams.F) <= 1 / lscale_conf) {
@@ -90,7 +91,7 @@ void SIMCONFIG_write_specs(const char *filename) {
             "Accuracy of mobility: %lf\n"
             "Accuracy of Deff: %lf\n\n",
             SimParams.N,
-            SimParams.setnumb,
+            SimParams.parts_per_set,
             SimParams.accur,
             SimParams.deffaccur);
 

@@ -69,14 +69,14 @@ char* CODEHAND_makedirectory(const char *confprfx, const char *intprfx)
              confprfx, intprfx,
              tm->tm_year + 1900, tm->tm_mon + 1, tm->tm_mday,
              tm->tm_hour, tm->tm_min, tm->tm_sec,
-             R_CONF, LJMIN, EPS_L, SimParams.F, SimParams.setnumb);
+             R_CONF, LJMIN, EPS_L, SimParams.F, SimParams.parts_per_set);
 #else
     snprintf(dirname, 256,
              "%s_%s_%d_%02d_%02d_%02dh_%02dmin_%02dsec_R_%.3lf_F_%.2lf_setn_%d",
              confprfx, intprfx,
              tm->tm_year + 1900, tm->tm_mon + 1, tm->tm_mday,
              tm->tm_hour, tm->tm_min, tm->tm_sec,
-             R_CONF, SimParams.F, SimParams.setnumb);
+             R_CONF, SimParams.F, SimParams.parts_per_set);
 #endif
 
     /* Ensure "runs" directory exists */

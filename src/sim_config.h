@@ -36,7 +36,7 @@ extern unsigned int nbin;
 
 typedef struct TAG_SimParams{
 	int N;
-	int setnumb;
+	int parts_per_set;
 	int numbtest;
 	int stepnumb;
 	int simlong;
@@ -50,8 +50,8 @@ typedef struct TAG_SimParams{
 	int reset_stepnumb;
 	double time_step;
 	int numtasks; 
-
-
+    int setn_per_task;
+    int n_interact_sets;
 }T_SimParams;
 
 extern T_SimParams SimParams;

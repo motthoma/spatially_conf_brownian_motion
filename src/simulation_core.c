@@ -2,7 +2,7 @@
 #include "comp_gen_header.h"
 #include "random_numb_gen.h"
 #include "sim_config.h"
-#include <time.h>
+#include "array_utils.h"
 #include <gsl/gsl_rng.h>
 
 
@@ -16,45 +16,7 @@ void SIM_alloc_ensemble_state(){
   EnsembleState.fintyarray = calloc_2Ddouble_array(SimParams.n_interact_sets, SimParams.parts_per_set);
 }
 
-/*
- * Function that allocates memory for a 2 dimensional array of doubles
- */
-double **calloc_2Ddouble_array(int m, int n)
-{
-    double **array = malloc(m * sizeof(double *));
-    if (!array) return NULL;
 
-    double *data = calloc(m * n, sizeof(double));
-    if (!data) {
-        free(array);
-        return NULL;
-    }
-
-    for (int i = 0; i < m; i++)
-        array[i] = data + i * n;
-
-    return array;
-}
-
-/**
- * Function that allocates memory for a 2 dimensional array of long ints
- */
-long int **calloc_2Dlint_array(int m, int n) {
-    long int **array = malloc(m * sizeof(long int*));
-    if (!array) return NULL;
-
-    long int *data = calloc(m * n, sizeof(long int));
-    if (!data) { free(array); return NULL; }
-
-    for (int i = 0; i < m; i++) array[i] = data + i * n;
-
-    return array;
-}
-
-double max_double(double a, double b){
-    /* returns max of doubles a and b */
-    return a > b ? a : b;
-}
 
 void SIM_init_positions(int setn_per_task) 
 {
@@ -292,9 +254,9 @@ bool check_pos_validity(double x, double y, double yo){
 
     /*Check if particle is within effective boundary*/  
     if (fabs(y) > yue) PosValid = false;
-    /*Check if bottleneck at x=0 is passed correctly*/	
+    /*Check if bottleneck at x=0 is passed without 'tunneling' through bottleneck*/	
     if ((x < 0) && ((max_double(fabs(y), fabs(yo)) >= BOTTLENECK_WIDTH-R_CONF))) PosValid = false;
-    /*Check if bottleneck at x=L_CONF is passed correctly*/	
+    /*Check if bottleneck at x=L_CONF is passed without 'tunneling' through bottleneck correctly*/
     if ((x > L_CONF) && ((max_double(fabs(y), fabs(yo)) >= BOTTLENECK_WIDTH-R_CONF))) PosValid = false;
 
     return PosValid;
@@ -310,13 +272,13 @@ void update_ensemble_state(int j, int kset, double x, double y, double fintx, do
      EnsembleState.fintyarray[j][kset] = finty;
 }
 
-void calculate_inter_particle_forces(int j,
+bool calculate_inter_particle_forces(int j,
                                      int kset,
                                      double x,
                                      double y,
                                      double *fintx,
                                      double *finty){
-    /*function that calculates the intra-particle forces*/                        
+    /*function that calculates the intra-particle forces*/
     double distx, disty, dist, xtest, ytest;
     int int_ind = 0;
     bool PosValid = true;
@@ -354,15 +316,16 @@ void calculate_inter_particle_forces(int j,
               fintypair = INT_force(disty, dist);
               *fintx += fintxpair;
               *finty += fintypair;
-
           }
       }
       int_ind++;
     /*close loop over particles of interacting ensemble*/
     } 
+
+    return PosValid;
 }
 
-void adapt_pos_for_periodic_bc(double *x, int *shiftind){
+void shift_pos_for_periodic_bc(double *x, int *shiftind){
     /*
     * Adapt position according to period boundary
     * conditions employed for simulation
@@ -445,14 +408,15 @@ void SIM_simulation_core(int setn_per_task,
                   PosValid = check_pos_validity(x, y, yo);
 
 				  if(PosValid == true){
-                      /*shift positions if x is outside of one period of
+                      /*
+                       * shift positions if x is outside of one period of
                        * channel to account for periodic boundary conditions
                        */ 
-                      adapt_pos_for_periodic_bc(&x, &shiftind);
-					  /* calc interactions here */ 
-					  /* simulate particle-particle interaction */ 
+                      shift_pos_for_periodic_bc(&x, &shiftind);
+					  /* calc interactions here */
+					  /* simulate particle-particle interaction */
 					  if (SimParams.parts_per_set > 1){ 
-                        calculate_inter_particle_forces(j, kset, x, y, &fintx, &finty);
+                        PosValid = calculate_inter_particle_forces(j, kset, x, y, &fintx, &finty);
 					  }
 				  }		   
 			  }while(PosValid == false);
@@ -463,7 +427,7 @@ void SIM_simulation_core(int setn_per_task,
               update_ensemble_state(j, kset, x, y, fintx, finty);
 		}
  	   /*
-        * Close loop over trajectories 
+        * Close loop over trajectories
         */
 	  }
 	
@@ -477,9 +441,9 @@ void SIM_simulation_core(int setn_per_task,
 	  }
 	
       /*
-       * Test progress of equilibration and plot results at certain 
+       * Test progress of equilibration and plot results at certain
        * simulation steps i
-       */ 
+       */
       PrintRes = false;
 	  if(i % SimParams.plotpoints == 0){
 	  	PrintRes = true;

@@ -57,7 +57,7 @@ double **calloc_2Ddouble_array(int m, int n);
 
 double max_double(double a, double b);
 
-void calculate_inter_particle_forces(int j,
+bool calculate_inter_particle_forces(int j,
                                      int kset,
                                      double x,
                                      double y,

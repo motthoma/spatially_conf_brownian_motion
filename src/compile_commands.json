@@ -1,0 +1,151 @@
+[
+  {
+    "arguments": [
+      "/usr/bin/gcc",
+      "-c",
+      "-w",
+      "-Wall",
+      "-Wextra",
+      "-pedantic",
+      "main_brownconf.c"
+    ],
+    "directory": "/home/thomas/workspace_thomas/entropic_particle_splitter/src",
+    "file": "/home/thomas/workspace_thomas/entropic_particle_splitter/src/main_brownconf.c"
+  },
+  {
+    "arguments": [
+      "/usr/bin/gcc",
+      "-c",
+      "-w",
+      "-Wall",
+      "-Wextra",
+      "-pedantic",
+      "main_brownconf.o",
+      "-o",
+      "main_brownconf",
+      "sim_config.c"
+    ],
+    "directory": "/home/thomas/workspace_thomas/entropic_particle_splitter/src",
+    "file": "/home/thomas/workspace_thomas/entropic_particle_splitter/src/sim_config.c",
+    "output": "/home/thomas/workspace_thomas/entropic_particle_splitter/src/main_brownconf"
+  },
+  {
+    "arguments": [
+      "/usr/bin/gcc",
+      "-c",
+      "-w",
+      "-Wall",
+      "-Wextra",
+      "-pedantic",
+      "main_brownconf.o",
+      "-o",
+      "main_brownconf",
+      "results_transport.c"
+    ],
+    "directory": "/home/thomas/workspace_thomas/entropic_particle_splitter/src",
+    "file": "/home/thomas/workspace_thomas/entropic_particle_splitter/src/results_transport.c",
+    "output": "/home/thomas/workspace_thomas/entropic_particle_splitter/src/main_brownconf"
+  },
+  {
+    "arguments": [
+      "/usr/bin/gcc",
+      "-c",
+      "-w",
+      "-Wall",
+      "-Wextra",
+      "-pedantic",
+      "main_brownconf.o",
+      "-o",
+      "main_brownconf",
+      "code_handling.c"
+    ],
+    "directory": "/home/thomas/workspace_thomas/entropic_particle_splitter/src",
+    "file": "/home/thomas/workspace_thomas/entropic_particle_splitter/src/code_handling.c",
+    "output": "/home/thomas/workspace_thomas/entropic_particle_splitter/src/main_brownconf"
+  },
+  {
+    "arguments": [
+      "/usr/bin/gcc",
+      "-c",
+      "-w",
+      "-Wall",
+      "-Wextra",
+      "-pedantic",
+      "main_brownconf.o",
+      "-o",
+      "main_brownconf",
+      "random_numb_gen.c"
+    ],
+    "directory": "/home/thomas/workspace_thomas/entropic_particle_splitter/src",
+    "file": "/home/thomas/workspace_thomas/entropic_particle_splitter/src/random_numb_gen.c",
+    "output": "/home/thomas/workspace_thomas/entropic_particle_splitter/src/main_brownconf"
+  },
+  {
+    "arguments": [
+      "/usr/bin/gcc",
+      "-c",
+      "-w",
+      "-Wall",
+      "-Wextra",
+      "-pedantic",
+      "main_brownconf.o",
+      "-o",
+      "main_brownconf",
+      "simulation_core.c"
+    ],
+    "directory": "/home/thomas/workspace_thomas/entropic_particle_splitter/src",
+    "file": "/home/thomas/workspace_thomas/entropic_particle_splitter/src/simulation_core.c",
+    "output": "/home/thomas/workspace_thomas/entropic_particle_splitter/src/main_brownconf"
+  },
+  {
+    "arguments": [
+      "/usr/bin/gcc",
+      "-c",
+      "-w",
+      "-Wall",
+      "-Wextra",
+      "-pedantic",
+      "main_brownconf.o",
+      "-o",
+      "main_brownconf",
+      "print_routines.c"
+    ],
+    "directory": "/home/thomas/workspace_thomas/entropic_particle_splitter/src",
+    "file": "/home/thomas/workspace_thomas/entropic_particle_splitter/src/print_routines.c",
+    "output": "/home/thomas/workspace_thomas/entropic_particle_splitter/src/main_brownconf"
+  },
+  {
+    "arguments": [
+      "/usr/bin/gcc",
+      "-c",
+      "-w",
+      "-Wall",
+      "-Wextra",
+      "-pedantic",
+      "main_brownconf.o",
+      "-o",
+      "main_brownconf",
+      "conf_splitter.c"
+    ],
+    "directory": "/home/thomas/workspace_thomas/entropic_particle_splitter/src",
+    "file": "/home/thomas/workspace_thomas/entropic_particle_splitter/src/conf_splitter.c",
+    "output": "/home/thomas/workspace_thomas/entropic_particle_splitter/src/main_brownconf"
+  },
+  {
+    "arguments": [
+      "/usr/bin/gcc",
+      "-c",
+      "-w",
+      "-Wall",
+      "-Wextra",
+      "-pedantic",
+      "main_brownconf.o",
+      "-o",
+      "main_brownconf",
+      "int_lennardjones.c"
+    ],
+    "directory": "/home/thomas/workspace_thomas/entropic_particle_splitter/src",
+    "file": "/home/thomas/workspace_thomas/entropic_particle_splitter/src/int_lennardjones.c",
+    "output": "/home/thomas/workspace_thomas/entropic_particle_splitter/src/main_brownconf"
+  }
+]

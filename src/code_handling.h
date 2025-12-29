@@ -8,6 +8,10 @@
  *********************************************************
  */
 
+typedef struct {
+    char *destdir_name; 
+    char *fullpath; 
+} T_DestPaths;
 
 /**
  *********************************************************
@@ -17,7 +21,7 @@
  *********************************************************
  */
 
-char* CODEHAND_makedirectory(const char *confprfx, const char *intprfx); 
+void CODEHAND_makedirectory(const char *confprfx, const char *intprfx); 
 
 void CODEHAND_copy_main(void);
 

@@ -11,6 +11,8 @@
 
 #define RUNS_DIR "../runs"
 
+T_DestPaths DestPaths;
+
 /* ------------------------------------------------------------ */
 /* Helper: robust file copy                                     */
 /* ------------------------------------------------------------ */
@@ -51,27 +53,27 @@ static int copy_file(const char *src, const char *dst)
 /* ------------------------------------------------------------ */
 /* Create run-subdirectory name                                 */
 /* ------------------------------------------------------------ */
-char* CODEHAND_makedirectory(const char *confprfx, const char *intprfx)
+void CODEHAND_makedirectory(const char *confprfx, const char *intprfx)
 {
     time_t t = time(NULL);
     struct tm *tm = localtime(&t);
 
     /* Allocate run directory name */
-    char *dirname = malloc(256);
-    if (!dirname) {
+    DestPaths.destdir_name = malloc(256);
+    if (!DestPaths.destdir_name) {
         fprintf(stderr, "malloc failed\n");
-        return NULL;
     }
 
 #ifdef LJMIN
-    snprintf(dirname, 256,
+    snprintf(DestPaths.destdir_name, 256,
              "%s_%s_%d_%02d_%02d_%02dh_%02dmin_%02dsec_R_%.3lf_LJMIN_%.3lf_EPS_%.2lf_F_%.2lf_setn_%d",
              confprfx, intprfx,
              tm->tm_year + 1900, tm->tm_mon + 1, tm->tm_mday,
              tm->tm_hour, tm->tm_min, tm->tm_sec,
              R_CONF, LJMIN, EPS_L, SimParams.F, SimParams.parts_per_set);
+
 #else
-    snprintf(dirname, 256,
+    snprintf(DestPaths.destdir_name, 256,
              "%s_%s_%d_%02d_%02d_%02dh_%02dmin_%02dsec_R_%.3lf_F_%.2lf_setn_%d",
              confprfx, intprfx,
              tm->tm_year + 1900, tm->tm_mon + 1, tm->tm_mday,
@@ -82,34 +84,35 @@ char* CODEHAND_makedirectory(const char *confprfx, const char *intprfx)
     /* Ensure "runs" directory exists */
     mkdir(RUNS_DIR, 0755);
 
-    /* Build full path: runs/<dirname> */
-    char fullpath[512];
-    snprintf(fullpath, sizeof fullpath, "%s/%s", RUNS_DIR, dirname);
+    DestPaths.fullpath = malloc(512);
+    snprintf(DestPaths.fullpath, 512, "%s/%s", RUNS_DIR, DestPaths.destdir_name);
 
-    if (mkdir(fullpath, 0700) != 0) {
-        fprintf(stderr, "mkdir '%s' failed: %s\n",
-                fullpath, strerror(errno));
-        free(dirname);
-        return NULL;
+    if (mkdir(DestPaths.fullpath, 0700) != 0) {
+        fprintf(stderr, "mkdir fullpath '%s' failed: %s\n",
+                DestPaths.fullpath, strerror(errno));
+        free(DestPaths.destdir_name);
     }
 
-    if (chdir(fullpath) != 0) {
+    if (chdir(DestPaths.fullpath) != 0) {
         fprintf(stderr, "chdir '%s' failed: %s\n",
-                fullpath, strerror(errno));
-        free(dirname);
-        return NULL;
+                DestPaths.fullpath, strerror(errno));
+        free(DestPaths.destdir_name);
     }
-
-    return dirname;
 }
 
 /* ------------------------------------------------------------ */
 /* Copy needed files into run directory                         */
 /* ------------------------------------------------------------ */
 void CODEHAND_copy_main(void)
-{
-    copy_file("../main_brownconf.c", "main_brownconf.c");
-    copy_file("../makefile",          "makefile");
+{  
+    char *dest_path = malloc(800);
+    snprintf(dest_path,
+             800,
+             "%s/main_brownconf.c",
+             DestPaths.fullpath);
+
+    copy_file("../../src/main_brownconf.c", "./main_brownconf.c");
+    // copy_file("../makefile",          "makefile");
 }
 
 void CODEHAND_copycode(void)

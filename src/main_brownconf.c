@@ -12,6 +12,7 @@ trajektories are calculatet parallel*/
 #include <sys/stat.h>
 #include <unistd.h>
 
+T_DestPaths DestPaths_main;
 
 int main (int argc, char **argv){
 /** main function of Brownian motion simulation
@@ -139,8 +140,8 @@ int main (int argc, char **argv){
    */
   conprfx = CONF_prfx();
   intprfx = INT_prfx();
-  namefile = CODEHAND_makedirectory(conprfx, intprfx);
-  chdir(namefile);
+  CODEHAND_makedirectory(conprfx, intprfx);
+  // chdir(namefile);
 
   /*
    * initialize arrays where x- and y-coordinates of particles are stored in
@@ -158,16 +159,15 @@ int main (int argc, char **argv){
 
 
   if(taskid == MASTER){
-	  /*CODEHAND_copy_main();
-      //
-	  SIMCONFIG_copy_code(); 
+	  CODEHAND_copy_main();
+	  /* SIMCONFIG_copy_code(); 
 	  CONF_copycode();
 	  INT_copycode();
 	  RES_copycode();
 	  SIM_copycode();
 	  PRINT_copycode();
 	  CODEHAND_copy_comp_gen_header();*/
-	  CODEHAND_copycode();
+	  // CODEHAND_copycode();
 
 	  /*filenames of simulation parameters*/
 	  sprintf(fname_simparams, "parameters_simulation_overall.dat");
@@ -269,7 +269,7 @@ int main (int argc, char **argv){
  	   PRINT_positions(setn_per_task, EnsembleState.positionx, EnsembleState.positiony);
        RES_print_countercheck(fname_confparams);
        PRINT_resallthreads(msdall, meanspeedall, muall, deffall, meanxall, meanxsquall, thirdcumall);
-	   PRINT_muoverf(muall, deffall, namefile);
+	   PRINT_muoverf(muall, deffall, DestPaths_main.destdir_name);
             
 	   PRINT_runtime(prgstart, fname_simparams);
            

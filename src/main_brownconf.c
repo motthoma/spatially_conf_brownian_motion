@@ -12,15 +12,11 @@ trajektories are calculatet parallel*/
 #include <sys/stat.h>
 #include <unistd.h>
 
-T_DestPaths DestPaths_main;
 
 int main (int argc, char **argv){
-/** main function of Brownian motion simulation
- *
- */
+/** main function of Brownian motion simulation */
 
-  /*
-   * initialize parameters for time measurement and measure time
+  /* initialize parameters for time measurement and measure time
    */ 
   clock_t prgstart; 
   prgstart = clock();
@@ -101,7 +97,8 @@ int main (int argc, char **argv){
   printres.state = 0; 
   
   /*
-   * read external force and number of interacting particles per set from command line arguments
+   * read external force and number of interacting
+   * particles per set from command line arguments
    */ 
   printf("\nargc: %d\n\n", argc);
   if(argc > 2){
@@ -159,7 +156,8 @@ int main (int argc, char **argv){
 
 
   if(taskid == MASTER){
-	  CODEHAND_copy_main();
+	  CODEHAND_copy_file_to_dest("main_brownconf.c");
+	  CODEHAND_copy_file_to_dest("sim_config.c");
 	  /* SIMCONFIG_copy_code(); 
 	  CONF_copycode();
 	  INT_copycode();
@@ -269,8 +267,7 @@ int main (int argc, char **argv){
  	   PRINT_positions(setn_per_task, EnsembleState.positionx, EnsembleState.positiony);
        RES_print_countercheck(fname_confparams);
        PRINT_resallthreads(msdall, meanspeedall, muall, deffall, meanxall, meanxsquall, thirdcumall);
-	   PRINT_muoverf(muall, deffall, DestPaths_main.destdir_name);
-            
+	   PRINT_muoverf(muall, deffall, DestPaths.destdir_name);
 	   PRINT_runtime(prgstart, fname_simparams);
            
   }

@@ -4,6 +4,7 @@
 struct PrintResults printres = {0, "", ""};
 
 #include "sim_config.h"
+#include "code_handling.h"
 #include "results_transport.h"
 
 #include <stdio.h>
@@ -17,7 +18,7 @@ void PRINT_muoverf(double muall, double deffall, char *namefile)
  */
   char fnamemu[60];
 
-  sprintf(fnamemu, "../muoverfpos_R_%.2lf_parts_per_set_%d.dat", R_CONF, SimParams.parts_per_set);
+  sprintf(fnamemu, "%s/muoverfpos_R_%.2lf_parts_per_set_%d.dat", RUNS_DIR, R_CONF, SimParams.parts_per_set);
 
   FILE *outmu;
   outmu=fopen(fnamemu, "a");
@@ -34,14 +35,14 @@ void PRINT_results_over_time(double t,
     */
     /*	printf("start_to_print_result\n"); */
     if(printres.state == 0){    
-		sprintf(printres.fname, "muovert_F_%.3lf.dat", SimParams.F);
+		sprintf(printres.fname, "%s/muovert_F_%.3lf.dat", DestPaths.fullpath, SimParams.F);
 		FILE *outp;
 		outp = fopen(printres.fname ,"w");
 		fprintf(outp, "#time\t meanx: <x>\t meanspeed: <v>\t mu\t abb\t abbdeff\n");
 		fclose(outp);
 		printf("#time\t meanx: <x>\t meanspeed: <v>\t mu\t abb\t abbdeff\n");
 
-		sprintf(printres.fnamemom, "momsovert_F_%.3lf.dat", SimParams.F);
+		sprintf(printres.fnamemom, "%s/momsovert_F_%.3lf.dat", DestPaths.fullpath, SimParams.F);
 		FILE *outpmom;
 		outpmom=fopen(printres.fnamemom ,"w");
 		fprintf(outpmom, "#time\t meanx: <x>\t meanxsquare: <x^2>\t Meansqdist: <x^2> - <x>^2\t  deff: (<x^2> - <x>^2)/(2t)\t third cumulant: <x^3>-3<x^2><x>+2<x>^3\n");
@@ -71,7 +72,10 @@ void PRINT_positions(int m, double **posx, double **posy){
   int i;
   int j;
   FILE *outpos;
-  outpos=fopen("positions.dat", "a");
+
+  char positions[256];
+  snprintf(positions, 256, "%s/positions.dat", DestPaths.fullpath); 
+  outpos=fopen(positions, "a");
   fprintf(outpos, "#xpositions\t ypositions\n");
 
   for(i = 0; i < m; i++){
@@ -82,8 +86,6 @@ void PRINT_positions(int m, double **posx, double **posy){
   }
   fclose(outpos);
 }
-
-
 
 void PRINT_runtime(clock_t start, char *name_simspecs)
 {
@@ -134,7 +136,9 @@ int timediff;
 	timediff = (int)((end-start) / CLOCKS_PER_SEC);
 
 	FILE *outptasks;
-	outptasks=fopen("taskres.dat", "a");
+    char taskres [256];
+    snprintf(taskres, 256, "%s/taskres.dat", DestPaths.fullpath); 
+	outptasks=fopen(taskres, "a");
 	fprintf(outptasks, "\nTask %d:\nmeanx = %.8Lf\t meanxsqu = %.8Lf\t meanspeed = %.8lf\t mu = %.8lf\t deff = %.8lf\n",
             taskid, 
             tcoeff.meanx, 

@@ -6,10 +6,9 @@
 #include <unistd.h>
 #include <time.h>
 
+#include "sim_config.h"
 #include "comp_gen_header.h"
 #include "code_handling.h"
-
-#define RUNS_DIR "../runs"
 
 T_DestPaths DestPaths;
 
@@ -93,25 +92,31 @@ void CODEHAND_makedirectory(const char *confprfx, const char *intprfx)
         free(DestPaths.destdir_name);
     }
 
-    if (chdir(DestPaths.fullpath) != 0) {
+    /*if (chdir(DestPaths.fullpath) != 0) {
         fprintf(stderr, "chdir '%s' failed: %s\n",
                 DestPaths.fullpath, strerror(errno));
         free(DestPaths.destdir_name);
-    }
+    }*/
 }
 
 /* ------------------------------------------------------------ */
 /* Copy needed files into run directory                         */
 /* ------------------------------------------------------------ */
-void CODEHAND_copy_main(void)
+void CODEHAND_copy_file_to_dest(char *filename)
 {  
     char *dest_path = malloc(800);
+    char *src_path = malloc(800);
     snprintf(dest_path,
              800,
-             "%s/main_brownconf.c",
-             DestPaths.fullpath);
+             "%s/%s",
+             DestPaths.fullpath, filename);
+    
+    snprintf(src_path,
+             800,
+             "./%s",
+             filename);
 
-    copy_file("../../src/main_brownconf.c", "./main_brownconf.c");
+    copy_file(src_path, dest_path);
     // copy_file("../makefile",          "makefile");
 }
 

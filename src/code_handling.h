@@ -1,5 +1,3 @@
-
-
 /**
  *********************************************************
  *
@@ -13,6 +11,8 @@ typedef struct {
     char *fullpath; 
 } T_DestPaths;
 
+extern 
+T_DestPaths DestPaths;
 /**
  *********************************************************
  *
@@ -23,7 +23,7 @@ typedef struct {
 
 void CODEHAND_makedirectory(const char *confprfx, const char *intprfx); 
 
-void CODEHAND_copy_main(void);
+void CODEHAND_copy_file_to_dest(char *filename);
 
 void CODEHAND_delerrorfiles(void);
 

@@ -25,6 +25,9 @@
 /*definition of master thread when mpi parallelization is used*/
 #define MASTER 0    
 
+/*path to dir location where dirs with simulation results are stored */
+#define RUNS_DIR "../runs"
+
 /**
  *********************************************************
  *

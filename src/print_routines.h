@@ -18,14 +18,13 @@
  */
 struct PrintResults{
 	/*state index to monitor if header line
-         *or ongoing value has to be printed
-         */
+     *or ongoing value has to be printed
+     */
 	int state;
-        /*array to store name of .dat file containing mobility and other coeffs*/
-	char fname [60];
-        /*array to store name of .dat file containing moments of positions*/
-	char fnamemom [60];
-
+    /*array to store name of .dat file containing mobility and other coeffs*/
+	char fname [256];
+    /*array to store name of .dat file containing moments of positions*/
+	char fnamemom [256];
 };
 
 extern struct PrintResults printres;

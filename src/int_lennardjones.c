@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "int_lennardjones.h"
+#include "code_handling.h""
 
 
 double fintx = 0;
@@ -25,11 +26,18 @@ inline double intforce(double dist1d, double dist2d){
 
 }*/
 
-void INT_specs(char *intspecs){
+void INT_specs(){
 	
+    char fname_intparams [60]; 
+    sprintf(fname_intparams, "parameters_particle_interaction.dat");
+    DestPaths.fname_intparams = malloc(256);    
+    snprintf(DestPaths.fname_intparams,
+             800,
+             "%s/%s",
+             DestPaths.fullpath, fname_intparams);
 
 	FILE *outpspecs;
-	outpspecs = fopen(intspecs, "a");
+	outpspecs = fopen(DestPaths.fname_intparams, "a");
 	fprintf(outpspecs,
             "\n\nParameters of Lennard_Jones particle-particle interaction:\n\n"
             "Radius of Particles' Hardcore: %.4lf\n"
@@ -57,7 +65,7 @@ char copycode[200];
 
 }
 
-char* INT_prfx(){
+char * INT_prfx(){
 	char *a = "LJ_pot";
-return a;
+    return a;
 }

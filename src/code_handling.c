@@ -117,7 +117,6 @@ void CODEHAND_copy_file_to_dest(char *filename)
              filename);
 
     copy_file(src_path, dest_path);
-    // copy_file("../makefile",          "makefile");
 }
 
 void CODEHAND_copycode(void)

@@ -9,6 +9,10 @@
 typedef struct {
     char *destdir_name; 
     char *fullpath; 
+    char *fname_simparams;
+    char *fname_intparams;
+    char *fname_confparams;
+
 } T_DestPaths;
 
 extern 

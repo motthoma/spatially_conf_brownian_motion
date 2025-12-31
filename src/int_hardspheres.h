@@ -41,7 +41,7 @@ static inline double INT_force(double disti, double dist){
 	return(0);
 }
 
-extern void INT_specs(char *intspecs);
+extern void INT_specs();
 extern void INT_copycode();
 extern char *INT_prfx(); 
 

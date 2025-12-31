@@ -4,6 +4,7 @@
 #include <math.h>
 #include <stdbool.h>
 #include "sim_config.h"
+#include "code_handling.h"
 
 T_SimParams SimParams;
 
@@ -69,17 +70,24 @@ double SIMCONFIG_time_step(double lscale_conf, double lscale_part) {
 /**
  * Write simulation parameters to a specs file for documentation.
  */
-void SIMCONFIG_write_specs(const char *filename) {
+void SIMCONFIG_write_specs() {
     int min_steps = SimParams.stepnumb + SimParams.testab * SimParams.numbtest;
     double eq_time = SimParams.reset_stepnumb * SimParams.time_step;
     double total_time = (SimParams.stepnumb - SimParams.reset_stepnumb 
                         + SimParams.testab * SimParams.numbtest) * SimParams.time_step;
     double check_time = SimParams.testab * SimParams.time_step;
     double readout_time = SimParams.plotpoints * SimParams.time_step;
+  
+    char fname_simparams [60]; 
+    sprintf(fname_simparams, "parameters_simulation_overall.dat");
+    DestPaths.fname_simparams = malloc(256);    
+    snprintf(DestPaths.fname_simparams,
+             800,
+             "%s/%s",
+             DestPaths.fullpath, fname_simparams);
 
-    FILE *out_file = fopen(filename, "w");
+    FILE *out_file = fopen(DestPaths.fname_simparams, "w");
     if (!out_file) {
-        fprintf(stderr, "Error opening file '%s'\n", filename);
         return;
     }
 

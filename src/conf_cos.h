@@ -111,7 +111,7 @@ static inline double CONF_yuef(double x, double y){
 
 /*extern double yuef_ext(double x, double y);
 extern double yuef_cos(double x, double y);*/
-extern void CONF_specs(char *file_confparams);
+extern void CONF_specs();
 extern void CONF_copycode();
 extern char *CONF_prfx();
 

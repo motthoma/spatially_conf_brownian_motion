@@ -6,6 +6,7 @@
  */
 
 #include <stdio.h>
+#include "code_handling.h"
 #include "comp_gen_header.h"
 #include "results_transport.h"
 
@@ -234,7 +235,7 @@ int RES_histogramm2d_mpi_reduce(int m,
   return twodcountercheck;
 }
 
-void RES_print_countercheck(char *fname_specs)
+void RES_print_countercheck()
 {
 /**
  * Function that prints the result of the counter checks available from the 
@@ -243,7 +244,7 @@ void RES_print_countercheck(char *fname_specs)
  * and situated in the confinement.
  */
 	FILE *outp;
-	outp=fopen(fname_specs, "a");
+	outp=fopen(DestPaths.fname_confparams, "a");
 	fprintf(outp, "\nThe total number of particles counted in histogram functions.\n"
 		      "This number has to be equal to the number of simulated particles.\n"	
 		      "If the number differs, the simulation is stopped.\n\n"

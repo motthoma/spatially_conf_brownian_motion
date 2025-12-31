@@ -49,13 +49,13 @@ extern struct PrintResults printres;
 
 void PRINT_positions(int m, double **posx, double **posy);
 
-void PRINT_muoverf(double muall, double deffall, char *namefile);
+void PRINT_muoverf(double muall, double deffall);
 
 void PRINT_results_over_time(double t, 
                              int abb, 
                              int abbdeff);
 
-void PRINT_runtime(clock_t start, char *name_simspecs);
+void PRINT_runtime(clock_t start);
 
 void PRINT_runtime_threads(clock_t start,
                            int numtasks, 

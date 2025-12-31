@@ -71,7 +71,7 @@ double SIMCONFIG_time_step(double lscale_conf, double lscale_part);
 
 extern void SIMCONFIG_init(); 
 extern bool SIMCONFIG_check_consistency();
-extern void SIMCONFIG_write_specs(const char *fnamespec);
+extern void SIMCONFIG_write_specs();
 extern void SIMCONFIG_copy_code();
 
 #endif

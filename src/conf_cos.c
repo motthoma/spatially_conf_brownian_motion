@@ -7,17 +7,28 @@
  */
 #include <stdio.h>
 #include <stdlib.h>
+#include "code_handling.h"
 #include "conf_cos.h"
 #include "results_transport.h"
 
 
 /**function to write confinement specific information in specs file*/
-void CONF_specs(char *file_confparams){
+void CONF_specs(){
+    
+    char fname_intparams [60]; 
+    sprintf(fname_intparams,"parameters_confinement.dat");
+
+    DestPaths.fname_confparams = malloc(256);    
+    snprintf(DestPaths.fname_confparams,
+             800,
+             "%s/%s",
+             DestPaths.fullpath, fname_intparams);
 
     FILE *outpspecs;
-    outpspecs = fopen(file_confparams, "a");		
-    fprintf(outpspecs, "\n\nParameters of 'Cosine'-Confinement:\n\n"
-		     	"Channel Length L_CONF: %.1lf\n"
+    outpspecs = fopen(DestPaths.fname_confparams, "a");		
+    fprintf(outpspecs,
+            "\n\nParameters of 'Cosine'-Confinement:\n\n"
+            "Channel Length L_CONF: %.1lf\n"
 			"Bottleneck Half-Width B: %.2lf\n"
 			"Amplitude A: %.2lf\n"
 			"Channel's max. Half-Width: %.2lf\n"
@@ -27,16 +38,16 @@ void CONF_specs(char *file_confparams){
 			"Binwidth 1d x-Histogram: %lf\n"
 			"Binwidht 1d y-Histogram: %lf\n"
 			"Binwidth 2d Histogram: %lf\n\n", 
-							L_CONF, 
-							BOTTLENECK_WIDTH, 
-						 	AMP, 
-							MAX_HALF_WIDTH,
-							K_COS, 
-							R_CONF, 
-							BOTTRAD, 
-							histparams.binx, 
-							histparams.biny, 
-							histparams.bin2d);
+            L_CONF, 
+            BOTTLENECK_WIDTH, 
+            AMP, 
+            MAX_HALF_WIDTH,
+            K_COS, 
+            R_CONF, 
+            BOTTRAD, 
+            histparams.binx, 
+            histparams.biny, 
+            histparams.bin2d);
 			    
     
 fclose(outpspecs);

@@ -150,14 +150,11 @@ int main (int argc, char **argv){
   char fnamex [60];
   char fnamey [60];
   char fname2d [60];
-  char fname_simparams [60];
-  char fname_confparams [60];
-  char fname_intparams [60];
-
 
   if(taskid == MASTER){
 	  CODEHAND_copy_file_to_dest("main_brownconf.c");
 	  CODEHAND_copy_file_to_dest("sim_config.c");
+	  CODEHAND_copy_file_to_dest("code_handling.c");
 	  /* SIMCONFIG_copy_code(); 
 	  CONF_copycode();
 	  INT_copycode();
@@ -168,16 +165,11 @@ int main (int argc, char **argv){
 	  // CODEHAND_copycode();
 
 	  /*filenames of simulation parameters*/
-	  sprintf(fname_simparams, "parameters_simulation_overall.dat");
-	  sprintf(fname_confparams, "parameters_confinement.dat");
-	  sprintf(fname_intparams, "parameters_particle_interaction.dat");
 	  
-	  SIMCONFIG_write_specs(fname_simparams);
-	  CONF_specs(fname_confparams);
-	  INT_specs(fname_intparams);
-	  
+	  SIMCONFIG_write_specs();
+	  CONF_specs();
+	  INT_specs();
 	  printf("\n numtasks: %d\n", SimParams.numtasks);
-	  
 	  ConsistencyFlag = SIMCONFIG_check_consistency();
 	  if(ConsistencyFlag == false){
 	  	return -1;
@@ -196,7 +188,6 @@ int main (int argc, char **argv){
   
   /* Initialize pointer interface to gls random functions */  
   RNG_init_rng(taskid, time(NULL) + taskid);
-  
   /* 
    * Initialize particle positions 
    */
@@ -228,8 +219,7 @@ int main (int argc, char **argv){
 	  MPI_Reduce(&tcoeff.deff, &deffall, 1, MPI_DOUBLE, MPI_SUM, MASTER, MPI_COMM_WORLD);
 #  else
         meanxall = tcoeff.meanx;
-        meanxsquall = tcoeff.meanxsqu;
-        msdall = tcoeff.msd;
+        meanxsquall = tcoeff.meanxsqu; msdall = tcoeff.msd;
         thirdcumall = tcoeff.thirdcum;
         meanspeedall = tcoeff.meanspeed;
         muall = tcoeff.mu;
@@ -264,11 +254,23 @@ int main (int argc, char **argv){
 
 
   if(taskid == MASTER){
- 	   PRINT_positions(setn_per_task, EnsembleState.positionx, EnsembleState.positiony);
-       RES_print_countercheck(fname_confparams);
-       PRINT_resallthreads(msdall, meanspeedall, muall, deffall, meanxall, meanxsquall, thirdcumall);
-	   PRINT_muoverf(muall, deffall, DestPaths.destdir_name);
-	   PRINT_runtime(prgstart, fname_simparams);
+ 	   PRINT_positions(setn_per_task,
+                       EnsembleState.positionx,
+                       EnsembleState.positiony);
+
+       RES_print_countercheck();
+
+       PRINT_resallthreads(msdall,
+                           meanspeedall,
+                           muall,
+                           deffall,
+                           meanxall,
+                           meanxsquall,
+                           thirdcumall);
+
+	   PRINT_muoverf(muall, deffall);
+
+	   PRINT_runtime(prgstart);
            
   }
   

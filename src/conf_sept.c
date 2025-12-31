@@ -8,14 +8,25 @@
 */ 
 #include <stdio.h>
 #include <stdlib.h>
+#include "code_handling.h"
 #include "conf_sept.h"
 #include "results_transport.h"
 
-void CONF_specs(char *file_confparams){
+void CONF_specs(){
+    
+    char fname_intparams [60]; 
+    sprintf(fname_intparams,"parameters_confinement.dat");
+
+    DestPaths.fname_confparams = malloc(256);    
+    snprintf(DestPaths.fname_confparams,
+             800,
+             "%s/%s",
+             DestPaths.fullpath, fname_intparams);
 
     FILE *outpspecs;
-    outpspecs = fopen(file_confparams, "a");		
-    fprintf(outpspecs, "\n\nParameters of Confinement 'Septated Channel':\n\n"
+    outpspecs = fopen(DestPaths.fname_confparams, "a");		
+    fprintf(outpspecs,
+            "\n\nParameters of Confinement 'Septated Channel':\n\n"
 		    "Channel Length L_CONF: %.1lf\n"
 		    "Bottleneck Half-Width B: %.2lf\n"
 		    "Amplitude AMP: %.2lf\n"

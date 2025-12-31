@@ -8,14 +8,23 @@
 */ 
 #include <stdio.h>
 #include <stdlib.h>
+#include "code_handling.h"
 #include "conf_splitter.h"
 #include "results_transport.h"
 
 
-void CONF_specs(char *file_confparams){
+void CONF_specs(){
+    char fname_intparams [60]; 
+    sprintf(fname_intparams,"parameters_confinement.dat");
+
+    DestPaths.fname_confparams = malloc(256);    
+    snprintf(DestPaths.fname_confparams,
+             800,
+             "%s/%s",
+             DestPaths.fullpath, fname_intparams);
 
     FILE *outpspecs;
-    outpspecs = fopen(file_confparams, "a");		
+    outpspecs = fopen(DestPaths.fname_confparams, "a");		
     fprintf(outpspecs, "\n\nParameters of 'Splitter'-Confinement:\n\n"
 		    "Channel Length L_CONF: %.1lf\n"
 			"Bottleneck Half-Width BOTTLENECK_WIDTH: %.2lf\n"

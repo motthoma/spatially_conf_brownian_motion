@@ -10,19 +10,24 @@ struct PrintResults printres = {0, "", ""};
 #include <stdio.h>
 #include <time.h>
 
-
-void PRINT_muoverf(double muall, double deffall, char *namefile)
+void PRINT_muoverf(double muall, double deffall)
 {
 /**
  * prints results to file outside of working directory
  */
   char fnamemu[60];
-
-  sprintf(fnamemu, "%s/muoverfpos_R_%.2lf_parts_per_set_%d.dat", RUNS_DIR, R_CONF, SimParams.parts_per_set);
+  sprintf(fnamemu, "%s/muoverfpos_R_%.2lf_parts_per_set_%d.dat",
+                   RUNS_DIR,
+                   R_CONF,
+                   SimParams.parts_per_set);
 
   FILE *outmu;
   outmu=fopen(fnamemu, "a");
-  fprintf(outmu, "%.3lf\t %.6lf\t %.6lf\t %s\n", SimParams.F, muall/SimParams.numtasks, deffall/SimParams.numtasks, namefile);                       
+  fprintf(outmu, "%.3lf\t %.6lf\t %.6lf\t %s\n",
+                  SimParams.F,
+                  muall/SimParams.numtasks,
+                  deffall/SimParams.numtasks,
+                  DestPaths.destdir_name);
   fclose (outmu); 
 }
 
@@ -33,7 +38,6 @@ void PRINT_results_over_time(double t,
     /**
     * function to print online results of simulation over time 
     */
-    /*	printf("start_to_print_result\n"); */
     if(printres.state == 0){    
 		sprintf(printres.fname, "%s/muovert_F_%.3lf.dat", DestPaths.fullpath, SimParams.F);
 		FILE *outp;
@@ -53,13 +57,30 @@ void PRINT_results_over_time(double t,
     else{
 		FILE *outp;
 		outp=fopen(printres.fname ,"a");
-		fprintf(outp, "%.6f\t %.4Lf\t %.5lf\t %.4lf\t  %d\t %d\n", t, tcoeff.meanx, tcoeff.meanspeed, tcoeff.mu, abb, abbdeff);
+		fprintf(outp, "%.6f\t %.4Lf\t %.5lf\t %.4lf\t  %d\t %d\n",
+                      t,
+                      tcoeff.meanx,
+                      tcoeff.meanspeed,
+                      tcoeff.mu,
+                      abb,
+                      abbdeff);
 		fclose(outp);
-		printf("%.6f\t %.4Lf\t %.5lf\t %.4lf\t  %d\t %d\n", t, tcoeff.meanx, tcoeff.meanspeed, tcoeff.mu, abb, abbdeff);
+		printf("%.6f\t %.4Lf\t %.5lf\t %.4lf\t  %d\t %d\n",
+               t,
+               tcoeff.meanx,
+               tcoeff.meanspeed,
+               tcoeff.mu,
+               abb, abbdeff);
 
 		FILE *outpmom;
 		outpmom=fopen(printres.fnamemom ,"a");
-		fprintf(outpmom, "%.6f\t %.6Lf\t %.5Lf\t %.5Lf\t %.5lf\t %.5Lf\n", t, tcoeff.meanx, tcoeff.meanxsqu, tcoeff.msd, tcoeff.deff, tcoeff.thirdcum);
+		fprintf(outpmom, "%.6f\t %.6Lf\t %.5Lf\t %.5Lf\t %.5lf\t %.5Lf\n",
+                         t,
+                         tcoeff.meanx,
+                         tcoeff.meanxsqu,
+                         tcoeff.msd,
+                         tcoeff.deff,
+                         tcoeff.thirdcum);
 		fclose(outpmom);
 		
 	}
@@ -87,7 +108,7 @@ void PRINT_positions(int m, double **posx, double **posy){
   fclose(outpos);
 }
 
-void PRINT_runtime(clock_t start, char *name_simspecs)
+void PRINT_runtime(clock_t start)
 {
 /**
  * prints run time of code into file
@@ -101,7 +122,7 @@ void PRINT_runtime(clock_t start, char *name_simspecs)
   timediff_all = (int)(SimParams.numtasks*(end-start) / CLOCKS_PER_SEC);
 
   FILE *outpspecs;
-  outpspecs=fopen(name_simspecs, "a");
+  outpspecs=fopen(DestPaths.fname_simparams, "a");
   fprintf(outpspecs, "\nComputing time: %d days %dhours %dmin %dsec\n",
           timediff/(3600*24),
           (timediff/3600)%24, 

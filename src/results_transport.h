@@ -94,6 +94,6 @@ int RES_histogramm2d_mpi_reduce(int m,
                                 char *fname, 
                                 int taskid);
 
-void RES_print_countercheck(char *fname_specs);
+void RES_print_countercheck();
 
 void RES_copycode(void);

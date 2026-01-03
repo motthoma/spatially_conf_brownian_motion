@@ -1,5 +1,6 @@
 #include "simulation_core.h"
 #include "comp_gen_header.h"
+#include "code_handling.h"
 #include "random_numb_gen.h"
 #include "sim_config.h"
 #include "array_utils.h"
@@ -514,9 +515,6 @@ void SIM_simulation_core(int setn_per_task,
 }
 
 void SIM_copycode(){
-
-   char copycode[200];
-
-  sprintf(copycode, "cp ../simulation_core.* ./");
-  system(copycode);
+    CODEHAND_copy_file_to_dest("simulation_core.c");
+    CODEHAND_copy_file_to_dest("simulation_core.h");
 }

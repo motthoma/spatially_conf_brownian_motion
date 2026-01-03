@@ -10,9 +10,6 @@
 #include "comp_gen_header.h"
 #include "results_transport.h"
 
-
-
-
 T_TransportCoeffs tcoeff;
 T_HistParams histparams;
 
@@ -30,7 +27,7 @@ void RES_init(){
     tcoeff.msd = 0.0;
 	/*third cumulant of x-position: <x^3> - 3*<x>*<x^2> + 2*<x>^3*/
 	tcoeff.thirdcum = 0.0;
-        /*effective diffusion coeff.: (<x^2> - <x>^2)/(2*t*B/R)*/
+    /*effective diffusion coeff.: (<x^2> - <x>^2)/(2*t*B/R)*/
 	tcoeff.deff = 0.0; 
 	/*non-linear mobility mu = <v>/F*/
 	tcoeff.mu = 0.0;
@@ -262,10 +259,6 @@ void RES_print_countercheck()
 }
 
 void RES_copycode(){
-
-   char copycode[200];
-
-  sprintf(copycode, "cp ../results_transport.* ./");
-  system(copycode);
-
+    CODEHAND_copy_file_to_dest("results_transport.c");
+    CODEHAND_copy_file_to_dest("results_transport.h");
 }

@@ -32,5 +32,3 @@ void CODEHAND_copy_file_to_dest(char *filename);
 void CODEHAND_delerrorfiles(void);
 
 void CODEHAND_copycode(void);
-
-void CODEHAND_copy_comp_gen_header(void);

@@ -142,7 +142,6 @@ void SIMCONFIG_write_specs() {
  * Copy the sim_config module to the working directory.
  */
 void SIMCONFIG_copy_code() {
-    char cmd[256];
-    snprintf(cmd, sizeof(cmd), "cp ../sim_config* ./");
-    system(cmd);
+    CODEHAND_copy_file_to_dest("sim_config.c");
+    CODEHAND_copy_file_to_dest("sim_config.h");
 }

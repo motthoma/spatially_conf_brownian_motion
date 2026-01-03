@@ -121,11 +121,6 @@ void CODEHAND_copy_file_to_dest(char *filename)
 
 void CODEHAND_copycode(void)
 {
-    copy_file("../code_handling.c", "code_handling.c");
-    copy_file("../code_handling.h", "code_handling.h");
-}
-
-void CODEHAND_copy_comp_gen_header(void)
-{
-    copy_file("../comp_gen_header.h", "comp_gen_header.h");
+    CODEHAND_copy_file_to_dest("code_handling.c");
+    CODEHAND_copy_file_to_dest("code_handling.h");
 }

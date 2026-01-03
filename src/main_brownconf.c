@@ -12,6 +12,11 @@ trajektories are calculatet parallel*/
 #include <sys/stat.h>
 #include <unistd.h>
 
+void main_copy_code() {
+    CODEHAND_copy_file_to_dest("main_brownconf.c");
+    CODEHAND_copy_file_to_dest("makefile");
+    CODEHAND_copy_file_to_dest("comp_gen_header.h");
+}
 
 int main (int argc, char **argv){
 /** main function of Brownian motion simulation */
@@ -152,20 +157,17 @@ int main (int argc, char **argv){
   char fname2d [60];
 
   if(taskid == MASTER){
-	  CODEHAND_copy_file_to_dest("main_brownconf.c");
-	  CODEHAND_copy_file_to_dest("sim_config.c");
-	  CODEHAND_copy_file_to_dest("code_handling.c");
-	  /* SIMCONFIG_copy_code(); 
-	  CONF_copycode();
-	  INT_copycode();
+	  main_copy_code();
+      SIMCONFIG_copy_code();
+      CODEHAND_copycode();
 	  RES_copycode();
 	  SIM_copycode();
 	  PRINT_copycode();
-	  CODEHAND_copy_comp_gen_header();*/
-	  // CODEHAND_copycode();
+	  /* SIMCONFIG_copy_code(); 
+	  CONF_copycode();
+	  INT_copycode();*/
 
 	  /*filenames of simulation parameters*/
-	  
 	  SIMCONFIG_write_specs();
 	  CONF_specs();
 	  INT_specs();
@@ -286,3 +288,4 @@ int main (int argc, char **argv){
   RNG_free_rng();
   return 0;
 }
+

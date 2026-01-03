@@ -212,10 +212,6 @@ void PRINT_resallthreads(long double msdall,
 
 
 void PRINT_copycode(){
-
-   char copycode[200];
-
-  sprintf(copycode, "cp ../print_routines.* ./");
-  system(copycode);
-
+    CODEHAND_copy_file_to_dest("print_routines.c");
+    CODEHAND_copy_file_to_dest("print_routines.h");
 }

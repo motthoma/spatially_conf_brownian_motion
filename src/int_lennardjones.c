@@ -56,13 +56,9 @@ void INT_specs(){
 	fclose (outpspecs);
 }
 
-
 void INT_copycode(){
-char copycode[200];
-
-  sprintf(copycode, "cp ../int_lennardjones.* ./");
-  system(copycode);
-
+    CODEHAND_copy_file_to_dest("int_lennardjones.c");
+    CODEHAND_copy_file_to_dest("int_lennardjones.h");
 }
 
 char * INT_prfx(){

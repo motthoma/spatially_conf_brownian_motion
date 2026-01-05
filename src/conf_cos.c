@@ -54,15 +54,12 @@ fclose(outpspecs);
 }
 
 void CONF_copycode(){
-char copycode[200];
-
-  sprintf(copycode, "cp ../conf_cos.* ./");
-  system(copycode);
-
+    CODEHAND_copy_file_to_dest("conf_cos.c");
+    CODEHAND_copy_file_to_dest("conf_cos.h");
 }
 
 /**function to provide prefix in name of working directory*/
 char* CONF_prfx(){
-char *a = "cos";
-return a;
+    char *a = "cos";
+    return a;
 }

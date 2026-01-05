@@ -51,14 +51,11 @@ fclose(outpspecs);
 }
 
 void CONF_copycode(){
-    char copycode[200];
-
-     sprintf(copycode, "cp ../conf_sept.* ./");
-     system(copycode);
-
+    CODEHAND_copy_file_to_dest("conf_sept.c");
+    CODEHAND_copy_file_to_dest("conf_sept.h");
 }
 
 char* CONF_prfx(){
     char *a = "sept";
-return a;
+    return a;
 }

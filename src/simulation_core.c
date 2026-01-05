@@ -6,17 +6,15 @@
 #include "array_utils.h"
 #include <gsl/gsl_rng.h>
 
-
 T_EnsembleState EnsembleState;
 
 void SIM_alloc_ensemble_state(){
-  EnsembleState.xstart = calloc_2Ddouble_array(SimParams.n_interact_sets, SimParams.parts_per_set);
-  EnsembleState.positionx = calloc_2Ddouble_array(SimParams.n_interact_sets, SimParams.parts_per_set);
-  EnsembleState.positiony = calloc_2Ddouble_array(SimParams.n_interact_sets, SimParams.parts_per_set);
-  EnsembleState.fintxarray = calloc_2Ddouble_array(SimParams.n_interact_sets, SimParams.parts_per_set);
-  EnsembleState.fintyarray = calloc_2Ddouble_array(SimParams.n_interact_sets, SimParams.parts_per_set);
+  EnsembleState.xstart = UTILS_calloc_2Ddouble_array(SimParams.n_interact_sets, SimParams.parts_per_set);
+  EnsembleState.positionx = UTILS_calloc_2Ddouble_array(SimParams.n_interact_sets, SimParams.parts_per_set);
+  EnsembleState.positiony = UTILS_calloc_2Ddouble_array(SimParams.n_interact_sets, SimParams.parts_per_set);
+  EnsembleState.fintxarray = UTILS_calloc_2Ddouble_array(SimParams.n_interact_sets, SimParams.parts_per_set);
+  EnsembleState.fintyarray = UTILS_calloc_2Ddouble_array(SimParams.n_interact_sets, SimParams.parts_per_set);
 }
-
 
 
 void SIM_init_positions(int setn_per_task) 
@@ -256,9 +254,9 @@ bool check_pos_validity(double x, double y, double yo){
     /*Check if particle is within effective boundary*/  
     if (fabs(y) > yue) PosValid = false;
     /*Check if bottleneck at x=0 is passed without 'tunneling' through bottleneck*/	
-    if ((x < 0) && ((max_double(fabs(y), fabs(yo)) >= BOTTLENECK_WIDTH-R_CONF))) PosValid = false;
+    if ((x < 0) && ((UTILS_max_double(fabs(y), fabs(yo)) >= BOTTLENECK_WIDTH-R_CONF))) PosValid = false;
     /*Check if bottleneck at x=L_CONF is passed without 'tunneling' through bottleneck correctly*/
-    if ((x > L_CONF) && ((max_double(fabs(y), fabs(yo)) >= BOTTLENECK_WIDTH-R_CONF))) PosValid = false;
+    if ((x > L_CONF) && ((UTILS_max_double(fabs(y), fabs(yo)) >= BOTTLENECK_WIDTH-R_CONF))) PosValid = false;
 
     return PosValid;
 }
@@ -365,10 +363,10 @@ void SIM_simulation_core(int setn_per_task,
   long int **negshift;
   long int **posshift;
   
-  negshift = calloc_2Dlint_array(SimParams.n_interact_sets,
-                                 SimParams.parts_per_set);
-  posshift = calloc_2Dlint_array(SimParams.n_interact_sets,
-                                 SimParams.parts_per_set);
+  negshift = UTILS_calloc_2Dlint_array(SimParams.n_interact_sets,
+                                       SimParams.parts_per_set);
+  posshift = UTILS_calloc_2Dlint_array(SimParams.n_interact_sets,
+                                       SimParams.parts_per_set);
   
   sqrt_flucts = sqrt(2*BOTTRAD*dt);
   f_dt = SimParams.F*dt;

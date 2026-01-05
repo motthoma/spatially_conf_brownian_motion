@@ -51,12 +51,6 @@ int update_equcounter(double tran_quant,
                       double accurarcy, 
                       int equcounter);
 
-long int **calloc_2Dlint_array(int m, int n);
-
-double **calloc_2Ddouble_array(int m, int n);
-
-double max_double(double a, double b);
-
 bool calculate_inter_particle_forces(int j,
                                      int kset,
                                      double x,

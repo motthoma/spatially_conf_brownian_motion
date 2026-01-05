@@ -3,6 +3,7 @@
 #include <time.h>
 #include <assert.h>
 #include <gsl/gsl_rng.h>
+#include "code_handling.h"
 
 T_GSL_RNG GSL_RNG;
 
@@ -54,4 +55,9 @@ void RNG_free_rng(void) {
         gsl_rng_free(GSL_RNG.r);
         GSL_RNG.r = NULL;
     }
+}
+
+void RNG_copycode(){
+    CODEHAND_copy_file_to_dest("random_numb_gen.c");
+    CODEHAND_copy_file_to_dest("random_numb_gen.h");
 }

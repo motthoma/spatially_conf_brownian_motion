@@ -38,17 +38,11 @@ void INT_specs(){
 									      f_cut);
 
 	fclose (outpspecs);
-
-
-
 }
 
 void INT_copycode(){
-char copycode[200];
-
-  sprintf(copycode, "cp ../int_hardspheres.* ./");
-  system(copycode);
-
+    CODEHAND_copy_file_to_dest("int_hardspheres.c");
+    CODEHAND_copy_file_to_dest("int_hardspheres.h");
 }
 
 char* INT_prfx(){

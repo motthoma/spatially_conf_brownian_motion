@@ -137,25 +137,25 @@ int RES_histogramm_mpi_reduce(int m,
         
 	  for(j = 0; j < m; j++){
 		for(k = 0; k < SimParams.parts_per_set; k++){
-		   if(((i*bin - backshift) <= positions[j][k]) && (positions[j][k] <= (i+1)*bin - backshift)){
-			counter++;
+		    if(((i*bin - backshift) <= positions[j][k]) && (positions[j][k] <= (i+1)*bin - backshift)){
+                counter++;
 		   }
-
 		}
 	  }
+
 	  #ifdef MPI_ON
 		  MPI_Reduce(&counter, &counterall, 1, MPI_INTEGER, MPI_SUM, MASTER, MPI_COMM_WORLD);
 	  #else
 		  counterall = counter;
 	  #endif
 	  if(taskid == MASTER){
-                  countercheck += counterall;
-		   
+          countercheck += counterall;
 		  outp = fopen(fname, "a");
-		  fprintf(outp,"%f\t %f\t %d\t %f\n", i*bin - backshift, 
-						      (i+1)*bin - backshift, 
-                                                      counterall, 
-                                                      counterall/(SimParams.N*bin));
+		  fprintf(outp,"%f\t %f\t %d\t %f\n",
+                  i*bin - backshift, 
+                  (i+1)*bin - backshift, 
+                  counterall, 
+                  counterall/(SimParams.N*bin));
 		  fclose(outp);      
 	  }
   }
@@ -197,8 +197,8 @@ int RES_histogramm2d_mpi_reduce(int m,
  
    for(hx = 0; hx <= bin_nx; hx++){ 
 	  for(hy = 0; hy <= bin_ny; hy++){   
-                  twodcounter = 0;   
-                  twodcounterall = 0;   
+          twodcounter = 0;   
+          twodcounterall = 0;   
 		  for(i = 0; i < m; i++){
 			for(j = 0; j < SimParams.parts_per_set; j++){
 			   if((hx*bin2d <= positionsx[i][j]) && (positionsx[i][j] <= (hx+1)*bin2d)){
@@ -219,12 +219,13 @@ int RES_histogramm2d_mpi_reduce(int m,
 			  twodcountercheck += twodcounterall;
 
 			  outp = fopen(fname, "a");
-			  fprintf (outp, "%f\t%f\t%f\t%f\t\t%d\t\t%f\n", hx*bin2d, 
-									 (hx+1)*bin2d, 
-									 hy*bin2d - MAX_HALF_WIDTH, 
-									 (hy+1)*bin2d - MAX_HALF_WIDTH, 
-									 twodcounterall, 
-									 twodcounterall/(SimParams.N*bin2d*bin2d));
+			  fprintf (outp, "%f\t%f\t%f\t%f\t\t%d\t\t%f\n",
+                       hx*bin2d, 
+                       (hx+1)*bin2d, 
+                       hy*bin2d - MAX_HALF_WIDTH, 
+                       (hy+1)*bin2d - MAX_HALF_WIDTH, 
+                       twodcounterall, 
+                       twodcounterall/(SimParams.N*bin2d*bin2d));
 			  fclose(outp);
 		  }
 	  }

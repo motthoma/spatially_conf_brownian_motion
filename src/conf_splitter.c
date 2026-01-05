@@ -52,11 +52,8 @@ fclose(outpspecs);
 }
 
 void CONF_copycode(){
-char copycode[200];
-
-  sprintf(copycode, "cp ../conf_splitter.* ./");
-  system(copycode);
-
+    CODEHAND_copy_file_to_dest("conf_splitter.c");
+    CODEHAND_copy_file_to_dest("conf_splitter.h");
 }
 
 /**

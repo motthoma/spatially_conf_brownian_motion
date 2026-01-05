@@ -1,21 +1,36 @@
 /*Calculation of the averagespeed for a brownian partical with finite radius in 2d in a confinement, 
 trajektories are calculatet parallel*/
 
-#include "code_handling.h"
-#include "sim_config.h"
-#include "simulation_core.h"
-#include "random_numb_gen.h"
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
 #include <sys/stat.h>
 #include <unistd.h>
 
-void main_copy_code() {
+#include "array_utils.h"
+#include "code_handling.h"
+#include "sim_config.h"
+#include "simulation_core.h"
+#include "random_numb_gen.h"
+#include "comp_gen_header.h"
+
+void MAIN_copy_main_code() {
     CODEHAND_copy_file_to_dest("main_brownconf.c");
     CODEHAND_copy_file_to_dest("makefile");
     CODEHAND_copy_file_to_dest("comp_gen_header.h");
+}
+
+void main_copy_ext_files(){
+	  MAIN_copy_main_code();
+      SIMCONFIG_copy_code();
+      CODEHAND_copycode();
+	  RES_copycode();
+	  SIM_copycode();
+	  PRINT_copycode();
+	  CONF_copycode();
+	  INT_copycode();
+      RNG_copycode();
+      UTILS_copy_code();
 }
 
 int main (int argc, char **argv){
@@ -157,15 +172,7 @@ int main (int argc, char **argv){
   char fname2d [60];
 
   if(taskid == MASTER){
-	  main_copy_code();
-      SIMCONFIG_copy_code();
-      CODEHAND_copycode();
-	  RES_copycode();
-	  SIM_copycode();
-	  PRINT_copycode();
-	  /* SIMCONFIG_copy_code(); 
-	  CONF_copycode();
-	  INT_copycode();*/
+      main_copy_ext_files();
 
 	  /*filenames of simulation parameters*/
 	  SIMCONFIG_write_specs();
@@ -176,10 +183,7 @@ int main (int argc, char **argv){
 	  if(ConsistencyFlag == false){
 	  	return -1;
 	  }
-  }
 
-
-  if(taskid == MASTER){
 	  if(SimParams.numtasks > 1){
 		  FILE *outptasks;
 		  outptasks=fopen("taskres.dat", "a");
@@ -187,7 +191,7 @@ int main (int argc, char **argv){
 		  fclose(outptasks);
           } 
   }
-  
+
   /* Initialize pointer interface to gls random functions */  
   RNG_init_rng(taskid, time(NULL) + taskid);
   /* 
@@ -212,20 +216,20 @@ int main (int argc, char **argv){
  
   /*Merge quantities that were calculated in separated MPI threads*/ 
 #  ifdef MPI_ON
-	  MPI_Reduce(&tcoeff.meanx, &meanxall, 1, MPI_LONG_DOUBLE, MPI_SUM, MASTER, MPI_COMM_WORLD);
-	  MPI_Reduce(&tcoeff.meanxsqu, &meanxsquall, 1, MPI_LONG_DOUBLE, MPI_SUM, MASTER, MPI_COMM_WORLD);
-	  MPI_Reduce(&tcoeff.msd, &msdall, 1, MPI_LONG_DOUBLE, MPI_SUM, MASTER, MPI_COMM_WORLD);
-	  MPI_Reduce(&tcoeff.thirdcum, &thirdcumall, 1, MPI_LONG_DOUBLE, MPI_SUM, MASTER, MPI_COMM_WORLD);
-	  MPI_Reduce(&tcoeff.meanspeed, &meanspeedall, 1, MPI_DOUBLE, MPI_SUM, MASTER, MPI_COMM_WORLD);
-	  MPI_Reduce(&tcoeff.mu, &muall, 1, MPI_DOUBLE, MPI_SUM, MASTER, MPI_COMM_WORLD);
-	  MPI_Reduce(&tcoeff.deff, &deffall, 1, MPI_DOUBLE, MPI_SUM, MASTER, MPI_COMM_WORLD);
+    MPI_Reduce(&tcoeff.meanx, &meanxall, 1, MPI_LONG_DOUBLE, MPI_SUM, MASTER, MPI_COMM_WORLD);
+    MPI_Reduce(&tcoeff.meanxsqu, &meanxsquall, 1, MPI_LONG_DOUBLE, MPI_SUM, MASTER, MPI_COMM_WORLD);
+    MPI_Reduce(&tcoeff.msd, &msdall, 1, MPI_LONG_DOUBLE, MPI_SUM, MASTER, MPI_COMM_WORLD);
+    MPI_Reduce(&tcoeff.thirdcum, &thirdcumall, 1, MPI_LONG_DOUBLE, MPI_SUM, MASTER, MPI_COMM_WORLD);
+    MPI_Reduce(&tcoeff.meanspeed, &meanspeedall, 1, MPI_DOUBLE, MPI_SUM, MASTER, MPI_COMM_WORLD);
+    MPI_Reduce(&tcoeff.mu, &muall, 1, MPI_DOUBLE, MPI_SUM, MASTER, MPI_COMM_WORLD);
+    MPI_Reduce(&tcoeff.deff, &deffall, 1, MPI_DOUBLE, MPI_SUM, MASTER, MPI_COMM_WORLD);
 #  else
-        meanxall = tcoeff.meanx;
-        meanxsquall = tcoeff.meanxsqu; msdall = tcoeff.msd;
-        thirdcumall = tcoeff.thirdcum;
-        meanspeedall = tcoeff.meanspeed;
-        muall = tcoeff.mu;
-        deffall = tcoeff.deff;
+    meanxall = tcoeff.meanx;
+    meanxsquall = tcoeff.meanxsqu; msdall = tcoeff.msd;
+    thirdcumall = tcoeff.thirdcum;
+    meanspeedall = tcoeff.meanspeed;
+    muall = tcoeff.mu;
+    deffall = tcoeff.deff;
 #  endif
   
   PRINT_runtime_threads(prgstart, SimParams.numtasks, taskid);

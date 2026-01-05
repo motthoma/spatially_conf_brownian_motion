@@ -84,7 +84,8 @@ void CODEHAND_makedirectory(const char *confprfx, const char *intprfx)
     mkdir(RUNS_DIR, 0755);
 
     DestPaths.fullpath = malloc(512);
-    snprintf(DestPaths.fullpath, 512, "%s/%s", RUNS_DIR, DestPaths.destdir_name);
+    // snprintf(DestPaths.fullpath, 512, "%s/%s", RUNS_DIR, DestPaths.destdir_name);
+    snprintf(DestPaths.fullpath, 512, "%s/test_dir", RUNS_DIR);
 
     if (mkdir(DestPaths.fullpath, 0700) != 0) {
         fprintf(stderr, "mkdir fullpath '%s' failed: %s\n",

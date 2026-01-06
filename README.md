@@ -1,10 +1,11 @@
-# Entropic Particle Splitter
+# Spatially Confined Brownian Motion 
 
 Simulation code for **interacting** and **non-interacting** Brownian particles in 2D periodic channels.  
 The particles undergo overdamped Brownian motion simulated via a stochastic Euler scheme.  
 External static forces can be applied, but long-range hydrodynamic interactions are **not** included.  
 Periodic boundary conditions are used, and particle density is kept constant in the interacting case.
 
+![Bull Spread Call Output](./logo.png )
 ---
 
 ## 📂 Project Structure

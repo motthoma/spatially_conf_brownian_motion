@@ -5,7 +5,9 @@ The particles undergo overdamped Brownian motion simulated via a stochastic Eule
 External static forces can be applied, but long-range hydrodynamic interactions are **not** included.  
 Periodic boundary conditions are used, and particle density is kept constant in the interacting case.
 
-![Bull Spread Call Output](./logo.png )
+![logo_conf_brownian_motion](./logo.png)
+
+Exemplary system: Two hardspheres move within a  confinement with a saw-tooth as implemented in the conf_splitter module
 ---
 
 ## 📂 Project Structure

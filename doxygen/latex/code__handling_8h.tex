@@ -1,61 +1,67 @@
-\hypertarget{code__handling_8h}{}\doxysection{code\+\_\+handling.\+h File Reference}
-\label{code__handling_8h}\index{code\_handling.h@{code\_handling.h}}
+\doxysection{code\+\_\+handling.\+h File Reference}
+\hypertarget{code__handling_8h}{}\label{code__handling_8h}\index{code\_handling.h@{code\_handling.h}}
 This graph shows which files directly or indirectly include this file\+:
 \nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
-\includegraphics[width=282pt]{code__handling_8h__dep__incl}
+\includegraphics[width=350pt]{code__handling_8h__dep__incl}
 \end{center}
 \end{figure}
-\doxysubsection*{Functions}
+\doxysubsubsection*{Classes}
 \begin{DoxyCompactItemize}
 \item 
-char $\ast$ \mbox{\hyperlink{code__handling_8h_ad13dabb875d83981ee8de670bd208097}{C\+O\+D\+E\+H\+A\+N\+D\+\_\+makedirectory}} (char $\ast$confprfx, char $\ast$intprfx)
+struct \mbox{\hyperlink{structT__DestPaths}{T\+\_\+\+Dest\+Paths}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
 \item 
-void \mbox{\hyperlink{code__handling_8h_a9ec261702263f7ada77998b79d01ae84}{C\+O\+D\+E\+H\+A\+N\+D\+\_\+copy\+\_\+main}} (void)
+void \mbox{\hyperlink{code__handling_8h_ad64c046120040394b9ff1f68315f791d}{CODEHAND\+\_\+makedirectory}} (const char \texorpdfstring{$\ast$}{*}confprfx, const char \texorpdfstring{$\ast$}{*}intprfx)
 \item 
-void \mbox{\hyperlink{code__handling_8h_a48755850399f25159acfc02153c842f0}{C\+O\+D\+E\+H\+A\+N\+D\+\_\+delerrorfiles}} (void)
+void \mbox{\hyperlink{code__handling_8h_a1fb0d1ac3446dff429150dfa5609d3b5}{CODEHAND\+\_\+copy\+\_\+file\+\_\+to\+\_\+dest}} (char \texorpdfstring{$\ast$}{*}filename)
 \item 
-void \mbox{\hyperlink{code__handling_8h_a579c0d1bdf938eb98b3e9e084c02e7b7}{C\+O\+D\+E\+H\+A\+N\+D\+\_\+copycode}} (void)
+void \mbox{\hyperlink{code__handling_8h_a48755850399f25159acfc02153c842f0}{CODEHAND\+\_\+delerrorfiles}} (void)
 \item 
-void \mbox{\hyperlink{code__handling_8h_aedb4c929850c33b055970810cbcde1be}{C\+O\+D\+E\+H\+A\+N\+D\+\_\+copy\+\_\+comp\+\_\+gen\+\_\+header}} (void)
+void \mbox{\hyperlink{code__handling_8h_a579c0d1bdf938eb98b3e9e084c02e7b7}{CODEHAND\+\_\+copycode}} (void)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{structT__DestPaths}{T\+\_\+\+Dest\+Paths}} \mbox{\hyperlink{code__handling_8h_a94d5ab36ac2ee9d1525b1c495b9b5724}{Dest\+Paths}}
 \end{DoxyCompactItemize}
 
 
 \doxysubsection{Function Documentation}
-\mbox{\Hypertarget{code__handling_8h_aedb4c929850c33b055970810cbcde1be}\label{code__handling_8h_aedb4c929850c33b055970810cbcde1be}} 
-\index{code\_handling.h@{code\_handling.h}!CODEHAND\_copy\_comp\_gen\_header@{CODEHAND\_copy\_comp\_gen\_header}}
-\index{CODEHAND\_copy\_comp\_gen\_header@{CODEHAND\_copy\_comp\_gen\_header}!code\_handling.h@{code\_handling.h}}
-\doxysubsubsection{\texorpdfstring{CODEHAND\_copy\_comp\_gen\_header()}{CODEHAND\_copy\_comp\_gen\_header()}}
-{\footnotesize\ttfamily void C\+O\+D\+E\+H\+A\+N\+D\+\_\+copy\+\_\+comp\+\_\+gen\+\_\+header (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+\Hypertarget{code__handling_8h_a1fb0d1ac3446dff429150dfa5609d3b5}\label{code__handling_8h_a1fb0d1ac3446dff429150dfa5609d3b5} 
+\index{code\_handling.h@{code\_handling.h}!CODEHAND\_copy\_file\_to\_dest@{CODEHAND\_copy\_file\_to\_dest}}
+\index{CODEHAND\_copy\_file\_to\_dest@{CODEHAND\_copy\_file\_to\_dest}!code\_handling.h@{code\_handling.h}}
+\doxysubsubsection{\texorpdfstring{CODEHAND\_copy\_file\_to\_dest()}{CODEHAND\_copy\_file\_to\_dest()}}
+{\footnotesize\ttfamily void CODEHAND\+\_\+copy\+\_\+file\+\_\+to\+\_\+dest (\begin{DoxyParamCaption}\item[{char \texorpdfstring{$\ast$}{*}}]{filename }\end{DoxyParamCaption})}
 
-\mbox{\Hypertarget{code__handling_8h_a9ec261702263f7ada77998b79d01ae84}\label{code__handling_8h_a9ec261702263f7ada77998b79d01ae84}} 
-\index{code\_handling.h@{code\_handling.h}!CODEHAND\_copy\_main@{CODEHAND\_copy\_main}}
-\index{CODEHAND\_copy\_main@{CODEHAND\_copy\_main}!code\_handling.h@{code\_handling.h}}
-\doxysubsubsection{\texorpdfstring{CODEHAND\_copy\_main()}{CODEHAND\_copy\_main()}}
-{\footnotesize\ttfamily void C\+O\+D\+E\+H\+A\+N\+D\+\_\+copy\+\_\+main (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
-
-copies main\+\_\+brownianconf.\+c to directory created by \textquotesingle{}makedirectory\textquotesingle{}\mbox{\Hypertarget{code__handling_8h_a579c0d1bdf938eb98b3e9e084c02e7b7}\label{code__handling_8h_a579c0d1bdf938eb98b3e9e084c02e7b7}} 
+\Hypertarget{code__handling_8h_a579c0d1bdf938eb98b3e9e084c02e7b7}\label{code__handling_8h_a579c0d1bdf938eb98b3e9e084c02e7b7} 
 \index{code\_handling.h@{code\_handling.h}!CODEHAND\_copycode@{CODEHAND\_copycode}}
 \index{CODEHAND\_copycode@{CODEHAND\_copycode}!code\_handling.h@{code\_handling.h}}
 \doxysubsubsection{\texorpdfstring{CODEHAND\_copycode()}{CODEHAND\_copycode()}}
-{\footnotesize\ttfamily void C\+O\+D\+E\+H\+A\+N\+D\+\_\+copycode (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily void CODEHAND\+\_\+copycode (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
 
-\mbox{\Hypertarget{code__handling_8h_a48755850399f25159acfc02153c842f0}\label{code__handling_8h_a48755850399f25159acfc02153c842f0}} 
+\Hypertarget{code__handling_8h_a48755850399f25159acfc02153c842f0}\label{code__handling_8h_a48755850399f25159acfc02153c842f0} 
 \index{code\_handling.h@{code\_handling.h}!CODEHAND\_delerrorfiles@{CODEHAND\_delerrorfiles}}
 \index{CODEHAND\_delerrorfiles@{CODEHAND\_delerrorfiles}!code\_handling.h@{code\_handling.h}}
 \doxysubsubsection{\texorpdfstring{CODEHAND\_delerrorfiles()}{CODEHAND\_delerrorfiles()}}
-{\footnotesize\ttfamily void C\+O\+D\+E\+H\+A\+N\+D\+\_\+delerrorfiles (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily void CODEHAND\+\_\+delerrorfiles (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
 
-deletes error and log files used on albeniz\mbox{\Hypertarget{code__handling_8h_ad13dabb875d83981ee8de670bd208097}\label{code__handling_8h_ad13dabb875d83981ee8de670bd208097}} 
+\Hypertarget{code__handling_8h_ad64c046120040394b9ff1f68315f791d}\label{code__handling_8h_ad64c046120040394b9ff1f68315f791d} 
 \index{code\_handling.h@{code\_handling.h}!CODEHAND\_makedirectory@{CODEHAND\_makedirectory}}
 \index{CODEHAND\_makedirectory@{CODEHAND\_makedirectory}!code\_handling.h@{code\_handling.h}}
 \doxysubsubsection{\texorpdfstring{CODEHAND\_makedirectory()}{CODEHAND\_makedirectory()}}
-{\footnotesize\ttfamily char$\ast$ C\+O\+D\+E\+H\+A\+N\+D\+\_\+makedirectory (\begin{DoxyParamCaption}\item[{char $\ast$}]{confprfx,  }\item[{char $\ast$}]{intprfx }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily void CODEHAND\+\_\+makedirectory (\begin{DoxyParamCaption}\item[{const char \texorpdfstring{$\ast$}{*}}]{confprfx,  }\item[{const char \texorpdfstring{$\ast$}{*}}]{intprfx }\end{DoxyParamCaption})}
 
-External types and variables
+External functions 
 
-External functions creates directory, where code and data is transferred to moves to this directory as working directory
+\doxysubsection{Variable Documentation}
+\Hypertarget{code__handling_8h_a94d5ab36ac2ee9d1525b1c495b9b5724}\label{code__handling_8h_a94d5ab36ac2ee9d1525b1c495b9b5724} 
+\index{code\_handling.h@{code\_handling.h}!DestPaths@{DestPaths}}
+\index{DestPaths@{DestPaths}!code\_handling.h@{code\_handling.h}}
+\doxysubsubsection{\texorpdfstring{DestPaths}{DestPaths}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structT__DestPaths}{T\+\_\+\+Dest\+Paths}} Dest\+Paths\hspace{0.3cm}{\ttfamily [extern]}}
 
-0700 is modus for determining access rights to dir

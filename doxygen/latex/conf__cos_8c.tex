@@ -1,9 +1,10 @@
-\hypertarget{conf__cos_8c}{}\doxysection{conf\+\_\+cos.\+c File Reference}
-\label{conf__cos_8c}\index{conf\_cos.c@{conf\_cos.c}}
+\doxysection{conf\+\_\+cos.\+c File Reference}
+\hypertarget{conf__cos_8c}{}\label{conf__cos_8c}\index{conf\_cos.c@{conf\_cos.c}}
 {\ttfamily \#include $<$stdio.\+h$>$}\newline
 {\ttfamily \#include $<$stdlib.\+h$>$}\newline
-{\ttfamily \#include \char`\"{}conf\+\_\+cos.\+h\char`\"{}}\newline
-{\ttfamily \#include \char`\"{}results\+\_\+transport.\+h\char`\"{}}\newline
+{\ttfamily \#include "{}code\+\_\+handling.\+h"{}}\newline
+{\ttfamily \#include "{}conf\+\_\+cos.\+h"{}}\newline
+{\ttfamily \#include "{}results\+\_\+transport.\+h"{}}\newline
 Include dependency graph for conf\+\_\+cos.\+c\+:
 \nopagebreak
 \begin{figure}[H]
@@ -12,34 +13,34 @@ Include dependency graph for conf\+\_\+cos.\+c\+:
 \includegraphics[width=350pt]{conf__cos_8c__incl}
 \end{center}
 \end{figure}
-\doxysubsection*{Functions}
+\doxysubsubsection*{Functions}
 \begin{DoxyCompactItemize}
 \item 
-void \mbox{\hyperlink{conf__cos_8c_a5bc76d9d73e5e09ea15d072618151d83}{C\+O\+N\+F\+\_\+specs}} (char $\ast$file\+\_\+confparams)
+void \mbox{\hyperlink{conf__cos_8c_a69be00fc1e60574fa9d1956c5da9c689}{CONF\+\_\+specs}} ()
 \item 
-void \mbox{\hyperlink{conf__cos_8c_a0ca99752ba6585358d273530b4acfb9b}{C\+O\+N\+F\+\_\+copycode}} ()
+void \mbox{\hyperlink{conf__cos_8c_a0ca99752ba6585358d273530b4acfb9b}{CONF\+\_\+copycode}} ()
 \item 
-char $\ast$ \mbox{\hyperlink{conf__cos_8c_a96b72468ce995bc58bca7b309248417a}{C\+O\+N\+F\+\_\+prfx}} ()
+char \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{conf__cos_8c_a4e74aa685e5636036ec49af808f112aa}{CONF\+\_\+prfx}} ()
 \end{DoxyCompactItemize}
 
 
 \doxysubsection{Function Documentation}
-\mbox{\Hypertarget{conf__cos_8c_a0ca99752ba6585358d273530b4acfb9b}\label{conf__cos_8c_a0ca99752ba6585358d273530b4acfb9b}} 
+\Hypertarget{conf__cos_8c_a0ca99752ba6585358d273530b4acfb9b}\label{conf__cos_8c_a0ca99752ba6585358d273530b4acfb9b} 
 \index{conf\_cos.c@{conf\_cos.c}!CONF\_copycode@{CONF\_copycode}}
 \index{CONF\_copycode@{CONF\_copycode}!conf\_cos.c@{conf\_cos.c}}
 \doxysubsubsection{\texorpdfstring{CONF\_copycode()}{CONF\_copycode()}}
-{\footnotesize\ttfamily void C\+O\+N\+F\+\_\+copycode (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily void CONF\+\_\+copycode (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
 
-\mbox{\Hypertarget{conf__cos_8c_a96b72468ce995bc58bca7b309248417a}\label{conf__cos_8c_a96b72468ce995bc58bca7b309248417a}} 
+\Hypertarget{conf__cos_8c_a4e74aa685e5636036ec49af808f112aa}\label{conf__cos_8c_a4e74aa685e5636036ec49af808f112aa} 
 \index{conf\_cos.c@{conf\_cos.c}!CONF\_prfx@{CONF\_prfx}}
 \index{CONF\_prfx@{CONF\_prfx}!conf\_cos.c@{conf\_cos.c}}
 \doxysubsubsection{\texorpdfstring{CONF\_prfx()}{CONF\_prfx()}}
-{\footnotesize\ttfamily char$\ast$ C\+O\+N\+F\+\_\+prfx (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily char \texorpdfstring{$\ast$}{*} CONF\+\_\+prfx (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
 
-function to provide prefix in name of working directory \mbox{\Hypertarget{conf__cos_8c_a5bc76d9d73e5e09ea15d072618151d83}\label{conf__cos_8c_a5bc76d9d73e5e09ea15d072618151d83}} 
+function to provide prefix in name of working directory \Hypertarget{conf__cos_8c_a69be00fc1e60574fa9d1956c5da9c689}\label{conf__cos_8c_a69be00fc1e60574fa9d1956c5da9c689} 
 \index{conf\_cos.c@{conf\_cos.c}!CONF\_specs@{CONF\_specs}}
 \index{CONF\_specs@{CONF\_specs}!conf\_cos.c@{conf\_cos.c}}
 \doxysubsubsection{\texorpdfstring{CONF\_specs()}{CONF\_specs()}}
-{\footnotesize\ttfamily void C\+O\+N\+F\+\_\+specs (\begin{DoxyParamCaption}\item[{char $\ast$}]{file\+\_\+confparams }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily void CONF\+\_\+specs (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
 
 Module to handle a confinement with a cosine shape (see e.\+g. Phd Thesis Steffen Martens 2013 page 90). Function with boundary for septate channel is in header file for inlining and thus a better computational performance function to write confinement specific information in specs file 

@@ -1,8 +1,14 @@
 <map id="headers_include.h" name="headers_include.h">
-<area shape="rect" id="node1" title=" " alt="" coords="74,5,201,32"/>
-<area shape="rect" id="node2" href="$int__hardspheres_8h.html" title=" " alt="" coords="5,80,131,107"/>
-<area shape="rect" id="node5" href="$conf__splitter_8h.html" title=" " alt="" coords="155,80,258,107"/>
-<area shape="rect" id="node3" href="$par__sim_8h.html" title=" " alt="" coords="51,155,130,181"/>
-<area shape="rect" id="node4" title=" " alt="" coords="53,229,128,256"/>
-<area shape="rect" id="node6" title=" " alt="" coords="175,155,238,181"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="74,5,201,31"/>
+<area shape="rect" id="Node000002" href="$int__hardspheres_8h.html" title=" " alt="" coords="5,79,131,104"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="128,33,91,71,87,67,124,29"/>
+<area shape="rect" id="Node000005" href="$conf__splitter_8h.html" title=" " alt="" coords="155,79,258,104"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="151,29,188,67,184,71,147,33"/>
+<area shape="rect" id="Node000003" href="$sim__config_8h.html" title=" " alt="" coords="37,152,133,177"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="73,104,82,138,77,140,68,105"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="48,225,123,251"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="88,178,88,212,83,212,83,178"/>
+<area shape="poly" id="edge6_Node000005_Node000003" title=" " alt="" coords="189,106,118,147,115,143,186,102"/>
+<area shape="rect" id="Node000006" title=" " alt="" coords="175,152,238,177"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="209,104,209,138,204,138,204,104"/>
 </map>

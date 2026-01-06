@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['b_345',['B',['../par__sim_8h.html#a111da81ae5883147168bbb8366377b10',1,'par_sim.h']]],
-  ['bottrad_346',['BOTTRAD',['../par__sim_8h.html#a16cb6c56ede462c96211f59cd6bf5619',1,'par_sim.h']]]
+  ['bottleneck_5fwidth_0',['BOTTLENECK_WIDTH',['../sim__config_8h.html#ac976772e7464dd062f34a734d59028d8',1,'sim_config.h']]],
+  ['bottrad_1',['BOTTRAD',['../sim__config_8h.html#a16cb6c56ede462c96211f59cd6bf5619',1,'sim_config.h']]]
 ];

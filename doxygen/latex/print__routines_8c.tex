@@ -1,8 +1,9 @@
-\hypertarget{print__routines_8c}{}\doxysection{print\+\_\+routines.\+c File Reference}
-\label{print__routines_8c}\index{print\_routines.c@{print\_routines.c}}
-{\ttfamily \#include \char`\"{}print\+\_\+routines.\+h\char`\"{}}\newline
-{\ttfamily \#include \char`\"{}par\+\_\+sim.\+h\char`\"{}}\newline
-{\ttfamily \#include \char`\"{}results\+\_\+transport.\+h\char`\"{}}\newline
+\doxysection{print\+\_\+routines.\+c File Reference}
+\hypertarget{print__routines_8c}{}\label{print__routines_8c}\index{print\_routines.c@{print\_routines.c}}
+{\ttfamily \#include "{}print\+\_\+routines.\+h"{}}\newline
+{\ttfamily \#include "{}sim\+\_\+config.\+h"{}}\newline
+{\ttfamily \#include "{}code\+\_\+handling.\+h"{}}\newline
+{\ttfamily \#include "{}results\+\_\+transport.\+h"{}}\newline
 {\ttfamily \#include $<$stdio.\+h$>$}\newline
 {\ttfamily \#include $<$time.\+h$>$}\newline
 Include dependency graph for print\+\_\+routines.\+c\+:
@@ -13,70 +14,83 @@ Include dependency graph for print\+\_\+routines.\+c\+:
 \includegraphics[width=350pt]{print__routines_8c__incl}
 \end{center}
 \end{figure}
-\doxysubsection*{Functions}
+\doxysubsubsection*{Functions}
 \begin{DoxyCompactItemize}
 \item 
-void \mbox{\hyperlink{print__routines_8c_a0c602ff0b19753288ab5b952be6cbc26}{P\+R\+I\+N\+T\+\_\+muoverf}} (double muall, double deffall, char $\ast$namefile)
+void \mbox{\hyperlink{print__routines_8c_a0951668069108cdfb241e8747e271fe6}{PRINT\+\_\+muoverf}} (double muall, double deffall)
 \item 
-void \mbox{\hyperlink{print__routines_8c_a2250142594c31313fc66c9e635d8a80d}{P\+R\+I\+N\+T\+\_\+results\+\_\+over\+\_\+time}} (double t, int abb, int abbdeff)
+void \mbox{\hyperlink{print__routines_8c_a2250142594c31313fc66c9e635d8a80d}{PRINT\+\_\+results\+\_\+over\+\_\+time}} (double t, int abb, int abbdeff)
 \item 
-void \mbox{\hyperlink{print__routines_8c_ae517a3f8f58c0a5c5ec599bc6635c49a}{P\+R\+I\+N\+T\+\_\+positions}} (int m, double $\ast$$\ast$posx, double $\ast$$\ast$posy)
+void \mbox{\hyperlink{print__routines_8c_ae517a3f8f58c0a5c5ec599bc6635c49a}{PRINT\+\_\+positions}} (int m, double \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}posx, double \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}posy)
 \item 
-void \mbox{\hyperlink{print__routines_8c_a0ba4edfd73c834083a19557cf4a88954}{P\+R\+I\+N\+T\+\_\+runtime}} (clock\+\_\+t start, char $\ast$name\+\_\+simspecs)
+void \mbox{\hyperlink{print__routines_8c_a837d8321e0d9f4bcc23fa7e876bfb7a3}{PRINT\+\_\+runtime}} (clock\+\_\+t start)
 \item 
-void \mbox{\hyperlink{print__routines_8c_a32a907222ea98607edfd3e8ba0d490bd}{P\+R\+I\+N\+T\+\_\+runtime\+\_\+threads}} (clock\+\_\+t start, int numtasks, int taskid)
+void \mbox{\hyperlink{print__routines_8c_a32a907222ea98607edfd3e8ba0d490bd}{PRINT\+\_\+runtime\+\_\+threads}} (clock\+\_\+t start, int numtasks, int taskid)
 \item 
-void \mbox{\hyperlink{print__routines_8c_a3947836491eb9f27b418150b66f4ffd7}{P\+R\+I\+N\+T\+\_\+resallthreads}} (long double msdall, double meanspeedall, double muall, double deffall, long double meanxall, long double meanxsquall, long double thirdcumall)
+void \mbox{\hyperlink{print__routines_8c_a3947836491eb9f27b418150b66f4ffd7}{PRINT\+\_\+resallthreads}} (long double msdall, double meanspeedall, double muall, double deffall, long double meanxall, long double meanxsquall, long double thirdcumall)
 \item 
-void \mbox{\hyperlink{print__routines_8c_a961f680d34e1ae62ee01b7dcba56f0cf}{P\+R\+I\+N\+T\+\_\+copycode}} ()
+void \mbox{\hyperlink{print__routines_8c_a961f680d34e1ae62ee01b7dcba56f0cf}{PRINT\+\_\+copycode}} ()
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structPrintResults}{Print\+Results}} \mbox{\hyperlink{print__routines_8c_a04c693c9532047ecf1347c1ddb211ece}{printres}} = \{0, "{}"{}, "{}"{}\}
 \end{DoxyCompactItemize}
 
 
 \doxysubsection{Function Documentation}
-\mbox{\Hypertarget{print__routines_8c_a961f680d34e1ae62ee01b7dcba56f0cf}\label{print__routines_8c_a961f680d34e1ae62ee01b7dcba56f0cf}} 
+\Hypertarget{print__routines_8c_a961f680d34e1ae62ee01b7dcba56f0cf}\label{print__routines_8c_a961f680d34e1ae62ee01b7dcba56f0cf} 
 \index{print\_routines.c@{print\_routines.c}!PRINT\_copycode@{PRINT\_copycode}}
 \index{PRINT\_copycode@{PRINT\_copycode}!print\_routines.c@{print\_routines.c}}
 \doxysubsubsection{\texorpdfstring{PRINT\_copycode()}{PRINT\_copycode()}}
-{\footnotesize\ttfamily void P\+R\+I\+N\+T\+\_\+copycode (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily void PRINT\+\_\+copycode (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
 
-\mbox{\Hypertarget{print__routines_8c_a0c602ff0b19753288ab5b952be6cbc26}\label{print__routines_8c_a0c602ff0b19753288ab5b952be6cbc26}} 
+\Hypertarget{print__routines_8c_a0951668069108cdfb241e8747e271fe6}\label{print__routines_8c_a0951668069108cdfb241e8747e271fe6} 
 \index{print\_routines.c@{print\_routines.c}!PRINT\_muoverf@{PRINT\_muoverf}}
 \index{PRINT\_muoverf@{PRINT\_muoverf}!print\_routines.c@{print\_routines.c}}
 \doxysubsubsection{\texorpdfstring{PRINT\_muoverf()}{PRINT\_muoverf()}}
-{\footnotesize\ttfamily void P\+R\+I\+N\+T\+\_\+muoverf (\begin{DoxyParamCaption}\item[{double}]{muall,  }\item[{double}]{deffall,  }\item[{char $\ast$}]{namefile }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily void PRINT\+\_\+muoverf (\begin{DoxyParamCaption}\item[{double}]{muall,  }\item[{double}]{deffall }\end{DoxyParamCaption})}
 
-prints results to file outside of working directory\mbox{\Hypertarget{print__routines_8c_ae517a3f8f58c0a5c5ec599bc6635c49a}\label{print__routines_8c_ae517a3f8f58c0a5c5ec599bc6635c49a}} 
+prints results to file outside of working directory\Hypertarget{print__routines_8c_ae517a3f8f58c0a5c5ec599bc6635c49a}\label{print__routines_8c_ae517a3f8f58c0a5c5ec599bc6635c49a} 
 \index{print\_routines.c@{print\_routines.c}!PRINT\_positions@{PRINT\_positions}}
 \index{PRINT\_positions@{PRINT\_positions}!print\_routines.c@{print\_routines.c}}
 \doxysubsubsection{\texorpdfstring{PRINT\_positions()}{PRINT\_positions()}}
-{\footnotesize\ttfamily void P\+R\+I\+N\+T\+\_\+positions (\begin{DoxyParamCaption}\item[{int}]{m,  }\item[{double $\ast$$\ast$}]{posx,  }\item[{double $\ast$$\ast$}]{posy }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily void PRINT\+\_\+positions (\begin{DoxyParamCaption}\item[{int}]{m,  }\item[{double \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}}]{posx,  }\item[{double \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}}]{posy }\end{DoxyParamCaption})}
 
 Internal functions
 
-External functions prints particle positions to file\mbox{\Hypertarget{print__routines_8c_a3947836491eb9f27b418150b66f4ffd7}\label{print__routines_8c_a3947836491eb9f27b418150b66f4ffd7}} 
+External functions prints particle positions to file\Hypertarget{print__routines_8c_a3947836491eb9f27b418150b66f4ffd7}\label{print__routines_8c_a3947836491eb9f27b418150b66f4ffd7} 
 \index{print\_routines.c@{print\_routines.c}!PRINT\_resallthreads@{PRINT\_resallthreads}}
 \index{PRINT\_resallthreads@{PRINT\_resallthreads}!print\_routines.c@{print\_routines.c}}
 \doxysubsubsection{\texorpdfstring{PRINT\_resallthreads()}{PRINT\_resallthreads()}}
-{\footnotesize\ttfamily void P\+R\+I\+N\+T\+\_\+resallthreads (\begin{DoxyParamCaption}\item[{long double}]{msdall,  }\item[{double}]{meanspeedall,  }\item[{double}]{muall,  }\item[{double}]{deffall,  }\item[{long double}]{meanxall,  }\item[{long double}]{meanxsquall,  }\item[{long double}]{thirdcumall }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily void PRINT\+\_\+resallthreads (\begin{DoxyParamCaption}\item[{long double}]{msdall,  }\item[{double}]{meanspeedall,  }\item[{double}]{muall,  }\item[{double}]{deffall,  }\item[{long double}]{meanxall,  }\item[{long double}]{meanxsquall,  }\item[{long double}]{thirdcumall }\end{DoxyParamCaption})}
 
-prints results of simulation to file at the end of the simulation \mbox{\Hypertarget{print__routines_8c_a2250142594c31313fc66c9e635d8a80d}\label{print__routines_8c_a2250142594c31313fc66c9e635d8a80d}} 
+prints results of simulation to file at the end of the simulation\Hypertarget{print__routines_8c_a2250142594c31313fc66c9e635d8a80d}\label{print__routines_8c_a2250142594c31313fc66c9e635d8a80d} 
 \index{print\_routines.c@{print\_routines.c}!PRINT\_results\_over\_time@{PRINT\_results\_over\_time}}
 \index{PRINT\_results\_over\_time@{PRINT\_results\_over\_time}!print\_routines.c@{print\_routines.c}}
 \doxysubsubsection{\texorpdfstring{PRINT\_results\_over\_time()}{PRINT\_results\_over\_time()}}
-{\footnotesize\ttfamily void P\+R\+I\+N\+T\+\_\+results\+\_\+over\+\_\+time (\begin{DoxyParamCaption}\item[{double}]{t,  }\item[{int}]{abb,  }\item[{int}]{abbdeff }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily void PRINT\+\_\+results\+\_\+over\+\_\+time (\begin{DoxyParamCaption}\item[{double}]{t,  }\item[{int}]{abb,  }\item[{int}]{abbdeff }\end{DoxyParamCaption})}
 
-function to print online results of simulation over time\mbox{\Hypertarget{print__routines_8c_a0ba4edfd73c834083a19557cf4a88954}\label{print__routines_8c_a0ba4edfd73c834083a19557cf4a88954}} 
+function to print online results of simulation over time\Hypertarget{print__routines_8c_a837d8321e0d9f4bcc23fa7e876bfb7a3}\label{print__routines_8c_a837d8321e0d9f4bcc23fa7e876bfb7a3} 
 \index{print\_routines.c@{print\_routines.c}!PRINT\_runtime@{PRINT\_runtime}}
 \index{PRINT\_runtime@{PRINT\_runtime}!print\_routines.c@{print\_routines.c}}
 \doxysubsubsection{\texorpdfstring{PRINT\_runtime()}{PRINT\_runtime()}}
-{\footnotesize\ttfamily void P\+R\+I\+N\+T\+\_\+runtime (\begin{DoxyParamCaption}\item[{clock\+\_\+t}]{start,  }\item[{char $\ast$}]{name\+\_\+simspecs }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily void PRINT\+\_\+runtime (\begin{DoxyParamCaption}\item[{clock\+\_\+t}]{start }\end{DoxyParamCaption})}
 
-prints run time of code into file\mbox{\Hypertarget{print__routines_8c_a32a907222ea98607edfd3e8ba0d490bd}\label{print__routines_8c_a32a907222ea98607edfd3e8ba0d490bd}} 
+prints run time of code into file\Hypertarget{print__routines_8c_a32a907222ea98607edfd3e8ba0d490bd}\label{print__routines_8c_a32a907222ea98607edfd3e8ba0d490bd} 
 \index{print\_routines.c@{print\_routines.c}!PRINT\_runtime\_threads@{PRINT\_runtime\_threads}}
 \index{PRINT\_runtime\_threads@{PRINT\_runtime\_threads}!print\_routines.c@{print\_routines.c}}
 \doxysubsubsection{\texorpdfstring{PRINT\_runtime\_threads()}{PRINT\_runtime\_threads()}}
-{\footnotesize\ttfamily void P\+R\+I\+N\+T\+\_\+runtime\+\_\+threads (\begin{DoxyParamCaption}\item[{clock\+\_\+t}]{start,  }\item[{int}]{numtasks,  }\item[{int}]{taskid }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily void PRINT\+\_\+runtime\+\_\+threads (\begin{DoxyParamCaption}\item[{clock\+\_\+t}]{start,  }\item[{int}]{numtasks,  }\item[{int}]{taskid }\end{DoxyParamCaption})}
 
 prints individual runtime of each thread
 
 measure program run time of task
+
+\doxysubsection{Variable Documentation}
+\Hypertarget{print__routines_8c_a04c693c9532047ecf1347c1ddb211ece}\label{print__routines_8c_a04c693c9532047ecf1347c1ddb211ece} 
+\index{print\_routines.c@{print\_routines.c}!printres@{printres}}
+\index{printres@{printres}!print\_routines.c@{print\_routines.c}}
+\doxysubsubsection{\texorpdfstring{printres}{printres}}
+{\footnotesize\ttfamily struct \mbox{\hyperlink{structPrintResults}{Print\+Results}} printres = \{0, "{}"{}, "{}"{}\}}
+

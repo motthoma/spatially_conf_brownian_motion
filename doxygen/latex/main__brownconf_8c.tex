@@ -1,11 +1,16 @@
-\hypertarget{main__brownconf_8c}{}\doxysection{main\+\_\+brownconf.\+c File Reference}
-\label{main__brownconf_8c}\index{main\_brownconf.c@{main\_brownconf.c}}
-{\ttfamily \#include \char`\"{}code\+\_\+handling.\+h\char`\"{}}\newline
-{\ttfamily \#include \char`\"{}simulation\+\_\+core.\+h\char`\"{}}\newline
+\doxysection{main\+\_\+brownconf.\+c File Reference}
+\hypertarget{main__brownconf_8c}{}\label{main__brownconf_8c}\index{main\_brownconf.c@{main\_brownconf.c}}
 {\ttfamily \#include $<$stdio.\+h$>$}\newline
 {\ttfamily \#include $<$stdlib.\+h$>$}\newline
+{\ttfamily \#include $<$time.\+h$>$}\newline
 {\ttfamily \#include $<$sys/stat.\+h$>$}\newline
 {\ttfamily \#include $<$unistd.\+h$>$}\newline
+{\ttfamily \#include "{}array\+\_\+utils.\+h"{}}\newline
+{\ttfamily \#include "{}code\+\_\+handling.\+h"{}}\newline
+{\ttfamily \#include "{}sim\+\_\+config.\+h"{}}\newline
+{\ttfamily \#include "{}simulation\+\_\+core.\+h"{}}\newline
+{\ttfamily \#include "{}random\+\_\+numb\+\_\+gen.\+h"{}}\newline
+{\ttfamily \#include "{}comp\+\_\+gen\+\_\+header.\+h"{}}\newline
 Include dependency graph for main\+\_\+brownconf.\+c\+:
 \nopagebreak
 \begin{figure}[H]
@@ -14,30 +19,33 @@ Include dependency graph for main\+\_\+brownconf.\+c\+:
 \includegraphics[width=350pt]{main__brownconf_8c__incl}
 \end{center}
 \end{figure}
-\doxysubsection*{Functions}
+\doxysubsubsection*{Functions}
 \begin{DoxyCompactItemize}
 \item 
-double $\ast$$\ast$ \mbox{\hyperlink{main__brownconf_8c_a806f603bf9f2e6365a2cb30c4bd21cfd}{calloc\+\_\+2\+Ddouble\+\_\+array}} (int m, int n)
+void \mbox{\hyperlink{main__brownconf_8c_adc7aba854675cdcd9752a05d9039a815}{MAIN\+\_\+copy\+\_\+main\+\_\+code}} ()
 \item 
-int \mbox{\hyperlink{main__brownconf_8c_a3c04138a5bfe5d72780bb7e82a18e627}{main}} (int argc, char $\ast$$\ast$argv)
+void \mbox{\hyperlink{main__brownconf_8c_a62d5c0843b62849d48d08c253271f236}{main\+\_\+copy\+\_\+ext\+\_\+files}} ()
+\item 
+int \mbox{\hyperlink{main__brownconf_8c_a3c04138a5bfe5d72780bb7e82a18e627}{main}} (int argc, char \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}argv)
 \end{DoxyCompactItemize}
 
 
 \doxysubsection{Function Documentation}
-\mbox{\Hypertarget{main__brownconf_8c_a806f603bf9f2e6365a2cb30c4bd21cfd}\label{main__brownconf_8c_a806f603bf9f2e6365a2cb30c4bd21cfd}} 
-\index{main\_brownconf.c@{main\_brownconf.c}!calloc\_2Ddouble\_array@{calloc\_2Ddouble\_array}}
-\index{calloc\_2Ddouble\_array@{calloc\_2Ddouble\_array}!main\_brownconf.c@{main\_brownconf.c}}
-\doxysubsubsection{\texorpdfstring{calloc\_2Ddouble\_array()}{calloc\_2Ddouble\_array()}}
-{\footnotesize\ttfamily double$\ast$$\ast$ calloc\+\_\+2\+Ddouble\+\_\+array (\begin{DoxyParamCaption}\item[{int}]{m,  }\item[{int}]{n }\end{DoxyParamCaption})}
-
-Function that allocates memory for a 2 dimensional array of doubles\mbox{\Hypertarget{main__brownconf_8c_a3c04138a5bfe5d72780bb7e82a18e627}\label{main__brownconf_8c_a3c04138a5bfe5d72780bb7e82a18e627}} 
+\Hypertarget{main__brownconf_8c_a3c04138a5bfe5d72780bb7e82a18e627}\label{main__brownconf_8c_a3c04138a5bfe5d72780bb7e82a18e627} 
 \index{main\_brownconf.c@{main\_brownconf.c}!main@{main}}
 \index{main@{main}!main\_brownconf.c@{main\_brownconf.c}}
 \doxysubsubsection{\texorpdfstring{main()}{main()}}
-{\footnotesize\ttfamily int main (\begin{DoxyParamCaption}\item[{int}]{argc,  }\item[{char $\ast$$\ast$}]{argv }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily int main (\begin{DoxyParamCaption}\item[{int}]{argc,  }\item[{char \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}}]{argv }\end{DoxyParamCaption})}
 
-main function of Brownian motion simulation
+main function of Brownian motion simulation\Hypertarget{main__brownconf_8c_a62d5c0843b62849d48d08c253271f236}\label{main__brownconf_8c_a62d5c0843b62849d48d08c253271f236} 
+\index{main\_brownconf.c@{main\_brownconf.c}!main\_copy\_ext\_files@{main\_copy\_ext\_files}}
+\index{main\_copy\_ext\_files@{main\_copy\_ext\_files}!main\_brownconf.c@{main\_brownconf.c}}
+\doxysubsubsection{\texorpdfstring{main\_copy\_ext\_files()}{main\_copy\_ext\_files()}}
+{\footnotesize\ttfamily void main\+\_\+copy\+\_\+ext\+\_\+files (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
 
-calculate number of samples of interacting particles
+\Hypertarget{main__brownconf_8c_adc7aba854675cdcd9752a05d9039a815}\label{main__brownconf_8c_adc7aba854675cdcd9752a05d9039a815} 
+\index{main\_brownconf.c@{main\_brownconf.c}!MAIN\_copy\_main\_code@{MAIN\_copy\_main\_code}}
+\index{MAIN\_copy\_main\_code@{MAIN\_copy\_main\_code}!main\_brownconf.c@{main\_brownconf.c}}
+\doxysubsubsection{\texorpdfstring{MAIN\_copy\_main\_code()}{MAIN\_copy\_main\_code()}}
+{\footnotesize\ttfamily void MAIN\+\_\+copy\+\_\+main\+\_\+code (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
 
-calculate number of samples of interacting particles per task

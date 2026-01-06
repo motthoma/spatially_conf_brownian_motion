@@ -167,10 +167,6 @@ int main (int argc, char **argv){
   printf("\ninitialize arrays for positions and interactions stored in enseble state\n"); 
   SIM_alloc_ensemble_state();
   
-  char fnamex [60];
-  char fnamey [60];
-  char fname2d [60];
-
   if(taskid == MASTER){
       main_copy_ext_files();
 
@@ -234,14 +230,26 @@ int main (int argc, char **argv){
   
   PRINT_runtime_threads(prgstart, SimParams.numtasks, taskid);
   
-  sprintf(fnamex, "meanx_Histogram_F_%.3lf.dat", SimParams.F);
+  char fnamex [60];
+  snprintf(fnamex,
+           sizeof fnamex,
+           "%s/meanx_Histogram_F_%.3lf.dat",
+           DestPaths.fullpath,
+           SimParams.F);
   histparams.xcounter = RES_histogramm_mpi_reduce(setn_per_task, 
                                                   0, 
                                                   L_CONF, 
-                                                  histparams.binx, EnsembleState.positionx, 
-                                                  fnamex, taskid);
+                                                  histparams.binx,
+                                                  EnsembleState.positionx, 
+                                                  fnamex,
+                                                  taskid);
 
-  sprintf(fnamey, "meany_Histogram_F_%.3lf.dat", SimParams.F);
+  char fnamey [60];
+  snprintf(fnamey,
+           sizeof fnamey,
+           "%s/meany_Histogram_F_%.3lf.dat",
+           DestPaths.fullpath,
+           SimParams.F);
   histparams.ycounter = RES_histogramm_mpi_reduce(setn_per_task, 
                                                   MAX_HALF_WIDTH, 
                                                   2*MAX_HALF_WIDTH, 
@@ -250,7 +258,12 @@ int main (int argc, char **argv){
                                                   fnamey, 
                                                   taskid);
 
-  sprintf(fname2d, "meanpos_Histogram2d_F_%.3lf.dat", SimParams.F);
+  char fname2d [60];
+  snprintf(fname2d,
+           sizeof fname2d,
+           "%s/meanpos_Histogram2d_F_%.3lf.dat",
+           DestPaths.fullpath,
+           SimParams.F);
   histparams.twodcounter =  RES_histogramm2d_mpi_reduce(setn_per_task, 
                                                         histparams.bin2d, 
                                                         EnsembleState.positionx, 

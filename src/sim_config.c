@@ -79,7 +79,9 @@ void SIMCONFIG_write_specs() {
     double readout_time = SimParams.plotpoints * SimParams.time_step;
   
     char fname_simparams [60]; 
-    sprintf(fname_simparams, "parameters_simulation_overall.dat");
+    snprintf(fname_simparams,
+             sizeof fname_simparams,
+             "parameters_simulation_overall.dat");
     DestPaths.fname_simparams = malloc(256);    
     snprintf(DestPaths.fname_simparams,
              800,

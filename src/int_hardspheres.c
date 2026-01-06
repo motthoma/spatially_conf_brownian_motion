@@ -21,7 +21,9 @@ void INT_specs(){
   	f_cut = INT_force(INT_CUTOFF, INT_CUTOFF);
 	
     char fname_intparams [60]; 
-    sprintf(fname_intparams, "parameters_particle_interaction.dat");
+    snprintf(fname_intparams,
+             sizeof fname_intparams,
+             "parameters_particle_interaction.dat");
     DestPaths.fname_intparams = malloc(256);    
     snprintf(DestPaths.fname_intparams,
              800,
@@ -30,12 +32,14 @@ void INT_specs(){
 
 	FILE *outpspecs;
 	outpspecs = fopen(DestPaths.fname_intparams, "a");
-	fprintf(outpspecs, "\n\nParameters of hard-sphere particle-particle interaction:\n\n"
-			   "Radius of Particles' Hardcore: %.2lf\n"
-			   "Potential cut-off length: %d\n"
-			   "Value of int-force at cut-off length: %.5lf\n\n", R_INT, 
-			   						      INT_CUTOFF, 
-									      f_cut);
+	fprintf(outpspecs,
+            "\n\nParameters of hard-sphere particle-particle interaction:\n\n"
+			"Radius of Particles' Hardcore: %.2lf\n"
+			"Potential cut-off length: %d\n"
+			"Value of int-force at cut-off length: %.5lf\n\n",
+            R_INT,
+            INT_CUTOFF, 
+			f_cut);
 
 	fclose (outpspecs);
 }

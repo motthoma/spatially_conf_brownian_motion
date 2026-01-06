@@ -16,11 +16,12 @@ void PRINT_muoverf(double muall, double deffall)
  * prints results to file outside of working directory
  */
   char fnamemu[60];
-  sprintf(fnamemu, "%s/muoverfpos_R_%.2lf_parts_per_set_%d.dat",
-                   RUNS_DIR,
-                   R_CONF,
-                   SimParams.parts_per_set);
-
+  snprintf(fnamemu, 
+           sizeof fnamemu,
+           "%s/muoverfpos_R_%.2lf_parts_per_set_%d.dat",
+           RUNS_DIR,
+           R_CONF,
+           SimParams.parts_per_set);
   FILE *outmu;
   outmu=fopen(fnamemu, "a");
   fprintf(outmu, "%.3lf\t %.6lf\t %.6lf\t %s\n",
@@ -39,14 +40,22 @@ void PRINT_results_over_time(double t,
     * function to print online results of simulation over time 
     */
     if(printres.state == 0){    
-		sprintf(printres.fname, "%s/muovert_F_%.3lf.dat", DestPaths.fullpath, SimParams.F);
+		snprintf(printres.fname,
+                 sizeof printres.fname,
+                 "%s/muovert_F_%.3lf.dat",
+                 DestPaths.fullpath,
+                 SimParams.F);
 		FILE *outp;
 		outp = fopen(printres.fname ,"w");
 		fprintf(outp, "#time\t meanx: <x>\t meanspeed: <v>\t mu\t abb\t abbdeff\n");
 		fclose(outp);
 		printf("#time\t meanx: <x>\t meanspeed: <v>\t mu\t abb\t abbdeff\n");
 
-		sprintf(printres.fnamemom, "%s/momsovert_F_%.3lf.dat", DestPaths.fullpath, SimParams.F);
+		snprintf(printres.fnamemom,
+                 sizeof printres.fnamemom,
+                 "%s/momsovert_F_%.3lf.dat",
+                 DestPaths.fullpath,
+                 SimParams.F);
 		FILE *outpmom;
 		outpmom=fopen(printres.fnamemom ,"w");
 		fprintf(outpmom, "#time\t meanx: <x>\t meanxsquare: <x^2>\t Meansqdist: <x^2> - <x>^2\t  deff: (<x^2> - <x>^2)/(2t)\t third cumulant: <x^3>-3<x^2><x>+2<x>^3\n");

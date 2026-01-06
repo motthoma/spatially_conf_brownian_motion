@@ -29,10 +29,12 @@ inline double intforce(double dist1d, double dist2d){
 void INT_specs(){
 	
     char fname_intparams [60]; 
-    sprintf(fname_intparams, "parameters_particle_interaction.dat");
+    snprintf(fname_intparams,
+             sizeof fname_intparams,
+             "parameters_particle_interaction.dat");
     DestPaths.fname_intparams = malloc(256);    
     snprintf(DestPaths.fname_intparams,
-             800,
+             256,
              "%s/%s",
              DestPaths.fullpath, fname_intparams);
 

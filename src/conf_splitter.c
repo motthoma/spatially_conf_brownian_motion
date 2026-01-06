@@ -15,7 +15,9 @@
 
 void CONF_specs(){
     char fname_intparams [60]; 
-    sprintf(fname_intparams,"parameters_confinement.dat");
+    snprintf(fname_intparams,
+             sizeof fname_intparams,
+             "parameters_confinement.dat");
 
     DestPaths.fname_confparams = malloc(256);    
     snprintf(DestPaths.fname_confparams,

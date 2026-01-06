@@ -100,7 +100,7 @@ void RES_calc_transpcoeffs(int setn_per_task,
   tcoeff.thirdcum = tcoeff.meanxqub - 3*tcoeff.meanx*tcoeff.meanxsqu + 2*powl(tcoeff.meanx, 3);
 }
 
-int RES_histogramm_mpi_reduce(int m, 
+int RES_histogramm_mpi_reduce(int setn_per_task, 
                               double backshift, 
                               double length, 
                               double bin, 
@@ -129,13 +129,13 @@ int RES_histogramm_mpi_reduce(int m,
   FILE *outp;
   outp = fopen(fname, "w");
   fclose(outp);      
-
+    
   bin_n = (int) (length/bin);
   for(i = 0; i < bin_n; i++){ 
 	  counter = 0;
 	  counterall = 0;
         
-	  for(j = 0; j < m; j++){
+	  for(j = 0; j < setn_per_task; j++){
 		for(k = 0; k < SimParams.parts_per_set; k++){
 		    if(((i*bin - backshift) <= positions[j][k]) && (positions[j][k] <= (i+1)*bin - backshift)){
                 counter++;
@@ -161,10 +161,9 @@ int RES_histogramm_mpi_reduce(int m,
   }
 
   return countercheck;
-
 }
 
-int RES_histogramm2d_mpi_reduce(int m, 
+int RES_histogramm2d_mpi_reduce(int setn_per_task, 
                                 double bin2d, 
                                 double **positionsx, 
                                 double **positionsy,  
@@ -199,7 +198,7 @@ int RES_histogramm2d_mpi_reduce(int m,
 	  for(hy = 0; hy <= bin_ny; hy++){   
           twodcounter = 0;   
           twodcounterall = 0;   
-		  for(i = 0; i < m; i++){
+		  for(i = 0; i < setn_per_task; i++){
 			for(j = 0; j < SimParams.parts_per_set; j++){
 			   if((hx*bin2d <= positionsx[i][j]) && (positionsx[i][j] <= (hx+1)*bin2d)){
 				   if(((hy*bin2d - MAX_HALF_WIDTH) <= positionsy[i][j]) && (positionsy[i][j] <= (hy+1)*bin2d - MAX_HALF_WIDTH)){

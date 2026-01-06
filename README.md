@@ -7,7 +7,8 @@ Periodic boundary conditions are used, and particle density is kept constant in 
 
 ![logo_conf_brownian_motion](./logo.png)
 
-Exemplary system: Two hardspheres move within a  confinement with a saw-tooth as implemented in the conf_splitter module
+Exemplary system: Two hardspheres move within a confinement with a saw-tooth profile
+as implemented in the conf_splitter module
 
 ---
 

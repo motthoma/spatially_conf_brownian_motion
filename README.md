@@ -6,6 +6,7 @@ External static forces can be applied, but long-range hydrodynamic interactions 
 Periodic boundary conditions are used, and particle density is kept constant in the interacting case.
 
 ![logo_conf_brownian_motion](./logo.png)
+
 Exemplary system: Two hardspheres move within a  confinement with a saw-tooth as implemented in the conf_splitter module
 
 ---

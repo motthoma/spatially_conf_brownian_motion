@@ -15,7 +15,7 @@ T_HistParams histparams;
 
 void RES_init(){
 	
-    /*average of particle x-positions <x>*/
+        /*average of particle x-positions <x>*/
 	tcoeff.meanx = 0; 
 	/*average of particle speed in x-directions <v>*/
 	tcoeff.meanspeed = 0.0;
@@ -70,11 +70,11 @@ void RES_calc_transpcoeffs(double t,
 
 		 /*absolute position of individual particle*/
 		 abspos_part = (posx[j][kset] - x_init[j][kset])/L_CONF - totalshift;
-         /*sum of positions of all particles for later averaging*/
+                 /*sum of positions of all particles for later averaging*/
 		 xges += abspos_part;
 		 /*sum of x^2 over all particles*/
 		 xgessquare += powl(abspos_part, 2);
-         /*sum of x^3 over all particles*/
+                 /*sum of x^3 over all particles*/
 		 xgesqub += powl(abspos_part, 3);
  
 	  } 

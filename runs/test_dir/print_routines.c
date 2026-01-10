@@ -159,9 +159,9 @@ clock_t end;
 int timediff;
 
   if(numtasks > 1){
-        /**
-         * measure program run time of task
-         */ 
+    /**
+     * measure program run time of task
+     */ 
 	end = clock();
 	timediff = (int)((end-start) / CLOCKS_PER_SEC);
 

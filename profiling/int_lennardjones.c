@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "int_lennardjones.h"
+#include "code_handling.h""
 
 
 double fintx = 0;
@@ -27,29 +28,42 @@ inline double intforce(double dist1d, double dist2d){
 
 void INT_specs(){
 	
-	double f_cut;
-  	f_cut = INT_force(INT_CUTOFF, INT_CUTOFF);
+    char fname_intparams [60]; 
+    snprintf(fname_intparams,
+             sizeof fname_intparams,
+             "parameters_particle_interaction.dat");
+    DestPaths.fname_intparams = malloc(256);    
+    snprintf(DestPaths.fname_intparams,
+             256,
+             "%s/%s",
+             DestPaths.fullpath, fname_intparams);
 
 	FILE *outpspecs;
-	outpspecs = fopen("muovert_specs.dat", "a");
-	fprintf(outpspecs, "\n\nParameters of Lennard_Jones particle-particle interaction:\n\nRadius of Particles' Hardcore: %.4lf\nPotential cut-off length: %.2lf\nValue of int-force at cut-off length: %.5lf\nDepth of potential minimum epsilon: %.2lf\nPosition of potential minimum: %.2lf\nPower of 6 of minimum's position: %.4e\n\n\n", R_INT, INT_CUTOFF, f_cut, EPS_L, LJMIN, LJMINPOW);
+	outpspecs = fopen(DestPaths.fname_intparams, "a");
+	fprintf(outpspecs,
+            "\n\nParameters of Lennard_Jones particle-particle interaction:\n\n"
+            "Radius of Particles' Hardcore: %.4lf\n"
+            "Potential cut-off length: %.2lf\n"
+            "Value of int-force shift value: %.5lf\n"
+            "Depth of potential minimum epsilon: %.2lf\n"
+            "Position of potential minimum: %.2lf\n"
+            "Power of 6 of minimum's position: %.4e\n\n\n",
+            R_INT, 
+            INT_CUTOFF, 
+            FSHIFT, 
+            EPS_L, 
+            LJMIN, 
+            LJMINPOW);
 
 	fclose (outpspecs);
-
-
-
 }
-
 
 void INT_copycode(){
-char copycode[200];
-
-  sprintf(copycode, "cp ../int_lennardjones.* ./");
-  system(copycode);
-
+    CODEHAND_copy_file_to_dest("int_lennardjones.c");
+    CODEHAND_copy_file_to_dest("int_lennardjones.h");
 }
 
-char* INT_prfx(){
-char *a = "LJ_pot";
-return a;
+char * INT_prfx(){
+	char *a = "LJ_pot";
+    return a;
 }

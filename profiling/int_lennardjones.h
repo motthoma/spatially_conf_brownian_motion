@@ -4,15 +4,31 @@
 #define HEADER_INT
 
 #include <math.h>
-#include "par_sim.h"
+#include "sim_config.h"
 
+
+/* particle radius relevant for inter-particle
+ * interaction. Usualy the same as the particle
+ * radius relevant for the confinement
+ */
 #define R_INT (R_CONF)
-#define INT_CUTOFF (0.2*L_CONF)
-#define EPS_L (1.0)
-#define LJMIN (0.5*B)
+
+/* spatial cut-off of interaction to avoid 
+ * long-range interactions over infinite 
+ * distances. Variable not relavant for 
+ * hard spheres.
+ */
+#define INT_CUTOFF (0.5*L_CONF)
+/* depth of LJ potential at minimum */
+#define EPS_L (2.0)
+/* position of minimum of LJ potential */
+#define LJMIN (2*R_INT)
+
+/* defines that are precomputed for better
+ * computational performance */
 #define LJMINPOW (pow(LJMIN,6))
 #define LJPREFAC 12.0*EPS_L*LJMINPOW
-
+#define FSHIFT LJPREFAC*(LJMINPOW*pow(INT_CUTOFF,-14) - pow(INT_CUTOFF,-8))*INT_CUTOFF
 
 /**
  *********************************************************
@@ -37,7 +53,7 @@ static inline double intforce_lj(double dist1d, double dist2d){
  *  that move in two dimensions and are separated by the distances dist1d 
  *  and dist2d in each dimension */
 
-	return(LJPREFAC*(LJMINPOW*pow(dist2d,-14)-pow(dist2d,-8))*dist1d);
+	return(LJPREFAC*(LJMINPOW*pow(dist2d,-14) - pow(dist2d,-8))*dist1d - FSHIFT);
 
 }
 
@@ -60,9 +76,7 @@ extern double intforce(double disti, double dist);*/
  */
 
 static inline double INT_force(double dist1d, double dist2d){
-
 	return intforce_lj(dist1d, dist2d);
-
 }
 
 extern void INT_specs();

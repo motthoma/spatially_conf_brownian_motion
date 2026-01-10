@@ -1,7 +1,0 @@
-var searchData=
-[
-  ['int_5fcopycode_0',['int_copycode',['../int__hardspheres_8c.html#a7ba182a934dfe7006767dd07d19d9390',1,'INT_copycode():&#160;int_hardspheres.c'],['../int__hardspheres_8h.html#a7ba182a934dfe7006767dd07d19d9390',1,'INT_copycode():&#160;int_hardspheres.c'],['../int__lennardjones_8c.html#a7ba182a934dfe7006767dd07d19d9390',1,'INT_copycode():&#160;int_lennardjones.c']]],
-  ['int_5fcopycode_5fint_1',['INT_copycode_int',['../int__lennardjones_8h.html#a92425d945077c384cbc5666f99925452',1,'int_lennardjones.h']]],
-  ['int_5fprfx_2',['int_prfx',['../int__hardspheres_8c.html#aef59c03ee4e93c9281cddb8a068f02cf',1,'INT_prfx():&#160;int_hardspheres.c'],['../int__hardspheres_8h.html#aef59c03ee4e93c9281cddb8a068f02cf',1,'INT_prfx():&#160;int_hardspheres.c'],['../int__lennardjones_8c.html#aef59c03ee4e93c9281cddb8a068f02cf',1,'INT_prfx():&#160;int_lennardjones.c'],['../int__lennardjones_8h.html#aef59c03ee4e93c9281cddb8a068f02cf',1,'INT_prfx():&#160;int_hardspheres.c']]],
-  ['int_5fspecs_3',['int_specs',['../int__hardspheres_8c.html#a114c40c77d05d99ea4629bde68bb8112',1,'INT_specs():&#160;int_hardspheres.c'],['../int__hardspheres_8h.html#a114c40c77d05d99ea4629bde68bb8112',1,'INT_specs():&#160;int_hardspheres.c'],['../int__lennardjones_8c.html#a114c40c77d05d99ea4629bde68bb8112',1,'INT_specs():&#160;int_lennardjones.c'],['../int__lennardjones_8h.html#a114c40c77d05d99ea4629bde68bb8112',1,'INT_specs():&#160;int_hardspheres.c']]]
-];

@@ -6,30 +6,28 @@
  */
 
 #include <stdio.h>
+#include "code_handling.h"
 #include "comp_gen_header.h"
 #include "results_transport.h"
-
-
-
 
 T_TransportCoeffs tcoeff;
 T_HistParams histparams;
 
 void RES_init(){
 	
-        /*average of particle x-positions <x>*/
+    /*average of particle x-positions <x>*/
 	tcoeff.meanx = 0; 
 	/*average of particle speed in x-directions <v>*/
 	tcoeff.meanspeed = 0.0;
 	/*<x^2>*/
 	tcoeff.meanxsqu = 0.0; 
 	/*<x^3>*/
-        tcoeff.meanxqub = 0.0;
-        /*mean-squared displacement of x-position (2nd moment): <x^2> - <x>^2*/
-        tcoeff.msd = 0.0;
+    tcoeff.meanxqub = 0.0;
+    /*mean-squared displacement of x-position (2nd moment): <x^2> - <x>^2*/
+    tcoeff.msd = 0.0;
 	/*third cumulant of x-position: <x^3> - 3*<x>*<x^2> + 2*<x>^3*/
 	tcoeff.thirdcum = 0.0;
-        /*effective diffusion coeff.: (<x^2> - <x>^2)/(2*t*B/R)*/
+    /*effective diffusion coeff.: (<x^2> - <x>^2)/(2*t*B/R)*/
 	tcoeff.deff = 0.0; 
 	/*non-linear mobility mu = <v>/F*/
 	tcoeff.mu = 0.0;
@@ -52,13 +50,11 @@ void RES_init(){
  * absolute particle positions and subsequently ensemble averages 
  * of the first three moments of the position.
  */ 
-void RES_calc_transpcoeffs(
- 		          int setn_per_task, 
-		          double t,
-		          long int **posshift,
-		          long int **negshift,
-		          double **posx,
-		          double **x_init){
+void RES_calc_transpcoeffs(double t,
+                           long int **posshift,
+                           long int **negshift,
+                           double **posx,
+                           double **x_init){
 
   long double totalshift = 0;
   long double abspos_part = 0;
@@ -68,17 +64,17 @@ void RES_calc_transpcoeffs(
 
   int j;
   int kset;
-  for(j = 0; j < setn_per_task; j++){
-	  for(kset = 0; kset < SimParams.setnumb; kset++){
+  for(j = 0; j < SimParams.setn_per_task; j++){
+	  for(kset = 0; kset < SimParams.parts_per_set; kset++){
 		 totalshift = posshift[j][kset] - negshift[j][kset];
 
 		 /*absolute position of individual particle*/
 		 abspos_part = (posx[j][kset] - x_init[j][kset])/L_CONF - totalshift;
-                 /*sum of positions of all particles for later averaging*/
+         /*sum of positions of all particles for later averaging*/
 		 xges += abspos_part;
 		 /*sum of x^2 over all particles*/
 		 xgessquare += powl(abspos_part, 2);
-                 /*sum of x^3 over all particles*/
+         /*sum of x^3 over all particles*/
 		 xgesqub += powl(abspos_part, 3);
  
 	  } 
@@ -103,13 +99,12 @@ void RES_calc_transpcoeffs(
   tcoeff.thirdcum = tcoeff.meanxqub - 3*tcoeff.meanx*tcoeff.meanxsqu + 2*powl(tcoeff.meanx, 3);
 }
 
-int RES_histogramm_mpi_reduce(int m, 
-                          double backshift, 
-                          double length, 
-                          double bin, 
-                          double **positions, 
-                          char *fname, 
-                          int taskid)
+int RES_histogramm_mpi_reduce(double backshift, 
+                              double length, 
+                              double bin, 
+                              double **positions, 
+                              char *fname, 
+                              int taskid)
 {
 /**
  * Stores 1 dimensional histogram in file named fname.
@@ -132,47 +127,45 @@ int RES_histogramm_mpi_reduce(int m,
   FILE *outp;
   outp = fopen(fname, "w");
   fclose(outp);      
-
+    
   bin_n = (int) (length/bin);
   for(i = 0; i < bin_n; i++){ 
 	  counter = 0;
 	  counterall = 0;
         
-	  for(j = 0; j < m; j++){
-		for(k = 0; k < SimParams.setnumb; k++){
-		   if(((i*bin - backshift) <= positions[j][k]) && (positions[j][k] <= (i+1)*bin - backshift)){
-			counter++;
+	  for(j = 0; j < SimParams.setn_per_task; j++){
+		for(k = 0; k < SimParams.parts_per_set; k++){
+		    if(((i*bin - backshift) <= positions[j][k]) && (positions[j][k] <= (i+1)*bin - backshift)){
+                counter++;
 		   }
-
 		}
 	  }
+
 	  #ifdef MPI_ON
 		  MPI_Reduce(&counter, &counterall, 1, MPI_INTEGER, MPI_SUM, MASTER, MPI_COMM_WORLD);
 	  #else
 		  counterall = counter;
 	  #endif
 	  if(taskid == MASTER){
-                  countercheck += counterall;
-		   
+          countercheck += counterall;
 		  outp = fopen(fname, "a");
-		  fprintf(outp,"%f\t %f\t %d\t %f\n", i*bin - backshift, 
-						      (i+1)*bin - backshift, 
-                                                      counterall, 
-                                                      counterall/(SimParams.N*bin));
+		  fprintf(outp,"%f\t %f\t %d\t %f\n",
+                  i*bin - backshift, 
+                  (i+1)*bin - backshift, 
+                  counterall, 
+                  counterall/(SimParams.N*bin));
 		  fclose(outp);      
 	  }
   }
 
   return countercheck;
-
 }
 
-int RES_histogramm2d_mpi_reduce(int m, 
-                            double bin2d, 
-                            double **positionsx, 
-                            double **positionsy,  
-                            char *fname, 
-                            int taskid)
+int RES_histogramm2d_mpi_reduce(double bin2d, 
+                                double **positionsx, 
+                                double **positionsy,  
+                                char *fname, 
+                                int taskid)
 {
 /**
  * Stores 2 dimensional histogram in file named fname.
@@ -200,10 +193,10 @@ int RES_histogramm2d_mpi_reduce(int m,
  
    for(hx = 0; hx <= bin_nx; hx++){ 
 	  for(hy = 0; hy <= bin_ny; hy++){   
-                  twodcounter = 0;   
-                  twodcounterall = 0;   
-		  for(i = 0; i < m; i++){
-			for(j = 0; j < SimParams.setnumb; j++){
+          twodcounter = 0;   
+          twodcounterall = 0;   
+		  for(i = 0; i < SimParams.setn_per_task; i++){
+			for(j = 0; j < SimParams.parts_per_set; j++){
 			   if((hx*bin2d <= positionsx[i][j]) && (positionsx[i][j] <= (hx+1)*bin2d)){
 				   if(((hy*bin2d - MAX_HALF_WIDTH) <= positionsy[i][j]) && (positionsy[i][j] <= (hy+1)*bin2d - MAX_HALF_WIDTH)){
 					   twodcounter++;
@@ -222,12 +215,13 @@ int RES_histogramm2d_mpi_reduce(int m,
 			  twodcountercheck += twodcounterall;
 
 			  outp = fopen(fname, "a");
-			  fprintf (outp, "%f\t%f\t%f\t%f\t\t%d\t\t%f\n", hx*bin2d, 
-									 (hx+1)*bin2d, 
-									 hy*bin2d - MAX_HALF_WIDTH, 
-									 (hy+1)*bin2d - MAX_HALF_WIDTH, 
-									 twodcounterall, 
-									 twodcounterall/(SimParams.N*bin2d*bin2d));
+			  fprintf (outp, "%f\t%f\t%f\t%f\t\t%d\t\t%f\n",
+                       hx*bin2d, 
+                       (hx+1)*bin2d, 
+                       hy*bin2d - MAX_HALF_WIDTH, 
+                       (hy+1)*bin2d - MAX_HALF_WIDTH, 
+                       twodcounterall, 
+                       twodcounterall/(SimParams.N*bin2d*bin2d));
 			  fclose(outp);
 		  }
 	  }
@@ -235,7 +229,7 @@ int RES_histogramm2d_mpi_reduce(int m,
   return twodcountercheck;
 }
 
-void RES_print_countercheck(char *fname_specs)
+void RES_print_countercheck()
 {
 /**
  * Function that prints the result of the counter checks available from the 
@@ -244,7 +238,7 @@ void RES_print_countercheck(char *fname_specs)
  * and situated in the confinement.
  */
 	FILE *outp;
-	outp=fopen(fname_specs, "a");
+	outp=fopen(DestPaths.fname_confparams, "a");
 	fprintf(outp, "\nThe total number of particles counted in histogram functions.\n"
 		      "This number has to be equal to the number of simulated particles.\n"	
 		      "If the number differs, the simulation is stopped.\n\n"
@@ -262,10 +256,6 @@ void RES_print_countercheck(char *fname_specs)
 }
 
 void RES_copycode(){
-
-   char copycode[200];
-
-  sprintf(copycode, "cp ../results_transport.* ./");
-  system(copycode);
-
+    CODEHAND_copy_file_to_dest("results_transport.c");
+    CODEHAND_copy_file_to_dest("results_transport.h");
 }

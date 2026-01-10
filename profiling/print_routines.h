@@ -1,3 +1,6 @@
+#ifndef PRINT_ROUTINES_H
+#define PRINT_ROUTINES_H
+
 #include <time.h>
 
 /**
@@ -15,16 +18,16 @@
  */
 struct PrintResults{
 	/*state index to monitor if header line
-         *or ongoing value has to be printed
-         */
+     *or ongoing value has to be printed
+     */
 	int state;
-        /*array to store name of .dat file containing mobility and other coeffs*/
-	char fname [60];
-        /*array to store name of .dat file containing moments of positions*/
-	char fnamemom [60];
+    /*array to store name of .dat file containing mobility and other coeffs*/
+	char fname [256];
+    /*array to store name of .dat file containing moments of positions*/
+	char fnamemom [256];
+};
 
-} printres;
-
+extern struct PrintResults printres;
 
 /**
  *********************************************************
@@ -44,27 +47,28 @@ struct PrintResults{
  */
 
 
-void PRINT_positions(int m, double **posx, double **posy);
+void PRINT_positions(double **posx, double **posy);
 
-void PRINT_muoverf(double muall, double deffall, char *namefile);
+void PRINT_muoverf(double muall, double deffall);
 
 void PRINT_results_over_time(double t, 
                              int abb, 
                              int abbdeff);
 
-void PRINT_runtime(clock_t start, char *name_simspecs);
+void PRINT_runtime(clock_t start);
 
 void PRINT_runtime_threads(clock_t start,
-			   int numtasks, 
-			   int taskid); 
+                           int numtasks, 
+                           int taskid); 
 
-void PRINT_resallthreads(
-			 long double msdall, 
+void PRINT_resallthreads(long double msdall, 
                          double meanspeedall, 
-			 double muall, 
+                         double muall, 
                          double deffall, 
                          long double meanxall, 
                          long double meanxsquall, 
                          long double thirdcumall);
 
 void PRINT_copycode(void);
+
+#endif /* PRINT_ROUTINES_H */

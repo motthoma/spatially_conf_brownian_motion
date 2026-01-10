@@ -1,0 +1,464 @@
+Flat profile:
+
+Each sample counts as 0.01 seconds.
+  %   cumulative   self              self     total           
+ time   seconds   seconds    calls   s/call   s/call  name    
+ 55.41      5.99     5.99 101828660     0.00     0.00  calculate_inter_particle_forces
+ 12.77      7.37     1.38 442773938     0.00     0.00  intforce_lj
+ 10.08      8.46     1.09        1     1.09    10.66  SIM_simulation_core
+  3.89      8.88     0.42 204888106     0.00     0.00  perform_sim_step
+  3.75      9.29     0.41 100999000     0.00     0.00  update_ensemble_state
+  3.61      9.68     0.39 442773938     0.00     0.00  INT_force
+  3.33     10.04     0.36 204888106     0.00     0.00  RNG_get_gaussian
+  1.57     10.21     0.17 101828660     0.00     0.00  shift_pos_for_periodic_bc
+  1.43     10.36     0.15 102444053     0.00     0.00  check_pos_validity
+  1.30     10.50     0.14 102446045     0.00     0.00  yuef_splitter
+  1.20     10.63     0.13 102446045     0.00     0.00  CONF_yuef
+  1.20     10.76     0.13                             _init
+  0.19     10.78     0.02     3984     0.00     0.00  RNG_get_uniform
+  0.19     10.80     0.02      204     0.00     0.00  update_equcounter
+  0.09     10.81     0.01    27947     0.00     0.00  adapt_posshifts
+  0.00     10.81     0.00    28974     0.00     0.00  UTILS_max_double
+  0.00     10.81     0.00      202     0.00     0.00  PRINT_results_over_time
+  0.00     10.81     0.00      202     0.00     0.00  RES_calc_transpcoeffs
+  0.00     10.81     0.00       21     0.00     0.00  CODEHAND_copy_file_to_dest
+  0.00     10.81     0.00       21     0.00     0.00  copy_file
+  0.00     10.81     0.00        5     0.00     0.00  UTILS_calloc_2Ddouble_array
+  0.00     10.81     0.00        2     0.00     0.00  RES_histogramm_mpi_reduce
+  0.00     10.81     0.00        2     0.00     0.00  UTILS_calloc_2Dlint_array
+  0.00     10.81     0.00        1     0.00     0.00  CODEHAND_copycode
+  0.00     10.81     0.00        1     0.00     0.00  CODEHAND_makedirectory
+  0.00     10.81     0.00        1     0.00     0.00  CONF_copycode
+  0.00     10.81     0.00        1     0.00     0.00  CONF_prfx
+  0.00     10.81     0.00        1     0.00     0.00  CONF_specs
+  0.00     10.81     0.00        1     0.00     0.00  INT_copycode
+  0.00     10.81     0.00        1     0.00     0.00  INT_prfx
+  0.00     10.81     0.00        1     0.00     0.00  INT_specs
+  0.00     10.81     0.00        1     0.00     0.00  MAIN_copy_main_code
+  0.00     10.81     0.00        1     0.00     0.00  PRINT_copycode
+  0.00     10.81     0.00        1     0.00     0.00  PRINT_muoverf
+  0.00     10.81     0.00        1     0.00     0.00  PRINT_positions
+  0.00     10.81     0.00        1     0.00     0.00  PRINT_resallthreads
+  0.00     10.81     0.00        1     0.00     0.00  PRINT_runtime
+  0.00     10.81     0.00        1     0.00     0.00  PRINT_runtime_threads
+  0.00     10.81     0.00        1     0.00     0.00  RES_copycode
+  0.00     10.81     0.00        1     0.00     0.00  RES_histogramm2d_mpi_reduce
+  0.00     10.81     0.00        1     0.00     0.00  RES_init
+  0.00     10.81     0.00        1     0.00     0.00  RES_print_countercheck
+  0.00     10.81     0.00        1     0.00     0.00  RNG_copycode
+  0.00     10.81     0.00        1     0.00     0.00  RNG_free_rng
+  0.00     10.81     0.00        1     0.00     0.00  RNG_init_rng
+  0.00     10.81     0.00        1     0.00     0.00  SIMCONFIG_check_consistency
+  0.00     10.81     0.00        1     0.00     0.00  SIMCONFIG_copy_code
+  0.00     10.81     0.00        1     0.00     0.00  SIMCONFIG_init
+  0.00     10.81     0.00        1     0.00     0.00  SIMCONFIG_time_step
+  0.00     10.81     0.00        1     0.00     0.00  SIMCONFIG_write_specs
+  0.00     10.81     0.00        1     0.00     0.00  SIM_alloc_ensemble_state
+  0.00     10.81     0.00        1     0.00     0.00  SIM_copycode
+  0.00     10.81     0.00        1     0.00     0.00  SIM_init_interactions
+  0.00     10.81     0.00        1     0.00     0.02  SIM_init_positions
+  0.00     10.81     0.00        1     0.00     0.00  UTILS_copy_code
+  0.00     10.81     0.00        1     0.00     0.00  main_copy_ext_files
+  0.00     10.81     0.00        1     0.00     0.00  reset_pos_time
+
+ %         the percentage of the total running time of the
+time       program used by this function.
+
+cumulative a running sum of the number of seconds accounted
+ seconds   for by this function and those listed above it.
+
+ self      the number of seconds accounted for by this
+seconds    function alone.  This is the major sort for this
+           listing.
+
+calls      the number of times this function was invoked, if
+           this function is profiled, else blank.
+
+ self      the average number of milliseconds spent in this
+ms/call    function per call, if this function is profiled,
+	   else blank.
+
+ total     the average number of milliseconds spent in this
+ms/call    function and its descendents per call, if this
+	   function is profiled, else blank.
+
+name       the name of the function.  This is the minor sort
+           for this listing. The index shows the location of
+	   the function in the gprof listing. If the index is
+	   in parenthesis it shows where it would appear in
+	   the gprof listing if it were to be printed.
+
+Copyright (C) 2012-2024 Free Software Foundation, Inc.
+
+Copying and distribution of this file, with or without modification,
+are permitted in any medium without royalty provided the copyright
+notice and this notice are preserved.
+
+		     Call graph (explanation follows)
+
+
+granularity: each sample hit covers 4 byte(s) for 0.09% of 10.81 seconds
+
+index % time    self  children    called     name
+                                                 <spontaneous>
+[1]     98.8    0.00   10.68                 main [1]
+                1.09    9.57       1/1           SIM_simulation_core [2]
+                0.00    0.02       1/1           SIM_init_positions [14]
+                0.00    0.00       1/1           SIM_init_interactions [18]
+                0.00    0.00       2/2           RES_histogramm_mpi_reduce [25]
+                0.00    0.00       1/1           SIMCONFIG_init [51]
+                0.00    0.00       1/1           CONF_prfx [30]
+                0.00    0.00       1/1           RES_init [44]
+                0.00    0.00       1/1           INT_prfx [33]
+                0.00    0.00       1/1           CODEHAND_makedirectory [28]
+                0.00    0.00       1/1           SIM_alloc_ensemble_state [54]
+                0.00    0.00       1/1           main_copy_ext_files [57]
+                0.00    0.00       1/1           SIMCONFIG_write_specs [53]
+                0.00    0.00       1/1           INT_specs [34]
+                0.00    0.00       1/1           CONF_specs [31]
+                0.00    0.00       1/1           SIMCONFIG_check_consistency [49]
+                0.00    0.00       1/1           RNG_init_rng [48]
+                0.00    0.00       1/1           PRINT_runtime_threads [41]
+                0.00    0.00       1/1           RES_histogramm2d_mpi_reduce [43]
+                0.00    0.00       1/1           RES_print_countercheck [45]
+                0.00    0.00       1/1           PRINT_positions [38]
+                0.00    0.00       1/1           PRINT_resallthreads [39]
+                0.00    0.00       1/1           PRINT_muoverf [37]
+                0.00    0.00       1/1           PRINT_runtime [40]
+                0.00    0.00       1/1           RNG_free_rng [47]
+-----------------------------------------------
+                1.09    9.57       1/1           main [1]
+[2]     98.6    1.09    9.57       1         SIM_simulation_core [2]
+                5.99    1.77 101828660/101828660     calculate_inter_particle_forces [3]
+                0.42    0.36 204888106/204888106     perform_sim_step [6]
+                0.15    0.27 102444053/102444053     check_pos_validity [7]
+                0.41    0.00 100999000/100999000     update_ensemble_state [8]
+                0.17    0.00 101828660/101828660     shift_pos_for_periodic_bc [11]
+                0.02    0.00     204/204         update_equcounter [16]
+                0.01    0.00   27947/27947       adapt_posshifts [17]
+                0.00    0.00     202/202         RES_calc_transpcoeffs [21]
+                0.00    0.00     202/202         PRINT_results_over_time [20]
+                0.00    0.00       2/2           UTILS_calloc_2Dlint_array [26]
+                0.00    0.00       1/1           reset_pos_time [58]
+-----------------------------------------------
+                5.99    1.77 101828660/101828660     SIM_simulation_core [2]
+[3]     71.8    5.99    1.77 101828660         calculate_inter_particle_forces [3]
+                0.39    1.38 442769942/442773938     INT_force [4]
+-----------------------------------------------
+                0.00    0.00    3996/442773938     SIM_init_interactions [18]
+                0.39    1.38 442769942/442773938     calculate_inter_particle_forces [3]
+[4]     16.4    0.39    1.38 442773938         INT_force [4]
+                1.38    0.00 442773938/442773938     intforce_lj [5]
+-----------------------------------------------
+                1.38    0.00 442773938/442773938     INT_force [4]
+[5]     12.8    1.38    0.00 442773938         intforce_lj [5]
+-----------------------------------------------
+                0.42    0.36 204888106/204888106     SIM_simulation_core [2]
+[6]      7.2    0.42    0.36 204888106         perform_sim_step [6]
+                0.36    0.00 204888106/204888106     RNG_get_gaussian [9]
+-----------------------------------------------
+                0.15    0.27 102444053/102444053     SIM_simulation_core [2]
+[7]      3.9    0.15    0.27 102444053         check_pos_validity [7]
+                0.13    0.14 102444053/102446045     CONF_yuef [10]
+                0.00    0.00   28974/28974       UTILS_max_double [19]
+-----------------------------------------------
+                0.41    0.00 100999000/100999000     SIM_simulation_core [2]
+[8]      3.7    0.41    0.00 100999000         update_ensemble_state [8]
+-----------------------------------------------
+                0.36    0.00 204888106/204888106     perform_sim_step [6]
+[9]      3.3    0.36    0.00 204888106         RNG_get_gaussian [9]
+-----------------------------------------------
+                0.00    0.00    1992/102446045     SIM_init_positions [14]
+                0.13    0.14 102444053/102446045     check_pos_validity [7]
+[10]     2.5    0.13    0.14 102446045         CONF_yuef [10]
+                0.14    0.00 102446045/102446045     yuef_splitter [12]
+-----------------------------------------------
+                0.17    0.00 101828660/101828660     SIM_simulation_core [2]
+[11]     1.6    0.17    0.00 101828660         shift_pos_for_periodic_bc [11]
+-----------------------------------------------
+                0.14    0.00 102446045/102446045     CONF_yuef [10]
+[12]     1.3    0.14    0.00 102446045         yuef_splitter [12]
+-----------------------------------------------
+                                                 <spontaneous>
+[13]     1.2    0.13    0.00                 _init [13]
+-----------------------------------------------
+                0.00    0.02       1/1           main [1]
+[14]     0.2    0.00    0.02       1         SIM_init_positions [14]
+                0.02    0.00    3984/3984        RNG_get_uniform [15]
+                0.00    0.00    1992/102446045     CONF_yuef [10]
+-----------------------------------------------
+                0.02    0.00    3984/3984        SIM_init_positions [14]
+[15]     0.2    0.02    0.00    3984         RNG_get_uniform [15]
+-----------------------------------------------
+                0.02    0.00     204/204         SIM_simulation_core [2]
+[16]     0.2    0.02    0.00     204         update_equcounter [16]
+-----------------------------------------------
+                0.01    0.00   27947/27947       SIM_simulation_core [2]
+[17]     0.1    0.01    0.00   27947         adapt_posshifts [17]
+-----------------------------------------------
+                0.00    0.00       1/1           main [1]
+[18]     0.0    0.00    0.00       1         SIM_init_interactions [18]
+                0.00    0.00    3996/442773938     INT_force [4]
+-----------------------------------------------
+                0.00    0.00   28974/28974       check_pos_validity [7]
+[19]     0.0    0.00    0.00   28974         UTILS_max_double [19]
+-----------------------------------------------
+                0.00    0.00     202/202         SIM_simulation_core [2]
+[20]     0.0    0.00    0.00     202         PRINT_results_over_time [20]
+-----------------------------------------------
+                0.00    0.00     202/202         SIM_simulation_core [2]
+[21]     0.0    0.00    0.00     202         RES_calc_transpcoeffs [21]
+-----------------------------------------------
+                0.00    0.00       2/21          SIMCONFIG_copy_code [50]
+                0.00    0.00       2/21          RES_copycode [42]
+                0.00    0.00       2/21          CODEHAND_copycode [27]
+                0.00    0.00       2/21          RNG_copycode [46]
+                0.00    0.00       2/21          SIM_copycode [55]
+                0.00    0.00       2/21          PRINT_copycode [36]
+                0.00    0.00       2/21          UTILS_copy_code [56]
+                0.00    0.00       2/21          CONF_copycode [29]
+                0.00    0.00       2/21          INT_copycode [32]
+                0.00    0.00       3/21          MAIN_copy_main_code [35]
+[22]     0.0    0.00    0.00      21         CODEHAND_copy_file_to_dest [22]
+                0.00    0.00      21/21          copy_file [23]
+-----------------------------------------------
+                0.00    0.00      21/21          CODEHAND_copy_file_to_dest [22]
+[23]     0.0    0.00    0.00      21         copy_file [23]
+-----------------------------------------------
+                0.00    0.00       5/5           SIM_alloc_ensemble_state [54]
+[24]     0.0    0.00    0.00       5         UTILS_calloc_2Ddouble_array [24]
+-----------------------------------------------
+                0.00    0.00       2/2           main [1]
+[25]     0.0    0.00    0.00       2         RES_histogramm_mpi_reduce [25]
+-----------------------------------------------
+                0.00    0.00       2/2           SIM_simulation_core [2]
+[26]     0.0    0.00    0.00       2         UTILS_calloc_2Dlint_array [26]
+-----------------------------------------------
+                0.00    0.00       1/1           main_copy_ext_files [57]
+[27]     0.0    0.00    0.00       1         CODEHAND_copycode [27]
+                0.00    0.00       2/21          CODEHAND_copy_file_to_dest [22]
+-----------------------------------------------
+                0.00    0.00       1/1           main [1]
+[28]     0.0    0.00    0.00       1         CODEHAND_makedirectory [28]
+-----------------------------------------------
+                0.00    0.00       1/1           main_copy_ext_files [57]
+[29]     0.0    0.00    0.00       1         CONF_copycode [29]
+                0.00    0.00       2/21          CODEHAND_copy_file_to_dest [22]
+-----------------------------------------------
+                0.00    0.00       1/1           main [1]
+[30]     0.0    0.00    0.00       1         CONF_prfx [30]
+-----------------------------------------------
+                0.00    0.00       1/1           main [1]
+[31]     0.0    0.00    0.00       1         CONF_specs [31]
+-----------------------------------------------
+                0.00    0.00       1/1           main_copy_ext_files [57]
+[32]     0.0    0.00    0.00       1         INT_copycode [32]
+                0.00    0.00       2/21          CODEHAND_copy_file_to_dest [22]
+-----------------------------------------------
+                0.00    0.00       1/1           main [1]
+[33]     0.0    0.00    0.00       1         INT_prfx [33]
+-----------------------------------------------
+                0.00    0.00       1/1           main [1]
+[34]     0.0    0.00    0.00       1         INT_specs [34]
+-----------------------------------------------
+                0.00    0.00       1/1           main_copy_ext_files [57]
+[35]     0.0    0.00    0.00       1         MAIN_copy_main_code [35]
+                0.00    0.00       3/21          CODEHAND_copy_file_to_dest [22]
+-----------------------------------------------
+                0.00    0.00       1/1           main_copy_ext_files [57]
+[36]     0.0    0.00    0.00       1         PRINT_copycode [36]
+                0.00    0.00       2/21          CODEHAND_copy_file_to_dest [22]
+-----------------------------------------------
+                0.00    0.00       1/1           main [1]
+[37]     0.0    0.00    0.00       1         PRINT_muoverf [37]
+-----------------------------------------------
+                0.00    0.00       1/1           main [1]
+[38]     0.0    0.00    0.00       1         PRINT_positions [38]
+-----------------------------------------------
+                0.00    0.00       1/1           main [1]
+[39]     0.0    0.00    0.00       1         PRINT_resallthreads [39]
+-----------------------------------------------
+                0.00    0.00       1/1           main [1]
+[40]     0.0    0.00    0.00       1         PRINT_runtime [40]
+-----------------------------------------------
+                0.00    0.00       1/1           main [1]
+[41]     0.0    0.00    0.00       1         PRINT_runtime_threads [41]
+-----------------------------------------------
+                0.00    0.00       1/1           main_copy_ext_files [57]
+[42]     0.0    0.00    0.00       1         RES_copycode [42]
+                0.00    0.00       2/21          CODEHAND_copy_file_to_dest [22]
+-----------------------------------------------
+                0.00    0.00       1/1           main [1]
+[43]     0.0    0.00    0.00       1         RES_histogramm2d_mpi_reduce [43]
+-----------------------------------------------
+                0.00    0.00       1/1           main [1]
+[44]     0.0    0.00    0.00       1         RES_init [44]
+-----------------------------------------------
+                0.00    0.00       1/1           main [1]
+[45]     0.0    0.00    0.00       1         RES_print_countercheck [45]
+-----------------------------------------------
+                0.00    0.00       1/1           main_copy_ext_files [57]
+[46]     0.0    0.00    0.00       1         RNG_copycode [46]
+                0.00    0.00       2/21          CODEHAND_copy_file_to_dest [22]
+-----------------------------------------------
+                0.00    0.00       1/1           main [1]
+[47]     0.0    0.00    0.00       1         RNG_free_rng [47]
+-----------------------------------------------
+                0.00    0.00       1/1           main [1]
+[48]     0.0    0.00    0.00       1         RNG_init_rng [48]
+-----------------------------------------------
+                0.00    0.00       1/1           main [1]
+[49]     0.0    0.00    0.00       1         SIMCONFIG_check_consistency [49]
+-----------------------------------------------
+                0.00    0.00       1/1           main_copy_ext_files [57]
+[50]     0.0    0.00    0.00       1         SIMCONFIG_copy_code [50]
+                0.00    0.00       2/21          CODEHAND_copy_file_to_dest [22]
+-----------------------------------------------
+                0.00    0.00       1/1           main [1]
+[51]     0.0    0.00    0.00       1         SIMCONFIG_init [51]
+                0.00    0.00       1/1           SIMCONFIG_time_step [52]
+-----------------------------------------------
+                0.00    0.00       1/1           SIMCONFIG_init [51]
+[52]     0.0    0.00    0.00       1         SIMCONFIG_time_step [52]
+-----------------------------------------------
+                0.00    0.00       1/1           main [1]
+[53]     0.0    0.00    0.00       1         SIMCONFIG_write_specs [53]
+-----------------------------------------------
+                0.00    0.00       1/1           main [1]
+[54]     0.0    0.00    0.00       1         SIM_alloc_ensemble_state [54]
+                0.00    0.00       5/5           UTILS_calloc_2Ddouble_array [24]
+-----------------------------------------------
+                0.00    0.00       1/1           main_copy_ext_files [57]
+[55]     0.0    0.00    0.00       1         SIM_copycode [55]
+                0.00    0.00       2/21          CODEHAND_copy_file_to_dest [22]
+-----------------------------------------------
+                0.00    0.00       1/1           main_copy_ext_files [57]
+[56]     0.0    0.00    0.00       1         UTILS_copy_code [56]
+                0.00    0.00       2/21          CODEHAND_copy_file_to_dest [22]
+-----------------------------------------------
+                0.00    0.00       1/1           main [1]
+[57]     0.0    0.00    0.00       1         main_copy_ext_files [57]
+                0.00    0.00       1/1           MAIN_copy_main_code [35]
+                0.00    0.00       1/1           CODEHAND_copycode [27]
+                0.00    0.00       1/1           SIMCONFIG_copy_code [50]
+                0.00    0.00       1/1           PRINT_copycode [36]
+                0.00    0.00       1/1           SIM_copycode [55]
+                0.00    0.00       1/1           RES_copycode [42]
+                0.00    0.00       1/1           CONF_copycode [29]
+                0.00    0.00       1/1           RNG_copycode [46]
+                0.00    0.00       1/1           INT_copycode [32]
+                0.00    0.00       1/1           UTILS_copy_code [56]
+-----------------------------------------------
+                0.00    0.00       1/1           SIM_simulation_core [2]
+[58]     0.0    0.00    0.00       1         reset_pos_time [58]
+-----------------------------------------------
+
+ This table describes the call tree of the program, and was sorted by
+ the total amount of time spent in each function and its children.
+
+ Each entry in this table consists of several lines.  The line with the
+ index number at the left hand margin lists the current function.
+ The lines above it list the functions that called this function,
+ and the lines below it list the functions this one called.
+ This line lists:
+     index	A unique number given to each element of the table.
+		Index numbers are sorted numerically.
+		The index number is printed next to every function name so
+		it is easier to look up where the function is in the table.
+
+     % time	This is the percentage of the `total' time that was spent
+		in this function and its children.  Note that due to
+		different viewpoints, functions excluded by options, etc,
+		these numbers will NOT add up to 100%.
+
+     self	This is the total amount of time spent in this function.
+
+     children	This is the total amount of time propagated into this
+		function by its children.
+
+     called	This is the number of times the function was called.
+		If the function called itself recursively, the number
+		only includes non-recursive calls, and is followed by
+		a `+' and the number of recursive calls.
+
+     name	The name of the current function.  The index number is
+		printed after it.  If the function is a member of a
+		cycle, the cycle number is printed between the
+		function's name and the index number.
+
+
+ For the function's parents, the fields have the following meanings:
+
+     self	This is the amount of time that was propagated directly
+		from the function into this parent.
+
+     children	This is the amount of time that was propagated from
+		the function's children into this parent.
+
+     called	This is the number of times this parent called the
+		function `/' the total number of times the function
+		was called.  Recursive calls to the function are not
+		included in the number after the `/'.
+
+     name	This is the name of the parent.  The parent's index
+		number is printed after it.  If the parent is a
+		member of a cycle, the cycle number is printed between
+		the name and the index number.
+
+ If the parents of the function cannot be determined, the word
+ `<spontaneous>' is printed in the `name' field, and all the other
+ fields are blank.
+
+ For the function's children, the fields have the following meanings:
+
+     self	This is the amount of time that was propagated directly
+		from the child into the function.
+
+     children	This is the amount of time that was propagated from the
+		child's children to the function.
+
+     called	This is the number of times the function called
+		this child `/' the total number of times the child
+		was called.  Recursive calls by the child are not
+		listed in the number after the `/'.
+
+     name	This is the name of the child.  The child's index
+		number is printed after it.  If the child is a
+		member of a cycle, the cycle number is printed
+		between the name and the index number.
+
+ If there are any cycles (circles) in the call graph, there is an
+ entry for the cycle-as-a-whole.  This entry shows who called the
+ cycle (as parents) and the members of the cycle (as children.)
+ The `+' recursive calls entry shows the number of function calls that
+ were internal to the cycle, and the calls entry for each member shows,
+ for that member, how many times it was called from other members of
+ the cycle.
+
+Copyright (C) 2012-2024 Free Software Foundation, Inc.
+
+Copying and distribution of this file, with or without modification,
+are permitted in any medium without royalty provided the copyright
+notice and this notice are preserved.
+
+Index by function name
+
+  [22] CODEHAND_copy_file_to_dest [21] RES_calc_transpcoeffs [14] SIM_init_positions
+  [27] CODEHAND_copycode      [42] RES_copycode            [2] SIM_simulation_core
+  [28] CODEHAND_makedirectory [43] RES_histogramm2d_mpi_reduce [24] UTILS_calloc_2Ddouble_array
+  [29] CONF_copycode          [25] RES_histogramm_mpi_reduce [26] UTILS_calloc_2Dlint_array
+  [30] CONF_prfx              [44] RES_init               [56] UTILS_copy_code
+  [31] CONF_specs             [45] RES_print_countercheck [19] UTILS_max_double
+  [10] CONF_yuef              [46] RNG_copycode           [13] _init
+  [32] INT_copycode           [47] RNG_free_rng           [17] adapt_posshifts
+   [4] INT_force               [9] RNG_get_gaussian        [3] calculate_inter_particle_forces
+  [33] INT_prfx               [15] RNG_get_uniform         [7] check_pos_validity
+  [34] INT_specs              [48] RNG_init_rng           [23] copy_file
+  [35] MAIN_copy_main_code    [49] SIMCONFIG_check_consistency [5] intforce_lj
+  [36] PRINT_copycode         [50] SIMCONFIG_copy_code    [57] main_copy_ext_files
+  [37] PRINT_muoverf          [51] SIMCONFIG_init          [6] perform_sim_step
+  [38] PRINT_positions        [52] SIMCONFIG_time_step    [58] reset_pos_time
+  [39] PRINT_resallthreads    [53] SIMCONFIG_write_specs  [11] shift_pos_for_periodic_bc
+  [20] PRINT_results_over_time [54] SIM_alloc_ensemble_state [8] update_ensemble_state
+  [40] PRINT_runtime          [55] SIM_copycode           [16] update_equcounter
+  [41] PRINT_runtime_threads  [18] SIM_init_interactions  [12] yuef_splitter

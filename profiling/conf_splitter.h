@@ -4,14 +4,14 @@
 #define HEADER_CONF
 
 #include <math.h>
-#include "par_sim.h"
+#include "sim_config.h"
 
-#define M 0.9
-#define MAX_HALF_WIDTH (M*L_CONF + B)
+#define SLOPE 0.9
+#define MAX_HALF_WIDTH (SLOPE*L_CONF + BOTTLENECK_WIDTH)
 
-#define SQRT_SHIFT R_CONF*sqrt(1 + M*M)
+#define SQRT_SHIFT R_CONF*sqrt(1 + SLOPE*SLOPE)
 #define R_CONF_SQ  R_CONF*R_CONF
-#define Lp (L_CONF - (R_CONF*M)/(sqrt(1 + M*M)))
+#define Lp (L_CONF - (R_CONF*SLOPE)/(sqrt(1 + SLOPE*SLOPE)))
 
 /**
  *********************************************************
@@ -38,29 +38,28 @@
  */
 static inline double yuef_splitter(double x, double y){
 
-/*If particle is in central cylinder of width 2B,
- * an evaluation of the eff. boundary is not necessary.
- * Provide value of confinement that ensures y < yueff.
- */
-if(fabs(y) < B - R_CONF){
-	return(MAX_HALF_WIDTH);
-}
-/*evaluate effective boundary*/
-if ((R_CONF < x) && (x < Lp)){
-	return (B + M*(L_CONF - x) - SQRT_SHIFT);
-}
-	
-else if ((0 <= x) && (x <= R_CONF)){
-	return (B - sqrt(R_CONF_SQ - x*x));
-}
+    /*If particle is in central cylinder of width 2B,
+     * an evaluation of the eff. boundary is not necessary.
+     * Provide value of confinement that ensures y < yueff.
+     */
+    if(fabs(y) < BOTTLENECK_WIDTH - R_CONF){
+        return(MAX_HALF_WIDTH);
+    }
+    /*evaluate effective boundary*/
+    if ((R_CONF < x) && (x < Lp)){
+        return (BOTTLENECK_WIDTH + SLOPE*(L_CONF - x) - SQRT_SHIFT);
+    }
+        
+    else if ((0 <= x) && (x <= R_CONF)){
+        return (BOTTLENECK_WIDTH - sqrt(R_CONF_SQ - x*x));
+    }
 
-else if ((Lp <= x) && (x <= L_CONF)) {
-	return (B - sqrt(R_CONF_SQ - (x - L_CONF)*(x - L_CONF)));
-}
-else{
-	return(5*MAX_HALF_WIDTH);
-}
-
+    else if ((Lp <= x) && (x <= L_CONF)) {
+        return (BOTTLENECK_WIDTH - sqrt(R_CONF_SQ - (x - L_CONF)*(x - L_CONF)));
+    }
+    else{
+        return(5*MAX_HALF_WIDTH);
+    }
 }
 
 /**
@@ -73,13 +72,12 @@ else{
 
 /*function wrapper that provides generic interface to main*/
 static inline double CONF_yuef(double x, double y){
-	
 	return yuef_splitter(x, y);
 }
 
 /*extern double CONF_yuef(double x, double y);
 extern double yuef_splitter(double x, double y);*/
-extern void CONF_specs(char *file_confparams);
+extern void CONF_specs();
 extern void CONF_copycode();
 extern char *CONF_prfx();
 

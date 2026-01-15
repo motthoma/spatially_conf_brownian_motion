@@ -105,6 +105,8 @@ int main (int argc, char **argv){
    */
   char *intprfx;
 
+  T_EnsembleState EnsembleState;
+
   /*
    * read external force and number of interacting
    * particles per set from command line arguments
@@ -144,7 +146,7 @@ int main (int argc, char **argv){
    * as well as interaction forces
    */ 
   printf("\ninitialize arrays for positions and interactions stored in enseble state\n"); 
-  SIM_alloc_ensemble_state();
+  EnsembleState = SIM_alloc_ensemble_state(&SimParams);
   
   if(taskid == MASTER){
       main_copy_ext_files();
@@ -172,21 +174,21 @@ int main (int argc, char **argv){
   /* 
    * Initialize particle positions 
    */
-  SIM_init_positions();
-  /*SIM_read_in_positions(SimParams.setn_per_task, 
+  SIM_init_positions(&SimParams, &EnsembleState);
+  /*SIM_read_in_positions(&SimParams, &EnsembleState, SimParams.setn_per_task, 
                           positionx, 
                           positiony, 
                           xstart);*/
 
   /* Initialize inter-particle forces */
-  SIM_init_interactions();
+  SIM_init_interactions(&SimParams, &EnsembleState);
   printf("\ntask ID:\t %d -> particle positions and forces fixed\n", taskid);
  
   /*
    * Core of Simulation: particles are propagated until criteria
    * for equilibration are met
    */  
-  SIM_simulation_core(taskid); 
+  SIM_simulation_core(&SimParams, &EnsembleState, taskid); 
  
   /*Merge quantities that were calculated in separated MPI threads*/ 
 #  ifdef MPI_ON

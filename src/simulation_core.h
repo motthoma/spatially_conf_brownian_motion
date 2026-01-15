@@ -32,20 +32,9 @@ typedef struct {
 } T_EnsembleState;
 
 
-extern T_EnsembleState EnsembleState;
 
-double reset_pos_time(int time_step,
-                      double t,
-                      long int **posshift, 
-                      long int **negshift);
 
-void adapt_posshifts(int shiftind, 
-                     int i, 
-                     int j, 
-                     long int **posshift, 
-                     long int **negshift);
-
-bool calculate_inter_particle_forces(int j,
+void SIM_calculate_inter_particle_forces(const T_SimParams *SimParams, T_EnsembleState *EnsembleState, int j,
                                      int kset,
                                      double x,
                                      double y,
@@ -61,15 +50,15 @@ bool calculate_inter_particle_forces(int j,
  *********************************************************
  */
 
-void SIM_alloc_ensemble_state();
+T_EnsembleState SIM_alloc_ensemble_state(const T_SimParams *SimParams);
 
-void SIM_init_positions(); 
+void SIM_init_positions(const T_SimParams *SimParams, T_EnsembleState *EnsembleState); 
 
-void SIM_read_in_positions(); 
+void SIM_read_in_positions(const T_SimParams *SimParams, T_EnsembleState *EnsembleState); 
 
-void SIM_init_interactions(); 
+void SIM_init_interactions(const T_SimParams *SimParams, T_EnsembleState *EnsembleState); 
 
-void SIM_simulation_core(int taskid); 
+void SIM_simulation_core(const T_SimParams *SimParams, T_EnsembleState *EnsembleState, int taskid); 
 
 void SIM_copycode(void);
 

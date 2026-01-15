@@ -18,14 +18,14 @@
  * of system and calculate quantities that serve as
  * stopping criteria for simulation
  */
-typedef struct EquManager{
+typedef struct equilibration_manager{
     int equ_counter;
     int test_start_step;
     double mu_old;
     bool PrintRes;
     bool TestRes;
 }T_EquManager;
-extern T_EquManager EquManager;
+
 
 /**
  *********************************************************
@@ -35,7 +35,7 @@ extern T_EquManager EquManager;
  *********************************************************
  */
 
-void EquiMan_update_equcounter(double mu_current,
+void EQUIMAN_update_counter(T_EquManager *EquManager, double mu_current,
                                double accurarcy);
 
 /**
@@ -46,11 +46,11 @@ void EquiMan_update_equcounter(double mu_current,
  *********************************************************
  */
 
-void EquiMan_init_params(int stepnumb, int testab);
+void EQUIMAN_init(T_EquManager *EquManager, int stepnumb, int testab);
 
-void EquiMan_init_mu_old(int time_step, double mu);
+void EQUIMAN_update_mu_old(T_EquManager *EquManager, int time_step, double mu);
 
-void EquiManager_set_test_flag(int time_step,
+void EQUIMAN_set_test_flag(T_EquManager *EquManager, int time_step,
                                int stepnumb,
                                int testab);
 

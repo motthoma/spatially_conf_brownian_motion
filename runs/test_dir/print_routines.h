@@ -2,6 +2,7 @@
 #define PRINT_ROUTINES_H
 
 #include <time.h>
+#include <stdbool.h>
 
 /**
  *********************************************************
@@ -17,17 +18,15 @@
  * transport coefficients in .dat files
  */
 struct PrintResults{
-	/*state index to monitor if header line
-     *or ongoing value has to be printed
-     */
-	int state;
     /*array to store name of .dat file containing mobility and other coeffs*/
 	char fname [256];
     /*array to store name of .dat file containing moments of positions*/
 	char fnamemom [256];
+    /*flag that controls if snapshot of transport parameters is printed*/
+    bool PrintRes;
 };
 
-extern struct PrintResults printres;
+extern struct PrintResults Print;
 
 /**
  *********************************************************
@@ -51,9 +50,13 @@ void PRINT_positions(double **posx, double **posy);
 
 void PRINT_muoverf(double muall, double deffall);
 
+
+void PRINT_set_print_flag(int time_step);
+
+void PRINT_header_for_results_over_time(); 
+
 void PRINT_results_over_time(double t, 
-                             int abb, 
-                             int abbdeff);
+                             int abb); 
 
 void PRINT_runtime(clock_t start);
 

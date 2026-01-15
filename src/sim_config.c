@@ -23,8 +23,8 @@ void SIMCONFIG_init(int tasks) {
     SimParams.initwidth = 1.0;
     SimParams.init_max_xpos = 0.7;
 
-    SimParams.plotpoints = SimParams.stepnumb / 100;
-    SimParams.testab = SimParams.plotpoints;
+    SimParams.print_interval_steps = SimParams.stepnumb / 100;
+    SimParams.testab = SimParams.print_interval_steps;
     SimParams.reset_stepnumb = 15 * SimParams.testab;
     SimParams.numtasks = tasks;
     SimParams.n_interact_sets = (int) SimParams.N/SimParams.parts_per_set;
@@ -45,8 +45,8 @@ void SIMCONFIG_init(int tasks) {
 bool SIMCONFIG_check_consistency() {
     bool consistent = true;
 
-    if (SimParams.testab % SimParams.plotpoints != 0) {
-        printf("Error: testab modulo plotpoints != 0\n");
+    if (SimParams.testab % SimParams.print_interval_steps != 0) {
+        printf("Error: testab modulo print_interval_steps != 0\n");
         consistent = false;
     }
 
@@ -87,7 +87,7 @@ void SIMCONFIG_write_specs() {
     double total_time = (SimParams.stepnumb - SimParams.reset_stepnumb 
                         + SimParams.testab * SimParams.numbtest) * SimParams.time_step;
     double check_time = SimParams.testab * SimParams.time_step;
-    double readout_time = SimParams.plotpoints * SimParams.time_step;
+    double readout_time = SimParams.print_interval_steps * SimParams.time_step;
   
     char fname_simparams [60]; 
     snprintf(fname_simparams,
@@ -132,7 +132,7 @@ void SIMCONFIG_write_specs() {
             eq_time,
             SimParams.numbtest,
             (double)SimParams.testab,
-            (double)SimParams.plotpoints,
+            (double)SimParams.print_interval_steps,
             check_time,
             readout_time,
             (double)min_steps,

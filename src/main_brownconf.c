@@ -12,6 +12,7 @@ trajektories are calculatet parallel*/
 #include "sim_config.h"
 #include "simulation_core.h"
 #include "random_numb_gen.h"
+#include "print_routines.h"
 #include "comp_gen_header.h"
 
 void MAIN_copy_main_code() {
@@ -104,11 +105,6 @@ int main (int argc, char **argv){
    */
   char *intprfx;
 
-  /* init state for print functions to check if
-   * header line in result file has been printed
-   */
-  printres.state = 0; 
-  
   /*
    * read external force and number of interacting
    * particles per set from command line arguments

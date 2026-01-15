@@ -4,6 +4,8 @@
 #include "random_numb_gen.h"
 #include "sim_config.h"
 #include "array_utils.h"
+#include "equilibration_manager.h"
+#include "print_routines.h"
 #include <gsl/gsl_rng.h>
 
 T_EnsembleState EnsembleState;
@@ -151,7 +153,9 @@ void SIM_init_interactions()
   }
 }
 
-double reset_pos_time(long int **posshift, 
+double reset_pos_time(int time_step,
+                      double t,
+                      long int **posshift, 
                       long int **negshift) 
 {
 /**
@@ -159,16 +163,21 @@ double reset_pos_time(long int **posshift,
  * to originate values in order to skip transient effects from
  * start of simulation.
  */
-	int i, j;
-	double t = 0;
-	for(i = 0; i < SimParams.setn_per_task; i++){
-	  for(j = 0; j < SimParams.parts_per_set; j++){
-		 posshift[i][j] = 0; 
-		 negshift[i][j] = 0;
-		 EnsembleState.xstart[i][j] = EnsembleState.positionx[i][j];
-	  } 
-	}
-	return t;
+
+    if(time_step == SimParams.reset_stepnumb){
+        int i, j;
+        for(i = 0; i < SimParams.setn_per_task; i++){
+          for(j = 0; j < SimParams.parts_per_set; j++){
+             posshift[i][j] = 0; 
+             negshift[i][j] = 0;
+             EnsembleState.xstart[i][j] = EnsembleState.positionx[i][j];
+          } 
+        }
+        return 0.0;
+    }
+    else{
+        return t;
+    }
 }
 
 void adapt_posshifts(int shiftind, 
@@ -182,44 +191,17 @@ void adapt_posshifts(int shiftind,
  * absolute position in x-direction from simulation with cyclic
  * boundary conditions
  */
-	/*
-	 *shift particle in positive direction if 
-	 *position is 'left' of considered channel period   
-	 */
+	 /*shift particle in positive direction if 
+	 *position is 'left' of considered channel period*/
 	if(shiftind < 0){
 	  posshift[i][j]++; 
 	} 
-	/*
-	 *shift particle in negative direction if 
-	 *position is 'right' of considered channel period   
-	*/
+	
+	/*shift particle in negative direction if 
+	 *position is 'right' of considered channel period*/
 	if(shiftind > 0){
 	  negshift[i][j]++;
 	}
-}
-
-int update_equcounter(double tran_quant,
-                      double tran_quanto,
-                      double accurarcy,
-                      int equcounter)
-{
-/**
- * Function for the update of the counter that is used to monitore the
- * equilibration of the system. A transport quantity tran_quant is
- * compared with a previous value. If the difference is  below the    
- * demanded accurarcy, the value of the counter is increased.
- * If the difference is larger than twice the accurarcy the counter
- * is decreased
-*/ 
-	if(fabs(tran_quant - tran_quanto) <= accurarcy){
-	  equcounter++;
-	}
-
-	if(fabs(tran_quant - tran_quanto) >= accurarcy){
-	  equcounter--;
-	  if(equcounter < 0) equcounter = 0;
-	}
-	return equcounter;
 }
 
 double perform_sim_step(double old_pos,
@@ -227,14 +209,10 @@ double perform_sim_step(double old_pos,
                         double force_int_dt,
                         double sqrt_flucts){
     double u, new_pos; 
-    /*
-     *Create random number for simulation of noise
-     */  
+    /*Create random number for simulation of noise*/  
      u = RNG_get_gaussian(0.0, 1.0);
-     /* 
-      *Update new value of position according to
-      *stochastic Euler for Langevin equation
-      */                       
+     /*Update new value of position according to
+      *stochastic Euler for Langevin equation*/
      new_pos = old_pos + force_ext_dt + force_int_dt + sqrt_flucts*u;
 
     return new_pos;
@@ -348,16 +326,11 @@ void SIM_simulation_core(int taskid){
   double t;
   double dt = SimParams.time_step;  
   long double  sqrt_flucts, f_dt;
-  int i;     
-  int abb;	
-  int abbdeff;	
-  double muabbo;	
-  double deffabbo;	
+  int time_step;     
+  int test_start_step;
   double fintx, finty;
   int shiftind;
  
-  bool PrintRes;
-  bool TestRes;
   bool PosValid;
   
   long int **negshift;
@@ -376,16 +349,14 @@ void SIM_simulation_core(int taskid){
    * loop is stopped when criterion for equilibration is fulfilled.
    */
   t = 0;
-  i = 1;     
-  abb = 0;	
-  abbdeff = 0;	
-  muabbo = 0;	
-  deffabbo = 0;	
+  time_step = 1;
+  PRINT_header_for_results_over_time(); 
+  EquiMan_init_params(SimParams.stepnumb, SimParams.testab);
 
   printf("start to propagate particles\n");
   do{	
 	  t += dt;
-	  i++;
+	  time_step++;
 	  /* Loop over trajectories */
 	  for (int j = 0; j < SimParams.setn_per_task; j++){	
 		  for(int kset = 0; kset < SimParams.parts_per_set; kset++){
@@ -403,7 +374,7 @@ void SIM_simulation_core(int taskid){
 			  do{
                   x = perform_sim_step(xo, f_dt, fintx*dt, sqrt_flucts);
                   y = perform_sim_step(yo, 0, finty*dt, sqrt_flucts);
-                  
+
                   PosValid = check_pos_validity(x, y, yo);
 
 				  if(PosValid == true){
@@ -417,93 +388,49 @@ void SIM_simulation_core(int taskid){
 					  if (SimParams.parts_per_set > 1){ 
                         PosValid = calculate_inter_particle_forces(j, kset, x, y, &fintx, &finty);
 					  }
-				  }		   
+				  }
 			  }while(PosValid == false);
-		          
+
 			  if(shiftind != 0){
                   adapt_posshifts(shiftind, j, kset, posshift, negshift);
               }
               update_ensemble_state(j, kset, x, y, fintx, finty);
 		}
- 	   /*
-        * Close loop over trajectories
-        */
-	  }
-	
-      /*
-	   *Initialize reference values of mobility and diffusion coefficients
-	   *for later judgement of equilibration process.
-	   */
-	  if((i > SimParams.stepnumb - SimParams.testab) && (i <= SimParams.stepnumb - SimParams.testab + 1)){ 
-		  muabbo = tcoeff.mu;
-		  deffabbo = tcoeff.deff;
-	  }
-	
-      /*
-       * Test progress of equilibration and plot results at certain
-       * simulation steps i
-       */
-      PrintRes = false;
-	  if(i % SimParams.plotpoints == 0){
-	  	PrintRes = true;
+ 	   /* Close loop over trajectories*/
 	  }
 
-	  TestRes = false;
-	  if((i > SimParams.stepnumb) && (i % SimParams.testab == 0)){
-     		TestRes = true;
-      }
+      EquiMan_init_mu_old(time_step, tcoeff.mu);
+ 
+      PRINT_set_print_flag(time_step);
+      EquiManager_set_test_flag(time_step, SimParams.stepnumb, SimParams.testab);
 
-	  if((TestRes == true) || PrintRes == true){ 
-
-		  /*
-		   * call function for calculation of transport coefficients 
-		   * such as mobility or mean-squared displacement 
-		   */ 
+	  if((EquManager.TestRes == true) || Print.PrintRes == true){ 
+		  /* call function for calculation of transport coefficients 
+		   * such as mobility or mean-squared displacement */ 
 		  RES_calc_transpcoeffs(t, 
                                 posshift,
                                 negshift,
                                 EnsembleState.positionx,
                                 EnsembleState.xstart);
-          
-          /*
-           * Update of the equilibration counter that are used to monitore the
-           * equilibration of the mobility and diffusivity
-           */  
-		  if(TestRes == true){ 
- 			  abb = update_equcounter(tcoeff.mu, muabbo, SimParams.accur, abb);
-
-			  if(tcoeff.deff > 1.0){  
-				  
- 			  	  abbdeff = update_equcounter(tcoeff.deff, deffabbo, SimParams.deffaccur*deffabbo, abbdeff);
-			  }
-			  else{ 
- 			  	  abbdeff = update_equcounter(tcoeff.deff, deffabbo, SimParams.deffaccur, abbdeff);
-			  }		
-			  muabbo = tcoeff.mu;    
-			  deffabbo = tcoeff.deff;
-          }
- 		  /*
-           * Plot results to check progress of equilibration 
-           */
-		  if((PrintRes == true) && (taskid == MASTER)){
-			  PRINT_results_over_time(t, 
-                                      abb, 
-                                      abbdeff);
-
-		  }
 	  }
 
-	  /*
-       *  Reset position and time information to truncate transient effects from small times 
-       */
-	  if(i == SimParams.reset_stepnumb){
-		  t = reset_pos_time(posshift, 
-                             negshift); 
-	  } 
-  /* 
-   * Closes while loop over simulation steps if criteria for equilibration are fulfilled
-   */
-  }while((abb < SimParams.numbtest) || (abbdeff < SimParams.numbtest));
+      /* Update of the equilibration counter that are used to monitore the
+       * equilibration of the mobility and diffusivity*/
+       EquiMan_update_equcounter(tcoeff.mu, SimParams.accur);
+
+      /* Plot results to check progress of equilibration*/
+      if(taskid == MASTER){
+          PRINT_results_over_time(t, EquManager.equ_counter); 
+      }
+
+	  /*  Reset position and time information to truncate
+       *  transient effects from small times */
+      t = reset_pos_time(time_step,
+                         t,
+                         posshift, 
+                         negshift); 
+  /* Closes while loop over simulation steps if criteria for equilibration are fulfilled */
+  }while(EquManager.equ_counter < SimParams.numbtest);
   
   free(negshift);
   free(posshift);

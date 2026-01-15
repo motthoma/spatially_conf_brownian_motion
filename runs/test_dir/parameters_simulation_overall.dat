@@ -2,28 +2,28 @@
 Simulation Parameters:
 
 # of particles: 1000
-# of particles per set: 5
+# of particles per set: 1
 
 Accuracy of mobility: 0.010000
 Accuracy of Deff: 10000000.000000
 
 Number of steps until equilibration checks start: 5.00e+04
-Time step size for Langevin propagation: 2.50e-06
-Time until equilibration is reset: 0.02
+Time step size for Langevin propagation: 1.00e-05
+Time until equilibration is reset: 0.08
 Number of equilibration checks: 20
 Steps between two tests: 5.00e+02
 Steps between readouts: 5.00e+02
-Time between accuracy checks: 0.00
-Time between readouts: 0.00
+Time between accuracy checks: 0.01
+Time between readouts: 0.01
 Minimum number of simulation steps: 6.00e+04
-Minimum simulation time: 0.131
+Minimum simulation time: 0.525
 
 # of parallelized tasks: 1
-Applied force F: 1.00
+Applied force F: 10.00
 Width of initial particle distribution: 1.00
 Maximum initial x-coordinate: 0.70
 
 
-Computing time: 0 days 0hours 0min 41sec
-Total computing time of all threads: 0 days 0hours 0min 41sec
+Computing time: 0 days 0hours 0min 3sec
+Total computing time of all threads: 0 days 0hours 0min 3sec
 

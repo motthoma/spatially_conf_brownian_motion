@@ -1,7 +1,7 @@
 #include "print_routines.h"
 
 /* Define the global variable exactly once */
-struct PrintResults printres = {0, "", ""};
+struct PrintResults Print = {"", "", false};
 
 #include "sim_config.h"
 #include "code_handling.h"
@@ -32,67 +32,84 @@ void PRINT_muoverf(double muall, double deffall)
   fclose (outmu); 
 }
 
-void PRINT_results_over_time(double t, 
-                             int abb, 
-                             int abbdeff)
+void PRINT_set_print_flag(int time_step)
+{
+/*
+ * Test progress of equilibration and plot results at certain
+ * simulation steps i
+ */
+
+  Print.PrintRes = false;
+  if(time_step % SimParams.print_interval_steps == 0){
+      Print.PrintRes = true;
+  }
+}
+
+void PRINT_header_for_results_over_time()
+
 {
     /**
     * function to print online results of simulation over time 
     */
-    if(printres.state == 0){    
-		snprintf(printres.fname,
-                 sizeof printres.fname,
-                 "%s/muovert_F_%.3lf.dat",
-                 DestPaths.fullpath,
-                 SimParams.F);
-		FILE *outp;
-		outp = fopen(printres.fname ,"w");
-		fprintf(outp, "#time\t meanx: <x>\t meanspeed: <v>\t mu\t abb\t abbdeff\n");
-		fclose(outp);
-		printf("#time\t meanx: <x>\t meanspeed: <v>\t mu\t abb\t abbdeff\n");
+    snprintf(Print.fname,
+             sizeof Print.fname,
+             "%s/muovert_F_%.3lf.dat",
+             DestPaths.fullpath,
+             SimParams.F);
 
-		snprintf(printres.fnamemom,
-                 sizeof printres.fnamemom,
-                 "%s/momsovert_F_%.3lf.dat",
-                 DestPaths.fullpath,
-                 SimParams.F);
-		FILE *outpmom;
-		outpmom=fopen(printres.fnamemom ,"w");
-		fprintf(outpmom, "#time\t meanx: <x>\t meanxsquare: <x^2>\t Meansqdist: <x^2> - <x>^2\t  deff: (<x^2> - <x>^2)/(2t)\t third cumulant: <x^3>-3<x^2><x>+2<x>^3\n");
-		fclose(outpmom);
+    FILE *outp;
+    outp = fopen(Print.fname ,"w");
+    fprintf(outp, "#time\t meanx: <x>\t meanspeed: <v>\t mu\t abb\n");
+    fclose(outp);
 
-		printres.state = 1;
-	}
-    else{
-		FILE *outp;
-		outp=fopen(printres.fname ,"a");
-		fprintf(outp, "%.6f\t %.4Lf\t %.5lf\t %.4lf\t  %d\t %d\n",
+    printf("#time\t meanx: <x>\t meanspeed: <v>\t mu\t abb\n");
+
+    snprintf(Print.fnamemom,
+             sizeof Print.fnamemom,
+             "%s/momsovert_F_%.3lf.dat",
+             DestPaths.fullpath,
+             SimParams.F);
+    FILE *outpmom;
+    outpmom=fopen(Print.fnamemom ,"w");
+    fprintf(outpmom, "#time\t meanx: <x>\t meanxsquare: <x^2>\t Meansqdist: <x^2> - <x>^2\t  deff: (<x^2> - <x>^2)/(2t)\t third cumulant: <x^3>-3<x^2><x>+2<x>^3\n");
+    fclose(outpmom);
+}
+
+void PRINT_results_over_time(double t, 
+                             int abb) 
+{
+/*
+* function to print online results of simulation over time 
+*/
+
+    if(Print.PrintRes == true){
+        FILE *outp;
+        outp=fopen(Print.fname ,"a");
+        fprintf(outp, "%.6f\t %.4Lf\t %.5lf\t %.4lf\t  %d\n",
                       t,
                       tcoeff.meanx,
                       tcoeff.meanspeed,
                       tcoeff.mu,
-                      abb,
-                      abbdeff);
-		fclose(outp);
-		printf("%.6f\t %.4Lf\t %.5lf\t %.4lf\t  %d\t %d\n",
+                      abb);
+        fclose(outp);
+        printf("%.6f\t %.4Lf\t %.5lf\t %.4lf\t  %d\n",
                t,
                tcoeff.meanx,
                tcoeff.meanspeed,
                tcoeff.mu,
-               abb, abbdeff);
+               abb);
 
-		FILE *outpmom;
-		outpmom=fopen(printres.fnamemom ,"a");
-		fprintf(outpmom, "%.6f\t %.6Lf\t %.5Lf\t %.5Lf\t %.5lf\t %.5Lf\n",
+        FILE *outpmom;
+        outpmom=fopen(Print.fnamemom ,"a");
+        fprintf(outpmom, "%.6f\t %.6Lf\t %.5Lf\t %.5Lf\t %.5lf\t %.5Lf\n",
                          t,
                          tcoeff.meanx,
                          tcoeff.meanxsqu,
                          tcoeff.msd,
                          tcoeff.deff,
                          tcoeff.thirdcum);
-		fclose(outpmom);
-		
-	}
+        fclose(outpmom);
+    }
 }
 
 void PRINT_positions(double **posx, double **posy){
@@ -185,7 +202,6 @@ int timediff;
             timediff%60);
 	fclose(outptasks);
   }
-
 }
 
 void PRINT_resallthreads(long double msdall, 
@@ -200,7 +216,7 @@ void PRINT_resallthreads(long double msdall,
   * prints results of simulation to file at the end of the simulation
   */
   FILE *outp;
-  outp=fopen(printres.fname ,"a");
+  outp=fopen(Print.fname ,"a");
   fprintf(outp, "\n\nAverage of all Threads:\n\nmeanx = %.5Lf\t meanspeed = %.5lf\t mu = %.5lf\n\n", 
           meanxall/SimParams.numtasks, 
           meanspeedall/SimParams.numtasks, 
@@ -208,7 +224,7 @@ void PRINT_resallthreads(long double msdall,
   fclose(outp);
            
   FILE *outpmom;
-  outpmom=fopen(printres.fnamemom ,"a");
+  outpmom=fopen(Print.fnamemom ,"a");
   fprintf(outpmom, "\n\nAverage of all Threads:\n\nmeanx = %.5Lf\t meanxsqu = %.5Lf\t msdall = %.5Lf\t deff = %.5lf\t thirdcum = %.5LF\n\n", 
           meanxall/SimParams.numtasks, 
           meanxsquall/SimParams.numtasks, 

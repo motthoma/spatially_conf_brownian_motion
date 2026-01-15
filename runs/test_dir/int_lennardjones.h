@@ -54,7 +54,6 @@ static inline double intforce_lj(double dist1d, double dist2d){
  *  and dist2d in each dimension */
 
 	return(LJPREFAC*(LJMINPOW*pow(dist2d,-14) - pow(dist2d,-8))*dist1d - FSHIFT);
-
 }
 
 /**

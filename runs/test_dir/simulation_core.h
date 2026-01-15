@@ -1,7 +1,5 @@
 #include "comp_gen_header.h"
 #include "results_transport.h"
-#include "print_routines.h"
-#include <time.h>
 #include <gsl/gsl_rng.h>
 #include <gsl/gsl_randist.h>
 
@@ -36,7 +34,9 @@ typedef struct {
 
 extern T_EnsembleState EnsembleState;
 
-double reset_pos_time(long int **posshift, 
+double reset_pos_time(int time_step,
+                      double t,
+                      long int **posshift, 
                       long int **negshift);
 
 void adapt_posshifts(int shiftind, 
@@ -44,11 +44,6 @@ void adapt_posshifts(int shiftind,
                      int j, 
                      long int **posshift, 
                      long int **negshift);
-
-int update_equcounter(double tran_quant, 
-                      double tran_quanto, 
-                      double accurarcy, 
-                      int equcounter);
 
 bool calculate_inter_particle_forces(int j,
                                      int kset,

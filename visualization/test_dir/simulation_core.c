@@ -19,8 +19,7 @@ T_EnsembleState SIM_alloc_ensemble_state(const T_SimParams *SimParams){
 }
 
 
-void SIM_init_positions(const T_SimParams *SimParams,
-                        T_EnsembleState *EnsembleState) 
+void SIM_init_positions(const T_SimParams *SimParams, T_EnsembleState *EnsembleState) 
 {
 /**
  * function that initializes the particle positions. The particles are uniformly distributed
@@ -75,8 +74,7 @@ void SIM_init_positions(const T_SimParams *SimParams,
   printf("positions initialized!\n"); 
 }
 
-void SIM_read_in_positions(const T_SimParams *SimParams,
-                           T_EnsembleState *EnsembleState) 
+void SIM_read_in_positions(const T_SimParams *SimParams, T_EnsembleState *EnsembleState) 
 {
 /**
  * function that reads in positions from file. 
@@ -114,8 +112,7 @@ void SIM_read_in_positions(const T_SimParams *SimParams,
   printf("positions read in!\n"); 
 }
 
-void SIM_init_interactions(const T_SimParams *SimParams,
-                           T_EnsembleState *EnsembleState) 
+void SIM_init_interactions(const T_SimParams *SimParams, T_EnsembleState *EnsembleState) 
 {
 /**
  * Function that calculates depending on the positions of the particles
@@ -156,12 +153,10 @@ void SIM_init_interactions(const T_SimParams *SimParams,
   }
 }
 
-double sim_reset_pos_time(const T_SimParams *SimParams,
-                          T_EnsembleState *EnsembleState,
-                          int time_step,
-                          double t,
-                          long int **posshift, 
-                          long int **negshift) 
+double sim_reset_pos_time(const T_SimParams *SimParams, T_EnsembleState *EnsembleState, int time_step,
+                      double t,
+                      long int **posshift, 
+                      long int **negshift) 
 {
 /**
  * Function to reset the simulated system time t and the positions
@@ -186,10 +181,10 @@ double sim_reset_pos_time(const T_SimParams *SimParams,
 }
 
 void sim_adapt_posshifts(int shiftind, 
-                         int i, 
-                         int j, 
-                         long int **posshift, 
-                         long int **negshift)
+                     int i, 
+                     int j, 
+                     long int **posshift, 
+                     long int **negshift)
 {
 /**
  * Function to update shifts which are monitored to calculate 
@@ -210,9 +205,9 @@ void sim_adapt_posshifts(int shiftind,
 }
 
 double sim_perform_sim_step(double old_pos,
-                            double force_ext_dt,
-                            double force_int_dt,
-                            double sqrt_flucts){
+                        double force_ext_dt,
+                        double force_int_dt,
+                        double sqrt_flucts){
     double u, new_pos; 
     /*Create random number for simulation of noise*/  
      u = RNG_get_gaussian(0.0, 1.0);
@@ -245,13 +240,7 @@ bool sim_check_pos_validity(double x, double y, double yo){
     return PosValid;
 }
 
-void sim_update_ensemble_state(T_EnsembleState *EnsembleState,
-                               int j,
-                               int kset,
-                               double x,
-                               double y,
-                               double fintx,
-                               double finty){ 
+void sim_update_ensemble_state(T_EnsembleState *EnsembleState, int j, int kset, double x, double y, double fintx, double finty){ 
     /*
      * Update arrays with positions and inter particle forces
      */     
@@ -261,14 +250,12 @@ void sim_update_ensemble_state(T_EnsembleState *EnsembleState,
      EnsembleState->fintyarray[j][kset] = finty;
 }
 
-void SIM_calculate_inter_particle_forces(const T_SimParams *SimParams,
-                                         T_EnsembleState *EnsembleState,
-                                         int j,
-                                         int kset,
-                                         double x,
-                                         double y,
-                                         double *fintx,
-                                         double *finty){
+void SIM_calculate_inter_particle_forces(const T_SimParams *SimParams, T_EnsembleState *EnsembleState, int j,
+                                     int kset,
+                                     double x,
+                                     double y,
+                                     double *fintx,
+                                     double *finty){
     /*function that calculates the intra-particle forces*/
     double distx, disty, dist, xtest, ytest;
     double fintxpair, fintypair;
@@ -317,12 +304,7 @@ void sim_shift_pos_for_periodic_bc(double *x, int *shiftind){
     /* calc interactions here */ 
 }
 
-static bool sim_check_particle_overlap(const T_SimParams *SimParams,
-                                       T_EnsembleState *EnsembleState,
-                                       int j,
-                                       int kset,
-                                       double x,
-                                       double y) {
+static bool sim_check_particle_overlap(const T_SimParams *SimParams, T_EnsembleState *EnsembleState, int j, int kset, double x, double y) {
     double distx, disty, dist, xtest, ytest;
     for (int int_ind = 0; int_ind < SimParams->parts_per_set; int_ind++) {
         if (int_ind != kset) {
@@ -350,13 +332,13 @@ static bool sim_check_confinement_validity(double x, double y, double yo) {
 }
 
 static void sim_propagate_particle(double xo,
-                                   double f_dt,
-                                   double yo,
-                                   double fintx_dt,
-                                   double finty_dt,
-                                   double sqrt_flucts,
-                                   double *x,
-                                   double *y) {
+                               double yo,
+                               double f_dt,
+                               double fintx_dt,
+                               double finty_dt,
+                               double sqrt_flucts,
+                               double *x,
+                               double *y) {
     *x = sim_perform_sim_step(xo, f_dt, fintx_dt, sqrt_flucts);
     *y = sim_perform_sim_step(yo, 0, finty_dt, sqrt_flucts);
 }

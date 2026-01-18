@@ -19,3 +19,6 @@ main_brownconf
 *.swp
 *.swo
 *~
+
+# image file formats
+*.pdf

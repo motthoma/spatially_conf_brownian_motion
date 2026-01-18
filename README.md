@@ -5,7 +5,10 @@ The particles undergo overdamped Brownian motion simulated via a stochastic Eule
 External static forces can be applied, but long-range hydrodynamic interactions are **not** included.  
 Periodic boundary conditions are used, and particle density is kept constant in the interacting case.
 
-![logo_conf_brownian_motion](./logo.png)
+<p align="center">
+  <img src="./logo.png" alt="logo_conf_brownian_motion" width="400">
+</p>
+
 
 Exemplary system: Two hardspheres move within a confinement with a saw-tooth profile
 as implemented in the conf_splitter module
@@ -21,7 +24,7 @@ The repository consists of three main directories:
    - Each simulation run creates a new directory containing the code and data.
 
 2. **`doxygen/`**
-   - Contains the [Doxygen](https://www.doxygen.nl/) configuration and generated documentation.
+   - Contains the [Doxygen](https://www.doxygen.nl/) configuration with a Doxyfile that can be used to generate documentation.
    - Run `doxygen` to generate:
      - HTML documentation
      - PDF (via LaTeX)
@@ -29,6 +32,9 @@ The repository consists of three main directories:
 3. **`profiling/`**
    - Provides an environment for profiling runtime performance with **gprof**.
    - See the README inside for details.
+
+3. **`visualization/`**
+   - Contains python scripts for data visualization. Plotting is done with `PyX`, or `Matplotlib` or `Seaborn` (TBD).
 
 ---
 

@@ -396,7 +396,7 @@ void SIM_simulation_core(const T_SimParams *SimParams, T_EnsembleState *Ensemble
   PRINT_header_for_results_over_time(); 
   EQUIMAN_init(&EquManager, SimParams->stepnumb, SimParams->testab);
 
-  printf("start to propagate particles\n");
+  printf("loop over trajectory started.");
   do{
 	  time += dt;
 	  time_step++;
@@ -415,7 +415,7 @@ void SIM_simulation_core(const T_SimParams *SimParams, T_EnsembleState *Ensemble
  			   * and particles are within channel is obtained 
  			   */
 			  do{
-                  sim_propagate_particle(xo, yo, f_dt, fintx * dt, finty * dt, sqrt_flucts, &x, &y);
+                  sim_propagate_particle(xo, f_dt, yo, fintx * dt, finty * dt, sqrt_flucts, &x, &y);
 
                   PosValid = sim_check_confinement_validity(x, y, yo);
 
@@ -440,7 +440,6 @@ void SIM_simulation_core(const T_SimParams *SimParams, T_EnsembleState *Ensemble
 		}
  	   /* Close loop over trajectories*/
 	  }
-
       EQUIMAN_update_mu_old(&EquManager, time_step, tcoeff.mu);
  
       PRINT_set_print_flag(time_step);
@@ -468,11 +467,11 @@ void SIM_simulation_core(const T_SimParams *SimParams, T_EnsembleState *Ensemble
 	  /*  Reset position and time information to truncate
        *  transient effects from small times */
       time = sim_reset_pos_time(SimParams, EnsembleState, time_step,
-                         time,
-                         posshift, 
-                         negshift); 
+                                time,
+                                posshift, 
+                                negshift); 
   /* Closes while loop over simulation steps if criteria for equilibration are fulfilled */
-  }while(EquManager.equ_counter < SimParams->numbtest);
+  }while(EquManager.equ_counter < SimParams->patience);
   
   free(negshift);
   free(posshift);

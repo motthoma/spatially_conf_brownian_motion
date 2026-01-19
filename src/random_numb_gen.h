@@ -16,6 +16,10 @@ typedef struct {
 } T_GSL_RNG;
 extern T_GSL_RNG GSL_RNG;
 
+/**
+ *@brief copy funciton for module 
+ */
+ void RNG_copycode(void);
 
 /**
  * @brief Initialize the gsl_rng pointer inside SimCoreVals

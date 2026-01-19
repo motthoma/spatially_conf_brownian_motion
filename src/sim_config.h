@@ -40,11 +40,9 @@ extern unsigned int nbin;
 typedef struct TAG_SimParams{
 	int N;
 	int parts_per_set;
-	int numbtest;
+	int patience;
 	int stepnumb;
-	int simlong;
 	double accur;
-	double deffaccur;
 	double initwidth;
 	double init_max_xpos;
 	double F;
@@ -69,7 +67,8 @@ extern T_SimParams SimParams;
 
 double SIMCONFIG_time_step(double lscale_conf, double lscale_part);
 
-extern void SIMCONFIG_init(int tasks); 
+extern bool SIMCONFIG_read_params(const char *filepath);
+extern void SIMCONFIG_init(int tasks, const char *config_filepath); 
 extern bool SIMCONFIG_check_consistency();
 extern void SIMCONFIG_write_specs();
 extern void SIMCONFIG_copy_code();

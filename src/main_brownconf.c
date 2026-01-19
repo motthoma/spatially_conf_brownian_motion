@@ -37,6 +37,13 @@ void main_copy_ext_files(){
 int main (int argc, char **argv){
 /** main function of Brownian motion simulation */
 
+  char *config_file_path;
+  if (argc > 1) {
+      config_file_path = argv[1];
+  } else {
+      config_file_path = "sim_params.conf";
+  }
+
   /* initialize parameters for time measurement and measure time
    */ 
   clock_t prgstart; 
@@ -99,26 +106,12 @@ int main (int argc, char **argv){
 
   /* prefix to mark output-files with employed confinement */
   char *conprfx;
-
   /* prefix to mark output-files with employed 
    * inter-particle interaction
    */
   char *intprfx;
 
   T_EnsembleState EnsembleState;
-
-  /*
-   * read external force and number of interacting
-   * particles per set from command line arguments
-   */ 
-  printf("\nargc: %d\n\n", argc);
-  if(argc > 2){
-	SimParams.F = atof(argv[1])*L_CONF;
-	SimParams.parts_per_set = atof(argv[2]);
-  }
-  else{
- 	return -1;
-  }
 
 # ifdef MPI_ON
 	  MPI_Init (&argc,&argv);
@@ -128,7 +121,7 @@ int main (int argc, char **argv){
   /*
    * initialize parameters and resulting values
    */
-  SIMCONFIG_init(tasks);
+  SIMCONFIG_init(tasks, config_file_path);
  
   /*init transport parameters like mobility this simulation adresses*/ 
   RES_init(); 

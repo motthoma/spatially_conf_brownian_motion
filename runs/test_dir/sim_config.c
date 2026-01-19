@@ -1,32 +1,120 @@
 // sim_config.c
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h> // Required for string functions
 #include <math.h>
 #include <stdbool.h>
 #include "sim_config.h"
 #include "code_handling.h"
 #include "comp_gen_header.h"
 
+extern T_SimParams SimParams; // Declare SimParams as external
+
+/**
+ * Reads simulation parameters from a configuration file.
+ * @param filepath The path to the configuration file.
+ * @return true if parameters were read successfully, false otherwise.
+ */
+bool SIMCONFIG_read_params(const char *filepath) {
+    FILE *file = fopen(filepath, "r");
+    if (file == NULL) {
+        fprintf(stderr, "Error: Could not open config file '%s'\n", filepath);
+        return false;
+    }
+
+    char line[256]; // Buffer to hold each line
+    while (fgets(line, sizeof(line), file) != NULL) {
+        // Skip comments and empty lines
+        if (line[0] == '#' || strlen(line) <= 1) {
+            continue;
+        }
+
+        char *key = strtok(line, "=");
+        char *value = strtok(NULL, "\n"); // Read until newline
+
+        // Trim whitespace
+        if (key) {
+            // Trim leading whitespace
+            while (*key == ' ' || *key == '\t') {
+                key++;
+            }
+            // Trim trailing whitespace
+            char *end = key + strlen(key) - 1;
+            while (end > key && (*end == ' ' || *end == '\t')) {
+                end--;
+            }
+            *(end + 1) = '\0';
+        }
+
+        if (value) {
+            // Trim leading whitespace
+            while (*value == ' ' || *value == '\t') {
+                value++;
+            }
+            // Trim trailing whitespace
+            char *end = value + strlen(value) - 1;
+            while (end > value && (*end == ' ' || *end == '\t')) {
+                end--;
+            }
+            *(end + 1) = '\0';
+        }
+
+        if (key != NULL && value != NULL) {
+            if (strcmp(key, "F") == 0) {
+                SimParams.F = atof(value);
+            } else if (strcmp(key, "parts_per_set") == 0) {
+                SimParams.parts_per_set = atoi(value);
+            } else if (strcmp(key, "N") == 0) {
+                SimParams.N = atoi(value);
+            } else if (strcmp(key, "patience") == 0) {
+                SimParams.patience = atoi(value);
+            } else if (strcmp(key, "stepnumb") == 0) {
+                SimParams.stepnumb = atoi(value);
+            } else if (strcmp(key, "accur") == 0) {
+                SimParams.accur = atof(value);
+            } else if (strcmp(key, "initwidth") == 0) {
+                SimParams.initwidth = atof(value);
+            } else if (strcmp(key, "init_max_xpos") == 0) {
+                SimParams.init_max_xpos = atof(value);
+            }
+            // Add more parameters here as needed
+        }
+    }
+
+    fclose(file);
+    return true;
+}
+
 T_SimParams SimParams;
 
 /**
  * Initialize simulation parameters with default values.
  */
-void SIMCONFIG_init(int tasks) {
-    /* user config parameters*/
-    SimParams.N = 1000;
-    SimParams.numbtest = 20;
+void SIMCONFIG_init(int tasks, const char *config_filepath) {
+    /* Set basic parameters that might be needed before reading config, or are not configurable */
+    SimParams.N = 100; // Default N, can be overridden by config
+    SimParams.numtasks = tasks; // Set numtasks from argument
+
+    /* Set internal defaults for all parameters. These can be overridden by the config file. */
+    SimParams.patience = 20;
     SimParams.stepnumb = 50000;       // 5*1e4
-    SimParams.simlong = 20;
     SimParams.accur = 1e-2;
-    SimParams.deffaccur = 1e7;
     SimParams.initwidth = 1.0;
     SimParams.init_max_xpos = 0.7;
+    SimParams.F = 0.0; // Default force
+    SimParams.parts_per_set = 1; // Default parts per set
 
+    // Attempt to read parameters from the config file.
+    // Values read from the file will override the defaults set above.
+    if (!SIMCONFIG_read_params(config_filepath)) {
+        fprintf(stderr, "Warning: Could not read %s. Using internal defaults for F and parts_per_set.\n", config_filepath);
+        // No need to set defaults for F and parts_per_set again here, they are already set above
+    }
+    
+    /* Calculate derived parameters based on the current SimParams values (defaults or read from file) */
     SimParams.print_interval_steps = SimParams.stepnumb / 100;
     SimParams.testab = SimParams.print_interval_steps;
     SimParams.reset_stepnumb = 15 * SimParams.testab;
-    SimParams.numtasks = tasks;
     SimParams.n_interact_sets = (int) SimParams.N/SimParams.parts_per_set;
     /* number of particle ensembles simulated in one task.
      * this number has to be at least one, to prevent 
@@ -82,10 +170,10 @@ double SIMCONFIG_time_step(double lscale_conf, double lscale_part) {
  * Write simulation parameters to a specs file for documentation.
  */
 void SIMCONFIG_write_specs() {
-    int min_steps = SimParams.stepnumb + SimParams.testab * SimParams.numbtest;
+    int min_steps = SimParams.stepnumb + SimParams.testab * SimParams.patience;
     double eq_time = SimParams.reset_stepnumb * SimParams.time_step;
     double total_time = (SimParams.stepnumb - SimParams.reset_stepnumb 
-                        + SimParams.testab * SimParams.numbtest) * SimParams.time_step;
+                        + SimParams.testab * SimParams.patience) * SimParams.time_step;
     double check_time = SimParams.testab * SimParams.time_step;
     double readout_time = SimParams.print_interval_steps * SimParams.time_step;
   
@@ -109,12 +197,10 @@ void SIMCONFIG_write_specs() {
     fprintf(out_file,
             "# of particles: %d\n"
             "# of particles per set: %d\n\n"
-            "Accuracy of mobility: %lf\n"
-            "Accuracy of Deff: %lf\n\n",
+            "Accuracy of mobility: %lf\n",
             SimParams.N,
             SimParams.parts_per_set,
-            SimParams.accur,
-            SimParams.deffaccur);
+            SimParams.accur);
 
     fprintf(out_file,
             "Number of steps until equilibration checks start: %.2e\n"
@@ -130,7 +216,7 @@ void SIMCONFIG_write_specs() {
             (double)SimParams.stepnumb,
             SimParams.time_step,
             eq_time,
-            SimParams.numbtest,
+            SimParams.patience,
             (double)SimParams.testab,
             (double)SimParams.print_interval_steps,
             check_time,
@@ -157,4 +243,5 @@ void SIMCONFIG_write_specs() {
 void SIMCONFIG_copy_code() {
     CODEHAND_copy_file_to_dest("sim_config.c");
     CODEHAND_copy_file_to_dest("sim_config.h");
+    CODEHAND_copy_file_to_dest("sim_params.conf");
 }

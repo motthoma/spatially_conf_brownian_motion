@@ -20,14 +20,20 @@ from pyx.graph import axis
 # Configuration
 # ---------------------------------------------------------------------------
 
-FORCE = 10.0
-FORCE_STR = f"{FORCE:.3f}".replace(".", "pt")
+FORCE_POS = 10.0
+FORCE_STR_POS = f"{FORCE_POS:.3f}".replace(".", "pt")
+DATA_DIR_POS = Path("test_dir_N_1_F_10pt0")
+DATA_FILE_POS = DATA_DIR_POS / f"muovert_F_{FORCE_STR_POS}.dat"
 
-DATA_DIR = Path("test_dir")
-DATA_FILE = DATA_DIR / f"muovert_F_{FORCE_STR}.dat"
+FORCE_NEG = -10.0
+FORCE_STR_NEG = f"{FORCE_NEG:.3f}".replace(".", "pt")
+DATA_DIR_NEG = Path("test_dir_N_1_F_-10pt0")
+DATA_FILE_NEG = DATA_DIR_NEG / f"muovert_F_{FORCE_STR_NEG}.dat"
+print('DATA_FILE_NEG:', DATA_FILE_NEG)
 
 OUTPUT_FILE = "mobility_over_time"
-X_MAX = 0.6
+
+X_MAX = 1.2
 Y_MAX = 1.5 
 
 
@@ -64,10 +70,16 @@ symbol_attrs = [
 g.plot(
     [
         graph.data.file(
-            str(DATA_FILE),
+            str(DATA_FILE_POS),
             x="abs($1)",
             y=4,
-            title=r"$\mu(t)$",
+            title="$\mu_{-}(t)$, " + f"$f_+ = {FORCE_POS}$"
+        ),
+        graph.data.file(
+            str(DATA_FILE_NEG),
+            x="abs($1)",
+            y=4,
+            title="$\mu_{+}(t)$, " + f"$f_-={FORCE_NEG}$",
         ),
     ],
     [
@@ -83,8 +95,10 @@ g.plot(
 # Annotation
 # ---------------------------------------------------------------------------
 
-x_text, y_text = g.pos(0.75 * X_MAX, 0.8*Y_MAX)
-g.text(x_text, y_text, rf"$f_0 = {FORCE}$")
+# x_text, y_text = g.pos(0.7 * X_MAX, 0.8*Y_MAX)
+# g.text(x_text, y_text, rf"$f_+ = {FORCE_POS}$")
+# x_text, y_text = g.pos(0.7 * X_MAX, 0.7*Y_MAX)
+# g.text(x_text, y_text, rf"$f_-={FORCE_NEG}$")
 
 
 # ---------------------------------------------------------------------------

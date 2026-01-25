@@ -28,7 +28,7 @@ make
 This will produce an executable file named `main_brownconf` in the `src/` directory.
 
 You can let you guide towards a makefile that compiles with sources for your intended channel-shapes
-and inter-particle forces, with the 'python_tools/dtool_create_header_makefile.py':
+and inter-particle forces, with the 'python_tools/dtool_create_header_makefile.py' script:
 
 ```bash
 cd python_tools/

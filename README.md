@@ -1,8 +1,9 @@
 # Spatially Confined Brownian Motion
 
-Simulation code for **interacting** and **non-interacting** Brownian particles in 2D periodic channels.
+Simulation code for interacting and non-interacting Brownian particles in 2D periodic channels.
 The particles undergo overdamped Brownian motion simulated via a stochastic Euler scheme.
-External static forces can be applied, but long-range hydrodynamic interactions are **not** included.
+Different channel shapes as well as types of particle-particle interactions are available and can
+be chosen by compilation.
 Periodic boundary conditions are used, and particle density is kept constant in the interacting case.
 
 <p align="center">
@@ -26,6 +27,16 @@ make
 
 This will produce an executable file named `main_brownconf` in the `src/` directory.
 
+You can let you guide towards a makefile that compiles with sources for your intended channel-shapes
+and inter-particle forces, with the 'python_tools/dtool_create_header_makefile.py':
+
+```bash
+cd python_tools/
+dtool_create_header_makefile.py
+```
+
+Choose the preferred compiler, channel shape and particle-particle interactions from the suggested ones.
+
 ### Parameters & Configuration
 
 Simulation parameters are controlled via a configuration file. The default file is `sim_params.conf`.
@@ -48,7 +59,7 @@ N = 100
 ```
 This approach allows for easy modification of simulation parameters without needing to recompile the code.
 
-If **MPI** is available (e.g., on the *Albeniz* cluster), the code can be parallelized by uncommenting the `MPI_ON` flag in the source files where it appears.
+If **MPI** is available, the code can be parallelized by uncommenting the `MPI_ON` flag in the source files where it appears.
 
 ---
 

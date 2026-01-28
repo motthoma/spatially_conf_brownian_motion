@@ -320,14 +320,14 @@ void sim_shift_pos_for_periodic_bc(double *x, int *shiftind){
 static bool sim_check_particle_overlap(const T_SimParams *SimParams,
                                        T_EnsembleState *EnsembleState,
                                        int set_idx,
-                                       int p_in_set,
+                                       int p_in_set_under_check,
                                        double x,
                                        double y) {
     double distx, disty, dist, xtest, ytest;
-    for (int int_ind = 0; int_ind < SimParams->parts_per_set; int_ind++) {
-        if (int_ind != p_in_set) {
-            xtest = EnsembleState->positionx[set_idx][int_ind];
-            ytest = EnsembleState->positiony[set_idx][int_ind];
+    for (int p_in_set = 0; p_in_set < SimParams->parts_per_set; p_in_set++) {
+        if (p_in_set != p_in_set_under_check) {
+            xtest = EnsembleState->positionx[set_idx][p_in_set];
+            ytest = EnsembleState->positiony[set_idx][p_in_set];
 
             distx = x - xtest;
             disty = y - ytest;

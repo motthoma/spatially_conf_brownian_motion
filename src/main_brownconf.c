@@ -262,10 +262,10 @@ int main (int argc, char **argv){
            
   }
   
-  free(EnsembleState.positionx);
-  free(EnsembleState.positiony);
-  free(EnsembleState.fintxarray);
-  free(EnsembleState.fintyarray);
+  UTILS_free_2Ddouble_array(EnsembleState.positionx);
+  UTILS_free_2Ddouble_array(EnsembleState.positiony);
+  UTILS_free_2Ddouble_array(EnsembleState.fintxarray);
+  UTILS_free_2Ddouble_array(EnsembleState.fintyarray);
   
   #ifdef MPI_ON
 	  MPI_Finalize();

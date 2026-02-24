@@ -222,6 +222,11 @@ void PRINT_resallthreads(long double msdall,
           meanspeedall/SimParams.numtasks, 
           muall/SimParams.numtasks);
   fclose(outp);
+  
+  printf("\n\nAverage of all Threads:\n\nmeanx = %.5Lf\t meanspeed = %.5lf\t mu = %.5lf\n\n", 
+          meanxall/SimParams.numtasks, 
+          meanspeedall/SimParams.numtasks, 
+          muall/SimParams.numtasks);
            
   FILE *outpmom;
   outpmom=fopen(Print.fnamemom ,"a");

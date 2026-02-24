@@ -2,7 +2,7 @@
 #include "array_utils.h"
 #include "code_handling.h"
 
-/*
+/**
  * Function that allocates memory for a 2 dimensional array of doubles
  */
 double **UTILS_calloc_2Ddouble_array(int m, int n)
@@ -37,8 +37,34 @@ long int **UTILS_calloc_2Dlint_array(int m, int n) {
     return array;
 }
 
+/** 
+ * free 2D double data block stored in contiguous array 
+ */
+void UTILS_free_2Ddouble_array(double **array)
+{
+    if (!array) return;
+    /* free data block */
+    free(array[0]);
+    /* free pointer array */
+    free(array);
+}
+
+/** 
+ * free 2D long int data block stored in contiguous array 
+ */
+void UTILS_free_2Dlint_array(long int **array)
+{
+    if (!array) return;
+    /* free data block */
+    free(array[0]);
+    /* free pointer array */
+    free(array);
+}
+
+/**
+ * returns max of doubles a and b 
+ */
 double UTILS_max_double(double a, double b){
-    /* returns max of doubles a and b */
     return a > b ? a : b;
 }
 

@@ -10,11 +10,26 @@
 
 T_EnsembleState SIM_alloc_ensemble_state(const T_SimParams *SimParams){
   T_EnsembleState EnsembleState;
-  EnsembleState.xstart = UTILS_calloc_2Ddouble_array(SimParams->n_interact_sets, SimParams->parts_per_set);
-  EnsembleState.positionx = UTILS_calloc_2Ddouble_array(SimParams->n_interact_sets, SimParams->parts_per_set);
-  EnsembleState.positiony = UTILS_calloc_2Ddouble_array(SimParams->n_interact_sets, SimParams->parts_per_set);
-  EnsembleState.fintxarray = UTILS_calloc_2Ddouble_array(SimParams->n_interact_sets, SimParams->parts_per_set);
-  EnsembleState.fintyarray = UTILS_calloc_2Ddouble_array(SimParams->n_interact_sets, SimParams->parts_per_set);
+  EnsembleState.xstart = UTILS_calloc_2Ddouble_array(
+          SimParams->n_interact_sets,
+          SimParams->parts_per_set
+          );
+  EnsembleState.positionx = UTILS_calloc_2Ddouble_array(
+          SimParams->n_interact_sets,
+          SimParams->parts_per_set
+          );
+  EnsembleState.positiony = UTILS_calloc_2Ddouble_array(
+          SimParams->n_interact_sets,
+          SimParams->parts_per_set
+          );
+  EnsembleState.fintxarray = UTILS_calloc_2Ddouble_array(
+          SimParams->n_interact_sets,
+          SimParams->parts_per_set
+          );
+  EnsembleState.fintyarray = UTILS_calloc_2Ddouble_array(
+          SimParams->n_interact_sets,
+          SimParams->parts_per_set
+          );
   return EnsembleState;
 }
 
@@ -125,6 +140,8 @@ void SIM_init_interactions(const T_SimParams *SimParams,
   int set_idx;
   int p_in_set;
   int ktest;
+  double x;
+  double y;
   double distx;
   double disty;
   double dist;
@@ -137,10 +154,12 @@ void SIM_init_interactions(const T_SimParams *SimParams,
       for(p_in_set = 0; p_in_set < SimParams->parts_per_set; p_in_set++){
           fintx = 0;
           finty = 0;
+          x =  EnsembleState->positionx[set_idx][p_in_set];
+          y =  EnsembleState->positiony[set_idx][p_in_set];
           for(ktest = 0; ktest < SimParams->parts_per_set; ktest++){
               if(p_in_set != ktest){
-                  distx = EnsembleState->positionx[set_idx][p_in_set] - EnsembleState->positionx[set_idx][ktest];
-                  disty = EnsembleState->positiony[set_idx][p_in_set] - EnsembleState->positiony[set_idx][ktest];
+                  distx = x - EnsembleState->positionx[set_idx][ktest];
+                  disty = y - EnsembleState->positiony[set_idx][ktest];
                   dist = sqrt(distx*distx + disty*disty);
                   if(dist <= INT_CUTOFF){
                       fintxpair = INT_force(distx, dist);
@@ -300,6 +319,7 @@ void SIM_calculate_inter_particle_forces(const T_SimParams *SimParams,
       }
     } 
 }
+
 void sim_shift_pos_for_periodic_bc(double *x, int *shiftind){
     /*
     * Adapt position according to period boundary
@@ -499,12 +519,13 @@ void SIM_simulation_core(const T_SimParams *SimParams,
                                 time,
                                 posshift, 
                                 negshift); 
-  /* Closes while loop over simulation steps if criteria for equilibration are fulfilled */
+  /* Closes while loop over simulation steps if criteria for 
+   * equilibration are fulfilled */
   }while(EquManager.equ_counter < SimParams->patience);
   
-  free(negshift);
-  free(posshift);
-  free(EnsembleState->xstart);
+  UTILS_free_2Dlint_array(negshift);
+  UTILS_free_2Dlint_array(posshift);
+  UTILS_free_2Ddouble_array(EnsembleState->xstart);
 }
 
 void SIM_copycode(){

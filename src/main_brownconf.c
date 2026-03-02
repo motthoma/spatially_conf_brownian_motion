@@ -174,8 +174,8 @@ int main (int argc, char **argv){
                           xstart);*/
 
   /* Initialize inter-particle forces */
-  SIM_init_interactions(&SimParams, &EnsembleState);
-  printf("\ntask ID:\t %d -> particle positions and forces fixed\n", taskid);
+  /* SIM_init_interactions(&SimParams, &EnsembleState); */
+  /* printf("\ntask ID:\t %d -> particle positions and forces fixed\n", taskid); */
  
   /*
    * Core of Simulation: particles are propagated until criteria

@@ -32,16 +32,6 @@ typedef struct {
 } T_EnsembleState;
 
 
-
-
-void SIM_calculate_inter_particle_forces(const T_SimParams *SimParams,
-                                         T_EnsembleState *EnsembleState,
-                                         int j,
-                                         int kset,
-                                         double x,
-                                         double y,
-                                         double *fintx,
-                                         double *finty);
 /**
  *
  *
@@ -53,9 +43,6 @@ void SIM_calculate_inter_particle_forces(const T_SimParams *SimParams,
  */
 
 T_EnsembleState SIM_alloc_ensemble_state(const T_SimParams *SimParams);
-
-void SIM_init_positions(const T_SimParams *SimParams,
-                        T_EnsembleState *EnsembleState); 
 
 void SIM_read_in_positions(const T_SimParams *SimParams,
                            T_EnsembleState *EnsembleState); 

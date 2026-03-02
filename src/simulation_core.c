@@ -228,20 +228,6 @@ void sim_adapt_posshifts(int shiftind,
 	}
 }
 
-double sim_perform_sim_step(double old_pos,
-                            double force_ext_dt,
-                            double force_int_dt,
-                            double sqrt_flucts){
-    double u, new_pos; 
-    /*Create random number for simulation of noise*/  
-     u = RNG_get_gaussian(0.0, 1.0);
-     /*Update new value of position according to
-      *stochastic Euler for Langevin equation*/
-     new_pos = old_pos + force_ext_dt + force_int_dt + sqrt_flucts*u;
-
-    return new_pos;
-}
-
 bool sim_check_pos_validity(double x, double y, double yo){
     double yue;
     bool PosValid = true;
@@ -280,45 +266,65 @@ void sim_update_ensemble_state(T_EnsembleState *EnsembleState,
      EnsembleState->fintyarray[set_idx][p_in_set] = finty;
 }
 
-void SIM_calculate_inter_particle_forces(const T_SimParams *SimParams,
-                                         T_EnsembleState *EnsembleState,
-                                         int set_idx,
-                                         int p_in_set,
-                                         double x,
-                                         double y,
-                                         double *fintx,
-                                         double *finty){
-    /*function that calculates the intra-particle forces*/
-    double distx, disty, dist, xtest, ytest;
-    double fintxpair, fintypair;
-    *fintx = 0;
-    *finty = 0;
-    for(int int_ind = 0; int_ind < SimParams->parts_per_set; int_ind++){ 
-      xtest = EnsembleState->positionx[set_idx][int_ind]; 
-      ytest = EnsembleState->positiony[set_idx][int_ind];
+void sim_calculate_inter_particle_forces(const T_SimParams *SimParams,
+                                         T_EnsembleState *EnsembleState) 
+{
+/**
+ * Function that calculates depending on the positions of the particles
+ * the initial particle-particle interaction force if such a force e.g.
+ * given by a Lennard-Jones interaction is given.
+ */
+  int set_idx;
+  int p_in_set;
+  int ktest;
+  double x;
+  double y;
+  double xtest;
+  double ytest;
+  double distx;
+  double disty;
+  double dist;
+  double fintxpair;
+  double fintypair;
+  double fintx;
+  double finty;
 
-      if(int_ind != p_in_set){
-          distx = x - xtest;
-          disty = y - ytest;
+  for (set_idx = 0; set_idx < SimParams->setn_per_task; set_idx++){  
+      for(p_in_set = 0; p_in_set < SimParams->parts_per_set; p_in_set++){
+          x =  EnsembleState->positionx[set_idx][p_in_set];
+          y =  EnsembleState->positiony[set_idx][p_in_set];
+          fintx = 0;
+          finty = 0;
+          for(ktest = 0; ktest < SimParams->parts_per_set; ktest++){
+              xtest =  EnsembleState->positionx[set_idx][ktest];
+              ytest =  EnsembleState->positiony[set_idx][ktest];
+              if(p_in_set != ktest){
+                  distx = x - xtest;
+                  disty = y - ytest;
 
-          /* 
-           * search relevant distance according
-           * to minimum image conversion 
-           */
-          if (fabs(distx) > 0.5*L_CONF){ 
-            distx = distx - L_CONF*(distx/fabs(distx));
+                  /* 
+                   * search relevant distance according
+                   * to minimum image conversion 
+                   */
+                  if (fabs(distx) > 0.5*L_CONF){ 
+                    distx = distx - L_CONF*(distx/fabs(distx));
+                  }
+                  dist = sqrt(distx*distx + disty*disty);
+
+                  if(dist <= INT_CUTOFF){
+                      fintxpair = INT_force(distx, dist);
+                      fintypair = INT_force(disty, dist);
+                      fintx += fintxpair;
+                      finty += fintypair;
+                  }
+              }
           }
-          dist = sqrt(distx*distx + disty*disty);
-          
-          if(dist <= INT_CUTOFF){
-              fintxpair = INT_force(distx, dist);
-              fintypair = INT_force(disty, dist);
-              *fintx += fintxpair;
-              *finty += fintypair;
-          }
+          EnsembleState->fintxarray[set_idx][p_in_set] = fintx;
+          EnsembleState->fintyarray[set_idx][p_in_set] = finty;
       }
-    } 
+  }
 }
+
 
 void sim_shift_pos_for_periodic_bc(double *x, int *shiftind){
     /*
@@ -367,6 +373,20 @@ static bool sim_check_particle_overlap(const T_SimParams *SimParams,
 
 static bool sim_check_confinement_validity(double x, double y, double yo) {
     return sim_check_pos_validity(x, y, yo);
+}
+
+double sim_perform_sim_step(double old_pos,
+                            double force_ext_dt,
+                            double force_int_dt,
+                            double sqrt_flucts){
+    double u, new_pos; 
+    /*Create random number for simulation of noise*/  
+     u = RNG_get_gaussian(0.0, 1.0);
+     /*Update new value of position according to
+      *stochastic Euler for Langevin equation*/
+     new_pos = old_pos + force_ext_dt + force_int_dt + sqrt_flucts*u;
+
+    return new_pos;
 }
 
 static void sim_propagate_particle(double xo,
@@ -422,15 +442,21 @@ void SIM_simulation_core(const T_SimParams *SimParams,
   do{
 	  time += dt;
 	  time_step++;
+
+      if (SimParams->parts_per_set > 1){
+          sim_calculate_inter_particle_forces(SimParams,
+                                              EnsembleState);
+	   }
+
 	  /* Loop over trajectories */
 	  for (int set_idx = 0; set_idx < SimParams->setn_per_task; set_idx++){
 		  for(int p_in_set = 0; p_in_set < SimParams->parts_per_set; p_in_set++){
-
-			  xo = EnsembleState->positionx[set_idx][p_in_set];
-			  yo = EnsembleState->positiony[set_idx][p_in_set];
 			  
-			  fintx = EnsembleState->fintxarray[set_idx][p_in_set];
-			  finty = EnsembleState->fintyarray[set_idx][p_in_set];
+              xo = EnsembleState->positionx[set_idx][p_in_set];
+			  yo = EnsembleState->positiony[set_idx][p_in_set];
+
+              fintx = EnsembleState->fintxarray[set_idx][p_in_set];
+              finty = EnsembleState->fintyarray[set_idx][p_in_set];
 		  
 			  /* 
  			   * Perform simulation steps until valid step where no particles overlap
@@ -456,16 +482,6 @@ void SIM_simulation_core(const T_SimParams *SimParams,
 				  }
 			  }while(PosValid == false);
 
-			  if (SimParams->parts_per_set > 1){
-				SIM_calculate_inter_particle_forces(SimParams,
-                                                    EnsembleState,
-                                                    set_idx,
-                                                    p_in_set,
-                                                    x,
-                                                    y,
-                                                    &fintx,
-                                                    &finty);
-			  }
 
 			  if(shiftind != 0){
                   sim_adapt_posshifts(shiftind,

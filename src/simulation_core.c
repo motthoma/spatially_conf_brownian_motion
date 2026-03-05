@@ -129,58 +129,12 @@ void SIM_read_in_positions(const T_SimParams *SimParams,
   printf("positions read in!\n"); 
 }
 
-void SIM_init_interactions(const T_SimParams *SimParams,
-                           T_EnsembleState *EnsembleState) 
-{
-/**
- * Function that calculates depending on the positions of the particles
- * the initial particle-particle interaction force if such a force e.g.
- * given by a Lennard-Jones interaction is given.
- */
-  int set_idx;
-  int p_in_set;
-  int ktest;
-  double x;
-  double y;
-  double distx;
-  double disty;
-  double dist;
-  double fintxpair;
-  double fintypair;
-  double fintx;
-  double finty;
-                       
-  for (set_idx = 0; set_idx < SimParams->setn_per_task; set_idx++){  
-      for(p_in_set = 0; p_in_set < SimParams->parts_per_set; p_in_set++){
-          fintx = 0;
-          finty = 0;
-          x =  EnsembleState->positionx[set_idx][p_in_set];
-          y =  EnsembleState->positiony[set_idx][p_in_set];
-          for(ktest = 0; ktest < SimParams->parts_per_set; ktest++){
-              if(p_in_set != ktest){
-                  distx = x - EnsembleState->positionx[set_idx][ktest];
-                  disty = y - EnsembleState->positiony[set_idx][ktest];
-                  dist = sqrt(distx*distx + disty*disty);
-                  if(dist <= INT_CUTOFF){
-                      fintxpair = INT_force(distx, dist);
-                      fintypair = INT_force(disty, dist);
-                      fintx += fintxpair;
-                      finty += fintypair;
-                  }
-              }
-          }
-          EnsembleState->fintxarray[set_idx][p_in_set] = fintx;
-          EnsembleState->fintyarray[set_idx][p_in_set] = finty;
-      }
-  }
-}
-
-double sim_reset_pos_time(const T_SimParams *SimParams,
-                          T_EnsembleState *EnsembleState,
-                          int time_step,
-                          double t,
-                          long int **posshift, 
-                          long int **negshift) 
+static double sim_reset_pos_time(const T_SimParams *SimParams,
+                                 T_EnsembleState *EnsembleState,
+                                 int time_step,
+                                 double t,
+                                 long int **posshift, 
+                                 long int **negshift) 
 {
 /**
  * Function to reset the simulated system time t and the positions
@@ -204,11 +158,11 @@ double sim_reset_pos_time(const T_SimParams *SimParams,
     }
 }
 
-void sim_adapt_posshifts(int shiftind, 
-                         int set_idx, 
-                         int p_in_set, 
-                         long int **posshift, 
-                         long int **negshift)
+static void sim_adapt_posshifts(int shiftind, 
+                                int set_idx, 
+                                int p_in_set, 
+                                long int **posshift, 
+                                long int **negshift)
 {
 /**
  * Function to update shifts which are monitored to calculate 
@@ -228,7 +182,7 @@ void sim_adapt_posshifts(int shiftind,
 	}
 }
 
-bool sim_check_pos_validity(double x, double y, double yo){
+static bool sim_check_pos_validity(double x, double y, double yo){
     double yue;
     bool PosValid = true;
 
@@ -250,13 +204,13 @@ bool sim_check_pos_validity(double x, double y, double yo){
     return PosValid;
 }
 
-void sim_update_ensemble_state(T_EnsembleState *EnsembleState,
-                               int set_idx,
-                               int p_in_set,
-                               double x,
-                               double y,
-                               double fintx,
-                               double finty){ 
+static void sim_update_ensemble_state(T_EnsembleState *EnsembleState,
+                                      int set_idx,
+                                      int p_in_set,
+                                      double x,
+                                      double y,
+                                      double fintx,
+                                      double finty){ 
     /*
      * Update arrays with positions and inter particle forces
      */     
@@ -266,8 +220,8 @@ void sim_update_ensemble_state(T_EnsembleState *EnsembleState,
      EnsembleState->fintyarray[set_idx][p_in_set] = finty;
 }
 
-void sim_calculate_inter_particle_forces(const T_SimParams *SimParams,
-                                         T_EnsembleState *EnsembleState) 
+static void sim_calculate_inter_particle_forces(const T_SimParams *SimParams,
+                                                T_EnsembleState *EnsembleState) 
 {
 /**
  * Function that calculates depending on the positions of the particles
@@ -326,7 +280,7 @@ void sim_calculate_inter_particle_forces(const T_SimParams *SimParams,
 }
 
 
-void sim_shift_pos_for_periodic_bc(double *x, int *shiftind){
+static void sim_shift_pos_for_periodic_bc(double *x, int *shiftind){
     /*
     * Adapt position according to period boundary
     * conditions employed for simulation
@@ -375,173 +329,164 @@ static bool sim_check_confinement_validity(double x, double y, double yo) {
     return sim_check_pos_validity(x, y, yo);
 }
 
-double sim_perform_sim_step(double old_pos,
-                            double force_ext_dt,
-                            double force_int_dt,
-                            double sqrt_flucts){
-    double u, new_pos; 
-    /*Create random number for simulation of noise*/  
-     u = RNG_get_gaussian(0.0, 1.0);
-     /*Update new value of position according to
-      *stochastic Euler for Langevin equation*/
-     new_pos = old_pos + force_ext_dt + force_int_dt + sqrt_flucts*u;
-
-    return new_pos;
-}
-
-static void sim_propagate_particle(double xo,
-                                   double f_dt,
-                                   double yo,
-                                   double fintx_dt,
-                                   double finty_dt,
-                                   double sqrt_flucts,
-                                   double *x,
-                                   double *y) {
-    *x = sim_perform_sim_step(xo, f_dt, fintx_dt, sqrt_flucts);
-    *y = sim_perform_sim_step(yo, 0, finty_dt, sqrt_flucts);
+static inline void sim_propagate_particle(double xo,
+                                          double f_dt,
+                                          double yo,
+                                          double fintx_dt,
+                                          double finty_dt,
+                                          double sqrt_flucts,
+                                          double *x,
+                                          double *y) {
+    /*Create random numbers for simulation of 2-dimensional noise*/
+    double u_x = RNG_get_gaussian(0.0, 1.0);
+    double u_y = RNG_get_gaussian(0.0, 1.0);
+    /*Update new value of position according to
+     *stochastic Euler for Langevin equation*/
+    *x = xo + f_dt + fintx_dt + sqrt_flucts*u_x;
+    *y = yo + finty_dt + sqrt_flucts*u_y;
 }
 
 /* Perform simulation steps until equilibration is reached */
 void SIM_simulation_core(const T_SimParams *SimParams,
                          T_EnsembleState *EnsembleState,
                          int taskid){ 
-  double x, y, yo, xo; 
-  double time;
-  double dt = SimParams->time_step;  
-  long double  sqrt_flucts, f_dt;
-  int time_step;     
-  int test_start_step;
-  double fintx, finty;
-  int shiftind;
- 
-  T_EquManager EquManager;
- 
-  bool PosValid;
-  
-  long int **negshift;
-  long int **posshift;
-  
-  negshift = UTILS_calloc_2Dlint_array(SimParams->n_interact_sets,
-                                       SimParams->parts_per_set);
-  posshift = UTILS_calloc_2Dlint_array(SimParams->n_interact_sets,
-                                       SimParams->parts_per_set);
-  
-  sqrt_flucts = sqrt(2*BOTTRAD*dt);
-  f_dt = SimParams->F*dt;
-  
-  /*
-   * loop over simulation steps.
-   * loop is stopped when criterion for equilibration is fulfilled.
-   */
-  time = 0;
-  time_step = 1;
-  PRINT_header_for_results_over_time(); 
-  EQUIMAN_init(&EquManager, SimParams->stepnumb, SimParams->testab);
+    double x, y, yo, xo; 
+    double time;
+    double dt = SimParams->time_step;  
+    long double  sqrt_flucts, f_dt;
+    int time_step;     
+    int test_start_step;
+    double fintx, finty;
+    int shiftind;
 
-  printf("loop over trajectory started.");
-  do{
-	  time += dt;
-	  time_step++;
+    T_EquManager EquManager;
 
-      if (SimParams->parts_per_set > 1){
-          sim_calculate_inter_particle_forces(SimParams,
-                                              EnsembleState);
-	   }
+    bool PosValid;
 
-	  /* Loop over trajectories */
-	  for (int set_idx = 0; set_idx < SimParams->setn_per_task; set_idx++){
-		  for(int p_in_set = 0; p_in_set < SimParams->parts_per_set; p_in_set++){
-			  
+    long int **negshift;
+    long int **posshift;
+
+    negshift = UTILS_calloc_2Dlint_array(SimParams->n_interact_sets,
+                                         SimParams->parts_per_set);
+    posshift = UTILS_calloc_2Dlint_array(SimParams->n_interact_sets,
+                                         SimParams->parts_per_set);
+
+    sqrt_flucts = sqrt(2*BOTTRAD*dt);
+    f_dt = SimParams->F*dt;
+
+    /*
+     * loop over simulation steps.
+     * loop is stopped when criterion for equilibration is fulfilled.
+     */
+    time = 0;
+    time_step = 1;
+    PRINT_header_for_results_over_time(); 
+    EQUIMAN_init(&EquManager, SimParams->stepnumb, SimParams->testab);
+
+    printf("loop over trajectory started.");
+    do{
+        time += dt;
+        time_step++;
+
+        if (SimParams->parts_per_set > 1){
+            sim_calculate_inter_particle_forces(SimParams,
+                                                EnsembleState);
+         }
+
+        /* Loop over trajectories */
+        for (int set_idx = 0; set_idx < SimParams->setn_per_task; set_idx++){
+      	  for(int p_in_set = 0; p_in_set < SimParams->parts_per_set; p_in_set++){
+
               xo = EnsembleState->positionx[set_idx][p_in_set];
-			  yo = EnsembleState->positiony[set_idx][p_in_set];
+      		  yo = EnsembleState->positiony[set_idx][p_in_set];
 
-              fintx = EnsembleState->fintxarray[set_idx][p_in_set];
-              finty = EnsembleState->fintyarray[set_idx][p_in_set];
-		  
-			  /* 
- 			   * Perform simulation steps until valid step where no particles overlap
- 			   * and particles are within channel is obtained 
- 			   */
-			  do{
-                  sim_propagate_particle(xo, f_dt, yo, fintx * dt, finty * dt, sqrt_flucts, &x, &y);
+                fintx = EnsembleState->fintxarray[set_idx][p_in_set];
+                finty = EnsembleState->fintyarray[set_idx][p_in_set];
 
-                  PosValid = sim_check_confinement_validity(x, y, yo);
+      		  /* 
+   			   * Perform simulation steps until valid step where no particles overlap
+   			   * and particles are within channel is obtained 
+   			   */
+      		  do{
+                    sim_propagate_particle(xo, f_dt, yo, fintx * dt, finty * dt, sqrt_flucts, &x, &y);
 
-				  if(PosValid == true){
-                      sim_shift_pos_for_periodic_bc(&x, &shiftind);
-					  if (SimParams->parts_per_set > 1){
-                          if(sim_check_particle_overlap(SimParams,
-                                                        EnsembleState,
-                                                        set_idx,
-                                                        p_in_set,
-                                                        x,
-                                                        y)){
-                            PosValid = false;
-                          }
-					  }
-				  }
-			  }while(PosValid == false);
+                    PosValid = sim_check_confinement_validity(x, y, yo);
+
+      			  if(PosValid == true){
+                        sim_shift_pos_for_periodic_bc(&x, &shiftind);
+      				  if (SimParams->parts_per_set > 1){
+                            if(sim_check_particle_overlap(SimParams,
+                                                          EnsembleState,
+                                                          set_idx,
+                                                          p_in_set,
+                                                          x,
+                                                          y)){
+                              PosValid = false;
+                            }
+      				  }
+      			  }
+      		  }while(PosValid == false);
 
 
-			  if(shiftind != 0){
-                  sim_adapt_posshifts(shiftind,
-                                      set_idx,
-                                      p_in_set,
-                                      posshift,
-                                      negshift);
-              }
-              sim_update_ensemble_state(EnsembleState,
+      		  if(shiftind != 0){
+                    sim_adapt_posshifts(shiftind,
                                         set_idx,
                                         p_in_set,
-                                        x,
-                                        y,
-                                        fintx,
-                                        finty);
-		}
- 	   /* Close loop over trajectories*/
-	  }
-      EQUIMAN_update_mu_old(&EquManager, time_step, tcoeff.mu);
- 
-      PRINT_set_print_flag(time_step);
-      EQUIMAN_set_test_flag(&EquManager,
-                            time_step,
-                            SimParams->stepnumb,
-                            SimParams->testab);
+                                        posshift,
+                                        negshift);
+                }
+                sim_update_ensemble_state(EnsembleState,
+                                          set_idx,
+                                          p_in_set,
+                                          x,
+                                          y,
+                                          fintx,
+                                          finty);
+      	}
+   	   /* Close loop over trajectories*/
+        }
+        EQUIMAN_update_mu_old(&EquManager, time_step, tcoeff.mu);
 
-	  if((EquManager.TestRes == true) || (Print.PrintRes == true)){ 
-		  /* call function for calculation of transport coefficients 
-		   * such as mobility or mean-squared displacement */ 
-		  RES_calc_transpcoeffs(time, 
-                                posshift,
-                                negshift,
-                                EnsembleState->positionx,
-                                EnsembleState->xstart);
-	  }
+        PRINT_set_print_flag(time_step);
+        EQUIMAN_set_test_flag(&EquManager,
+                              time_step,
+                              SimParams->stepnumb,
+                              SimParams->testab);
 
-      /* Update of the equilibration counter that are used to monitore the
-       * equilibration of the mobility and diffusivity*/
-       EQUIMAN_update_counter(&EquManager, tcoeff.mu, SimParams->accur);
+        if((EquManager.TestRes == true) || (Print.PrintRes == true)){ 
+      	  /* call function for calculation of transport coefficients 
+      	   * such as mobility or mean-squared displacement */ 
+      	  RES_calc_transpcoeffs(time, 
+                                  posshift,
+                                  negshift,
+                                  EnsembleState->positionx,
+                                  EnsembleState->xstart);
+        }
 
-      /* Plot results to check progress of equilibration*/
-      if(taskid == MASTER){
-          PRINT_results_over_time(time, EquManager.equ_counter); 
-      }
+        /* Update of the equilibration counter that are used to monitore the
+         * equilibration of the mobility and diffusivity*/
+         EQUIMAN_update_counter(&EquManager, tcoeff.mu, SimParams->accur);
 
-	  /*  Reset position and time information to truncate
-       *  transient effects from small times */
-      time = sim_reset_pos_time(SimParams,
-                                EnsembleState,
-                                time_step,
-                                time,
-                                posshift, 
-                                negshift); 
-  /* Closes while loop over simulation steps if criteria for 
-   * equilibration are fulfilled */
-  }while(EquManager.equ_counter < SimParams->patience);
-  
-  UTILS_free_2Dlint_array(negshift);
-  UTILS_free_2Dlint_array(posshift);
-  UTILS_free_2Ddouble_array(EnsembleState->xstart);
+        /* Plot results to check progress of equilibration*/
+        if(taskid == MASTER){
+            PRINT_results_over_time(time, EquManager.equ_counter); 
+        }
+
+        /*  Reset position and time information to truncate
+         *  transient effects from small times */
+        time = sim_reset_pos_time(SimParams,
+                                  EnsembleState,
+                                  time_step,
+                                  time,
+                                  posshift, 
+                                  negshift); 
+    /* Closes while loop over simulation steps if criteria for 
+     * equilibration are fulfilled */
+    }while(EquManager.equ_counter < SimParams->patience);
+
+    UTILS_free_2Dlint_array(negshift);
+    UTILS_free_2Dlint_array(posshift);
+    UTILS_free_2Ddouble_array(EnsembleState->xstart);
 }
 
 void SIM_copycode(){

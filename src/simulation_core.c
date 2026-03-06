@@ -182,28 +182,6 @@ static void sim_adapt_posshifts(int shiftind,
 	}
 }
 
-static bool sim_check_pos_validity(double x, double y, double yo){
-    double yue;
-    bool PosValid = true;
-
-    /*
-     *Calculate value of confinement boundary at current
-     *position x (y-value is needed for non-analytic treatment
-     *of channels with cosine shape
-     */   
-    yue = CONF_yuef(x, y);
-
-
-    /*Check if particle is within effective boundary*/  
-    if (fabs(y) > yue) PosValid = false;
-    /*Check if bottleneck at x=0 is passed without 'tunneling' through bottleneck*/	
-    if ((x < 0) && ((UTILS_max_double(fabs(y), fabs(yo)) >= BOTTLENECK_WIDTH-R_CONF))) PosValid = false;
-    /*Check if bottleneck at x=L_CONF is passed without 'tunneling' through bottleneck correctly*/
-    if ((x > L_CONF) && ((UTILS_max_double(fabs(y), fabs(yo)) >= BOTTLENECK_WIDTH-R_CONF))) PosValid = false;
-
-    return PosValid;
-}
-
 static void sim_update_ensemble_state(T_EnsembleState *EnsembleState,
                                       int set_idx,
                                       int p_in_set,
@@ -325,6 +303,28 @@ static bool sim_check_particle_overlap(const T_SimParams *SimParams,
     return false; // No overlap
 }
 
+static bool sim_check_pos_validity(double x, double y, double yo){
+    double yue;
+    bool PosValid = true;
+
+    /*
+     *Calculate value of confinement boundary at current
+     *position x (y-value is needed for non-analytic treatment
+     *of channels with cosine shape
+     */   
+    yue = CONF_yuef(x, y);
+
+
+    /*Check if particle is within effective boundary*/  
+    if (fabs(y) > yue) PosValid = false;
+    /*Check if bottleneck at x=0 is passed without 'tunneling' through bottleneck*/	
+    if ((x < 0) && ((UTILS_max_double(fabs(y), fabs(yo)) >= BOTTLENECK_WIDTH-R_CONF))) PosValid = false;
+    /*Check if bottleneck at x=L_CONF is passed without 'tunneling' through bottleneck correctly*/
+    if ((x > L_CONF) && ((UTILS_max_double(fabs(y), fabs(yo)) >= BOTTLENECK_WIDTH-R_CONF))) PosValid = false;
+
+    return PosValid;
+}
+
 static bool sim_check_confinement_validity(double x, double y, double yo) {
     return sim_check_pos_validity(x, y, yo);
 }
@@ -346,143 +346,122 @@ static inline void sim_propagate_particle(double xo,
     *y = yo + finty_dt + sqrt_flucts*u_y;
 }
 
-/* Perform simulation steps until equilibration is reached */
-void SIM_simulation_core(const T_SimParams *SimParams,
-                         T_EnsembleState *EnsembleState,
-                         int taskid){ 
-    double x, y, yo, xo; 
-    double time;
-    double dt = SimParams->time_step;  
-    long double  sqrt_flucts, f_dt;
-    int time_step;     
-    int test_start_step;
-    double fintx, finty;
-    int shiftind;
-
-    T_EquManager EquManager;
-
+/* Propagate a single particle until valid*/
+static void sim_perform_valid_step(const T_SimParams *SimParams,
+                                   T_EnsembleState *EnsembleState,
+                                   int set_idx,
+                                   int p_in_set,
+                                   double xo,
+                                   double yo,
+                                   double fintx_dt,
+                                   double finty_dt,
+                                   double f_dt,
+                                   double sqrt_flucts,
+                                   double *x_out,
+                                   double *y_out,
+                                   int *shiftind_out){
+    double x, y;
+    int shiftind = 0;
     bool PosValid;
 
-    long int **negshift;
-    long int **posshift;
+    do {
+        sim_propagate_particle(xo, f_dt, yo, fintx_dt, finty_dt, sqrt_flucts, &x, &y);
+        PosValid = sim_check_confinement_validity(x, y, yo);
 
-    negshift = UTILS_calloc_2Dlint_array(SimParams->n_interact_sets,
-                                         SimParams->parts_per_set);
-    posshift = UTILS_calloc_2Dlint_array(SimParams->n_interact_sets,
-                                         SimParams->parts_per_set);
+        if (PosValid) {
+            sim_shift_pos_for_periodic_bc(&x, &shiftind);
+            if (SimParams->parts_per_set > 1) {
+                if (sim_check_particle_overlap(SimParams, EnsembleState, set_idx, p_in_set, x, y)) {
+                    PosValid = false;
+                }
+            }
+        }
+    } while (!PosValid);
 
-    sqrt_flucts = sqrt(2*BOTTRAD*dt);
-    f_dt = SimParams->F*dt;
+    *x_out = x;
+    *y_out = y;
+    *shiftind_out = shiftind;
+}
 
-    /*
-     * loop over simulation steps.
-     * loop is stopped when criterion for equilibration is fulfilled.
-     */
-    time = 0;
-    time_step = 1;
-    PRINT_header_for_results_over_time(); 
+/* Propagate all particles for one set */
+static void sim_step_set(const T_SimParams *SimParams,
+                         T_EnsembleState *EnsembleState,
+                         int set_idx,
+                         double f_dt,
+                         double sqrt_flucts,
+                         long int **posshift,
+                         long int **negshift){
+    for (int p = 0; p < SimParams->parts_per_set; ++p) {
+        double xo = EnsembleState->positionx[set_idx][p];
+        double yo = EnsembleState->positiony[set_idx][p];
+        double fintx = EnsembleState->fintxarray[set_idx][p];
+        double finty = EnsembleState->fintyarray[set_idx][p];
+        double x, y;
+        int shiftind = 0;
+
+        sim_perform_valid_step(SimParams, EnsembleState, set_idx, p,
+                               xo, yo, fintx, finty, f_dt, sqrt_flucts, &x, &y, &shiftind);
+
+        if (shiftind != 0) {
+            sim_adapt_posshifts(shiftind, set_idx, p, posshift, negshift);
+        }
+
+        sim_update_ensemble_state(EnsembleState, set_idx, p, x, y, fintx, finty);
+    }
+}
+
+/* 
+ * Top-level simulation loop: Contains propagation of all particles 
+ * over all time-steps until equilibration 
+ */
+void SIM_simulation_core(const T_SimParams *SimParams,
+                         T_EnsembleState *EnsembleState,
+                         int taskid)
+{
+    long int **posshift = UTILS_calloc_2Dlint_array(SimParams->n_interact_sets, SimParams->parts_per_set);
+    long int **negshift = UTILS_calloc_2Dlint_array(SimParams->n_interact_sets, SimParams->parts_per_set);
+
+    long double sqrt_flucts = sqrt(2*BOTTRAD*SimParams->time_step);
+    double f_dt = SimParams->F * SimParams->time_step;
+
+    T_EquManager EquManager;
     EQUIMAN_init(&EquManager, SimParams->stepnumb, SimParams->testab);
 
-    printf("loop over trajectory started.");
-    do{
-        time += dt;
-        time_step++;
+    double time = 0.0;
+    int time_step = 1;
 
-        if (SimParams->parts_per_set > 1){
-            sim_calculate_inter_particle_forces(SimParams,
-                                                EnsembleState);
-         }
+    PRINT_header_for_results_over_time();
 
-        /* Loop over trajectories */
-        for (int set_idx = 0; set_idx < SimParams->setn_per_task; set_idx++){
-            for(int p_in_set = 0; p_in_set < SimParams->parts_per_set; p_in_set++){
+    do {
+        time += SimParams->time_step;
+        ++time_step;
 
-                xo = EnsembleState->positionx[set_idx][p_in_set];
-                yo = EnsembleState->positiony[set_idx][p_in_set];
-
-                fintx = EnsembleState->fintxarray[set_idx][p_in_set];
-                finty = EnsembleState->fintyarray[set_idx][p_in_set];
-
-                /* 
-                 * Perform simulation steps until valid step where no particles overlap
-                 * and particles are within channel is obtained 
-                 */
-                do{
-                      sim_propagate_particle(xo, f_dt, yo, fintx * dt, finty * dt, sqrt_flucts, &x, &y);
-
-                      PosValid = sim_check_confinement_validity(x, y, yo);
-
-                    if(PosValid == true){
-                          sim_shift_pos_for_periodic_bc(&x, &shiftind);
-                        if (SimParams->parts_per_set > 1){
-                              if(sim_check_particle_overlap(SimParams,
-                                                            EnsembleState,
-                                                            set_idx,
-                                                            p_in_set,
-                                                            x,
-                                                            y)){
-                                PosValid = false;
-                              }
-                        }
-                    }
-                }while(PosValid == false);
-
-
-                if(shiftind != 0){
-                      sim_adapt_posshifts(shiftind,
-                                          set_idx,
-                                          p_in_set,
-                                          posshift,
-                                          negshift);
-                  }
-                  sim_update_ensemble_state(EnsembleState,
-                                            set_idx,
-                                            p_in_set,
-                                            x,
-                                            y,
-                                            fintx,
-                                            finty);
-            }
-           /* Close loop over trajectories*/
+        if (SimParams->parts_per_set > 1) {
+            sim_calculate_inter_particle_forces(SimParams, EnsembleState);
         }
+
+        // Propagate each set
+        for (int set_idx = 0; set_idx < SimParams->setn_per_task; ++set_idx) {
+            sim_step_set(SimParams, EnsembleState, set_idx, f_dt, sqrt_flucts, posshift, negshift);
+        }
+
         EQUIMAN_update_mu_old(&EquManager, time_step, tcoeff.mu);
-
         PRINT_set_print_flag(time_step);
-        EQUIMAN_set_test_flag(&EquManager,
-                              time_step,
-                              SimParams->stepnumb,
-                              SimParams->testab);
+        EQUIMAN_set_test_flag(&EquManager, time_step, SimParams->stepnumb, SimParams->testab);
 
-        if((EquManager.TestRes == true) || (Print.PrintRes == true)){ 
-          /* call function for calculation of transport coefficients 
-           * such as mobility or mean-squared displacement */ 
-          RES_calc_transpcoeffs(time, 
-                                  posshift,
-                                  negshift,
-                                  EnsembleState->positionx,
-                                  EnsembleState->xstart);
+        if (EquManager.TestRes || Print.PrintRes) {
+            RES_calc_transpcoeffs(time, posshift, negshift, EnsembleState->positionx, EnsembleState->xstart);
         }
 
-        /* Update of the equilibration counter that are used to monitore the
-         * equilibration of the mobility and diffusivity*/
-         EQUIMAN_update_counter(&EquManager, tcoeff.mu, SimParams->accur);
+        EQUIMAN_update_counter(&EquManager, tcoeff.mu, SimParams->accur);
 
-        /* Plot results to check progress of equilibration*/
-        if(taskid == MASTER){
-            PRINT_results_over_time(time, EquManager.equ_counter); 
+        if (taskid == MASTER) {
+            PRINT_results_over_time(time, EquManager.equ_counter);
         }
 
-        /*  Reset position and time information to truncate
-         *  transient effects from small times */
-        time = sim_reset_pos_time(SimParams,
-                                  EnsembleState,
-                                  time_step,
-                                  time,
-                                  posshift, 
-                                  negshift); 
-    /* Closes while loop over simulation steps if criteria for 
-     * equilibration are fulfilled */
-    }while(EquManager.equ_counter < SimParams->patience);
+        time = sim_reset_pos_time(SimParams, EnsembleState, time_step, time, posshift, negshift);
+
+    } while (EquManager.equ_counter < SimParams->patience);
 
     UTILS_free_2Dlint_array(negshift);
     UTILS_free_2Dlint_array(posshift);

@@ -336,7 +336,7 @@ static inline void sim_propagate_particle(double xo,
                                           double finty_dt,
                                           double sqrt_flucts,
                                           double *x,
-                                          double *y) {
+                                          double *y){
     /*Create random numbers for simulation of 2-dimensional noise*/
     double u_x = RNG_get_gaussian(0.0, 1.0);
     double u_y = RNG_get_gaussian(0.0, 1.0);
@@ -395,55 +395,55 @@ void SIM_simulation_core(const T_SimParams *SimParams,
 
         /* Loop over trajectories */
         for (int set_idx = 0; set_idx < SimParams->setn_per_task; set_idx++){
-      	  for(int p_in_set = 0; p_in_set < SimParams->parts_per_set; p_in_set++){
+            for(int p_in_set = 0; p_in_set < SimParams->parts_per_set; p_in_set++){
 
-              xo = EnsembleState->positionx[set_idx][p_in_set];
-      		  yo = EnsembleState->positiony[set_idx][p_in_set];
+                xo = EnsembleState->positionx[set_idx][p_in_set];
+                yo = EnsembleState->positiony[set_idx][p_in_set];
 
                 fintx = EnsembleState->fintxarray[set_idx][p_in_set];
                 finty = EnsembleState->fintyarray[set_idx][p_in_set];
 
-      		  /* 
-   			   * Perform simulation steps until valid step where no particles overlap
-   			   * and particles are within channel is obtained 
-   			   */
-      		  do{
-                    sim_propagate_particle(xo, f_dt, yo, fintx * dt, finty * dt, sqrt_flucts, &x, &y);
+                /* 
+                 * Perform simulation steps until valid step where no particles overlap
+                 * and particles are within channel is obtained 
+                 */
+                do{
+                      sim_propagate_particle(xo, f_dt, yo, fintx * dt, finty * dt, sqrt_flucts, &x, &y);
 
-                    PosValid = sim_check_confinement_validity(x, y, yo);
+                      PosValid = sim_check_confinement_validity(x, y, yo);
 
-      			  if(PosValid == true){
-                        sim_shift_pos_for_periodic_bc(&x, &shiftind);
-      				  if (SimParams->parts_per_set > 1){
-                            if(sim_check_particle_overlap(SimParams,
-                                                          EnsembleState,
-                                                          set_idx,
-                                                          p_in_set,
-                                                          x,
-                                                          y)){
-                              PosValid = false;
-                            }
-      				  }
-      			  }
-      		  }while(PosValid == false);
+                    if(PosValid == true){
+                          sim_shift_pos_for_periodic_bc(&x, &shiftind);
+                        if (SimParams->parts_per_set > 1){
+                              if(sim_check_particle_overlap(SimParams,
+                                                            EnsembleState,
+                                                            set_idx,
+                                                            p_in_set,
+                                                            x,
+                                                            y)){
+                                PosValid = false;
+                              }
+                        }
+                    }
+                }while(PosValid == false);
 
 
-      		  if(shiftind != 0){
-                    sim_adapt_posshifts(shiftind,
-                                        set_idx,
-                                        p_in_set,
-                                        posshift,
-                                        negshift);
-                }
-                sim_update_ensemble_state(EnsembleState,
+                if(shiftind != 0){
+                      sim_adapt_posshifts(shiftind,
                                           set_idx,
                                           p_in_set,
-                                          x,
-                                          y,
-                                          fintx,
-                                          finty);
-      	}
-   	   /* Close loop over trajectories*/
+                                          posshift,
+                                          negshift);
+                  }
+                  sim_update_ensemble_state(EnsembleState,
+                                            set_idx,
+                                            p_in_set,
+                                            x,
+                                            y,
+                                            fintx,
+                                            finty);
+            }
+           /* Close loop over trajectories*/
         }
         EQUIMAN_update_mu_old(&EquManager, time_step, tcoeff.mu);
 
@@ -454,9 +454,9 @@ void SIM_simulation_core(const T_SimParams *SimParams,
                               SimParams->testab);
 
         if((EquManager.TestRes == true) || (Print.PrintRes == true)){ 
-      	  /* call function for calculation of transport coefficients 
-      	   * such as mobility or mean-squared displacement */ 
-      	  RES_calc_transpcoeffs(time, 
+          /* call function for calculation of transport coefficients 
+           * such as mobility or mean-squared displacement */ 
+          RES_calc_transpcoeffs(time, 
                                   posshift,
                                   negshift,
                                   EnsembleState->positionx,

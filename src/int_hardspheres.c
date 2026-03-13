@@ -9,12 +9,7 @@ double finty = 0;
 double fintxpair = 0;
 double fintypair = 0;
 
-/*inline int intforce(double disti, double dist){
-
-	return(0);
-
-}*/
-
+/** Writes specifications of the interaction to the specification output file. */
 void INT_specs(){
 	
 	double f_cut;
@@ -44,11 +39,18 @@ void INT_specs(){
 	fclose (outpspecs);
 }
 
+/**
+ * copies the interaction specific code to the destination folder 
+ * for documentation purposes
+ */
 void INT_copycode(){
     CODEHAND_copy_file_to_dest("int_hardspheres.c");
     CODEHAND_copy_file_to_dest("int_hardspheres.h");
 }
 
+/**
+ * provides the interaction specific prefix in name of working directory
+ */
 char* INT_prfx(){
 	char *a = "hard_spheres";
 	return a;

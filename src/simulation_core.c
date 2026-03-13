@@ -8,6 +8,12 @@
 #include "print_routines.h"
 #include <gsl/gsl_rng.h>
 
+/**
+ * Function that allocates memory for the arrays in which the positions and the inter-particle forces are stored.
+ * 
+ * The arrays are allocated as 2D arrays with dimensions [n_interact_sets][parts_per_set] to allow for a 
+ * clear assignment of the particles to the different sets which are simulated in parallel. 
+ */
 T_EnsembleState SIM_alloc_ensemble_state(const T_SimParams *SimParams){
   T_EnsembleState EnsembleState;
   EnsembleState.xstart = UTILS_calloc_2Ddouble_array(
@@ -34,15 +40,15 @@ T_EnsembleState SIM_alloc_ensemble_state(const T_SimParams *SimParams){
 }
 
 
-void SIM_init_positions(const T_SimParams *SimParams,
-                        T_EnsembleState *EnsembleState) 
-{
 /**
  * function that initializes the particle positions. The particles are uniformly distributed
  * over the whole period length L_CONF in a strip of width SimParams->initwidth or the width of
  * the channel if it is smaller. For interacting particles with hard core radius R_int, 
  * configurations which involve an overlap of two particles are rejected. 
  */
+void SIM_init_positions(const T_SimParams *SimParams,
+                        T_EnsembleState *EnsembleState) 
+{
   int set_idx;
   int p_in_set;
   int ktest;
@@ -90,14 +96,14 @@ void SIM_init_positions(const T_SimParams *SimParams,
   printf("positions initialized!\n"); 
 }
 
-void SIM_read_in_positions(const T_SimParams *SimParams,
-                           T_EnsembleState *EnsembleState) 
-{
 /**
  * function that reads in positions from file. 
  * File has to be text file with two columns: x-coordinate 
  * is stored in first column, y-coordinate in second column.
  */
+void SIM_read_in_positions(const T_SimParams *SimParams,
+                           T_EnsembleState *EnsembleState) 
+{
   FILE *file;
   int i, j, k;
   double val;
@@ -129,6 +135,11 @@ void SIM_read_in_positions(const T_SimParams *SimParams,
   printf("positions read in!\n"); 
 }
 
+/**
+ * Function to reset the simulated system time t and the positions
+ * to originate values in order to skip transient effects from
+ * start of simulation.
+ */
 static double sim_reset_pos_time(const T_SimParams *SimParams,
                                  T_EnsembleState *EnsembleState,
                                  int time_step,
@@ -136,12 +147,6 @@ static double sim_reset_pos_time(const T_SimParams *SimParams,
                                  long int **posshift, 
                                  long int **negshift) 
 {
-/**
- * Function to reset the simulated system time t and the positions
- * to originate values in order to skip transient effects from
- * start of simulation.
- */
-
     if(time_step == SimParams->reset_stepnumb){
         int set_idx, p_in_set;
         for(set_idx = 0; set_idx < SimParams->setn_per_task; set_idx++){
@@ -158,17 +163,17 @@ static double sim_reset_pos_time(const T_SimParams *SimParams,
     }
 }
 
+/**
+ * Function to update shifts which are monitored to calculate 
+ * absolute position in x-direction from simulation with cyclic
+ * boundary conditions
+ */
 static void sim_adapt_posshifts(int shiftind, 
                                 int set_idx, 
                                 int p_in_set, 
                                 long int **posshift, 
                                 long int **negshift)
 {
-/**
- * Function to update shifts which are monitored to calculate 
- * absolute position in x-direction from simulation with cyclic
- * boundary conditions
- */
 	 /*shift particle in positive direction if 
 	 *position is 'left' of considered channel period*/
 	if(shiftind < 0){
@@ -182,6 +187,9 @@ static void sim_adapt_posshifts(int shiftind,
 	}
 }
 
+/**
+ * Update arrays with positions and inter particle forces
+ */     
 static void sim_update_ensemble_state(T_EnsembleState *EnsembleState,
                                       int set_idx,
                                       int p_in_set,
@@ -189,23 +197,20 @@ static void sim_update_ensemble_state(T_EnsembleState *EnsembleState,
                                       double y,
                                       double fintx,
                                       double finty){ 
-    /*
-     * Update arrays with positions and inter particle forces
-     */     
      EnsembleState->positionx[set_idx][p_in_set] = x; 
      EnsembleState->positiony[set_idx][p_in_set] = y;
      EnsembleState->fintxarray[set_idx][p_in_set] = fintx;
      EnsembleState->fintyarray[set_idx][p_in_set] = finty;
 }
 
-static void sim_calculate_inter_particle_forces(const T_SimParams *SimParams,
-                                                T_EnsembleState *EnsembleState) 
-{
 /**
  * Function that calculates depending on the positions of the particles
  * the initial particle-particle interaction force if such a force e.g.
  * given by a Lennard-Jones interaction is given.
  */
+static void sim_calculate_inter_particle_forces(const T_SimParams *SimParams,
+                                                T_EnsembleState *EnsembleState) 
+{
   int set_idx;
   int p_in_set;
   int ktest;
@@ -258,11 +263,11 @@ static void sim_calculate_inter_particle_forces(const T_SimParams *SimParams,
 }
 
 
+/**
+ * Adapt position according to period boundary
+ * conditions employed for simulation
+ */
 static void sim_shift_pos_for_periodic_bc(double *x, int *shiftind){
-    /*
-    * Adapt position according to period boundary
-    * conditions employed for simulation
-    */
     *shiftind = 0;
     if(*x < 0){
        *shiftind = -1;
@@ -275,6 +280,11 @@ static void sim_shift_pos_for_periodic_bc(double *x, int *shiftind){
     /* calc interactions here */ 
 }
 
+/** 
+ * Function to check if a given position of a particle overlaps with any of the other particles in the same set. 
+ *
+ * This is relevant for the initialization of the positions and for the propagation step if hard-core interactions are present. 
+ */
 static bool sim_check_particle_overlap(const T_SimParams *SimParams,
                                        T_EnsembleState *EnsembleState,
                                        int set_idx,
@@ -303,6 +313,11 @@ static bool sim_check_particle_overlap(const T_SimParams *SimParams,
     return false; // No overlap
 }
 
+/**
+ * Function to check if a given position of a particle is valid with respect to the confinement and the bottlenecks. 
+ *
+ * This is relevant for the propagation step to ensure that particles do not 'tunnel' through the bottlenecks or leave the confinement. 
+ */
 static bool sim_check_pos_validity(double x, double y, double yo){
     double yue;
     bool PosValid = true;
@@ -325,10 +340,16 @@ static bool sim_check_pos_validity(double x, double y, double yo){
     return PosValid;
 }
 
+/**
+ * Handler function to check if a given position of a particle is valid with respect to the confinement, the bottlenecks and the other particles in the same set.
+ */
 static bool sim_check_confinement_validity(double x, double y, double yo) {
     return sim_check_pos_validity(x, y, yo);
 }
 
+/** 
+ * Propagates a particle according to stochastic Euler for Langevin equation with given forces and fluctuations. 
+ */
 static inline void sim_propagate_particle(double xo,
                                           double f_dt,
                                           double yo,
@@ -346,7 +367,7 @@ static inline void sim_propagate_particle(double xo,
     *y = yo + finty_dt + sqrt_flucts*u_y;
 }
 
-/* Propagate a single particle until valid*/
+/** Propagate a single particle until valid*/
 static void sim_perform_valid_step(const T_SimParams *SimParams,
                                    T_EnsembleState *EnsembleState,
                                    int set_idx,
@@ -383,7 +404,7 @@ static void sim_perform_valid_step(const T_SimParams *SimParams,
     *shiftind_out = shiftind;
 }
 
-/* Propagate all particles for one set */
+/** Propagate all particles for one set */
 static void sim_step_set(const T_SimParams *SimParams,
                          T_EnsembleState *EnsembleState,
                          int set_idx,
@@ -410,7 +431,7 @@ static void sim_step_set(const T_SimParams *SimParams,
     }
 }
 
-/* 
+/** 
  * Top-level simulation loop: Contains propagation of all particles 
  * over all time-steps until equilibration 
  */
@@ -468,6 +489,10 @@ void SIM_simulation_core(const T_SimParams *SimParams,
     UTILS_free_2Ddouble_array(EnsembleState->xstart);
 }
 
+/**
+ * copies the code specific for the simulation_core to 
+ * the destination folder for documentation purposes
+ */
 void SIM_copycode(){
     CODEHAND_copy_file_to_dest("simulation_core.c");
     CODEHAND_copy_file_to_dest("simulation_core.h");

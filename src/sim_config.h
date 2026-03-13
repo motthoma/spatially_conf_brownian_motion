@@ -28,7 +28,7 @@
 /*path to dir location where dirs with simulation results are stored */
 #define RUNS_DIR "../runs"
 
-/**
+/*
  *********************************************************
  *
  * External types and variables
@@ -37,6 +37,7 @@
  */
 extern unsigned int nbin; 
 
+/** Structure to hold permanent simulation parameters. */
 typedef struct TAG_SimParams{
 	int N;
 	int parts_per_set;
@@ -57,7 +58,7 @@ typedef struct TAG_SimParams{
 
 extern T_SimParams SimParams;
 
-/**
+/*
  *********************************************************
  *
  * External functions

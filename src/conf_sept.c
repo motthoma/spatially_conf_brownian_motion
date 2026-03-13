@@ -5,7 +5,7 @@
  * Function with boundary for septate channel 
  * is in header file for inlining and thus a
  * better computational performance
-*/ 
+ */ 
 #include <stdio.h>
 #include <stdlib.h>
 #include "code_handling.h"
@@ -52,11 +52,18 @@ void CONF_specs(){
 fclose(outpspecs);
 }
 
+/**
+ * copies the confinement specific code to the destination folder 
+ * for documentation purposes
+ */
 void CONF_copycode(){
     CODEHAND_copy_file_to_dest("conf_sept.c");
     CODEHAND_copy_file_to_dest("conf_sept.h");
 }
 
+/**
+ * provides the confinement specific prefix in name of working directory
+ */
 char* CONF_prfx(){
     char *a = "sept";
     return a;

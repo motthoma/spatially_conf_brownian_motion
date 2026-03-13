@@ -22,3 +22,23 @@ main_brownconf
 
 # image file formats
 *.pdf
+
+# -----------------------------
+# Doxygen generated documentation
+# -----------------------------
+doxygen/html/
+doxygen/latex/
+doxygen/xml/
+doxygen/rtf/
+doxygen/man/
+
+# packaged html output
+doxygen/html.zip
+doxygen/doxygen_html.zip
+
+# optional build artifacts inside doxygen
+doxygen/*.log
+doxygen/*.aux
+doxygen/*.toc
+doxygen/*.out
+doxygen/*.idx

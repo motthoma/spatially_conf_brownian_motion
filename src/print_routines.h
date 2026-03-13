@@ -4,7 +4,7 @@
 #include <time.h>
 #include <stdbool.h>
 
-/**
+/*
  *********************************************************
  *
  * External types and variables
@@ -28,7 +28,7 @@ struct PrintResults{
 
 extern struct PrintResults Print;
 
-/**
+/*
  *********************************************************
  *
  * Internal functions
@@ -37,7 +37,7 @@ extern struct PrintResults Print;
  */
 
 
-/**
+/*
  *********************************************************
  *
  * External functions

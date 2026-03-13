@@ -15,9 +15,9 @@ typedef struct {
 
 } T_DestPaths;
 
-extern 
-T_DestPaths DestPaths;
-/**
+extern T_DestPaths DestPaths;
+
+/*
  *********************************************************
  *
  * External functions

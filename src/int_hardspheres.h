@@ -1,4 +1,4 @@
-/**ensure that only one header for intra-
+/*ensure that only one header for intra-
  * particle interaction is included in code*/
 #ifndef HEADER_INT
 #define HEADER_INT
@@ -18,7 +18,7 @@
  */
 #define INT_CUTOFF 0
 
-/**
+/*
  *********************************************************
  *
  * External types and variables
@@ -29,7 +29,7 @@
 extern double fintx, finty, fintxpair, fintypair;
 
 
-/**
+/*
  *********************************************************
  *
  * External functions
@@ -37,6 +37,13 @@ extern double fintx, finty, fintxpair, fintypair;
  *********************************************************
  */
 
+/** 
+ * Function to calculate the inter-particle force.
+ * Force between two particles at distance disti and dist
+ * for hard spheres, the force is zero everywhere except at
+ * contact, where it is infinite. In practice, we set it to
+ * zero everywhere, and handle the contact condition separately.
+ */
 static inline double INT_force(double disti, double dist){
 	return(0);
 }

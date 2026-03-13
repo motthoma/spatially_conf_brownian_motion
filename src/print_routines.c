@@ -10,11 +10,11 @@ struct PrintResults Print = {"", "", false};
 #include <stdio.h>
 #include <time.h>
 
-void PRINT_muoverf(double muall, double deffall)
-{
 /**
  * prints results to file outside of working directory
  */
+void PRINT_muoverf(double muall, double deffall)
+{
   char fnamemu[60];
   snprintf(fnamemu, 
            sizeof fnamemu,
@@ -32,12 +32,12 @@ void PRINT_muoverf(double muall, double deffall)
   fclose (outmu); 
 }
 
-void PRINT_set_print_flag(int time_step)
-{
-/*
+/**
  * Test progress of equilibration and plot results at certain
  * simulation steps i
  */
+void PRINT_set_print_flag(int time_step)
+{
 
   Print.PrintRes = false;
   if(time_step % SimParams.print_interval_steps == 0){
@@ -45,12 +45,12 @@ void PRINT_set_print_flag(int time_step)
   }
 }
 
+/**
+ * function to print online results of simulation over time 
+ */
 void PRINT_header_for_results_over_time()
 
 {
-    /**
-    * function to print online results of simulation over time 
-    */
     snprintf(Print.fname,
              sizeof Print.fname,
              "%s/muovert_F_%.3lf.dat",
@@ -75,12 +75,12 @@ void PRINT_header_for_results_over_time()
     fclose(outpmom);
 }
 
+/**
+ * function to print online results of simulation over time 
+ */
 void PRINT_results_over_time(double t, 
                              int abb) 
 {
-/*
-* function to print online results of simulation over time 
-*/
 
     if(Print.PrintRes == true){
         FILE *outp;
@@ -112,10 +112,10 @@ void PRINT_results_over_time(double t,
     }
 }
 
-void PRINT_positions(double **posx, double **posy){
 /**
  * prints particle positions to file
  */
+void PRINT_positions(double **posx, double **posy){
   int i;
   int j;
   FILE *outpos;
@@ -134,11 +134,11 @@ void PRINT_positions(double **posx, double **posy){
   fclose(outpos);
 }
 
-void PRINT_runtime(clock_t start)
-{
 /**
  * prints run time of code into file
  */
+void PRINT_runtime(clock_t start)
+{
  
   int timediff;
   int timediff_all;
@@ -165,18 +165,18 @@ void PRINT_runtime(clock_t start)
 }
 
 
+/**
+ * prints individual runtime of each thread
+ */
 void PRINT_runtime_threads(clock_t start,
                            int numtasks, 
                            int taskid) 
 {
-/**
- * prints individual runtime of each thread
- */
 clock_t end;
 int timediff;
 
   if(numtasks > 1){
-    /**
+    /*
      * measure program run time of task
      */ 
 	end = clock();
@@ -204,6 +204,9 @@ int timediff;
   }
 }
 
+/**
+* prints results of simulation to file at the end of the simulation
+*/
 void PRINT_resallthreads(long double msdall, 
                          double meanspeedall, 
                          double muall, 
@@ -212,9 +215,6 @@ void PRINT_resallthreads(long double msdall,
                          long double meanxsquall, 
                          long double thirdcumall)
 {
-  /**
-  * prints results of simulation to file at the end of the simulation
-  */
   FILE *outp;
   outp=fopen(Print.fname ,"a");
   fprintf(outp, "\n\nAverage of all Threads:\n\nmeanx = %.5Lf\t meanspeed = %.5lf\t mu = %.5lf\n\n", 
@@ -241,6 +241,10 @@ void PRINT_resallthreads(long double msdall,
 
 
 
+/**
+ * copies the print specific code to the destination folder 
+ * for documentation purposes
+ */
 void PRINT_copycode(){
     CODEHAND_copy_file_to_dest("print_routines.c");
     CODEHAND_copy_file_to_dest("print_routines.h");

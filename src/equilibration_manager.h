@@ -4,7 +4,7 @@
 #define EQUILIBRATION_MANAGER_H
 
 
-/**
+/*
  *********************************************************
  *
  * External types and variables
@@ -27,7 +27,7 @@ typedef struct equilibration_manager{
 }T_EquManager;
 
 
-/**
+/*
  *********************************************************
  *
  * Internal functions
@@ -38,7 +38,7 @@ typedef struct equilibration_manager{
 void EQUIMAN_update_counter(T_EquManager *EquManager, double mu_current,
                                double accurarcy);
 
-/**
+/*
  *********************************************************
  *
  * External functions

@@ -1,4 +1,4 @@
-/**
+/*
  *********************************************************
  *
  * External types and variables
@@ -9,10 +9,10 @@
 /**
  * Structure which contains transport coefficients
  * that are calculated within individual threads.
- **/
+ */
 typedef struct TAG_TransportCoeffs{
 	
-        /*average of particle x-positions <x>*/
+    /*average of particle x-positions <x>*/
 	long double meanx; 
 	/*average of particle speed in x-directions <v>*/
 	double meanspeed;
@@ -24,7 +24,7 @@ typedef struct TAG_TransportCoeffs{
     long double msd;
 	/*third cumulant of x-position: <x^3> - 3*<x>*<x^2> + 2*<x>^3*/
 	long double thirdcum;
-        /*effective diffusion coeff.: (<x^2> - <x>^2)/(2*t*B/R)*/
+    /*effective diffusion coeff.: (<x^2> - <x>^2)/(2*t*B/R)*/
 	double deff; 
 	/*non-linear mobility mu = <v>/F*/
 	double mu;
@@ -36,7 +36,7 @@ extern T_TransportCoeffs tcoeff;
 /**
  * Structure which contains parameters 
  * for the histograms used.
- **/
+ */
 typedef struct TAG_HistogramParams{
 	
 	/*
@@ -62,7 +62,7 @@ typedef struct TAG_HistogramParams{
 
 extern T_HistParams histparams;
 
-/**
+/*
  *********************************************************
  *
  * External functions

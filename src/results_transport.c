@@ -99,13 +99,6 @@ void RES_calc_transpcoeffs(double t,
   tcoeff.thirdcum = tcoeff.meanxqub - 3*tcoeff.meanx*tcoeff.meanxsqu + 2*powl(tcoeff.meanx, 3);
 }
 
-int RES_histogramm_mpi_reduce(double backshift, 
-                              double length, 
-                              double bin, 
-                              double **positions, 
-                              char *fname, 
-                              int taskid)
-{
 /**
  * Stores 1 dimensional histogram in file named fname.
  * During a spatial sweep through all length/bin slices from position 
@@ -115,7 +108,13 @@ int RES_histogramm_mpi_reduce(double backshift,
  * slice is stored in the file together with the upper and lower 
  * boundary of the slice.
  */
-
+int RES_histogramm_mpi_reduce(double backshift, 
+                              double length, 
+                              double bin, 
+                              double **positions, 
+                              char *fname, 
+                              int taskid)
+{
   int i;
   int j;
   int k;
@@ -161,12 +160,6 @@ int RES_histogramm_mpi_reduce(double backshift,
   return countercheck;
 }
 
-int RES_histogramm2d_mpi_reduce(double bin2d, 
-                                double **positionsx, 
-                                double **positionsy,  
-                                char *fname, 
-                                int taskid)
-{
 /**
  * Stores 2 dimensional histogram in file named fname.
  * During a spatial scan over all nx*ny rectangular fields, all particle
@@ -175,7 +168,12 @@ int RES_histogramm2d_mpi_reduce(double bin2d,
  * of all particles in the field is stored in the file together
  * with the upper and lower boundaries in both directions of the field.
  */
-
+int RES_histogramm2d_mpi_reduce(double bin2d, 
+                                double **positionsx, 
+                                double **positionsy,  
+                                char *fname, 
+                                int taskid)
+{
   int i;
   int j;
   int hx;
@@ -229,14 +227,14 @@ int RES_histogramm2d_mpi_reduce(double bin2d,
   return twodcountercheck;
 }
 
-void RES_print_countercheck()
-{
 /**
  * Function that prints the result of the counter checks available from the 
  * histogram functions. There, the total number of particles is counted 
  * in order to check if all particles are represented in the histogram
  * and situated in the confinement.
  */
+void RES_print_countercheck()
+{
 	FILE *outp;
 	outp=fopen(DestPaths.fname_confparams, "a");
 	fprintf(outp, "\nThe total number of particles counted in histogram functions.\n"
@@ -255,6 +253,10 @@ void RES_print_countercheck()
 	}
 }
 
+/**
+ * copies the results specific code to the destination folder 
+ * for documentation purposes
+ */
 void RES_copycode(){
     CODEHAND_copy_file_to_dest("results_transport.c");
     CODEHAND_copy_file_to_dest("results_transport.h");

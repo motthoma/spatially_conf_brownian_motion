@@ -16,7 +16,7 @@
 #define XMAX (L_CONF/4.0-R_CONF)
 #define SQRT_SHIFT R_CONF*sqrt(1+AMP*AMP*K_COS*K_COS)
 
-/**
+/*
  *********************************************************
  *
  * External types and variables
@@ -25,7 +25,7 @@
  */
 
 
-/**
+/*
  *********************************************************
  *
  * Internal functions
@@ -33,7 +33,8 @@
  *********************************************************
  */
 
-/**function to account for a confinement with cosine-shape.
+/**
+ * function to account for a confinement with cosine-shape.
  * An analytical value of the effecitve confinement at the respective particle 
  * position is only available for small spherical particles whose boundary curvature
  * is smaller than the curvature of the confinement (see e.g. Phd Thesis
@@ -47,23 +48,25 @@
  */
 static inline double yuef_cos(double x, double y){
 
-    /**relative position within the particle, where the y-value of the particle
-     * surface is checked if particle is within the confinement*/
+    /*
+     * relative position within the confinement, where the y-value of the particle
+     * surface is checked if particle is within the confinement
+     */
     double xcirc;
-    /**absolute position of scan*/
+    /*absolute position of scan*/
     double xt;
-    /**value of confinement*/ 
+    /*value of confinement*/ 
     double yu;
-    /**height of particle's surface at scan position xt*/
+    /*height of particle's surface at scan position xt*/
     double ycirc;
-    /**maximal value of confinement*/
+    /*maximal value of confinement*/
     double ymax;
-    /**counter to break up routine if particle is outside of confinement*/
+    /*counter to break up routine if particle is outside of confinement*/
     bool PosValid;
 	
 	/*If no finite sized particles are considered simply analytical 
-         * formula is provided.
-         */ 
+     * formula is provided.
+     */ 
 	if(R_CONF == 0){
 		return (BOTTLENECK_WIDTH + AMP + AMP*sin(K_COS*x));
 	}
@@ -96,7 +99,7 @@ static inline double yuef_cos(double x, double y){
 	return(2*fabs(y));
 }
 
-/**
+/*
  *********************************************************
  *
  * External functions
@@ -104,7 +107,7 @@ static inline double yuef_cos(double x, double y){
  *********************************************************
  */
 
-/*function handler that provides generic interface to main*/
+/**Handler that provides generic interface to main*/
 static inline double CONF_yuef(double x, double y){
 	return yuef_cos(x, y);
 }

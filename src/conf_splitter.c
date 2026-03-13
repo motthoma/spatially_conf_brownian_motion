@@ -13,6 +13,7 @@
 #include "results_transport.h"
 
 
+/**writes confinement specific information in specs file*/
 void CONF_specs(){
     char fname_intparams [60]; 
     snprintf(fname_intparams,
@@ -53,13 +54,17 @@ void CONF_specs(){
 fclose(outpspecs);
 }
 
+/**
+ * copies the confinement specific code to the destination folder 
+ * for documentation purposes
+ */
 void CONF_copycode(){
     CODEHAND_copy_file_to_dest("conf_splitter.c");
     CODEHAND_copy_file_to_dest("conf_splitter.h");
 }
 
 /**
- * function that provides name of confinement
+ * provides the confinement specific prefix in name of working directory
  */
 char* CONF_prfx(){
 	char *a = "splitter";

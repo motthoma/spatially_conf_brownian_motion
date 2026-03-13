@@ -1,4 +1,4 @@
-/**
+/*
  * Module to handle a confinement with a cosine shape 
  * (see e.g. Phd Thesis Steffen Martens 2013 page 90).
  * Function with boundary for septate channel 
@@ -12,7 +12,7 @@
 #include "results_transport.h"
 
 
-/**function to write confinement specific information in specs file*/
+/**writes confinement specific information in specs file*/
 void CONF_specs(){
     
     char fname_intparams [60]; 
@@ -55,12 +55,18 @@ void CONF_specs(){
 fclose(outpspecs);
 }
 
+/**
+ * copies the confinement specific code to the destination folder 
+ * for documentation purposes
+ */
 void CONF_copycode(){
     CODEHAND_copy_file_to_dest("conf_cos.c");
     CODEHAND_copy_file_to_dest("conf_cos.h");
 }
 
-/**function to provide prefix in name of working directory*/
+/**
+ * provides the confinement specific prefix in name of working directory
+ */
 char* CONF_prfx(){
     char *a = "cos";
     return a;

@@ -6,7 +6,7 @@
 #ifndef SIMCOREVALS_H
 #define SIMCOREVALS_H
 
-/**
+/*
  *********************************************************
  *
  *
@@ -16,12 +16,16 @@
  */
 
 
-/**
+/*
  *********************************************************
  *
  * Internal functions
  *
  *********************************************************
+ */
+
+/**
+ * Structure that holds the state of the ensemble of particles in the simulation, including their positions and interaction forces.
  */
 typedef struct {
     double **xstart; 
@@ -32,7 +36,7 @@ typedef struct {
 } T_EnsembleState;
 
 
-/**
+/*
  *
  *
  *********************************************************

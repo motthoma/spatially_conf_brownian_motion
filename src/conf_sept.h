@@ -1,4 +1,4 @@
-/**
+/*
  * ensure that only one header for spatial
  * confinement is included in code
  * Function with boundary for septate channel 
@@ -18,7 +18,7 @@
 #define MAX_HALF_WIDTH (AMP+BOTTLENECK_WIDTH)
 #define R_CONF_SQ R_CONF*R_CONF
 
-/**
+/*
  *********************************************************
  *
  * External types and variables
@@ -27,7 +27,7 @@
  */
 
 
-/**
+/*
  *********************************************************
  *
  * Internal functions
@@ -35,8 +35,10 @@
  *********************************************************
  */
 
-/**function to provide effective boundary of confinement with the shape of 
+/**
+ * Function to provide effective boundary of confinement with the shape of 
  * septated channels (see e.g. Marchesoni J. Chem. Phys. 2010).
+ *
  * Effective boundary can only be represented piece wise: In the vicinity of the
  * bottleneck, yueff is a circle with radius R_CONF. In the other sections, we
  * have shifted straight lines parallel to the originial boundary.
@@ -69,7 +71,7 @@ static inline double yuef_sept(double x, double y){
 
 }
 
-/**
+/*
  *********************************************************
  *
  * External functions
@@ -77,7 +79,7 @@ static inline double yuef_sept(double x, double y){
  *********************************************************
  */
 
-/*function handler that provides generic interface to main*/
+/**Handler that provides generic interface to main*/
 static inline double CONF_yuef(double x, double y){
 	return yuef_sept(x, y);
 }

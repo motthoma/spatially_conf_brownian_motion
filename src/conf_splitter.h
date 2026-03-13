@@ -13,7 +13,7 @@
 #define R_CONF_SQ  R_CONF*R_CONF
 #define Lp (L_CONF - (R_CONF*SLOPE)/(sqrt(1 + SLOPE*SLOPE)))
 
-/**
+/*
  *********************************************************
  *
  * External types and variables
@@ -22,7 +22,7 @@
  */
 
 
-/**
+/*
  *********************************************************
  *
  * Internal functions
@@ -30,8 +30,10 @@
  *********************************************************
  */
 
-/**function to provide effective boundary of confinement with saw-tooth profile
+/**
+ * Function provides effective boundary of confinement with saw-tooth profile
  * used for the entropic splitter (see Motz et al. J. Chem. Phys. 2014).
+ *
  * Effective boundary can only be represented piece wise: In the vicinity of the
  * bottleneck, yueff is a circle with radius R_CONF. In the other sections, we
  * have shifted straight lines parallel to the originial boundary.
@@ -62,7 +64,7 @@ static inline double yuef_splitter(double x, double y){
     }
 }
 
-/**
+/*
  *********************************************************
  *
  * External functions
@@ -70,7 +72,7 @@ static inline double yuef_splitter(double x, double y){
  *********************************************************
  */
 
-/*function wrapper that provides generic interface to main*/
+/**Handler that provides generic interface to main*/
 static inline double CONF_yuef(double x, double y){
 	return yuef_splitter(x, y);
 }

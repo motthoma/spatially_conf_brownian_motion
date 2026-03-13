@@ -9,23 +9,7 @@ double finty = 0;
 double fintxpair = 0;
 double fintypair = 0;
 
-/**function for the calculation of the intra-particle force arising
- * from a Lennard-Jones Potential. The potential is described by two
- * parameters, position of minimum LJ_MIN and depth of minimum  LJ_EPS.
- * The potential is truncated at INT_CUTOFF. 
- */
-/*inline double intforce_lj(double dist1d, double dist2d){
-
-	return(LJPREFAC*(LJMINPOW*pow(dist2d,-14)-pow(dist2d,-8))*dist1d);
-
-}
-
-inline double intforce(double dist1d, double dist2d){
-
-	return intforce_lj(dist1d, dist2d);
-
-}*/
-
+/** Writes specifications of the interaction to the specification output file. */
 void INT_specs(){
 	
     char fname_intparams [60]; 
@@ -58,11 +42,18 @@ void INT_specs(){
 	fclose (outpspecs);
 }
 
+/**
+ * copies the interaction specific code to the destination folder 
+ * for documentation purposes
+ */
 void INT_copycode(){
     CODEHAND_copy_file_to_dest("int_lennardjones.c");
     CODEHAND_copy_file_to_dest("int_lennardjones.h");
 }
 
+/**
+ * provides the interaction specific prefix in name of working directory
+ */
 char * INT_prfx(){
 	char *a = "LJ_pot";
     return a;

@@ -436,7 +436,7 @@ static void sim_step_set(const T_SimParams *SimParams,
     }
 }
 
-/** 
+/**
  * Top-level simulation loop: Contains propagation of all particles 
  * over all time-steps until equilibration 
  */
@@ -457,6 +457,7 @@ void SIM_simulation_core(const T_SimParams *SimParams,
     int time_step = 1;
 
     PRINT_header_for_results_over_time();
+    PRINT_header_for_trajectories();
 
     do {
         time += SimParams->time_step;
@@ -473,10 +474,26 @@ void SIM_simulation_core(const T_SimParams *SimParams,
 
         EQUIMAN_update_mu_old(&EquManager, time_step, tcoeff.mu);
         PRINT_set_print_flag(time_step);
-        EQUIMAN_set_test_flag(&EquManager, time_step, SimParams->stepnumb, SimParams->testab);
+        EQUIMAN_set_test_flag(&EquManager,
+                              time_step,
+                              SimParams->stepnumb,
+                              SimParams->testab);
+
+        if (time_step < SimParams->max_steps_rec_trajects) {
+            PRINT_record_trajectories(time,
+                                      EnsembleState->positionx,
+                                      EnsembleState->positiony);
+        }
+        else{
+             // printf("\nTrajectory recording stopped at time step %d to save memory.\n", time_step);
+        }
 
         if (EquManager.TestRes || Print.PrintRes) {
-            RES_calc_transpcoeffs(time, posshift, negshift, EnsembleState->positionx, EnsembleState->xstart);
+            RES_calc_transpcoeffs(time,
+                                  posshift,
+                                  negshift,
+                                  EnsembleState->positionx,
+                                  EnsembleState->xstart);
         }
 
         EQUIMAN_update_counter(&EquManager, tcoeff.mu, SimParams->accur);

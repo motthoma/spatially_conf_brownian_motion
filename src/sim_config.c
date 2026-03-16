@@ -76,6 +76,10 @@ bool SIMCONFIG_read_params(const char *filepath) {
                 SimParams.initwidth = atof(value);
             } else if (strcmp(key, "init_max_xpos") == 0) {
                 SimParams.init_max_xpos = atof(value);
+            } else if (strcmp(key, "max_steps_rec_trajects") == 0) {
+                SimParams.max_steps_rec_trajects = atof(value);
+            } else if (strcmp(key, "max_numb_rec_trajects") == 0) {
+                SimParams.max_numb_rec_trajects = atof(value);
             }
             // Add more parameters here as needed
         }

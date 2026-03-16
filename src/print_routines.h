@@ -55,8 +55,14 @@ void PRINT_set_print_flag(int time_step);
 
 void PRINT_header_for_results_over_time(); 
 
+void PRINT_header_for_trajectories();
+
 void PRINT_results_over_time(double t, 
                              int abb); 
+
+void PRINT_record_trajectories(double time,
+                               double **posx,
+                               double **posy);
 
 void PRINT_runtime(clock_t start);
 

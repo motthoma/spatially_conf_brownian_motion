@@ -113,6 +113,45 @@ void PRINT_results_over_time(double t,
 }
 
 /**
+ * prints header for trajectory file
+ */
+void PRINT_header_for_trajectories()
+{
+    char trajectories[256];
+    snprintf(trajectories, 256, "%s/trajectories.dat", DestPaths.fullpath); 
+    FILE *outpos = fopen(trajectories, "w");
+    if (outpos == NULL) return;
+    fprintf(outpos, "#time\t xpos\t ypos\n");
+    fclose(outpos);
+}
+
+/**
+ * prints particle positions to file for recording trajectories of particles over time
+ */
+void PRINT_record_trajectories(double time,
+                               double **posx,
+                               double **posy){
+
+  int plotted_parts = 0;
+  FILE *outpos;
+
+  char trajectories[256];
+  snprintf(trajectories, 256, "%s/trajectories.dat", DestPaths.fullpath); 
+  outpos=fopen(trajectories, "a");
+  if (outpos == NULL) return;
+   
+  fprintf(outpos, "%.5lf\t", time);
+  for(int i = 0; i < SimParams.setn_per_task && plotted_parts < SimParams.max_numb_rec_trajects; i++){
+	for(int j = 0; j < SimParams.parts_per_set && plotted_parts < SimParams.max_numb_rec_trajects; j++){
+		fprintf(outpos, "%.5lf\t %.5lf\t", posx[i][j], posy[i][j]);
+        plotted_parts++;
+    }
+  }
+  fprintf(outpos, "\n");
+  fclose(outpos);
+}
+
+/**
  * prints particle positions to file
  */
 void PRINT_positions(double **posx, double **posy){

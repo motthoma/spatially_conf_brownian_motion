@@ -367,23 +367,25 @@ static inline void sim_propagate_particle(double xo,
     *y = yo + finty_dt + sqrt_flucts*u_y;
 }
 
+
 /** Propagate a single particle until valid*/
 static void sim_perform_valid_step(const T_SimParams *SimParams,
                                    T_EnsembleState *EnsembleState,
                                    int set_idx,
                                    int p_in_set,
-                                   double xo,
-                                   double yo,
-                                   double fintx_dt,
-                                   double finty_dt,
                                    double f_dt,
                                    double sqrt_flucts,
                                    double *x_out,
                                    double *y_out,
                                    int *shiftind_out){
+
     double x, y;
     int shiftind = 0;
     bool PosValid;
+    double xo = EnsembleState->positionx[set_idx][p_in_set];
+    double yo = EnsembleState->positiony[set_idx][p_in_set];
+    double fintx_dt = EnsembleState->fintxarray[set_idx][p_in_set] * SimParams->time_step;
+    double finty_dt = EnsembleState->fintyarray[set_idx][p_in_set] * SimParams->time_step;
 
     do {
         sim_propagate_particle(xo, f_dt, yo, fintx_dt, finty_dt, sqrt_flucts, &x, &y);
@@ -412,22 +414,25 @@ static void sim_step_set(const T_SimParams *SimParams,
                          double sqrt_flucts,
                          long int **posshift,
                          long int **negshift){
-    for (int p = 0; p < SimParams->parts_per_set; ++p) {
-        double xo = EnsembleState->positionx[set_idx][p];
-        double yo = EnsembleState->positiony[set_idx][p];
-        double fintx = EnsembleState->fintxarray[set_idx][p];
-        double finty = EnsembleState->fintyarray[set_idx][p];
+    for (int p_in_set = 0; p_in_set < SimParams->parts_per_set; ++p_in_set) {
         double x, y;
         int shiftind = 0;
 
-        sim_perform_valid_step(SimParams, EnsembleState, set_idx, p,
-                               xo, yo, fintx, finty, f_dt, sqrt_flucts, &x, &y, &shiftind);
+        sim_perform_valid_step(SimParams,
+                               EnsembleState,
+                               set_idx,
+                               p_in_set,
+                               f_dt,
+                               sqrt_flucts,
+                               &x,
+                               &y,
+                               &shiftind);
 
         if (shiftind != 0) {
-            sim_adapt_posshifts(shiftind, set_idx, p, posshift, negshift);
+            sim_adapt_posshifts(shiftind, set_idx, p_in_set, posshift, negshift);
         }
 
-        sim_update_ensemble_state(EnsembleState, set_idx, p, x, y, fintx, finty);
+        sim_update_ensemble_state(EnsembleState, set_idx, p_in_set, x, y, fintx, finty);
     }
 }
 

@@ -62,7 +62,9 @@ void PRINT_results_over_time(double t,
 
 void PRINT_record_trajectories(double time,
                                double **posx,
-                               double **posy);
+                               double **posy,
+                               long int **posshift,
+                               long int **negshift);
 
 void PRINT_runtime(clock_t start);
 

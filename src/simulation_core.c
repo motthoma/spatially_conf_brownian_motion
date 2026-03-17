@@ -482,10 +482,13 @@ void SIM_simulation_core(const T_SimParams *SimParams,
         if (time_step < SimParams->max_steps_rec_trajects) {
             PRINT_record_trajectories(time,
                                       EnsembleState->positionx,
-                                      EnsembleState->positiony);
+                                      EnsembleState->positiony,
+                                      posshift,
+                                      negshift
+                                      );
         }
         else{
-             // printf("\nTrajectory recording stopped at time step %d to save memory.\n", time_step);
+            // printf("\nTrajectory recording stopped at time step %d to save memory.\n", time_step);
         }
 
         if (EquManager.TestRes || Print.PrintRes) {

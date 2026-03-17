@@ -130,11 +130,13 @@ void PRINT_header_for_trajectories()
  */
 void PRINT_record_trajectories(double time,
                                double **posx,
-                               double **posy){
+                               double **posy,
+                               long int **posshift,
+                               long int **negshift){
 
   int plotted_parts = 0;
+  long double totalshift;
   FILE *outpos;
-
   char trajectories[256];
   snprintf(trajectories, 256, "%s/trajectories.dat", DestPaths.fullpath); 
   outpos=fopen(trajectories, "a");
@@ -143,7 +145,9 @@ void PRINT_record_trajectories(double time,
   fprintf(outpos, "%.5lf\t", time);
   for(int i = 0; i < SimParams.setn_per_task && plotted_parts < SimParams.max_numb_rec_trajects; i++){
 	for(int j = 0; j < SimParams.parts_per_set && plotted_parts < SimParams.max_numb_rec_trajects; j++){
-		fprintf(outpos, "%.5lf\t %.5lf\t", posx[i][j], posy[i][j]);
+        totalshift = posshift[i][j] - negshift[i][j];
+        
+		fprintf(outpos, "%.5lf\t %.5lf\t", posx[i][j] - totalshift, posy[i][j]);
         plotted_parts++;
     }
   }

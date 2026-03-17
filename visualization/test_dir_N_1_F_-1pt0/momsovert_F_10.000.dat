@@ -1,0 +1,7 @@
+#time	 meanx: <x>	 meanxsquare: <x^2>	 Meansqdist: <x^2> - <x>^2	  deff: (<x^2> - <x>^2)/(2t)	 third cumulant: <x^3>-3<x^2><x>+2<x>^3
+
+
+Average of all Threads:
+
+meanx = 0.00000	 meanxsqu = 0.00000	 msdall = 0.00000	 deff = 0.00000	 thirdcum = 0.00000
+

@@ -43,8 +43,8 @@ T_EnsembleState SIM_alloc_ensemble_state(const T_SimParams *SimParams){
 /**
  * function that initializes the particle positions. The particles are uniformly distributed
  * over the whole period length L_CONF in a strip of width SimParams->initwidth or the width of
- * the channel if it is smaller. For interacting particles with hard core radius R_int, 
- * configurations which involve an overlap of two particles are rejected. 
+ * the channel if it is smaller. For interacting particles with hard core radius R_int,
+ * configurations which involve an overlap of two particles are rejected.
  */
 void SIM_init_positions(const T_SimParams *SimParams,
                         T_EnsembleState *EnsembleState) 
@@ -61,38 +61,38 @@ void SIM_init_positions(const T_SimParams *SimParams,
   bool PosValidInit;
 
   printf("start to init positions!\n"); 
-  
+
   PosValidInit = false;
   for(set_idx = 0; set_idx < SimParams->setn_per_task; set_idx++){
 	  for(p_in_set = 0; p_in_set < SimParams->parts_per_set; p_in_set++){
 		  do{
-               
+
               EnsembleState->positionx[set_idx][p_in_set] = RNG_get_uniform()*L_CONF*SimParams->init_max_xpos;
 			  EnsembleState->positiony[set_idx][p_in_set] = (2*RNG_get_uniform() - 1)*SimParams->initwidth;
-			    
+			
 			  xo = EnsembleState->positionx[set_idx][p_in_set];
 			  yo = EnsembleState->positiony[set_idx][p_in_set];
-		 
+
 			  yue = CONF_yuef(xo, yo);
-			 
+			
 			  PosValidInit = true; 
 			  if(fabs(EnsembleState->positiony[set_idx][p_in_set]) >= yue) PosValidInit = false;
 			  if((p_in_set > 0) && (PosValidInit == true)){
-					    
+
 				  for(ktest = 0; ktest < p_in_set; ktest++){
-					  distx = xo - EnsembleState->positionx[set_idx][ktest];			
-					  disty = yo - EnsembleState->positiony[set_idx][ktest];			
+					  distx = xo - EnsembleState->positionx[set_idx][ktest];
+					  disty = yo - EnsembleState->positiony[set_idx][ktest];
 					  distinit = sqrt(distx*distx + disty*disty);
 					  if(distinit <= 2*R_INT) PosValidInit = false;
 				 }
-			 }  
-			  
+			 }
+			
 		  }while(PosValidInit == false);
-		
+
 		  EnsembleState->xstart[set_idx][p_in_set] = xo;
 		 // printf("x_0:\t%lf\n", xo);
 	  }
-  }	
+  }
   printf("positions initialized!\n"); 
 }
 
@@ -144,15 +144,13 @@ static double sim_reset_pos_time(const T_SimParams *SimParams,
                                  T_EnsembleState *EnsembleState,
                                  int time_step,
                                  double t,
-                                 long int **posshift, 
-                                 long int **negshift) 
+                                 long int **totalshift) 
 {
     if(time_step == SimParams->reset_stepnumb){
         int set_idx, p_in_set;
         for(set_idx = 0; set_idx < SimParams->setn_per_task; set_idx++){
           for(p_in_set = 0; p_in_set < SimParams->parts_per_set; p_in_set++){
-             posshift[set_idx][p_in_set] = 0; 
-             negshift[set_idx][p_in_set] = 0;
+             totalshift[set_idx][p_in_set] = 0;
              EnsembleState->xstart[set_idx][p_in_set] = EnsembleState->positionx[set_idx][p_in_set];
           } 
         }
@@ -171,19 +169,18 @@ static double sim_reset_pos_time(const T_SimParams *SimParams,
 static void sim_adapt_posshifts(int shiftind, 
                                 int set_idx, 
                                 int p_in_set, 
-                                long int **posshift, 
-                                long int **negshift)
+                                long int **totalshift)
 {
 	 /*shift particle in positive direction if 
 	 *position is 'left' of considered channel period*/
 	if(shiftind < 0){
-	  posshift[set_idx][p_in_set]++; 
+      totalshift[set_idx][p_in_set]++;
 	} 
 	
 	/*shift particle in negative direction if 
 	 *position is 'right' of considered channel period*/
 	if(shiftind > 0){
-	  negshift[set_idx][p_in_set]++;
+	  totalshift[set_idx][p_in_set]--;
 	}
 }
 
@@ -196,8 +193,9 @@ static void sim_update_ensemble_state(T_EnsembleState *EnsembleState,
                                       double x,
                                       double y,
                                       double fintx,
-                                      double finty){ 
-     EnsembleState->positionx[set_idx][p_in_set] = x; 
+                                      double finty){
+
+     EnsembleState->positionx[set_idx][p_in_set] = x;
      EnsembleState->positiony[set_idx][p_in_set] = y;
      EnsembleState->fintxarray[set_idx][p_in_set] = fintx;
      EnsembleState->fintyarray[set_idx][p_in_set] = finty;
@@ -209,7 +207,7 @@ static void sim_update_ensemble_state(T_EnsembleState *EnsembleState,
  * given by a Lennard-Jones interaction is given.
  */
 static void sim_calculate_inter_particle_forces(const T_SimParams *SimParams,
-                                                T_EnsembleState *EnsembleState) 
+                                                T_EnsembleState *EnsembleState)
 {
   int set_idx;
   int p_in_set;
@@ -277,10 +275,9 @@ static void sim_shift_pos_for_periodic_bc(double *x, int *shiftind){
        *shiftind = 1;
        *x -= L_CONF;
     }
-    /* calc interactions here */ 
 }
 
-/** 
+/**
  * Function to check if a given position of a particle overlaps with any of the other particles in the same set. 
  *
  * This is relevant for the initialization of the positions and for the propagation step if hard-core interactions are present. 
@@ -326,7 +323,7 @@ static bool sim_check_pos_validity(double x, double y, double yo){
      *Calculate value of confinement boundary at current
      *position x (y-value is needed for non-analytic treatment
      *of channels with cosine shape
-     */   
+     */
     yue = CONF_yuef(x, y);
 
 
@@ -412,8 +409,7 @@ static void sim_step_set(const T_SimParams *SimParams,
                          int set_idx,
                          double f_dt,
                          double sqrt_flucts,
-                         long int **posshift,
-                         long int **negshift){
+                         long int **totalshift){
     for (int p_in_set = 0; p_in_set < SimParams->parts_per_set; ++p_in_set) {
         double x, y;
         int shiftind = 0;
@@ -429,7 +425,7 @@ static void sim_step_set(const T_SimParams *SimParams,
                                &shiftind);
 
         if (shiftind != 0) {
-            sim_adapt_posshifts(shiftind, set_idx, p_in_set, posshift, negshift);
+            sim_adapt_posshifts(shiftind, set_idx, p_in_set, totalshift);
         }
 
         sim_update_ensemble_state(EnsembleState, set_idx, p_in_set, x, y, fintx, finty);
@@ -444,8 +440,7 @@ void SIM_simulation_core(const T_SimParams *SimParams,
                          T_EnsembleState *EnsembleState,
                          int taskid)
 {
-    long int **posshift = UTILS_calloc_2Dlint_array(SimParams->n_interact_sets, SimParams->parts_per_set);
-    long int **negshift = UTILS_calloc_2Dlint_array(SimParams->n_interact_sets, SimParams->parts_per_set);
+    long int **totalshift = UTILS_calloc_2Dlint_array(SimParams->n_interact_sets, SimParams->parts_per_set);
 
     long double sqrt_flucts = sqrt(2*BOTTRAD*SimParams->time_step);
     double f_dt = SimParams->F * SimParams->time_step;
@@ -469,7 +464,7 @@ void SIM_simulation_core(const T_SimParams *SimParams,
 
         // Propagate each set
         for (int set_idx = 0; set_idx < SimParams->setn_per_task; ++set_idx) {
-            sim_step_set(SimParams, EnsembleState, set_idx, f_dt, sqrt_flucts, posshift, negshift);
+            sim_step_set(SimParams, EnsembleState, set_idx, f_dt, sqrt_flucts, totalshift); // posshift, negshift);
         }
 
         EQUIMAN_update_mu_old(&EquManager, time_step, tcoeff.mu);
@@ -483,8 +478,7 @@ void SIM_simulation_core(const T_SimParams *SimParams,
             PRINT_record_trajectories(time,
                                       EnsembleState->positionx,
                                       EnsembleState->positiony,
-                                      posshift,
-                                      negshift
+                                      totalshift
                                       );
         }
         else{
@@ -493,8 +487,7 @@ void SIM_simulation_core(const T_SimParams *SimParams,
 
         if (EquManager.TestRes || Print.PrintRes) {
             RES_calc_transpcoeffs(time,
-                                  posshift,
-                                  negshift,
+                                  totalshift,
                                   EnsembleState->positionx,
                                   EnsembleState->xstart);
         }
@@ -505,12 +498,15 @@ void SIM_simulation_core(const T_SimParams *SimParams,
             PRINT_results_over_time(time, EquManager.equ_counter);
         }
 
-        time = sim_reset_pos_time(SimParams, EnsembleState, time_step, time, posshift, negshift);
+        time = sim_reset_pos_time(SimParams,
+                                  EnsembleState,
+                                  time_step,
+                                  time,
+                                  totalshift);
 
     } while (EquManager.equ_counter < SimParams->patience);
 
-    UTILS_free_2Dlint_array(negshift);
-    UTILS_free_2Dlint_array(posshift);
+    UTILS_free_2Dlint_array(totalshift);
     UTILS_free_2Ddouble_array(EnsembleState->xstart);
 }
 

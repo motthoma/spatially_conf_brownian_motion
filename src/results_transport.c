@@ -50,13 +50,11 @@ void RES_init(){
  * absolute particle positions and subsequently ensemble averages 
  * of the first three moments of the position.
  */ 
-void RES_calc_transpcoeffs(double t,
-                           long int **posshift,
-                           long int **negshift,
+void RES_calc_transpcoeffs(double time,
+                           long int **totalshift,
                            double **posx,
                            double **x_init){
 
-  long double totalshift = 0;
   long double abspos_part = 0;
   long double xges = 0;
   long double xgessquare = 0;
@@ -64,12 +62,10 @@ void RES_calc_transpcoeffs(double t,
 
   int j;
   int kset;
-  for(j = 0; j < SimParams.setn_per_task; j++){
-	  for(kset = 0; kset < SimParams.parts_per_set; kset++){
-		 totalshift = posshift[j][kset] - negshift[j][kset];
-
+  for(int set_idx = 0; set_idx < SimParams.setn_per_task; set_idx++){
+	  for(int p_in_set = 0; p_in_set < SimParams.parts_per_set; p_in_set++){
 		 /*absolute position of individual particle*/
-		 abspos_part = (posx[j][kset] - x_init[j][kset])/L_CONF - totalshift;
+		 abspos_part = (posx[set_idx][p_in_set] - x_init[set_idx][p_in_set])/L_CONF - totalshift[set_idx][p_in_set];
          /*sum of positions of all particles for later averaging*/
 		 xges += abspos_part;
 		 /*sum of x^2 over all particles*/
@@ -77,9 +73,9 @@ void RES_calc_transpcoeffs(double t,
          /*sum of x^3 over all particles*/
 		 xgesqub += powl(abspos_part, 3);
  
-	  } 
+	  }
   }
-  
+
   /*calculate transport coefficients, where the averages are ensemble averages*/
   /*mean position <x> of all particles*/
   tcoeff.meanx = xges/SimParams.N*SimParams.numtasks; 
@@ -88,11 +84,11 @@ void RES_calc_transpcoeffs(double t,
   /*mean squared displacement <x^2> - <x>^2 */
   tcoeff.msd = tcoeff.meanxsqu - tcoeff.meanx*tcoeff.meanx;
   /*means speed <v> = <x>/t */
-  tcoeff.meanspeed = tcoeff.meanx/t;  
+  tcoeff.meanspeed = tcoeff.meanx/time;  
   /*mobility mu = <v>/F */
   tcoeff.mu = tcoeff.meanspeed/SimParams.F;
   /*effective diffusion D_eff = (<x^2>-<x>^2)/(2*t*b/r) */
-  tcoeff.deff = tcoeff.msd/(2*t*BOTTRAD); 
+  tcoeff.deff = tcoeff.msd/(2*time*BOTTRAD); 
   /*third moment of position <x^3> */
   tcoeff.meanxqub = xgesqub/SimParams.N*SimParams.numtasks;
   /*thrid cumulant of poisition <x^3> - 3<x><x^2> + 2<x>^3 */
@@ -116,8 +112,6 @@ int RES_histogramm_mpi_reduce(double backshift,
                               int taskid)
 {
   int i;
-  int j;
-  int k;
   int bin_n; 
   int countercheck = 0;
   int counter = 0;
@@ -132,9 +126,9 @@ int RES_histogramm_mpi_reduce(double backshift,
 	  counter = 0;
 	  counterall = 0;
         
-	  for(j = 0; j < SimParams.setn_per_task; j++){
-		for(k = 0; k < SimParams.parts_per_set; k++){
-		    if(((i*bin - backshift) <= positions[j][k]) && (positions[j][k] <= (i+1)*bin - backshift)){
+	  for(int set_idx = 0; set_idx < SimParams.setn_per_task; set_idx++){
+		for(int p_in_set = 0; p_in_set < SimParams.parts_per_set; p_in_set++){
+		    if(((i*bin - backshift) <= positions[set_idx][p_in_set]) && (positions[set_idx][p_in_set] <= (i+1)*bin - backshift)){
                 counter++;
 		   }
 		}
@@ -168,45 +162,44 @@ int RES_histogramm_mpi_reduce(double backshift,
  * of all particles in the field is stored in the file together
  * with the upper and lower boundaries in both directions of the field.
  */
-int RES_histogramm2d_mpi_reduce(double bin2d, 
-                                double **positionsx, 
-                                double **positionsy,  
-                                char *fname, 
+int RES_histogramm2d_mpi_reduce(double bin2d,
+                                double **positionsx,
+                                double **positionsy,
+                                char *fname,
                                 int taskid)
 {
   int i;
   int j;
   int hx;
   int hy;
-  
+
   int bin_nx = (int) (L_CONF/bin2d);
   int bin_ny = (int) (2*MAX_HALF_WIDTH/bin2d);
   int twodcountercheck = 0; 
   int twodcounter = 0;   
   int twodcounterall = 0;   
-  
+
   FILE *outp;
   outp = fopen(fname, "w");
   fclose(outp);      
- 
+
    for(hx = 0; hx <= bin_nx; hx++){ 
 	  for(hy = 0; hy <= bin_ny; hy++){   
           twodcounter = 0;   
           twodcounterall = 0;   
-		  for(i = 0; i < SimParams.setn_per_task; i++){
-			for(j = 0; j < SimParams.parts_per_set; j++){
-			   if((hx*bin2d <= positionsx[i][j]) && (positionsx[i][j] <= (hx+1)*bin2d)){
-				   if(((hy*bin2d - MAX_HALF_WIDTH) <= positionsy[i][j]) && (positionsy[i][j] <= (hy+1)*bin2d - MAX_HALF_WIDTH)){
+		  for(int set_idx = 0; set_idx < SimParams.setn_per_task; set_idx++){
+			for(int p_in_set = 0; p_in_set < SimParams.parts_per_set; p_in_set++){
+			   if((hx*bin2d <= positionsx[set_idx][p_in_set]) && (positionsx[set_idx][p_in_set] <= (hx+1)*bin2d)){
+				   if(((hy*bin2d - MAX_HALF_WIDTH) <= positionsy[set_idx][p_in_set]) && (positionsy[set_idx][p_in_set] <= (hy+1)*bin2d - MAX_HALF_WIDTH)){
 					   twodcounter++;
 				   }
-			   }   
-
+			   }
 			}
 		  }
 
 		  #ifdef MPI_ON
 			  MPI_Reduce(&twodcounter, &twodcounterall, 1, MPI_INTEGER, MPI_SUM, MASTER, MPI_COMM_WORLD);
-		  #else		  
+		  #else
 			  twodcounterall = twodcounter;
 		  #endif
 		  if(taskid == MASTER){
@@ -214,11 +207,11 @@ int RES_histogramm2d_mpi_reduce(double bin2d,
 
 			  outp = fopen(fname, "a");
 			  fprintf (outp, "%f\t%f\t%f\t%f\t\t%d\t\t%f\n",
-                       hx*bin2d, 
-                       (hx+1)*bin2d, 
-                       hy*bin2d - MAX_HALF_WIDTH, 
-                       (hy+1)*bin2d - MAX_HALF_WIDTH, 
-                       twodcounterall, 
+                       hx*bin2d,
+                       (hx+1)*bin2d,
+                       hy*bin2d - MAX_HALF_WIDTH,
+                       (hy+1)*bin2d - MAX_HALF_WIDTH,
+                       twodcounterall,
                        twodcounterall/(SimParams.N*bin2d*bin2d));
 			  fclose(outp);
 		  }

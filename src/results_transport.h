@@ -73,8 +73,7 @@ extern T_HistParams histparams;
 extern void RES_init();
 
 void RES_calc_transpcoeffs(double t,
-                           long int **posshift,
-                           long int **negshift,
+                           long int **totalshift,
                            double **posx,
                            double **x_init);
 

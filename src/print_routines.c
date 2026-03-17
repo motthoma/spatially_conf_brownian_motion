@@ -131,11 +131,9 @@ void PRINT_header_for_trajectories()
 void PRINT_record_trajectories(double time,
                                double **posx,
                                double **posy,
-                               long int **posshift,
-                               long int **negshift){
+                               long int **totalshift){
 
   int plotted_parts = 0;
-  long double totalshift;
   FILE *outpos;
   char trajectories[256];
   snprintf(trajectories, 256, "%s/trajectories.dat", DestPaths.fullpath); 
@@ -143,11 +141,9 @@ void PRINT_record_trajectories(double time,
   if (outpos == NULL) return;
    
   fprintf(outpos, "%.5lf\t", time);
-  for(int i = 0; i < SimParams.setn_per_task && plotted_parts < SimParams.max_numb_rec_trajects; i++){
-	for(int j = 0; j < SimParams.parts_per_set && plotted_parts < SimParams.max_numb_rec_trajects; j++){
-        totalshift = posshift[i][j] - negshift[i][j];
-        
-		fprintf(outpos, "%.5lf\t %.5lf\t", posx[i][j] - totalshift, posy[i][j]);
+  for(int set_idx = 0; set_idx < SimParams.setn_per_task && plotted_parts < SimParams.max_numb_rec_trajects; set_idx++){
+	for(int p_in_set = 0; p_in_set < SimParams.parts_per_set && plotted_parts < SimParams.max_numb_rec_trajects; p_in_set++){
+		fprintf(outpos, "%.5lf\t %.5lf\t", posx[set_idx][p_in_set] - totalshift[set_idx][p_in_set], posy[set_idx][p_in_set]);
         plotted_parts++;
     }
   }
@@ -159,18 +155,16 @@ void PRINT_record_trajectories(double time,
  * prints particle positions to file
  */
 void PRINT_positions(double **posx, double **posy){
-  int i;
-  int j;
-  FILE *outpos;
 
+  FILE *outpos;
   char positions[256];
   snprintf(positions, 256, "%s/positions.dat", DestPaths.fullpath); 
   outpos=fopen(positions, "a");
   fprintf(outpos, "#xpositions\t ypositions\n");
 
-  for(i = 0; i < SimParams.setn_per_task; i++){
-	for(j = 0; j < SimParams.parts_per_set; j++){
-		fprintf(outpos, "%.5lf\t %.5lf\n", posx[i][j], posy[i][j]);
+  for(int set_idx = 0; set_idx < SimParams.setn_per_task; set_idx++){
+	for(int p_in_set = 0; p_in_set < SimParams.parts_per_set; p_in_set++){
+		fprintf(outpos, "%.5lf\t %.5lf\n", posx[set_idx][p_in_set], posy[set_idx][p_in_set]);
 	}
 
   }

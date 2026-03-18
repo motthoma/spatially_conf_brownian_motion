@@ -65,6 +65,7 @@ yticks = [
 ]
 
 
+
 # p = graph.axis.painter.regular(basepathattrs=[deco.barrow.normal],)
 p = graph.axis.painter.regular(
     basepathattrs=[deco.earrow.normal],
@@ -75,22 +76,26 @@ g = c.insert(
     graph.graphxy(
         width=7.5,
         x=graph.axis.lin(
-            min=-0.001, max=2.9, painter=p, parter=None, manualticks=xticks, title="$x$"
+            min=-0.001, max=3.9, painter=p, parter=None, manualticks=xticks, title="$x$"
         ),
         y=graph.axis.lin(
             min=-1.2, max=1.2, painter=p, parter=None, manualticks=yticks, title="$y$"
         ),
         x2=None,
+
         y2=None,
         key=graph.key.key(pos="tl", dist=0.1),
     )
 )
 
 
+data_file_path = "./test_dir_N_1_F_-1pt0/trajectories.dat"
+data_file_path = "../runs/test_dir/trajectories.dat"
+
 g.plot(
     [
         graph.data.file(
-            "./test_dir_N_1_F_-1pt0/trajectories.dat", x=2, y=3, title=None
+            data_file_path, x=2, y=3, title=None
         ),
     ],
     styles=[line],

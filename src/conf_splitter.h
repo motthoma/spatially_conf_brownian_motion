@@ -47,6 +47,7 @@ static inline double yuef_splitter(double x, double y){
     if(fabs(y) < BOTTLENECK_WIDTH - R_CONF){
         return(MAX_HALF_WIDTH);
     }
+    
     /*evaluate effective boundary*/
     if ((R_CONF < x) && (x < Lp)){
         return (BOTTLENECK_WIDTH + SLOPE*(L_CONF - x) - SQRT_SHIFT);

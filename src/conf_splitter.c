@@ -70,3 +70,11 @@ char* CONF_prfx(){
 	char *a = "splitter";
 	return a;
 }
+
+/**
+ * Provide wrapper functions to expose yuef_splitter
+ * e.g. for plotting the confinement profile in python. 
+ */
+double CONF_yuef_wrapper(double x, double y) {
+    return yuef_splitter(x, y);
+}

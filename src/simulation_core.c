@@ -10,7 +10,7 @@
 
 /**
  * Function that allocates memory for the arrays in which the positions and the inter-particle forces are stored.
- * 
+ *
  * The arrays are allocated as 2D arrays with dimensions [n_interact_sets][parts_per_set] to allow for a 
  * clear assignment of the particles to the different sets which are simulated in parallel. 
  */
@@ -315,7 +315,7 @@ static bool sim_check_particle_overlap(const T_SimParams *SimParams,
  *
  * This is relevant for the propagation step to ensure that particles do not 'tunnel' through the bottlenecks or leave the confinement. 
  */
-static bool sim_check_pos_validity(double x, double y, double yo){
+static bool sim_check_confinement_validity(double x, double y, double yo){
     double yue;
     bool PosValid = true;
 
@@ -326,7 +326,6 @@ static bool sim_check_pos_validity(double x, double y, double yo){
      */
     yue = CONF_yuef(x, y);
 
-
     /*Check if particle is within effective boundary*/  
     if (fabs(y) > yue) PosValid = false;
     /*Check if bottleneck at x=0 is passed without 'tunneling' through bottleneck*/	
@@ -335,13 +334,6 @@ static bool sim_check_pos_validity(double x, double y, double yo){
     if ((x > L_CONF) && ((UTILS_max_double(fabs(y), fabs(yo)) >= BOTTLENECK_WIDTH-R_CONF))) PosValid = false;
 
     return PosValid;
-}
-
-/**
- * Handler function to check if a given position of a particle is valid with respect to the confinement, the bottlenecks and the other particles in the same set.
- */
-static bool sim_check_confinement_validity(double x, double y, double yo) {
-    return sim_check_pos_validity(x, y, yo);
 }
 
 /** 
@@ -454,6 +446,7 @@ void SIM_simulation_core(const T_SimParams *SimParams,
     PRINT_header_for_results_over_time();
     PRINT_header_for_trajectories();
 
+    int time_skip_counter = 0;
     do {
         time += SimParams->time_step;
         ++time_step;
@@ -474,12 +467,18 @@ void SIM_simulation_core(const T_SimParams *SimParams,
                               SimParams->stepnumb,
                               SimParams->testab);
 
-        if (time_step < SimParams->max_steps_rec_trajects) {
+        if ((time_step < SimParams->max_steps_rec_trajects) && (time_skip_counter == SimParams->skip_steps_rec_trajects)){
+            if (time_skip_counter == SimParams->skip_steps_rec_trajects){
+                time_skip_counter = 0;
+            }
             PRINT_record_trajectories(time,
                                       EnsembleState->positionx,
                                       EnsembleState->positiony,
                                       totalshift
                                       );
+        }
+        else if ((time_step < SimParams->max_steps_rec_trajects) && (time_skip_counter != SimParams->skip_steps_rec_trajects)){
+            time_skip_counter++;
         }
         else{
             // printf("\nTrajectory recording stopped at time step %d to save memory.\n", time_step);

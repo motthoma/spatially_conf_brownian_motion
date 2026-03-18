@@ -55,6 +55,7 @@ typedef struct TAG_SimParams{
     int setn_per_task;
     int n_interact_sets;
     int max_steps_rec_trajects;
+    int skip_steps_rec_trajects;
     int max_numb_rec_trajects;
 }T_SimParams;
 

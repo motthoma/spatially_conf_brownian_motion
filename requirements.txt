@@ -1,0 +1,8 @@
+# This file lists the Python dependencies for the 
+# project needed to use the scripts in the visualization directory.
+# Install them with: pip install -r requirements.txt
+numpy==2.4.3
+packaging==25.0
+PyX==0.17
+setuptools==80.10.2
+wheel==0.46.3

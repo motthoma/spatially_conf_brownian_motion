@@ -1,132 +1,276 @@
+#!/usr/bin/env python3
 # -*- coding: iso-8859-1 -*-
+"""
+trajectories.py
+----------------
+Script to visualize Brownian motion trajectories with confinement boundaries
+using the PyX plotting library.
+"""
+
 from __future__ import division
 import ctypes
-import numpy as np
 import sys
+from pathlib import Path
+import numpy as np
 
-sys.path.insert(0, "/ltmp/PyX-0.12.1/")
-from pyx import *
-from pyx.graph import axis
-from pyx.deco import barrow, earrow
-import math
+# PyX setup for LaTeX-quality plots
+from pyx import canvas, color, graph, attr, style, deco, text
 
+# Set LaTeX mode and include amsmath for mathematical typesetting
 text.set(mode="latex")
-
 text.preamble(r"\usepackage{amsmath}")
 
-c = canvas.canvas()
 
-colors = [
-    color.rgb.blue,
-    color.rgb.blue,
-    color.gray.black,
-    color.gray.black,
-    color.rgb.blue,
-    color.rgb.red,
-]
-
-line = graph.style.line(
-    lineattrs=[
-        attr.changelist(colors),
-        attr.changelist(
-            [
-                style.linestyle.solid,
-                style.linestyle.solid,
-            ]
-        ),
-        attr.changelist(
-            [
-                style.linewidth.normal,
-                style.linewidth.normal,
-            ]
-        ),
+def setup_plotting_styles():
+    """Defines colors and line styles for plot boundaries and trajectories."""
+    boundary_colors = [
+        color.rgb.blue,
+        color.gray.black,
+        color.gray.black,
+        color.rgb.red,
+        color.rgb.red,
     ]
-)
 
-colorstraj = [
-    color.cmyk.RubineRed,
-    color.cmyk.Cerulean,
-    color.cmyk.Plum,
-    color.cmyk.Green,
-]
+    boundary_styles = [
+        style.linestyle.solid,
+        style.linestyle.solid,
+        style.linestyle.solid,
+        style.linestyle.dashed,
+        style.linestyle.dashed,
+    ]
 
-traj = graph.style.line(
-    lineattrs=[attr.changelist(colorstraj), attr.changelist([style.linestyle.solid])]
-)
-xticks = [
-    graph.axis.tick.tick(0, label="$0$"),
-    graph.axis.tick.tick(0.1, label="$R$"),
-    graph.axis.tick.tick(1, label="$L$"),
-    graph.axis.tick.tick(2, label="$2\,L$"),
-]
+    boundary_widths = [style.linewidth.normal] * 5
 
-yticks = [
-    graph.axis.tick.tick(1, label="$B$"),
-    graph.axis.tick.tick(0, label="$0$"),
-    graph.axis.tick.tick(-1, label="$-B$"),
-]
-
-
-# p = graph.axis.painter.regular(basepathattrs=[deco.barrow.normal],)
-p = graph.axis.painter.regular(
-    basepathattrs=[deco.earrow.normal],
-)
-
-
-g = c.insert(
-    graph.graphxy(
-        width=7.5,
-        x=graph.axis.lin(
-            min=-0.001, max=3.9, painter=p, parter=None, manualticks=xticks, title="$x$"
-        ),
-        y=graph.axis.lin(
-            min=-1.2, max=1.2, painter=p, parter=None, manualticks=yticks, title="$y$"
-        ),
-        x2=None,
-        y2=None,
-        key=graph.key.key(pos="tl", dist=0.1),
+    line_style = graph.style.line(
+        lineattrs=[
+            attr.changelist(boundary_colors),
+            attr.changelist(boundary_styles),
+            attr.changelist(boundary_widths),
+        ]
     )
-)
 
-# Load shared library
-lib = ctypes.CDLL("./libconf_splitter.so")
+    trajectory_colors = [
+        color.cmyk.RubineRed,
+        color.cmyk.Cerulean,
+        color.cmyk.Plum,
+        color.cmyk.Green,
+    ]
 
-# Declare argument and return types
-lib.CONF_yuef_wrapper.argtypes = [ctypes.c_double, ctypes.c_double]
-lib.CONF_yuef_wrapper.restype = ctypes.c_double
+    trajectory_style = graph.style.line(
+        lineattrs=[
+            attr.changelist(trajectory_colors),
+            attr.changelist([style.linestyle.solid]),
+        ]
+    )
 
-x_single_period = np.linspace(0, 1.0, 500)
-n_periods = 3
+    return line_style, trajectory_style
 
-# Build repeated x with shifts
-x_all_periods = np.concatenate([x_single_period + i * 1.0 for i in range(n_periods)])
 
-# Compute y only once, then tile
-y_single = np.array([lib.CONF_yuef_wrapper(xi, 0.7) for xi in x_single_period])
+# def get_shared_library():
+#     """Loads the shared library."""
+#     try:
+#         # We use one shared library libconf_splitter.so which contains all implementations
+#         lib = ctypes.CDLL("./libconf_splitter.so")
+#         return lib
+#     except OSError as e:
+#         print(f"Error loading libconf_splitter.so: {e}")
+#         sys.exit(1)
 
-y_upper = np.tile(y_single, n_periods)
-y_lower = -y_upper
 
-g.plot(
-    [
-        graph.data.points(
-            list(zip(x_all_periods, y_upper)), x=1, y=2, title="Upper Boundary"
-        ),
-        graph.data.points(
-            list(zip(x_all_periods, y_lower)), x=1, y=2, title="Lower Boundary"
-        ),
-    ],
-    styles=[line],
-)
+def confinement_functions_int(key="splitter"):
+    """
+    Configures and returns the requested confinement functions from the shared library.
+    Returns: (yuef_func, yu_func)
+    """
+    if key == "splitter":
+        # Setup y_effective wrapper: double CONF_yuef_wrapper(double x, double y)
+        lib = ctypes.CDLL("./libconf_splitter.so")
+        lib.CONF_yuef_wrapper.argtypes = [ctypes.c_double, ctypes.c_double]
+        lib.CONF_yuef_wrapper.restype = ctypes.c_double
 
-data_file_path = "./test_dir_N_1_F_-1pt0/trajectories.dat"
-data_file_path = "../runs/test_dir/trajectories.dat"
+        # Setup y_boundary wrapper: double CONF_yu_splitter(double x)
+        lib.CONF_yu_splitter.argtypes = [ctypes.c_double]
+        lib.CONF_yu_splitter.restype = ctypes.c_double
 
-g.plot(
-    [
-        graph.data.file(data_file_path, x=2, y=3, title=None),
-    ],
-    styles=[line],
-)
-file_name = "trajectories"
-c.writePDFfile(file_name)
+        return lib.CONF_yuef_wrapper, lib.CONF_yu_splitter
+
+    elif key == "cos":
+        # Setup y_effective cosine wrapper: double CONF_yuef_cos(double x, double y)
+        lib = ctypes.CDLL("./libconf_cos.so")
+        lib.CONF_yuef_cos.argtypes = [ctypes.c_double, ctypes.c_double]
+        lib.CONF_yuef_cos.restype = ctypes.c_double
+
+        # Note: If no CONF_yu_cos exists in C, we return a fallback or None
+        # Let's check if it exists in the library first
+        if hasattr(lib, "CONF_yu_cos"):
+            print(
+                "CONF_yu_cos found in libconf_cos.so, setting up boundary function..."
+            )
+            lib.CONF_yu_cos.argtypes = [ctypes.c_double]
+            lib.CONF_yu_cos.restype = ctypes.c_double
+            return lib.CONF_yuef_cos, lib.CONF_yu_cos
+        else:
+            # Fallback if no specific boundary function is defined for cosine
+            return lib.CONF_yuef_cos, None
+
+    elif key == "sept":
+        # Setup y_effective septated channel wrapper
+        lib = ctypes.CDLL("./libconf_sept.so")
+        lib.CONF_yuef_sept.argtypes = [ctypes.c_double, ctypes.c_double]
+        lib.CONF_yuef_sept.restype = ctypes.c_double
+
+        if hasattr(lib, "CONF_yu_sept"):
+            lib.CONF_yu_sept.argtypes = [ctypes.c_double]
+            lib.CONF_yu_sept.restype = ctypes.c_double
+            return lib.CONF_yuef_sept, lib.CONF_yu_sept
+        else:
+            return lib.CONF_yuef_sept, None
+
+    else:
+        raise ValueError(f"Unknown confinement key: {key}")
+
+
+def get_conf_type_key(data_file_path):
+    """Determines the confinement type key based on existing files or parameters."""
+    # 1. Try to find hint in filenames in the data directory
+    # Check for conf_*.c files which seem to indicate the type
+    for file in data_file_path.parent.glob("conf_*.c"):
+        if "splitter" in file.name:
+            return "splitter"
+        elif "cos" in file.name:
+            return "cos"
+        elif "sept" in file.name:
+            return "sept"
+
+    # 2. Fallback: check parameters_confinement.dat
+    params_file = data_file_path.parent / "parameters_confinement.dat"
+    if params_file.exists():
+        with open(params_file, "r") as f:
+            content = f.read().lower()
+            if "splitter" in content:
+                return "splitter"
+            elif "cosine" in content or "cos-shape" in content:
+                return "cos"
+            elif "septated" in content or "sept" in content:
+                return "sept"
+
+    # Default fallback
+    return "splitter"
+
+
+def main():
+    # Data file path
+    data_file_path = Path("../runs/test_dir/trajectories.dat")
+    conf_type_key = get_conf_type_key(data_file_path)
+    print(f"Detected confinement type: {conf_type_key}")
+
+    #  Configuration and Setup
+    line_style, _ = setup_plotting_styles()
+    # lib = get_shared_library()
+
+    # Get the functions for the detected confinement
+    y_eff_func, y_bound_func = confinement_functions_int(conf_type_key)
+
+    if y_eff_func is None:
+        print(f"Error: No effective confinement function for {conf_type_key}")
+        sys.exit(1)
+
+    #  Coordinate System Axes
+    xticks = [
+        graph.axis.tick.tick(0, label=r"$0$"),
+        graph.axis.tick.tick(0.1, label=r"$R$"),
+        graph.axis.tick.tick(1, label=r"$L$"),
+        graph.axis.tick.tick(2, label=r"$2\,L$"),
+    ]
+
+    yticks = [
+        graph.axis.tick.tick(1, label=r"$B$"),
+        graph.axis.tick.tick(0, label=r"$0$"),
+        graph.axis.tick.tick(-1, label=r"$-B$"),
+    ]
+
+    painter = graph.axis.painter.regular(basepathattrs=[deco.earrow.normal])
+
+    # 3. Compute Boundaries
+    x_single = np.linspace(0, 1.0, 500)
+    n_periods = 3
+    x_all = np.concatenate([x_single + i * 1.0 for i in range(n_periods)])
+
+    # Effective boundaries (using y=0.7 as in original script)
+    y_eff_single = np.array([y_eff_func(xi, 0.1) for xi in x_single])
+    y_upper_eff = np.tile(y_eff_single, n_periods)
+    y_lower_eff = -y_upper_eff
+
+    # Physical boundaries
+    if y_bound_func:
+        print("y_bound_func is available, computing physical boundaries...")
+        y_bound_single = np.array([y_bound_func(xi) for xi in x_single])
+        y_upper = np.tile(y_bound_single, n_periods)
+        y_lower = -y_upper
+    else:
+        # Fallback if no boundary function is available
+        y_upper = np.zeros_like(x_all)
+        y_lower = np.zeros_like(x_all)
+
+    # 4. Create Plot
+    c = canvas.canvas()
+    g = c.insert(
+        graph.graphxy(
+            width=7.5,
+            x=graph.axis.lin(
+                min=-0.001,
+                max=3.9,
+                painter=painter,
+                parter=None,
+                manualticks=xticks,
+                title="$x$",
+            ),
+            y=graph.axis.lin(
+                min=-1.2,
+                max=1.2,
+                painter=painter,
+                parter=None,
+                manualticks=yticks,
+                title="$y$",
+            ),
+            x2=None,
+            y2=None,
+            key=graph.key.key(pos="tr", dist=0.1),
+        )
+    )
+
+    # 5. Plot Data and Boundaries
+    plot_items = [graph.data.file(str(data_file_path), x=2, y=3, title=None)]
+
+    if y_bound_func:
+        plot_items.extend(
+            [
+                graph.data.points(
+                    list(zip(x_all, y_upper)), x=1, y=2, title=r"$y_\mathrm{u}(x)$"
+                ),
+                graph.data.points(
+                    list(zip(x_all, y_lower)), x=1, y=2, title=r"$y_\mathrm{l}(x)$"
+                ),
+            ]
+        )
+
+    plot_items.extend(
+        [
+            graph.data.points(
+                list(zip(x_all, y_upper_eff)), x=1, y=2, title=r"$y_\mathrm{ueff}(x)$"
+            ),
+            graph.data.points(
+                list(zip(x_all, y_lower_eff)), x=1, y=2, title=r"$y_\mathrm{leff}(x)$"
+            ),
+        ]
+    )
+
+    g.plot(plot_items, styles=[line_style])
+
+    # 6. Save Output
+    output_filename = f"trajectories_{conf_type_key}"
+    c.writePDFfile(output_filename)
+
+
+if __name__ == "__main__":
+    main()

@@ -19,7 +19,7 @@ double CONF_yuef_wrapper(double x, double y) {
  * From the widest point, a straight line with slope M gives a
  * decending boundary.
  */
-static inline double yu_splitter(double x, double y){
+double CONF_yu_splitter(double x){
     if(x == 0){
         return BOTTLENECK_WIDTH;
     }

@@ -78,6 +78,9 @@ static inline double CONF_yuef(double x, double y){
 	return yuef_splitter(x, y);
 }
 
+/**Confinement shape for point-like particles. For plotting and testing*/
+double CONF_yu_splitter(double x);
+
 /*extern double CONF_yuef(double x, double y);
 extern double yuef_splitter(double x, double y);*/
 extern void CONF_specs();

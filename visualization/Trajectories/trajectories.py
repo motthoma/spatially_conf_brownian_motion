@@ -67,15 +67,66 @@ def setup_plotting_styles():
     return line_style, trajectory_style
 
 
-# def get_shared_library():
-#     """Loads the shared library."""
-#     try:
-#         # We use one shared library libconf_splitter.so which contains all implementations
-#         lib = ctypes.CDLL("./libconf_splitter.so")
-#         return lib
-#     except OSError as e:
-#         print(f"Error loading libconf_splitter.so: {e}")
-#         sys.exit(1)
+def setup_splitter_functions():
+    """Loads the splitter confinement functions from the shared library."""
+    lib = ctypes.CDLL("./libconf_splitter.so")
+
+    # Setup y_effective wrapper: double CONF_yuef_wrapper(double x, double y)
+    lib.CONF_yuef_wrapper.argtypes = [ctypes.c_double, ctypes.c_double]
+    lib.CONF_yuef_wrapper.restype = ctypes.c_double
+
+    # Setup y_boundary wrapper: double CONF_yu_splitter(double x)
+    lib.CONF_yu_splitter.argtypes = [ctypes.c_double]
+    lib.CONF_yu_splitter.restype = ctypes.c_double
+
+    return lib.CONF_yuef_wrapper, lib.CONF_yu_splitter
+
+
+def setup_cosine_functions():
+    # Setup y_effective cosine wrapper: double CONF_yuef_cos(double x, double y)
+    lib = ctypes.CDLL("./libconf_cos.so")
+    lib.CONF_yuef_cos.argtypes = [ctypes.c_double, ctypes.c_double]
+    lib.CONF_yuef_cos.restype = ctypes.c_double
+
+    # Setup y_effective_boundary wrapper: double CONF_yu_eff_cos(double x)
+    if hasattr(lib, "CONF_yu_eff_cos"):
+        print(
+            "CONF_yu_eff_cos found in libconf_cos.so, setting up effective boundary function..."
+        )
+        lib.CONF_yu_eff_cos.argtypes = [ctypes.c_double]
+        lib.CONF_yu_eff_cos.restype = ctypes.c_double
+        # Wrapper to ignore second argument (y) used in main's plot logic
+        y_eff_func_for_plot = lambda x, y: lib.CONF_yu_eff_cos(x)
+    else:
+        # Fallback if no specific effective boundary function is defined for cosine
+        # We use a lambda that calls the original check function with a dummy y
+        # (though this is not very useful for plotting)
+        y_eff_func_for_plot = lambda x, y: lib.CONF_yuef_cos(x, y)
+
+    # Setup y_boundary wrapper: double CONF_yu_cos(double x)
+    if hasattr(lib, "CONF_yu_cos"):
+        print("CONF_yu_cos found in libconf_cos.so, setting up boundary function...")
+        lib.CONF_yu_cos.argtypes = [ctypes.c_double]
+        lib.CONF_yu_cos.restype = ctypes.c_double
+        y_bound_func = lib.CONF_yu_cos
+    else:
+        y_bound_func = None
+
+    return y_eff_func_for_plot, y_bound_func
+
+
+def setup_septated_functions():
+    # Setup y_effective septated channel wrapper
+    lib = ctypes.CDLL("./libconf_sept.so")
+    lib.CONF_yuef_sept.argtypes = [ctypes.c_double, ctypes.c_double]
+    lib.CONF_yuef_sept.restype = ctypes.c_double
+
+    if hasattr(lib, "CONF_yu_sept"):
+        lib.CONF_yu_sept.argtypes = [ctypes.c_double]
+        lib.CONF_yu_sept.restype = ctypes.c_double
+        return lib.CONF_yuef_sept, lib.CONF_yu_sept
+    else:
+        return lib.CONF_yuef_sept, None
 
 
 def confinement_functions_int(key="splitter"):
@@ -84,63 +135,16 @@ def confinement_functions_int(key="splitter"):
     Returns: (yuef_func, yu_func)
     """
     if key == "splitter":
-        # Setup y_effective wrapper: double CONF_yuef_wrapper(double x, double y)
-        lib = ctypes.CDLL("./libconf_splitter.so")
-        lib.CONF_yuef_wrapper.argtypes = [ctypes.c_double, ctypes.c_double]
-        lib.CONF_yuef_wrapper.restype = ctypes.c_double
-
-        # Setup y_boundary wrapper: double CONF_yu_splitter(double x)
-        lib.CONF_yu_splitter.argtypes = [ctypes.c_double]
-        lib.CONF_yu_splitter.restype = ctypes.c_double
-
-        return lib.CONF_yuef_wrapper, lib.CONF_yu_splitter
+        CONF_yuef_wrapper, CONF_yu_splitter = setup_splitter_functions()
+        return CONF_yuef_wrapper, CONF_yu_splitter
 
     elif key == "cos":
-        # Setup y_effective cosine wrapper: double CONF_yuef_cos(double x, double y)
-        lib = ctypes.CDLL("./libconf_cos.so")
-        lib.CONF_yuef_cos.argtypes = [ctypes.c_double, ctypes.c_double]
-        lib.CONF_yuef_cos.restype = ctypes.c_double
-
-        # Setup y_effective_boundary wrapper: double CONF_yu_eff_cos(double x)
-        if hasattr(lib, "CONF_yu_eff_cos"):
-            print(
-                "CONF_yu_eff_cos found in libconf_cos.so, setting up effective boundary function..."
-            )
-            lib.CONF_yu_eff_cos.argtypes = [ctypes.c_double]
-            lib.CONF_yu_eff_cos.restype = ctypes.c_double
-            # Wrapper to ignore second argument (y) used in main's plot logic
-            y_eff_func_for_plot = lambda x, y: lib.CONF_yu_eff_cos(x)
-        else:
-            # Fallback if no specific effective boundary function is defined for cosine
-            # We use a lambda that calls the original check function with a dummy y
-            # (though this is not very useful for plotting)
-            y_eff_func_for_plot = lambda x, y: lib.CONF_yuef_cos(x, y)
-
-        # Setup y_boundary wrapper: double CONF_yu_cos(double x)
-        if hasattr(lib, "CONF_yu_cos"):
-            print(
-                "CONF_yu_cos found in libconf_cos.so, setting up boundary function..."
-            )
-            lib.CONF_yu_cos.argtypes = [ctypes.c_double]
-            lib.CONF_yu_cos.restype = ctypes.c_double
-            y_bound_func = lib.CONF_yu_cos
-        else:
-            y_bound_func = None
-
+        y_eff_func_for_plot, y_bound_func = setup_cosine_functions()
         return y_eff_func_for_plot, y_bound_func
 
     elif key == "sept":
-        # Setup y_effective septated channel wrapper
-        lib = ctypes.CDLL("./libconf_sept.so")
-        lib.CONF_yuef_sept.argtypes = [ctypes.c_double, ctypes.c_double]
-        lib.CONF_yuef_sept.restype = ctypes.c_double
-
-        if hasattr(lib, "CONF_yu_sept"):
-            lib.CONF_yu_sept.argtypes = [ctypes.c_double]
-            lib.CONF_yu_sept.restype = ctypes.c_double
-            return lib.CONF_yuef_sept, lib.CONF_yu_sept
-        else:
-            return lib.CONF_yuef_sept, None
+        CONF_yuef_sept, CONF_yu_sept = setup_septated_functions()
+        return CONF_yuef_sept, CONF_yu_sept
 
     else:
         raise ValueError(f"Unknown confinement key: {key}")
@@ -180,7 +184,7 @@ def main():
         data_file_path = Path(sys.argv[1])
     else:
         data_file_path = Path("../../runs/test_dir/trajectories.dat")
-    
+
     if not data_file_path.exists():
         print(f"Error: Data file {data_file_path} not found.")
         sys.exit(1)

@@ -89,12 +89,12 @@ static inline double yuef_cos(double x, double y){
 		yu = BOTTLENECK_WIDTH + AMP + AMP*sin(K_COS*xt);
 		ycirc = sqrt(R_CONF*R_CONF-xcirc*xcirc)+fabs(y);
 		/*leave routine if particle is outside of confinement and deliver yeff 
-                 *thats below y-value of particle*/ 
+         *thats below y-value of particle*/ 
 		if (ycirc >= yu){
 			PosValid = false;
 			return(0.5*fabs(y));
 		}
-	}while((PosValid == false) && (xcirc > -R_CONF));
+	}while((PosValid == true) && (xcirc > -R_CONF));
 	/*if particle is within confinement, deliver yeff thats twice of particle coordinate y*/
 	return(2*fabs(y));
 }

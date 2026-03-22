@@ -13,6 +13,7 @@ import sys
 from pathlib import Path
 import numpy as np
 
+
 # PyX setup for LaTeX-quality plots
 from pyx import canvas, color, graph, attr, style, deco, text
 
@@ -100,18 +101,33 @@ def confinement_functions_int(key="splitter"):
         lib.CONF_yuef_cos.argtypes = [ctypes.c_double, ctypes.c_double]
         lib.CONF_yuef_cos.restype = ctypes.c_double
 
-        # Note: If no CONF_yu_cos exists in C, we return a fallback or None
-        # Let's check if it exists in the library first
+        # Setup y_effective_boundary wrapper: double CONF_yu_eff_cos(double x)
+        if hasattr(lib, "CONF_yu_eff_cos"):
+            print(
+                "CONF_yu_eff_cos found in libconf_cos.so, setting up effective boundary function..."
+            )
+            lib.CONF_yu_eff_cos.argtypes = [ctypes.c_double]
+            lib.CONF_yu_eff_cos.restype = ctypes.c_double
+            # Wrapper to ignore second argument (y) used in main's plot logic
+            y_eff_func_for_plot = lambda x, y: lib.CONF_yu_eff_cos(x)
+        else:
+            # Fallback if no specific effective boundary function is defined for cosine
+            # We use a lambda that calls the original check function with a dummy y
+            # (though this is not very useful for plotting)
+            y_eff_func_for_plot = lambda x, y: lib.CONF_yuef_cos(x, y)
+
+        # Setup y_boundary wrapper: double CONF_yu_cos(double x)
         if hasattr(lib, "CONF_yu_cos"):
             print(
                 "CONF_yu_cos found in libconf_cos.so, setting up boundary function..."
             )
             lib.CONF_yu_cos.argtypes = [ctypes.c_double]
             lib.CONF_yu_cos.restype = ctypes.c_double
-            return lib.CONF_yuef_cos, lib.CONF_yu_cos
+            y_bound_func = lib.CONF_yu_cos
         else:
-            # Fallback if no specific boundary function is defined for cosine
-            return lib.CONF_yuef_cos, None
+            y_bound_func = None
+
+        return y_eff_func_for_plot, y_bound_func
 
     elif key == "sept":
         # Setup y_effective septated channel wrapper
@@ -159,8 +175,16 @@ def get_conf_type_key(data_file_path):
 
 
 def main():
-    # Data file path
-    data_file_path = Path("../runs/test_dir/trajectories.dat")
+    # Data file path (default or from command-line argument)
+    if len(sys.argv) > 1:
+        data_file_path = Path(sys.argv[1])
+    else:
+        data_file_path = Path("../../runs/test_dir/trajectories.dat")
+    
+    if not data_file_path.exists():
+        print(f"Error: Data file {data_file_path} not found.")
+        sys.exit(1)
+
     conf_type_key = get_conf_type_key(data_file_path)
     print(f"Detected confinement type: {conf_type_key}")
 
@@ -248,9 +272,7 @@ def main():
                 graph.data.points(
                     list(zip(x_all, y_upper)), x=1, y=2, title=r"$y_\mathrm{u}(x)$"
                 ),
-                graph.data.points(
-                    list(zip(x_all, y_lower)), x=1, y=2, title=r"$y_\mathrm{l}(x)$"
-                ),
+                graph.data.points(list(zip(x_all, y_lower)), x=1, y=2, title=None),
             ]
         )
 
@@ -259,15 +281,14 @@ def main():
             graph.data.points(
                 list(zip(x_all, y_upper_eff)), x=1, y=2, title=r"$y_\mathrm{ueff}(x)$"
             ),
-            graph.data.points(
-                list(zip(x_all, y_lower_eff)), x=1, y=2, title=r"$y_\mathrm{leff}(x)$"
-            ),
+            graph.data.points(list(zip(x_all, y_lower_eff)), x=1, y=2, title=None),
         ]
     )
 
     g.plot(plot_items, styles=[line_style])
 
     # 6. Save Output
+    print("Saving plot to PDF...")
     output_filename = f"trajectories_{conf_type_key}"
     c.writePDFfile(output_filename)
 

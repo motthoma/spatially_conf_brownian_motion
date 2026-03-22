@@ -268,7 +268,9 @@ def main():
     )
 
     # 5. Plot Data and Boundaries
-    plot_items = [graph.data.file(str(data_file_path), x=2, y=3, title=None)]
+    plot_items = [
+        graph.data.file(str(data_file_path), x=2, y=3, title=None),
+    ]
 
     if y_bound_func:
         plot_items.extend(

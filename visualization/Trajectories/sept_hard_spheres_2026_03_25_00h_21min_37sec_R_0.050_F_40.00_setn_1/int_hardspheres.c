@@ -1,7 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "int_lennardjones.h"
 #include "code_handling.h"
+#include "int_hardspheres.h"
+
 
 double fintx = 0;
 double finty = 0;
@@ -11,32 +12,29 @@ double fintypair = 0;
 /** Writes specifications of the interaction to the specification output file. */
 void INT_specs(){
 	
+	double f_cut;
+  	f_cut = INT_force(INT_CUTOFF, INT_CUTOFF);
+	
     char fname_intparams [60]; 
     snprintf(fname_intparams,
              sizeof fname_intparams,
              "parameters_particle_interaction.dat");
     DestPaths.fname_intparams = malloc(256);    
     snprintf(DestPaths.fname_intparams,
-             256,
+             800,
              "%s/%s",
              DestPaths.fullpath, fname_intparams);
 
 	FILE *outpspecs;
 	outpspecs = fopen(DestPaths.fname_intparams, "a");
 	fprintf(outpspecs,
-            "\n\nParameters of Lennard_Jones particle-particle interaction:\n\n"
-            "Radius of Particles' Hardcore: %.4lf\n"
-            "Potential cut-off length: %.2lf\n"
-            "Value of int-force shift value: %.5lf\n"
-            "Depth of potential minimum epsilon: %.2lf\n"
-            "Position of potential minimum: %.2lf\n"
-            "Power of 6 of minimum's position: %.4e\n\n\n",
-            R_INT, 
+            "\n\nParameters of hard-sphere particle-particle interaction:\n\n"
+			"Radius of Particles' Hardcore: %.2lf\n"
+			"Potential cut-off length: %d\n"
+			"Value of int-force at cut-off length: %.5lf\n\n",
+            R_INT,
             INT_CUTOFF, 
-            FSHIFT, 
-            EPS_L, 
-            LJMIN, 
-            LJMINPOW);
+			f_cut);
 
 	fclose (outpspecs);
 }
@@ -46,14 +44,14 @@ void INT_specs(){
  * for documentation purposes
  */
 void INT_copycode(){
-    CODEHAND_copy_file_to_dest("int_lennardjones.c");
-    CODEHAND_copy_file_to_dest("int_lennardjones.h");
+    CODEHAND_copy_file_to_dest("int_hardspheres.c");
+    CODEHAND_copy_file_to_dest("int_hardspheres.h");
 }
 
 /**
  * provides the interaction specific prefix in name of working directory
  */
-char * INT_prfx(){
-	char *a = "LJ_pot";
-    return a;
+char* INT_prfx(){
+	char *a = "hard_spheres";
+	return a;
 }

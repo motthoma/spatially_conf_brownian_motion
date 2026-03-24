@@ -12,6 +12,7 @@ import ctypes
 import sys
 from pathlib import Path
 import numpy as np
+import re
 
 
 # PyX setup for LaTeX-quality plots
@@ -25,19 +26,19 @@ text.preamble(r"\usepackage{amsmath}")
 def setup_plotting_styles():
     """Defines colors and line styles for plot boundaries and trajectories."""
     boundary_colors = [
+        color.gray.black,
+        color.gray.black,
+        color.rgb.red,
+        color.rgb.red,
         color.rgb.blue,
-        color.gray.black,
-        color.gray.black,
-        color.rgb.red,
-        color.rgb.red,
     ]
 
     boundary_styles = [
         style.linestyle.solid,
         style.linestyle.solid,
+        style.linestyle.dashed,
+        style.linestyle.dashed,
         style.linestyle.solid,
-        style.linestyle.dashed,
-        style.linestyle.dashed,
     ]
 
     boundary_widths = [style.linewidth.normal] * 5
@@ -143,8 +144,13 @@ def confinement_functions_int(key="splitter"):
         return y_eff_func_for_plot, y_bound_func
 
     elif key == "sept":
+        bottleneck_half_width = 0.1
         CONF_yuef_sept, CONF_yu_sept = setup_septated_functions()
-        return CONF_yuef_sept, CONF_yu_sept
+
+        return (
+            CONF_yuef_sept,
+            lambda x: CONF_yu_sept(x) if x % 1 > 1e-10 else bottleneck_half_width,
+        )
 
     else:
         raise ValueError(f"Unknown confinement key: {key}")
@@ -247,7 +253,7 @@ def main():
             width=7.5,
             x=graph.axis.lin(
                 min=-0.001,
-                max=3.9,
+                max=3.0,
                 painter=painter,
                 parter=None,
                 manualticks=xticks,
@@ -263,20 +269,18 @@ def main():
             ),
             x2=None,
             y2=None,
-            key=graph.key.key(pos="tr", dist=0.1),
+            key=graph.key.key(pos="tr", dist=0.1, hdist=-0.1),
         )
     )
 
     # 5. Plot Data and Boundaries
-    plot_items = [
-        graph.data.file(str(data_file_path), x=2, y=3, title=None),
-    ]
+    plot_items = []
 
     if y_bound_func:
         plot_items.extend(
             [
                 graph.data.points(
-                    list(zip(x_all, y_upper)), x=1, y=2, title=r"$y_\mathrm{u}(x)$"
+                    list(zip(x_all, y_upper)), x=1, y=2, title=r"$y_\mathrm{conf}(x)$"
                 ),
                 graph.data.points(list(zip(x_all, y_lower)), x=1, y=2, title=None),
             ]
@@ -285,9 +289,26 @@ def main():
     plot_items.extend(
         [
             graph.data.points(
-                list(zip(x_all, y_upper_eff)), x=1, y=2, title=r"$y_\mathrm{ueff}(x)$"
+                list(zip(x_all, y_upper_eff)),
+                x=1,
+                y=2,
+                title=r"$y_\mathrm{conf, eff}(x)$",
             ),
             graph.data.points(list(zip(x_all, y_lower_eff)), x=1, y=2, title=None),
+        ]
+    )
+
+    match = re.search(r"F_(-?\d+\.\d{2})", str(data_file_path))
+    force = None
+    if match:
+        force = match.group(1)
+    print("force:", force)
+
+    plot_items.extend(
+        [
+            graph.data.file(
+                str(data_file_path), x=2, y=3, title=f"$f={force}$" if force else None
+            ),
         ]
     )
 

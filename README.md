@@ -79,7 +79,10 @@ The repository consists of four main directories:
     -   Provides an environment for performance profiling with **gprof**. See the README inside for details.
 
 4.  **`visualization/`**
-    -   Contains Python scripts for data visualization. The primary plotting script is `mobility_over_time.py`, which uses `PyX` to generate plots like `mobility_over_time.pdf`.
+    -   Contains subdirectories with Python scripts and C-wrappers for different types of data visualization:
+        -   **`Histograms/`**: Scripts for generating 2D histograms of particle positions.
+        -   **`Mobility_over_time/`**: Scripts for plotting the time-dependent mobility of the particles.
+        -   **`Trajectories/`**: Tools and scripts for visualizing particle trajectories, including C-wrappers for efficient coordinate wrapping.
 
 ---
 ## Code Modules

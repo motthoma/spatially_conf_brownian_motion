@@ -1,4 +1,4 @@
-# include "../src/conf_cos.h"
+# include "../../src/conf_cos.h"
 
 /**
  * Provide wrapper functions to expose yuef_conf

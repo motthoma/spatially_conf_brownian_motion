@@ -1,4 +1,4 @@
-# include "../src/conf_splitter.h"
+# include "../../src/conf_splitter.h"
 
 /**
  * Provide wrapper functions to expose yuef_splitter

@@ -1,4 +1,4 @@
-# include "../src/conf_sept.h"
+# include "../../src/conf_sept.h"
 
 /**
  * Provide wrapper functions to expose yuef_sept
@@ -12,5 +12,5 @@ double CONF_yuef_sept(double x, double y) {
  * Function provides boundary of confinement with septated channel.
  */
 double CONF_yu_sept(double x){
-	return (BOTTLENECK_WIDTH + AMP - R_CONF);
+	return (BOTTLENECK_WIDTH + AMP);
 }

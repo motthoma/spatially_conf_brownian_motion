@@ -16,7 +16,7 @@ import re
 
 
 # PyX setup for LaTeX-quality plots
-from pyx import canvas, color, graph, attr, style, deco, text
+from pyx import canvas, color, graph, attr, style, deco, text, path
 
 # Set LaTeX mode and include amsmath for mathematical typesetting
 text.set(mode="latex")
@@ -218,9 +218,9 @@ def main():
     ]
 
     yticks = [
-        graph.axis.tick.tick(1, label=r"$B$"),
+        graph.axis.tick.tick(1 + 0.1, label=r"$B$"),
         graph.axis.tick.tick(0, label=r"$0$"),
-        graph.axis.tick.tick(-1, label=r"$-B$"),
+        graph.axis.tick.tick(-1 - 0.1, label=r"$-B$"),
     ]
 
     painter = graph.axis.painter.regular(basepathattrs=[deco.earrow.normal])
@@ -260,8 +260,8 @@ def main():
                 title="$x$",
             ),
             y=graph.axis.lin(
-                min=-1.2,
-                max=1.2,
+                min=-1.3,
+                max=1.3,
                 painter=painter,
                 parter=None,
                 manualticks=yticks,
@@ -280,7 +280,10 @@ def main():
         plot_items.extend(
             [
                 graph.data.points(
-                    list(zip(x_all, y_upper)), x=1, y=2, title=r"$y_\mathrm{conf}(x)$"
+                    list(zip(x_all, y_upper)),
+                    x=1,
+                    y=2,
+                    title=None,  # r"\small{$y_\mathrm{conf}(x)$}",
                 ),
                 graph.data.points(list(zip(x_all, y_lower)), x=1, y=2, title=None),
             ]
@@ -292,7 +295,7 @@ def main():
                 list(zip(x_all, y_upper_eff)),
                 x=1,
                 y=2,
-                title=r"$y_\mathrm{conf, eff}(x)$",
+                title=None,  # r"\small{$y_\mathrm{conf, eff}(x)$}",
             ),
             graph.data.points(list(zip(x_all, y_lower_eff)), x=1, y=2, title=None),
         ]
@@ -303,11 +306,17 @@ def main():
     if match:
         force = match.group(1)
     print("force:", force)
-
+    force_string = f"\\small{{$f={force}$}}"
+    force = None
+    x_col = 2
+    y_col = 3
     plot_items.extend(
         [
             graph.data.file(
-                str(data_file_path), x=2, y=3, title=f"$f={force}$" if force else None
+                str(data_file_path),
+                x=x_col,
+                y=y_col,
+                title=force_string if force else None,
             ),
         ]
     )

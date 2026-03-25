@@ -45,7 +45,7 @@
  */
 static inline double yuef_sept(double x, double y){
 
-	/*If particle is in central cylinder of width 2B,
+	/* If particle is in central cylinder of width 2B,
 	 * an evaluation of the eff. boundary is not necessary.
 	 * Provide value of confinement that ensures y < yueff.
 	 */
@@ -54,10 +54,10 @@ static inline double yuef_sept(double x, double y){
 	}
 
 	/*evaluate effective confinement piece wise. Confinement
-	 * is given by a circle of Radius R_CONF in the vicinity 
+	 * is given by a circle of Radius R_CONF in the vicinity
 	 * of the bottlenecks.*/
 	if ((R_CONF < x) && (x < L_CONF - R_CONF)){
-		return (BOTTLENECK_WIDTH + AMP - R_CONF);
+		return (MAX_HALF_WIDTH - R_CONF);
 	}
 	else if ((0 <= x) && (x <= R_CONF)){
 		return (BOTTLENECK_WIDTH  - sqrt(R_CONF_SQ - x*x));
@@ -68,7 +68,6 @@ static inline double yuef_sept(double x, double y){
 	else{
 		return(5*MAX_HALF_WIDTH);
 	}
-
 }
 
 /*

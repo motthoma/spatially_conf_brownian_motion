@@ -88,5 +88,17 @@ The repository consists of four main directories:
 ## Code Modules
 
 The code is modular to support different physical models:
--   **Channel Shapes:** Modules prefixed with `conf_` (e.g., `conf_splitter.c`) define the geometry of the confinement.
+-   **Channel Shapes:** Modules prefixed with `conf_` define the geometry of the confinement.
+    -   **Cosine Confinement** (`conf_cos.c`, Phys.Rev.E 83 (2011) 051135, https://doi.org/10.1103/PhysRevE.83.051135):
+        <p align="left">
+          <img src="visualization/Trajectories/trajectories_cos.png" alt="confinement_cos" width="200">
+        </p>
+    -   **Splitter Confinement** (`conf_splitter.c`, J. Chem. Phys. 141, 074104 (2014), https://doi.org/10.1063/1.4892615):
+        <p align="left">
+          <img src="visualization/Trajectories/trajectories_splitter.png" alt="confinement_splitter" width="200">
+        </p>
+    -   **Septum Confinement** (`conf_sept.c`, J. Chem. Phys. 134, 051101 (2011), https://doi.org/10.1016/j.chemphys.2010.03.022):
+        <p align="left">
+          <img src="visualization/Trajectories/trajectories_sept.png" alt="confinement_sept" width="200">
+        </p>
 -   **Particle Interactions:** Modules prefixed with `int_` define the interaction potential between particles, such as hard-core (`int_hardspheres.c`) or Lennard-Jones (`int_lennardjones.c`).

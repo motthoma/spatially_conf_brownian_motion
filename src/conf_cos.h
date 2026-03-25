@@ -7,7 +7,8 @@
 #include <stdbool.h>
 #include "sim_config.h"
 
-#define AMP (1.0/(2.0*M_PI))
+// #define AMP (1.0/(2.0*M_PI))
+#define AMP (1.0/3.0)
 #define MAX_HALF_WIDTH (2*AMP+BOTTLENECK_WIDTH)
 
 #define CHECKN 5

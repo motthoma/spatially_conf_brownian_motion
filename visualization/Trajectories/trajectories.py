@@ -13,8 +13,7 @@ from pathlib import Path
 import numpy as np
 import re
 
-from confinement_setup import confinement_functions_int, \
-                              get_conf_type_key
+from confinement_setup import confinement_functions_int, get_conf_type_key
 
 
 # PyX setup for LaTeX-quality plots

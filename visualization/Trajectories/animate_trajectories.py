@@ -8,15 +8,14 @@ from matplotlib.animation import FuncAnimation
 
 from confinement_setup import confinement_functions_int, get_conf_type_key
 
-data_file_path = Path(
-    "./sept_hard_spheres_2026_03_25_21h_38min_10sec_R_0.050_F_40.00_setn_1/trajectories.dat"
-)  # noqa
-data_file_path = Path(
-    "./cos_hard_spheres_2026_04_20_23h_19min_40sec_R_0.050_F_15.00_setn_20/trajectories.dat"
-)  # noqa
-data_file_path = Path(
-    "./splitter_LJ_pot_2026_04_20_23h_35min_53sec_R_0.050_LJMIN_0.100_EPS_2.00_F_40.00_setn_20/trajectories.dat"
-)  # noqa
+test_data_dir = Path("test_dirs_trajectories")
+
+data_file_path = test_data_dir / "sept_hard_spheres_2026_03_25_21h_38min_10sec_R_0.050_F_40.00_setn_1" / "trajectories.dat"  # noqa
+
+data_file_path = test_data_dir / "cos_hard_spheres_2026_04_20_23h_19min_40sec_R_0.050_F_15.00_setn_20" / "trajectories.dat"  # noqa
+
+data_file_path = test_data_dir / "splitter_LJ_pot_2026_04_20_23h_35min_53sec_R_0.050_LJMIN_0.100_EPS_2.00_F_40.00_setn_20" / "trajectories.dat"  # noqa
+
 data = np.loadtxt(data_file_path)
 # data = np.loadtxt("../../runs/test_dir/trajectories.dat")
 

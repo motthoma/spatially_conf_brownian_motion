@@ -1,4 +1,4 @@
-# include "../../src/conf_sept.h"
+# include "../../../src/conf_sept.h"
 
 /**
  * Provide wrapper functions to expose yuef_sept

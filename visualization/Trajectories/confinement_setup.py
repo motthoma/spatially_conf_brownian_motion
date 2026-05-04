@@ -1,8 +1,11 @@
+from pathlib import Path
 import ctypes
+
+shared_lib_dir = Path("./conf_c_func_wrappers")
 
 def setup_splitter_functions():
     """Loads the splitter confinement functions from the shared library."""
-    lib = ctypes.CDLL("./libconf_splitter.so")
+    lib = ctypes.CDLL(shared_lib_dir / "libconf_splitter.so")
 
     # Setup y_effective wrapper: double CONF_yuef_wrapper(double x, double y)
     lib.CONF_yuef_wrapper.argtypes = [ctypes.c_double, ctypes.c_double]
@@ -17,7 +20,7 @@ def setup_splitter_functions():
 
 def setup_cosine_functions():
     # Setup y_effective cosine wrapper: double CONF_yuef_cos(double x, double y)
-    lib = ctypes.CDLL("./libconf_cos.so")
+    lib = ctypes.CDLL(shared_lib_dir / "libconf_cos.so")
     lib.CONF_yuef_cos.argtypes = [ctypes.c_double, ctypes.c_double]
     lib.CONF_yuef_cos.restype = ctypes.c_double
 
@@ -50,7 +53,7 @@ def setup_cosine_functions():
 
 def setup_septated_functions():
     # Setup y_effective septated channel wrapper
-    lib = ctypes.CDLL("./libconf_sept.so")
+    lib = ctypes.CDLL(shared_lib_dir / "libconf_sept.so")
     lib.CONF_yuef_sept.argtypes = [ctypes.c_double, ctypes.c_double]
     lib.CONF_yuef_sept.restype = ctypes.c_double
 

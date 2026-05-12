@@ -15,6 +15,14 @@ data_file_path = test_data_dir / "sept_hard_spheres_2026_03_25_21h_38min_10sec_R
 data_file_path = test_data_dir / "cos_hard_spheres_2026_04_20_23h_19min_40sec_R_0.050_F_15.00_setn_20" / "trajectories.dat"  # noqa
 
 data_file_path = test_data_dir / "splitter_LJ_pot_2026_04_20_23h_35min_53sec_R_0.050_LJMIN_0.100_EPS_2.00_F_40.00_setn_20" / "trajectories.dat"  # noqa
+data_file_path = test_data_dir / "splitter_LJ_pot_2026_05_08_00h_04min_31sec_R_0.050_LJMIN_0.100_EPS_2.00_F_40.00_setn_10" / "trajectories.dat"  # noqa
+data_file_path = test_data_dir / "splitter_LJ_pot_2026_05_08_00h_12min_03sec_R_0.050_LJMIN_0.100_EPS_2.00_F_40.00_setn_10" / "trajectories.dat"  # noqa
+data_file_path = test_data_dir / "splitter_LJ_pot_2026_05_08_00h_38min_40sec_R_0.050_LJMIN_0.100_EPS_2.00_F_40.00_setn_10" / "trajectories.dat"  # noqa
+data_file_path = test_data_dir / "splitter_LJ_pot_2026_05_12_22h_51min_42sec_R_0.050_LJMIN_0.100_EPS_2.00_F_40.00_setn_10" / "trajectories.dat"  # noqa
+data_file_path = test_data_dir / "splitter_LJ_pot_2026_05_12_22h_52min_50sec_R_0.050_LJMIN_0.100_EPS_2.00_F_40.00_setn_10" / "trajectories.dat"  # noqa
+data_file_path = test_data_dir / "splitter_LJ_pot_2026_05_12_23h_07min_56sec_R_0.050_LJMIN_0.100_EPS_2.00_F_40.00_setn_1" / "trajectories.dat"  # noqa
+data_file_path = test_data_dir / "splitter_LJ_pot_2026_05_12_23h_16min_42sec_R_0.050_LJMIN_0.100_EPS_2.00_F_40.00_setn_1" / "trajectories.dat"  # noqa
+data_file_path = test_data_dir / "splitter_LJ_pot_2026_05_12_23h_19min_34sec_R_0.050_LJMIN_0.100_EPS_2.00_F_40.00_setn_1" / "trajectories.dat"  # noqa
 
 data = np.loadtxt(data_file_path)
 # data = np.loadtxt("../../runs/test_dir/trajectories.dat")
@@ -42,7 +50,7 @@ y_bound_lower_eff = -y_bound_upper_eff
 
 fig, ax = plt.subplots()
 
-ax.set_xlim(-0.1, 1.8)
+ax.set_xlim(-0.1, 2.3)
 ax.set_ylim(-1.2, 1.2)
 
 ax.plot(x_all, y_bound_upper, "-", label="Boundary", color="black")
@@ -94,6 +102,6 @@ def update(frame):
     return [scat, *lines]
 
 
-ani = FuncAnimation(fig, update, frames=len(data), init_func=init, interval=100)
+ani = FuncAnimation(fig, update, frames=len(data), init_func=init, interval=20)
 
 plt.show()

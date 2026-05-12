@@ -266,7 +266,6 @@ static void sim_calculate_inter_particle_forces(const T_SimParams *SimParams,
  * conditions employed for simulation
  */
 static void sim_shift_pos_for_periodic_bc(double *x, int *shiftind){
-    *shiftind = 0;
     if(*x < 0){
        *shiftind = -1;
        *x += L_CONF;
@@ -369,8 +368,8 @@ static void sim_perform_valid_step(const T_SimParams *SimParams,
                                    int *shiftind_out){
 
     double x, y;
-    int shiftind = 0;
     bool PosValid;
+    int shiftind = 0;
     double xo = EnsembleState->positionx[set_idx][p_in_set];
     double yo = EnsembleState->positiony[set_idx][p_in_set];
     double fintx_dt = EnsembleState->fintxarray[set_idx][p_in_set] * SimParams->time_step;
@@ -387,6 +386,12 @@ static void sim_perform_valid_step(const T_SimParams *SimParams,
                     PosValid = false;
                 }
             }
+        }
+        if (!PosValid) {
+            shiftind = 0;
+            x = xo;
+            y = yo;
+            break;
         }
     } while (!PosValid);
 
@@ -467,7 +472,7 @@ void SIM_simulation_core(const T_SimParams *SimParams,
                               SimParams->stepnumb,
                               SimParams->testab);
 
-        if ((time_step < SimParams->max_steps_rec_trajects) && (time_skip_counter == SimParams->skip_steps_rec_trajects)){
+        if ((time_step < SimParams->max_steps_rec_trajects) && (time_skip_counter == SimParams->skip_steps_rec_trajects) && (time_step > SimParams->reset_stepnumb)) {
             if (time_skip_counter == SimParams->skip_steps_rec_trajects){
                 time_skip_counter = 0;
             }

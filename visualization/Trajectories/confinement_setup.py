@@ -117,4 +117,3 @@ def get_conf_type_key(data_file_path):
 
     # Default fallback
     return "splitter"
-

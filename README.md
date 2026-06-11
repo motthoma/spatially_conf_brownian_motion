@@ -102,3 +102,5 @@ The code is modular to support different physical models:
           <img src="visualization/Trajectories/trajectories_sept.png" alt="confinement_sept" width="200">
         </p>
 -   **Particle Interactions:** Modules prefixed with `int_` define the interaction potential between particles, such as hard-core (`int_hardspheres.c`) or Lennard-Jones (`int_lennardjones.c`).
+
+## Visualizations 

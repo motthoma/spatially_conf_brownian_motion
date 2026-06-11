@@ -70,7 +70,7 @@ def prepare_boundaries(conf_type_key, y_eff_func, y_bound_func):
 
 def main():
     # Default path (keeps the last development example as the default)
-    test_data_dir = Path("test_dirs_trajectories")
+    test_data_dir = Path("../visualization_test_dirs/trajectories_test_dirs")
     default_path = (
         test_data_dir
         / "splitter_LJ_pot_2026_05_12_23h_19min_34sec_R_0.050_LJMIN_0.100_EPS_2.00_F_40.00_setn_1"

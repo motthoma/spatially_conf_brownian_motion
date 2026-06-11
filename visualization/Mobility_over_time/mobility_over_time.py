@@ -20,21 +20,23 @@ from pyx.graph import axis
 # Configuration
 # ---------------------------------------------------------------------------
 
+DATA_DIRS = Path("../visualization_test_dirs/mobility_test_dirs")
+
 FORCE_POS = 10.0
 FORCE_STR_POS = f"{FORCE_POS:.3f}".replace(".", "pt")
-DATA_DIR_POS = Path("test_dir_N_1_F_10pt0")
+DATA_DIR_POS = DATA_DIRS / "test_dir_N_1_F_10pt0"
 DATA_FILE_POS = DATA_DIR_POS / f"muovert_F_{FORCE_STR_POS}.dat"
 
 FORCE_NEG = -10.0
 FORCE_STR_NEG = f"{FORCE_NEG:.3f}".replace(".", "pt")
-DATA_DIR_NEG = Path("test_dir_N_1_F_-10pt0")
+DATA_DIR_NEG = DATA_DIRS / "test_dir_N_1_F_-10pt0"
 DATA_FILE_NEG = DATA_DIR_NEG / f"muovert_F_{FORCE_STR_NEG}.dat"
 print('DATA_FILE_NEG:', DATA_FILE_NEG)
 
 OUTPUT_FILE = "mobility_over_time"
 
 X_MAX = 1.2
-Y_MAX = 1.5 
+Y_MAX = 1.5
 
 
 # ---------------------------------------------------------------------------
@@ -106,4 +108,3 @@ g.plot(
 # ---------------------------------------------------------------------------
 
 g.writePDFfile(OUTPUT_FILE)
-

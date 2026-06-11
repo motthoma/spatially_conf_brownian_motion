@@ -42,4 +42,5 @@ g1.plot([
 x, y = g1.pos(0.4, 0.7)
 # g1.text(x,y, r"$N=5$")
 file_name = "2D_Histogram_f_-10pt0"
-c.writePDFfile(file_name)
+# c.writePDFfile(file_name)
+c.writePNGfile(file_name)

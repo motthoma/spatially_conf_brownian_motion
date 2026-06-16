@@ -132,7 +132,7 @@ The repository includes a set of Python visualization tools under the `visualiza
   - Animation: `visualization/Trajectories/animate_trajectories.py` creates an interactive matplotlib animation from a trajectories data file. It shows particle positions as a scatter with trailing paths and draws both the confinement boundary and an effective boundary. Command-line options allow adjusting the frames-per-second.
 
   <p align="center">
-    <img src="visualization/Trajectories/snapshot_splitter_animation.png" alt="snapshot_splitter_animation" width="640" />
+    <img src="visualization/Trajectories/snapshot_splitter_animation.png" alt="snapshot_splitter_animation" width="480" />
   </p>
 
   - The snapshot above (from the splitter confinement example) is a typical frame produced by the animation script: particles are shown inside several channel periods, with the physical boundary (solid black) and effective boundary (dashed/blue) overlaid. Use `--fps` to tune playback speed when running the animation.

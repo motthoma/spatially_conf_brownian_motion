@@ -57,6 +57,7 @@ typedef struct TAG_SimParams{
     int max_steps_rec_trajects;
     int skip_steps_rec_trajects;
     int max_numb_rec_trajects;
+    bool skip_invalid_steps;
 }T_SimParams;
 
 extern T_SimParams SimParams;

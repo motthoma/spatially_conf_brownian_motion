@@ -230,6 +230,10 @@ static void sim_calculate_inter_particle_forces(const T_SimParams *SimParams,
           y =  EnsembleState->positiony[set_idx][p_in_set];
           fintx = 0;
           finty = 0;
+          /*
+           * TBD: This is numerically inefficient:
+           * action = reaction is not used to reduce the number of calculations
+           */
           for(ktest = 0; ktest < SimParams->parts_per_set; ktest++){
               xtest =  EnsembleState->positionx[set_idx][ktest];
               ytest =  EnsembleState->positiony[set_idx][ktest];
@@ -277,9 +281,11 @@ static void sim_shift_pos_for_periodic_bc(double *x, int *shiftind){
 }
 
 /**
- * Function to check if a given position of a particle overlaps with any of the other particles in the same set. 
+ * Function to check if a given position of a particle overlaps with any of
+ * the other particles in the same set. 
  *
- * This is relevant for the initialization of the positions and for the propagation step if hard-core interactions are present. 
+ * This is relevant for the initialization of the positions and for
+ * the propagation step if hard-core interactions are present. 
  */
 static bool sim_check_particle_overlap(const T_SimParams *SimParams,
                                        T_EnsembleState *EnsembleState,
@@ -387,11 +393,19 @@ static void sim_perform_valid_step(const T_SimParams *SimParams,
                 }
             }
         }
-        if (!PosValid) {
-            shiftind = 0;
-            x = xo;
-            y = yo;
-            break;
+        /*
+         * Two behavioral options if invalid position is detected: 
+         * 1. Skip the invalid step and keep the old position (controlled in sim_params.conf SimParams->skip_invalid_steps = true)
+         * 2. Keep trying until a valid position is found (SimParams->skip_invalid_steps = flase)
+         */
+        if (SimParams->skip_invalid_steps){
+            // printf("\n go into if controlled by SimParams->skip_invalid_steps: %d\n", SimParams->skip_invalid_steps);
+            if (!PosValid) {
+                shiftind = 0;
+                x = xo;
+                y = yo;
+                break;
+            }
         }
     } while (!PosValid);
 
@@ -437,12 +451,12 @@ void SIM_simulation_core(const T_SimParams *SimParams,
                          T_EnsembleState *EnsembleState,
                          int taskid)
 {
+    T_EquManager EquManager;
     long int **totalshift = UTILS_calloc_2Dlint_array(SimParams->n_interact_sets, SimParams->parts_per_set);
 
     long double sqrt_flucts = sqrt(2*BOTTRAD*SimParams->time_step);
     double f_dt = SimParams->F * SimParams->time_step;
 
-    T_EquManager EquManager;
     EQUIMAN_init(&EquManager, SimParams->stepnumb, SimParams->testab);
 
     double time = 0.0;

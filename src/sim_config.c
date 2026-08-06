@@ -2,13 +2,15 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h> // Required for string functions
+#include <strings.h>
 #include <math.h>
 #include <stdbool.h>
 #include "sim_config.h"
 #include "code_handling.h"
 #include "comp_gen_header.h"
 
-extern T_SimParams SimParams; // Declare SimParams as external
+// extern T_SimParams SimParams; // Declare SimParams as external
+T_SimParams SimParams;
 
 /**
  * Reads simulation parameters from a configuration file.
@@ -77,11 +79,18 @@ bool SIMCONFIG_read_params(const char *filepath) {
             } else if (strcmp(key, "init_max_xpos") == 0) {
                 SimParams.init_max_xpos = atof(value);
             } else if (strcmp(key, "max_steps_rec_trajects") == 0) {
-                SimParams.max_steps_rec_trajects = atof(value);
+                SimParams.max_steps_rec_trajects = atoi(value);
             } else if (strcmp(key, "skip_steps_rec_trajects") == 0) {
-                SimParams.skip_steps_rec_trajects = atof(value);
+                SimParams.skip_steps_rec_trajects = atoi(value);
             } else if (strcmp(key, "max_numb_rec_trajects") == 0) {
-                SimParams.max_numb_rec_trajects = atof(value);
+                SimParams.max_numb_rec_trajects = atoi(value);
+            } else if (strcmp(key, "skip_invalid_steps") == 0) {
+                /* Parse boolean values: accept true/false or 1/0 (case-insensitive) */
+                if (strcasecmp(value, "true") == 0 || strcmp(value, "1") == 0) {
+                    SimParams.skip_invalid_steps = true;
+                } else {
+                    SimParams.skip_invalid_steps = false;
+                }
             }
             // Add more parameters here as needed
         }
@@ -91,7 +100,6 @@ bool SIMCONFIG_read_params(const char *filepath) {
     return true;
 }
 
-T_SimParams SimParams;
 
 /**
  * Initialize simulation parameters with default values.
@@ -234,11 +242,13 @@ void SIMCONFIG_write_specs() {
             "# of parallelized tasks: %d\n"
             "Applied force F: %.2lf\n"
             "Width of initial particle distribution: %.2lf\n"
-            "Maximum initial x-coordinate: %.2lf\n\n",
+            "Maximum initial x-coordinate: %.2lf\n"
+            "Skip invalid steps (instead of recomputing new random numbers): %d\n\n",
             SimParams.numtasks,
             SimParams.F,
             SimParams.initwidth,
-            SimParams.init_max_xpos);
+            SimParams.init_max_xpos,
+            (int)SimParams.skip_invalid_steps);
 
     fclose(out_file);
 }
